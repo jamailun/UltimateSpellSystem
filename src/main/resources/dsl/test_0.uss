@@ -1,0 +1,27 @@
+# This is a comment
+
+# SECTIONS starts with '*'
+section: metadata
+
+# METADATAS is a set of properties. Fixed by DSL.
+# Indentation is optional
+
+# Author of this script
+    author=jamailun
+
+# Name of the spell to be displayed in-game
+    name=&eNice spell
+
+
+
+# Defines objects used in the spell
+section: definitions
+
+
+
+# Declare the spell in itself.
+# It's a sequence of events
+section: spell
+
+send message to %caster
+
