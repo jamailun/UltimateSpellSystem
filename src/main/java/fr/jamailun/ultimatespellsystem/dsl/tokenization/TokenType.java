@@ -39,7 +39,7 @@ public enum TokenType {
     WHILE,
     DO,
     ELSE,
-    SECTION,
+    DEFINE,
     SEND,
     MESSAGE,
     EFFECT,

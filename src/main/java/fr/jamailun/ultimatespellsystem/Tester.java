@@ -15,8 +15,11 @@ public class Tester {
     public static void main(String[] args) {
         String s = """
                 # comment !
-                send to %caster message "salut";
-                send to %caster effect SPEED 2 for 3 minutes;
+                # send to %caster message "salut";
+                define %var = "test"
+                send to %caster message %var;
+                
+                # send to %caster effect SPEED 2 for 3 minutes;
                 """;
 
         TokenStream tokens = Tokenizer.tokenize(CharStream.from(s));

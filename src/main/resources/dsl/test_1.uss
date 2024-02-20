@@ -1,0 +1,16 @@
+send_message(caster, "&eT'es trop fort.");
+send_effect(caster, SPEED, 4s, 2);
+
+var close = listAround(caster, EntityType.PLAYER, 50);
+if(close.isEmpty()) {
+    send_message(caster, "&cpas d'amis !");
+    stop;
+}
+
+send_message(close, "&at'es un copain.");
+
+send_message(listAround(caster, EntityType.PLAYER, 50, false), "&a&ltoi aussi.");
+
+send_message([caster, close], "vive la France");
+
+

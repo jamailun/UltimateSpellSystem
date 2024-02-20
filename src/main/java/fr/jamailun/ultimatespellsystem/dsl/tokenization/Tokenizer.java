@@ -47,7 +47,7 @@ public class Tokenizer {
         KEYWORDS.put("for", TokenType.FOR);
         KEYWORDS.put("while", TokenType.WHILE);
         KEYWORDS.put("do", TokenType.DO);
-        KEYWORDS.put("section", TokenType.SECTION);
+        KEYWORDS.put("define", TokenType.DEFINE);
         KEYWORDS.put("stop", TokenType.STOP);
         KEYWORDS.put("true", TokenType.TRUE);
         KEYWORDS.put("false", TokenType.FALSE);

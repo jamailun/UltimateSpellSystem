@@ -27,6 +27,13 @@ public class TokenStream {
         return tokens.get(index ++);
     }
 
+    public Token nextOrThrow(TokenType type) {
+        Token next = next();
+        if(next.getType() != type)
+            throw new SyntaxException(next, type);
+        return next;
+    }
+
     public void drop() {
         if(!hasMore())
             throw new RuntimeException("No more data.");

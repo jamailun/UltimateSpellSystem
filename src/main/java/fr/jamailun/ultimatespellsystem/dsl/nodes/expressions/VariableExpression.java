@@ -6,7 +6,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 
 public class VariableExpression extends ExpressionNode {
 
@@ -21,10 +20,6 @@ public class VariableExpression extends ExpressionNode {
 
     public VariableExpression(Token token) {
         this(token, null);
-    }
-
-    public static VariableExpression fake(String varName, Type type) {
-        return new VariableExpression(Token.fromVariable(varName, TokenPosition.fake()), type);
     }
 
     public String getVariableName() {
@@ -53,6 +48,6 @@ public class VariableExpression extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "#" + varName + " (" + varType + ")";
+        return "%" + varName + "@Oll(" + varType + ")";
     }
 }

@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
@@ -48,6 +49,8 @@ public abstract class ExpressionNode extends Node {
             }
             // Var
             case VALUE_VARIABLE -> new VariableExpression(token);
+            // Concat array
+            case SQUARE_BRACKET_OPEN -> ArrayConcatExpression.parseNextArrayConcat(tokens);
             default -> throw new SyntaxException(token, "Unexpected expression-start.");
         };
     }

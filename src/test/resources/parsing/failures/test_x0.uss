@@ -1,0 +1,2 @@
+send %caster message "&eT'es trop fort";
+send %caster effect SPEED 2 for "I SHOULD NOT BE HERE";

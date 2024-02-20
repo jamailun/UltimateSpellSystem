@@ -8,6 +8,11 @@ public abstract class Node {
 
     public abstract void validateTypes(TypesContext context);
 
+    protected void assertExpressionType(ExpressionNode expression, TypePrimitive type) {
+        if(!expression.getExpressionType().is(type))
+            throw new TypeException(expression, type);
+    }
+
     protected void assertExpressionType(ExpressionNode expression, TypePrimitive type, TypesContext context) {
         expression.validateTypes(context);
         if(!expression.getExpressionType().is(type))

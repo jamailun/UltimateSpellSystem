@@ -18,9 +18,9 @@ public class TypesContext {
         final Type type;
         ExpressionNode expressionNode;
 
-        VariableDefinition(String name, Type type, ExpressionNode node) {
+        VariableDefinition(String name, ExpressionNode node) {
             this.name = name;
-            this.type = type;
+            this.type = node.getExpressionType();
             this.expressionNode = node;
         }
         VariableDefinition(String name, Type type) {
@@ -35,17 +35,23 @@ public class TypesContext {
         variables.put(varName, new VariableDefinition(varName, type));
     }
 
-    public void registerVariable(String varName, Type type, ExpressionNode node) {
+    public void registerVariable(String varName, ExpressionNode node) {
         if(variables.containsKey(varName)) {
             throw new SyntaxException(node.firstTokenPosition(), "Variable " + varName + " already defined.");
         }
-        variables.put(varName, new VariableDefinition(varName, type, node));
+        variables.put(varName, new VariableDefinition(varName, node));
     }
 
     public @Nullable Type findVariable(String varName) {
         if(variables.containsKey(varName))
             return variables.get(varName).type;
         return null;
+    }
+
+    public TypesContext childContext() {
+        TypesContext child = new TypesContext();
+        child.variables.putAll(variables);
+        return child;
     }
 
 }
