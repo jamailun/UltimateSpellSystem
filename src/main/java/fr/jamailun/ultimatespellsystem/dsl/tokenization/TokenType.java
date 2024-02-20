@@ -52,10 +52,11 @@ public enum TokenType {
 
     // N-CHARS OPERATORS
 
-    WORD, // any combination of character that is NOT a string
-    VARIABLE, // a WORD starting with a '%'
-    STRING, // combination of characters between quotes
-    NUMBER,
+    IDENTIFIER, // any combination of character that is NOT a string
+    VALUE_VARIABLE, // a WORD starting with a '%'
+    VALUE_STRING, // combination of characters between quotes
+    VALUE_NUMBER,
+    VALUE_DURATION, // number+ [s/ms/m/h/seconds]
 
 
     // END OF FILE

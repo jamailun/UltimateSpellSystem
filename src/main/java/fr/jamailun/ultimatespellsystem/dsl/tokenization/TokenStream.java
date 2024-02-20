@@ -41,6 +41,14 @@ public class TokenStream {
             throw new SyntaxException(next, expectedType);
     }
 
+    public void assertNextIs(TokenType... allowed) {
+        if(!hasMore())
+            throw new RuntimeException("No more data.");
+        Token peek = peek();
+        if(!List.of(allowed).contains(peek.getType()))
+            throw new SyntaxException(peek, List.of(allowed));
+    }
+
     public void dropOptional(TokenType type) {
         if(hasMore() && peek().getType() == type)
             drop();

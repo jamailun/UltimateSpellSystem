@@ -55,9 +55,12 @@ public class SendEffectStatement extends SendStatement {
         // Effect type
         ExpressionNode effectType = ExpressionNode.readNextExpression(tokens);
 
+        // Expect FOR or NUMBER
+        tokens.assertNextIs(TokenType.VALUE_NUMBER, TokenType.FOR);
+
         // power
         ExpressionNode effectPower = null;
-        if(tokens.peek().getType() == TokenType.NUMBER) {
+        if(tokens.peek().getType() == TokenType.VALUE_NUMBER) {
             effectPower = ExpressionNode.readNextExpression(tokens);
         }
 
@@ -70,5 +73,10 @@ public class SendEffectStatement extends SendStatement {
 
         // return
         return new SendEffectStatement(target, effectType, effectDuration, effectPower);
+    }
+
+    @Override
+    public String toString() {
+        return "SEND_EFFECT{to="+target+", effect=" + effectType + (effectPower==null?"":", power="+effectPower) + ", for=" + effectDuration + "}";
     }
 }

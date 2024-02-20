@@ -4,7 +4,6 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
@@ -28,11 +27,12 @@ public abstract class ExpressionNode extends Node {
         Token token = tokens.next();
         return switch (token.getType()) {
             // Literals
-            case NUMBER -> new NumberExpression(token); // UNIT !!!
+            case VALUE_NUMBER -> new NumberExpression(token); // UNIT !!!
             case TRUE, FALSE -> new BooleanExpression(token);
-            case STRING -> new StringExpression(token);
+            case VALUE_STRING -> new StringExpression(token);
+            case VALUE_DURATION -> new DurationExpression(token);
             case NULL -> new NullExpression(token.pos());
-            case WORD -> {
+            case IDENTIFIER -> {
                 String value = token.getContentString();
                 // Potion effect ?
                 EffectTypeExpression.PotionEffect effect = EffectTypeExpression.PotionEffect.find(value);
@@ -47,7 +47,7 @@ public abstract class ExpressionNode extends Node {
                 throw new SyntaxException(token, "Expected an expression.");
             }
             // Var
-            case VARIABLE -> new VariableExpression(token);
+            case VALUE_VARIABLE -> new VariableExpression(token);
             default -> throw new SyntaxException(token, "Unexpected expression-start.");
         };
     }

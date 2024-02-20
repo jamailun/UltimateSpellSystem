@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,7 @@ public class Tokenizer {
     private final static Map<Character, TokenType> OPERATORS_MONO = new HashMap<>();
     private final static Map<String, TokenType> OPERATORS_BI = new HashMap<>();
     private final static Map<String, TokenType> KEYWORDS = new HashMap<>();
+    private final static Map<String, TimeUnit> TIME_UNITS = new HashMap<>();
     static {
         OPERATORS_MONO.put('/', TokenType.SLASH);
         OPERATORS_MONO.put('\\', TokenType.ANTISLASH);
@@ -53,6 +55,12 @@ public class Tokenizer {
         KEYWORDS.put("to", TokenType.TO);
         KEYWORDS.put("message", TokenType.MESSAGE);
         KEYWORDS.put("effect", TokenType.EFFECT);
+
+        putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
+        putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");
+        putTimeUnit(TimeUnit.MINUTES, "m", "minute", "minutes");
+        putTimeUnit(TimeUnit.SECONDS, "s", "sec", "secs", "second", "seconds");
+        putTimeUnit(TimeUnit.MILLISECONDS, "ms", "milli", "millisecond", "milliseconds");
     }
 
     private final CharStream chars;
@@ -130,11 +138,26 @@ public class Tokenizer {
             if(ALLOWED_WORD_START.test(String.valueOf(current))) {
                 TokenPosition position = chars.pos();
                 String word = getWord(current);
+
                 if(KEYWORDS.containsKey(word)) {
                     tokens.add(new Token(KEYWORDS.get(word), position));
-                } else {
-                    tokens.add(Token.fromWord(word, position));
+                    continue;
                 }
+
+                if(TIME_UNITS.containsKey(word)) {
+                    if(tokens.isEmpty() || last().getType() != TokenType.VALUE_NUMBER ) {
+                        throw new ParsingException(chars.pos(), "Unexpected time unit '"+word+"'.");
+                    }
+                    // Replace number by duration
+                    double number = last().getContentNumber();
+                    TimeUnit unit = TIME_UNITS.get(word);
+                    tokens.remove(tokens.size() - 1);
+                    tokens.add(Token.fromDuration(number, unit, position));
+                    continue;
+                }
+
+                tokens.add(Token.fromWord(word, position));
+
                 continue;
             }
 
@@ -246,5 +269,13 @@ public class Tokenizer {
         tokens.add(type.toToken(chars.pos()));
     }
 
+    private static void putTimeUnit(TimeUnit unit, String... identifiers) {
+        for(String identifier : identifiers)
+            TIME_UNITS.put(identifier, unit);
+    }
+
+    private Token last() {
+        return tokens.get(tokens.size() - 1);
+    }
 
 }

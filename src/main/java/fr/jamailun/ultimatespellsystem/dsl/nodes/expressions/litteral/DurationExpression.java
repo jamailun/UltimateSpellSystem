@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 
 import java.util.concurrent.TimeUnit;
@@ -11,10 +12,10 @@ public class DurationExpression extends LiteralExpression {
     private final double duration;
     private final TimeUnit unit;
 
-    public DurationExpression(TokenPosition pos, double duration, TimeUnit unit) {
-        super(pos);
-        this.duration = duration;
-        this.unit = unit;
+    public DurationExpression(Token token) {
+        super(token.pos());
+        this.duration = token.getContentNumber();
+        this.unit = token.getContentTimeUnit();
     }
 
     public double getDuration() {

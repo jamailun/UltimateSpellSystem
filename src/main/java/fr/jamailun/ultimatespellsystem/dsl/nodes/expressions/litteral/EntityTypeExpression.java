@@ -5,11 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.bukkit.entity.EntityType;
-import org.bukkit.potion.PotionEffectType;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -77,7 +73,7 @@ public class EntityTypeExpression extends LiteralExpression {
             if(ALLOWED_ENTITY_TYPES.contains(type))
                 return type;
             throw new SpellException("Unauthorized EntityType: " + value);
-        } catch (NoSuchElementException ignored) {
+        } catch (Exception ignored) {
             return null;
         }
     }

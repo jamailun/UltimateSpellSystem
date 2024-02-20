@@ -39,4 +39,9 @@ public class SendMessageStatement extends SendStatement {
 
         return new SendMessageStatement(target, message);
     }
+
+    @Override
+    public String toString() {
+        return "SEND_MSG{to="+target+", " + message + "}";
+    }
 }
