@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl;
+package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.ParsingException;
 
@@ -13,6 +13,7 @@ public class Tokenizer {
 
     private final static Map<Character, TokenType> OPERATORS_MONO = new HashMap<>();
     private final static Map<String, TokenType> OPERATORS_BI = new HashMap<>();
+    private final static Map<String, TokenType> KEYWORDS = new HashMap<>();
     static {
         OPERATORS_MONO.put('/', TokenType.SLASH);
         OPERATORS_MONO.put('\\', TokenType.ANTISLASH);
@@ -38,6 +39,20 @@ public class Tokenizer {
         OPERATORS_BI.put(">=", TokenType.COMP_GE);
         OPERATORS_BI.put("==", TokenType.COMP_EQ);
         OPERATORS_BI.put("!=", TokenType.COMP_NE);
+
+        KEYWORDS.put("if", TokenType.IF);
+        KEYWORDS.put("else", TokenType.ELSE);
+        KEYWORDS.put("for", TokenType.FOR);
+        KEYWORDS.put("while", TokenType.WHILE);
+        KEYWORDS.put("do", TokenType.DO);
+        KEYWORDS.put("section", TokenType.SECTION);
+        KEYWORDS.put("stop", TokenType.STOP);
+        KEYWORDS.put("true", TokenType.TRUE);
+        KEYWORDS.put("false", TokenType.FALSE);
+        KEYWORDS.put("send", TokenType.SEND);
+        KEYWORDS.put("to", TokenType.TO);
+        KEYWORDS.put("message", TokenType.MESSAGE);
+        KEYWORDS.put("effect", TokenType.EFFECT);
     }
 
     private final CharStream chars;
@@ -113,7 +128,13 @@ public class Tokenizer {
             }
 
             if(ALLOWED_WORD_START.test(String.valueOf(current))) {
-                tokens.add(Token.fromWord(getWord(current), chars.pos()));
+                TokenPosition position = chars.pos();
+                String word = getWord(current);
+                if(KEYWORDS.containsKey(word)) {
+                    tokens.add(new Token(KEYWORDS.get(word), position));
+                } else {
+                    tokens.add(Token.fromWord(word, position));
+                }
                 continue;
             }
 

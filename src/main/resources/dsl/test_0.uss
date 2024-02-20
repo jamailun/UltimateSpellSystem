@@ -23,5 +23,21 @@ section: definitions
 # It's a sequence of events
 section: spell
 
-send message to %caster
+send %caster message "&eT'es trop fort.";
+
+send %caster effect SPEED 2 for 4s;
+
+let %copaings = all others PLAYERS around %caster by 50m;
+
+if(%copaings.size() == 0) {
+    send %caster message "&cpas d'amis !";
+    stop;
+}
+
+send %copaings message "&at'es un copain.";
+
+send {{ all others PLAYERS around %caster by 50m }} message "&a&ltoi aussi.";
+
+send [%caster, %copaings] message "on est des amis !";
+
 

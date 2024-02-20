@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl;
+package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 public enum TokenType {
 
@@ -31,13 +31,31 @@ public enum TokenType {
     COMP_EQ, // ==
     COMP_NE, // !=
 
+    // KEYWORDS
+
+    IF,
+    FOR,
+    STOP,
+    WHILE,
+    DO,
+    ELSE,
+    SECTION,
+    SEND,
+    MESSAGE,
+    EFFECT,
+    TO,
+
+    // variables
+    TRUE,
+    FALSE,
+    NULL,
+
     // N-CHARS OPERATORS
 
     WORD, // any combination of character that is NOT a string
     VARIABLE, // a WORD starting with a '%'
     STRING, // combination of characters between quotes
     NUMBER,
-    BOOLEAN,
 
 
     // END OF FILE

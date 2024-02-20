@@ -1,11 +1,10 @@
-package fr.jamailun.ultimatespellsystem.dsl;
+package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 public class Token {
 
     private final TokenType type;
     private final TokenPosition position;
 
-    private Boolean contentBoolean;
     private Double contentNumber;
     private String contentString;
 
@@ -27,10 +26,6 @@ public class Token {
     }
 
     public static Token fromWord(String string, TokenPosition position) {
-        if(string.equals("true") || string.equals("false")) {
-            return fromBoolean(Boolean.parseBoolean(string), position);
-        }
-
         Token token = new Token(TokenType.WORD, position);
         token.contentString = string;
         return token;
@@ -42,17 +37,16 @@ public class Token {
         return token;
     }
 
-    public static Token fromBoolean(boolean bool, TokenPosition position) {
-        Token token = new Token(TokenType.BOOLEAN, position);
-        token.contentBoolean = bool;
-        return token;
+    public TokenType getType() {
+        return type;
     }
 
-
-    public Boolean getContentBoolean() {
-        if(type != TokenType.BOOLEAN)
-            throw new RuntimeException("Cannot get the BOOLEAN content of type " + type);
-        return contentBoolean;
+    public boolean getContentBoolean() {
+        return switch (type) {
+            case TRUE -> true;
+            case FALSE -> false;
+            default -> throw new RuntimeException("Cannot get the BOOL content of type " + type);
+        };
     }
 
     public Double getContentNumber() {
@@ -78,9 +72,6 @@ public class Token {
         }
         if(type == TokenType.VARIABLE || type == TokenType.STRING) {
             return type + "(\"" + contentString + "\")";
-        }
-        if(type == TokenType.BOOLEAN) {
-            return type + "(" + contentBoolean + ")";
         }
         if(type == TokenType.NUMBER) {
             return type + "(" + contentNumber + ")";

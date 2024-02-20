@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl;
+package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 import java.io.*;
 import java.util.StringJoiner;

@@ -1,4 +1,7 @@
-package fr.jamailun.ultimatespellsystem.dsl;
+package fr.jamailun.ultimatespellsystem.dsl.tokenization;
+
+import fr.jamailun.ultimatespellsystem.dsl.errors.ParsingException;
+import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -28,6 +31,19 @@ public class TokenStream {
         if(!hasMore())
             throw new RuntimeException("No more data.");
         index++;
+    }
+
+    public void dropOrThrow(TokenType expectedType) {
+        if(!hasMore())
+            throw new RuntimeException("No more data.");
+        Token next = next();
+        if(next.getType() != expectedType)
+            throw new SyntaxException(next, expectedType);
+    }
+
+    public void dropOptional(TokenType type) {
+        if(hasMore() && peek().getType() == type)
+            drop();
     }
 
     public boolean hasMore() {
