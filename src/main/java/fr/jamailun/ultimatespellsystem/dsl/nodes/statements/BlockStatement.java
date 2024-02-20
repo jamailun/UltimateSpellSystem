@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class BlockStatement extends StatementNode {
 
@@ -46,5 +47,12 @@ public class BlockStatement extends StatementNode {
         tokens.dropOrThrow(TokenType.BRACES_CLOSE);
 
         return new BlockStatement(list);
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner("; ", "{", "}");
+        children.forEach(c -> sj.add(c.toString()));
+        return sj.toString();
     }
 }

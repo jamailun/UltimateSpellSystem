@@ -45,7 +45,7 @@ public class ArrayConcatExpression extends ExpressionNode {
 
     @PreviousIndicator(expected = {TokenType.SQUARE_BRACKET_OPEN})
     public static ArrayConcatExpression parseNextArrayConcat(TokenStream tokens) {
-        TokenPosition pos = tokens.peek().pos();
+        TokenPosition pos = tokens.position();
         List<ExpressionNode> nodes = new ArrayList<>();
         boolean first = true;
         while(tokens.hasMore()) {

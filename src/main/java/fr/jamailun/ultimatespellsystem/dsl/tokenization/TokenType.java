@@ -8,7 +8,7 @@ public enum TokenType {
     ANTISLASH, // \
     PLUS, // +
     MINUS, // -
-    TIMES, // *
+    MULTIPLY, // *
     NOT, // !
     COLON, // :
     SEMI_COLON, // ;
@@ -33,17 +33,18 @@ public enum TokenType {
 
     // KEYWORDS
 
-    IF,
-    FOR,
     STOP,
-    WHILE,
-    DO,
-    ELSE,
+    IF, ELSE,
+    FOR,
+    WHILE,DO,
+
     DEFINE,
-    SEND,
-    MESSAGE,
-    EFFECT,
-    TO,
+    SEND,TO,MESSAGE,EFFECT,
+    ALL, INCLUDING, AROUND, WITHIN,
+    RUN, AFTER, TIMES, REPEAT, EVERY,
+
+
+
 
     // variables
     TRUE,

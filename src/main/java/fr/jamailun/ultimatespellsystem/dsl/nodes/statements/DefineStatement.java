@@ -41,7 +41,7 @@ public class DefineStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return "DEFINE{%" + varName + " as=" + expression + "}";
+        return "DEFINE{%" + varName + " <- " + expression + "}";
     }
 
     @PreviousIndicator(expected = {TokenType.DEFINE})

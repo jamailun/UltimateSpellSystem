@@ -15,9 +15,13 @@ public class Tester {
     public static void main(String[] args) {
         String s = """
                 # comment !
-                # send to %caster message "salut";
-                define %var = "test"
-                send to %caster message %var;
+                
+                define %players_around = all players within 50 around %caster;
+                
+                run after 5s: {
+                    define %var = "test"
+                    send to %caster message %var;
+                }
                 
                 # send to %caster effect SPEED 2 for 3 minutes;
                 """;

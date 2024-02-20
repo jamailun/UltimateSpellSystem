@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
@@ -24,7 +25,12 @@ public abstract class ExpressionNode extends Node {
 
     public abstract Type getExpressionType();
 
+
     public static ExpressionNode readNextExpression(TokenStream tokens) {
+        return readNextExpression(tokens, false);
+    }
+
+    public static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom) {
         Token token = tokens.next();
         return switch (token.getType()) {
             // Literals
@@ -45,12 +51,21 @@ public abstract class ExpressionNode extends Node {
                 if(entityType != null)
                     yield new EntityTypeExpression(token.pos(), entityType);
 
+                // Custom value : checked at runtime !
+                if(allowCustom) {
+                    yield new RuntimeLiteral(token);
+                }
+
                 throw new SyntaxException(token, "Expected an expression.");
             }
             // Var
             case VALUE_VARIABLE -> new VariableExpression(token);
             // Concat array
             case SQUARE_BRACKET_OPEN -> ArrayConcatExpression.parseNextArrayConcat(tokens);
+            // all entities around
+            case ALL -> AllEntitiesAround.parseAllExpression(tokens);
+
+            // Other
             default -> throw new SyntaxException(token, "Unexpected expression-start.");
         };
     }

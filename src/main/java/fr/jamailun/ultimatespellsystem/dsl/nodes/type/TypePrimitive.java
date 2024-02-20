@@ -15,7 +15,8 @@ public enum TypePrimitive {
     MATERIAL_TYPE,
     EFFECT_TYPE,
 
-    // Null
+    // Specials
+    CUSTOM,
     NULL;
 
 

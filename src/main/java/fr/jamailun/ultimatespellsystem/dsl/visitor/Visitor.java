@@ -1,18 +1,14 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.DefineStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.SendEffectStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.SendMessageStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.StopStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 
 public interface Visitor {
 
-
-    void handleStop(StopStatement stopStatement);
-
-    void handleSendMessage(SendMessageStatement messageStatement);
-    void handleSendEffect(SendEffectStatement effectStatement);
-
-    void handleDefine(DefineStatement defineStatement);
+    void handleStop(StopStatement statement);
+    void handleSendMessage(SendMessageStatement statement);
+    void handleSendEffect(SendEffectStatement statement);
+    void handleDefine(DefineStatement statement);
+    void handleRunLater(RunLaterStatement statement);
+    void handleRepeatRun(RepeatStatement statement);
 
 }

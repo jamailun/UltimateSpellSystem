@@ -21,7 +21,7 @@ public class Tokenizer {
         OPERATORS_MONO.put('\\', TokenType.ANTISLASH);
         OPERATORS_MONO.put('+', TokenType.PLUS);
         OPERATORS_MONO.put('-', TokenType.MINUS);
-        OPERATORS_MONO.put('*', TokenType.TIMES);
+        OPERATORS_MONO.put('*', TokenType.MULTIPLY);
         OPERATORS_MONO.put('=', TokenType.EQUAL);
         OPERATORS_MONO.put('!', TokenType.NOT);
         OPERATORS_MONO.put(':', TokenType.COLON);
@@ -55,6 +55,15 @@ public class Tokenizer {
         KEYWORDS.put("to", TokenType.TO);
         KEYWORDS.put("message", TokenType.MESSAGE);
         KEYWORDS.put("effect", TokenType.EFFECT);
+        KEYWORDS.put("all", TokenType.ALL);
+        KEYWORDS.put("including", TokenType.INCLUDING);
+        KEYWORDS.put("around", TokenType.AROUND);
+        KEYWORDS.put("within", TokenType.WITHIN);
+        KEYWORDS.put("run", TokenType.RUN);
+        KEYWORDS.put("after", TokenType.AFTER);
+        KEYWORDS.put("repeat", TokenType.REPEAT);
+        KEYWORDS.put("every", TokenType.EVERY);
+        KEYWORDS.put("times", TokenType.TIMES);
 
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");
@@ -187,12 +196,14 @@ public class Tokenizer {
                     throw new ParsingException(chars.pos(), c, "Cannot have multiple '.' in a number.");
                 dot = true;
                 sb.append('.');
+                chars.drop();
                 continue;
             }
 
             // Number
             if(isDigit(c)) {
                 sb.append(c);
+                chars.drop();
                 continue;
             }
 
