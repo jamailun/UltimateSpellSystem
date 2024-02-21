@@ -3,12 +3,16 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.bukkit.entity.EntityType;
 
 public abstract class ExpressionNode extends Node {
@@ -25,6 +29,7 @@ public abstract class ExpressionNode extends Node {
 
     public abstract Type getExpressionType();
 
+    public abstract void visit(ExpressionVisitor visitor);
 
     public static ExpressionNode readNextExpression(TokenStream tokens) {
         return readNextExpression(tokens, false);
@@ -42,7 +47,7 @@ public abstract class ExpressionNode extends Node {
             case IDENTIFIER -> {
                 String value = token.getContentString();
                 // Potion effect ?
-                EffectTypeExpression.PotionEffect effect = EffectTypeExpression.PotionEffect.find(value);
+                PotionEffect effect = PotionEffect.find(value);
                 if(effect != null)
                     yield new EffectTypeExpression(token.pos(), effect);
 
@@ -58,6 +63,8 @@ public abstract class ExpressionNode extends Node {
 
                 throw new SyntaxException(token, "Expected an expression.");
             }
+            // Properties
+            case PROPERTY_OPEN -> PropertiesExpression.parseProperties(tokens);
             // Var
             case VALUE_VARIABLE -> new VariableExpression(token);
             // Concat array

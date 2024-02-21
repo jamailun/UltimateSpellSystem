@@ -41,6 +41,8 @@ public class Tokenizer {
         OPERATORS_BI.put(">=", TokenType.COMP_GE);
         OPERATORS_BI.put("==", TokenType.COMP_EQ);
         OPERATORS_BI.put("!=", TokenType.COMP_NE);
+        OPERATORS_BI.put("{{", TokenType.PROPERTY_OPEN);
+        OPERATORS_BI.put("}}", TokenType.PROPERTY_CLOSE);
 
         KEYWORDS.put("if", TokenType.IF);
         KEYWORDS.put("else", TokenType.ELSE);
@@ -64,6 +66,9 @@ public class Tokenizer {
         KEYWORDS.put("repeat", TokenType.REPEAT);
         KEYWORDS.put("every", TokenType.EVERY);
         KEYWORDS.put("times", TokenType.TIMES);
+        KEYWORDS.put("summon", TokenType.SUMMON);
+        KEYWORDS.put("as", TokenType.AS);
+        KEYWORDS.put("with", TokenType.WITH);
 
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");

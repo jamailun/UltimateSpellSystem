@@ -23,6 +23,8 @@ public enum TokenType {
     BRACES_CLOSE, // }
     COMP_LT, // <
     COMP_GT, // >
+    PROPERTY_OPEN, // {{
+    PROPERTY_CLOSE, // }}
 
     // BI-CHAR OPERATORS
 
@@ -42,6 +44,7 @@ public enum TokenType {
     SEND,TO,MESSAGE,EFFECT,
     ALL, INCLUDING, AROUND, WITHIN,
     RUN, AFTER, TIMES, REPEAT, EVERY,
+    SUMMON, AS, WITH,
 
 
 

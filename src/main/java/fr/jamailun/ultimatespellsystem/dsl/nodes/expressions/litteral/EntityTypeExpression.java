@@ -9,7 +9,7 @@ import org.bukkit.entity.EntityType;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class EntityTypeExpression extends LiteralExpression {
+public class EntityTypeExpression extends LiteralExpression<EntityType> {
 
     private final EntityType type;
 
@@ -18,7 +18,8 @@ public class EntityTypeExpression extends LiteralExpression {
         this.type = type;
     }
 
-    public EntityType getRawType() {
+    @Override
+    public EntityType getRaw() {
         return type;
     }
 
@@ -29,7 +30,7 @@ public class EntityTypeExpression extends LiteralExpression {
 
     @Override
     public String toString() {
-        return "EntityType." + type;
+        return PREFIX + "EntityType." + type + SUFFIX;
     }
 
     private final static List<EntityType> ALLOWED_ENTITY_TYPES = List.of(

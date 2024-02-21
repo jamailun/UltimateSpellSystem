@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
 public class AllEntitiesAround extends ExpressionNode {
 
@@ -27,6 +28,11 @@ public class AllEntitiesAround extends ExpressionNode {
     @Override
     public Type getExpressionType() {
         return new Type(TypePrimitive.ENTITY, true);
+    }
+
+    @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleFunction(this);
     }
 
     @Override

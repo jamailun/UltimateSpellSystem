@@ -6,7 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.Visitor;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 import java.util.Optional;
 
@@ -46,7 +46,7 @@ public class SendEffectStatement extends SendStatement {
     }
 
     @Override
-    public void visit(Visitor visitor) {
+    public void visit(StatementVisitor visitor) {
         visitor.handleSendEffect(this);
     }
 

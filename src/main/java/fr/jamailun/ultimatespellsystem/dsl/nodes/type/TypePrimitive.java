@@ -16,6 +16,7 @@ public enum TypePrimitive {
     EFFECT_TYPE,
 
     // Specials
+    PROPERTIES_SET,
     CUSTOM,
     NULL;
 

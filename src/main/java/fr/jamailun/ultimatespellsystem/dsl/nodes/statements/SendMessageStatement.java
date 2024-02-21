@@ -1,14 +1,12 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
-import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.Visitor;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 public class SendMessageStatement extends SendStatement {
 
@@ -26,7 +24,7 @@ public class SendMessageStatement extends SendStatement {
     }
 
     @Override
-    public void visit(Visitor visitor) {
+    public void visit(StatementVisitor visitor) {
         visitor.handleSendMessage(this);
     }
 

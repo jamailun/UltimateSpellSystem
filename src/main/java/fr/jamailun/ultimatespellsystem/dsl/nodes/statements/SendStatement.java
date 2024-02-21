@@ -24,6 +24,10 @@ public abstract class SendStatement extends StatementNode {
         assertExpressionType(target, TypePrimitive.ENTITY, context);
     }
 
+    public ExpressionNode getTarget() {
+        return target;
+    }
+
     @PreviousIndicator(expected = {TokenType.SEND}) // SEND (to) TARGET <THING> (...)
     public static StatementNode parseSendStatement(TokenStream tokens) {
         // Optional "to"

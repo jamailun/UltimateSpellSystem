@@ -3,8 +3,9 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
-public class BooleanExpression extends LiteralExpression {
+public class BooleanExpression extends LiteralExpression<Boolean> {
 
     private final boolean rawValue;
 
@@ -13,7 +14,8 @@ public class BooleanExpression extends LiteralExpression {
         this.rawValue = token.getContentBoolean();
     }
 
-    public boolean getRawValue() {
+    @Override
+    public Boolean getRaw() {
         return rawValue;
     }
 
@@ -24,6 +26,6 @@ public class BooleanExpression extends LiteralExpression {
 
     @Override
     public String toString() {
-        return "{{"+(rawValue?"TRUE":"FALSE")+"}}";
+        return PREFIX + (rawValue?"TRUE":"FALSE") + SUFFIX;
     }
 }

@@ -2,49 +2,57 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public class TypesContext {
 
-    private static class VariableDefinition {
-        final String name;
-        final Type type;
-        ExpressionNode expressionNode;
+    public static class VariableDefinition {
+        Type type;
+        ExpressionNode nodeReference;
 
-        VariableDefinition(String name, ExpressionNode node) {
-            this.name = name;
-            this.type = node.getExpressionType();
-            this.expressionNode = node;
-        }
-        VariableDefinition(String name, Type type) {
-            this.name = name;
+        VariableDefinition(Type type) {
             this.type = type;
         }
+        VariableDefinition(ExpressionNode nodeReference) {
+            this.nodeReference = nodeReference;
+        }
+
+        public Type computeType(TypesContext context) {
+            if(type != null)
+                return type;
+            nodeReference.validateTypes(context);
+            return nodeReference.getExpressionType();
+        }
+
     }
 
     private final Map<String, VariableDefinition> variables = new HashMap<>();
 
     public void registerAbsolute(String varName, Type type) {
-        variables.put(varName, new VariableDefinition(varName, type));
+        variables.put(varName, new VariableDefinition(type));
     }
 
-    public void registerVariable(String varName, ExpressionNode node) {
+    public void registerVariable(String varName, ExpressionNode variable) {
         if(variables.containsKey(varName)) {
-            throw new SyntaxException(node.firstTokenPosition(), "Variable " + varName + " already defined.");
+            throw new SyntaxException(variable.firstTokenPosition(), "Variable " + varName + " already defined.");
         }
-        variables.put(varName, new VariableDefinition(varName, node));
+        variables.put(varName, new VariableDefinition(variable));
     }
 
-    public @Nullable Type findVariable(String varName) {
+    public void registerVariable(String varName, TokenPosition position, Type type) {
+        if(variables.containsKey(varName)) {
+            throw new SyntaxException(position, "Variable " + varName + " already defined.");
+        }
+        variables.put(varName, new VariableDefinition(type));
+    }
+
+    public @Nullable VariableDefinition findVariable(String varName) {
         if(variables.containsKey(varName))
-            return variables.get(varName).type;
+            return variables.get(varName);
         return null;
     }
 

@@ -4,16 +4,17 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 
-public class NumberExpression extends LiteralExpression {
+public class NumberExpression extends LiteralExpression<Double> {
 
-    private final double rawValue;
+    private final Double rawValue;
 
     public NumberExpression(Token token) {
         super(token.pos());
         this.rawValue = token.getContentNumber();
     }
 
-    public double getRawValue() {
+    @Override
+    public Double getRaw() {
         return rawValue;
     }
 
@@ -24,6 +25,6 @@ public class NumberExpression extends LiteralExpression {
 
     @Override
     public String toString() {
-        return "{{"+rawValue+"}}";
+        return PREFIX + rawValue + SUFFIX;
     }
 }

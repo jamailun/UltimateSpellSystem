@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class ArrayConcatExpression extends ExpressionNode {
         if(typePrimitive == null)
             return null;
         return typePrimitive.asType(true);
+    }
+
+    @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleArray(elements, typePrimitive);
     }
 
     @Override

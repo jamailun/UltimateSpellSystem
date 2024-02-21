@@ -2,7 +2,10 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 
-public interface Visitor {
+/**
+ * A visitor. Can interact with the node-tree.
+ */
+public interface StatementVisitor {
 
     void handleStop(StopStatement statement);
     void handleSendMessage(SendMessageStatement statement);
@@ -10,5 +13,6 @@ public interface Visitor {
     void handleDefine(DefineStatement statement);
     void handleRunLater(RunLaterStatement statement);
     void handleRepeatRun(RepeatStatement statement);
+    void handleSummon(SummonStatement statement);
 
 }

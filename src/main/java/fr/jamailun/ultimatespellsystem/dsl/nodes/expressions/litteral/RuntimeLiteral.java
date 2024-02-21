@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 
-public class RuntimeLiteral extends LiteralExpression {
+public class RuntimeLiteral extends LiteralExpression<String> {
 
     private final String value;
 
@@ -13,7 +13,8 @@ public class RuntimeLiteral extends LiteralExpression {
         this.value = token.getContentString();
     }
 
-    public String getValue() {
+    @Override
+    public String getRaw() {
         return value;
     }
 
@@ -24,6 +25,6 @@ public class RuntimeLiteral extends LiteralExpression {
 
     @Override
     public String toString() {
-        return "?'" + value + "'";
+        return PREFIX + "?'" + value + "'" + SUFFIX;
     }
 }

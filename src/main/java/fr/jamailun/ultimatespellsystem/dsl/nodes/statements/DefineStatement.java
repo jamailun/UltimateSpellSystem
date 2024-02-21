@@ -7,7 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.Visitor;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 public class DefineStatement extends StatementNode {
 
@@ -35,7 +35,7 @@ public class DefineStatement extends StatementNode {
     }
 
     @Override
-    public void visit(Visitor visitor) {
+    public void visit(StatementVisitor visitor) {
         visitor.handleDefine(this);
     }
 

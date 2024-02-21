@@ -1,28 +1,22 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 
-import java.util.concurrent.TimeUnit;
+public class DurationExpression extends LiteralExpression<Duration> {
 
-public class DurationExpression extends LiteralExpression {
-
-    private final double duration;
-    private final TimeUnit unit;
+    private final Duration duration;
 
     public DurationExpression(Token token) {
         super(token.pos());
-        this.duration = token.getContentNumber();
-        this.unit = token.getContentTimeUnit();
+        this.duration = new Duration(token.getContentNumber(), token.getContentTimeUnit());
     }
 
-    public double getDuration() {
+    @Override
+    public Duration getRaw() {
         return duration;
-    }
-    public TimeUnit getTimeUnit() {
-        return unit;
     }
 
     @Override
@@ -32,6 +26,7 @@ public class DurationExpression extends LiteralExpression {
 
     @Override
     public String toString() {
-        return "{{" + duration + " " + unit + "}}";
+        return PREFIX + duration.amount() + " " + duration.timeUnit() + SUFFIX;
     }
+
 }
