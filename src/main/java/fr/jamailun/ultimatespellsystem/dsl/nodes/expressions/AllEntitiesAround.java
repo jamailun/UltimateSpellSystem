@@ -32,12 +32,12 @@ public class AllEntitiesAround extends ExpressionNode {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleFunction(this);
+        visitor.handleAllAround(this);
     }
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(entityType, TypePrimitive.CUSTOM, context);
+        assertExpressionType(entityType, TypePrimitive.ENTITY_TYPE, context);
         assertExpressionType(source, TypePrimitive.ENTITY, context);
         assertExpressionType(distance, TypePrimitive.NUMBER, context);
     }
@@ -64,5 +64,21 @@ public class AllEntitiesAround extends ExpressionNode {
         boolean including = tokens.dropOptional(TokenType.INCLUDING);
 
         return new AllEntitiesAround(pos, scope, including, source, distance);
+    }
+
+    public ExpressionNode getEntityType() {
+        return entityType;
+    }
+
+    public ExpressionNode getSource() {
+        return source;
+    }
+
+    public ExpressionNode getDistance() {
+        return distance;
+    }
+
+    public boolean isIncluding() {
+        return including;
     }
 }

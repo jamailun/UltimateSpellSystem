@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
 public class DurationExpression extends LiteralExpression<Duration> {
 
@@ -27,6 +28,11 @@ public class DurationExpression extends LiteralExpression<Duration> {
     @Override
     public String toString() {
         return PREFIX + duration.amount() + " " + duration.timeUnit() + SUFFIX;
+    }
+
+    @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleDurationLiteral(this);
     }
 
 }

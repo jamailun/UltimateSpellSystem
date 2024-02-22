@@ -2,11 +2,17 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 import java.util.List;
 
-public class PrintingVisitor implements StatementVisitor {
+public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     private final int indentDelta;
     private String indentBuffer;
@@ -84,6 +90,66 @@ public class PrintingVisitor implements StatementVisitor {
 
     @Override
     public void handleSummon(SummonStatement statement) {
+
+    }
+
+    @Override
+    public void handleNullLiteral(NullExpression literal) {
+
+    }
+
+    @Override
+    public void handleBooleanLiteral(BooleanExpression literal) {
+
+    }
+
+    @Override
+    public void handleNumberLiteral(NumberExpression literal) {
+
+    }
+
+    @Override
+    public void handleStringLiteral(StringExpression literal) {
+
+    }
+
+    @Override
+    public void handleEntityTypeLiteral(EntityTypeExpression literal) {
+
+    }
+
+    @Override
+    public void handleRuntimeLiteral(RuntimeLiteral literal) {
+
+    }
+
+    @Override
+    public void handleDurationLiteral(DurationExpression literal) {
+
+    }
+
+    @Override
+    public void handleEffectLiteral(EffectTypeExpression literal) {
+
+    }
+
+    @Override
+    public void handlePropertiesSet(PropertiesExpression expression) {
+
+    }
+
+    @Override
+    public void handleAllAround(AllEntitiesAround expression) {
+
+    }
+
+    @Override
+    public void handleArrayConcat(ArrayConcatExpression expression) {
+
+    }
+
+    @Override
+    public void handleVariable(VariableExpression expression) {
 
     }
 }

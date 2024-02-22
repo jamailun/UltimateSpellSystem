@@ -1,25 +1,36 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+
 public enum TypePrimitive {
 
     // Primitives
-    STRING,
-    NUMBER,
-    BOOLEAN,
+    STRING(String.class),
+    NUMBER(Double.class),
+    BOOLEAN(Boolean.class),
 
     // In-game
-    DISTANCE,
-    DURATION,
-    ENTITY,
-    ENTITY_TYPE,
-    MATERIAL_TYPE,
-    EFFECT_TYPE,
+    DURATION(Duration.class),
+    ENTITY(LivingEntity.class),
+    ENTITY_TYPE(EntityType.class),
+    MATERIAL_TYPE(Material.class),
+    EFFECT_TYPE(PotionEffect.class),
 
     // Specials
     PROPERTIES_SET,
     CUSTOM,
     NULL;
 
+    public final Class<?> clazz;
+
+    TypePrimitive() {
+        this.clazz = null;
+    }
+    TypePrimitive(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     public Type asType() {
         return new Type(this, false);

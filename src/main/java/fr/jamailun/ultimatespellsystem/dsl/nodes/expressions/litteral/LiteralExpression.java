@@ -21,8 +21,4 @@ public abstract class LiteralExpression<T> extends ExpressionNode {
 
     public abstract T getRaw();
 
-    @Override
-    public void visit(ExpressionVisitor visitor) {
-        visitor.handleValue(getRaw(), getExpressionType().primitive());
-    }
 }

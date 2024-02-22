@@ -46,6 +46,6 @@ public class VariableExpression extends ExpressionNode {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleVariable(varName);
+        visitor.handleVariable(this);
     }
 }

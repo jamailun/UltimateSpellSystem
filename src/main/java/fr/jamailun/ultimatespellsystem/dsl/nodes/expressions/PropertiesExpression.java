@@ -26,7 +26,7 @@ public class PropertiesExpression extends ExpressionNode {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleProperties(expressions);
+        visitor.handlePropertiesSet(this);
     }
 
     @Override
@@ -37,6 +37,10 @@ public class PropertiesExpression extends ExpressionNode {
     @Override
     public void validateTypes(TypesContext context) {
         // Nothing here
+    }
+
+    public Map<String, ExpressionNode> getExpressions() {
+        return expressions;
     }
 
     @PreviousIndicator(expected = {TokenType.PROPERTY_OPEN})

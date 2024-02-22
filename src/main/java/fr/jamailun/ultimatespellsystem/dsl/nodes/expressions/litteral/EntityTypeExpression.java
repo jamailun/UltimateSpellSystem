@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.SpellException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -77,6 +78,11 @@ public class EntityTypeExpression extends LiteralExpression<EntityType> {
         } catch (Exception ignored) {
             return null;
         }
+    }
+
+    @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleEntityTypeLiteral(this);
     }
 
 }

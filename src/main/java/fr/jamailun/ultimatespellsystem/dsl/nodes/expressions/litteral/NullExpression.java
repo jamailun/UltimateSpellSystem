@@ -26,6 +26,6 @@ public class NullExpression extends LiteralExpression<Void> {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleValueNull();
+        visitor.handleNullLiteral(this);
     }
 }

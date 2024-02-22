@@ -29,7 +29,7 @@ public class ArrayConcatExpression extends ExpressionNode {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleArray(elements, typePrimitive);
+        visitor.handleArrayConcat(this);
     }
 
     @Override
@@ -72,5 +72,9 @@ public class ArrayConcatExpression extends ExpressionNode {
     @Override
     public String toString() {
         return "ARRAY("+getExpressionType()+")[" + elements + "]";
+    }
+
+    public List<ExpressionNode> getElements() {
+        return elements;
     }
 }

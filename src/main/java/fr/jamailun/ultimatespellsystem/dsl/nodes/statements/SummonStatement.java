@@ -71,4 +71,20 @@ public class SummonStatement extends StatementNode {
                 + (properties!=null?" WITH " + properties : "")
                 + "}";
     }
+
+    public ExpressionNode getEntityType() {
+        return entityType;
+    }
+
+    public Token getVarName() {
+        return varName;
+    }
+
+    public ExpressionNode getDuration() {
+        return duration;
+    }
+
+    public ExpressionNode getProperties() {
+        return properties;
+    }
 }

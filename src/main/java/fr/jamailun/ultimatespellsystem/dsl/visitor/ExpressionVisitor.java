@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
@@ -16,15 +18,19 @@ import java.util.Map;
  */
 public interface ExpressionVisitor {
 
-    void handleValueNull();
+    void handleNullLiteral(NullExpression literal);
+    void handleBooleanLiteral(BooleanExpression literal);
+    void handleNumberLiteral(NumberExpression literal);
+    void handleStringLiteral(StringExpression literal);
+    void handleEntityTypeLiteral(EntityTypeExpression literal);
+    void handleRuntimeLiteral(RuntimeLiteral literal);
+    void handleDurationLiteral(DurationExpression literal);
+    void handleEffectLiteral(EffectTypeExpression literal);
 
-    void handleValue(Object value, TypePrimitive type);
-    void handleArray(List<ExpressionNode> expressions, TypePrimitive type);
-    void handleProperties(Map<String, ExpressionNode> properties);
-    void handleVariable(String varName);
-
-
-    void handleFunction(AllEntitiesAround expression);
+    void handlePropertiesSet(PropertiesExpression expression);
+    void handleAllAround(AllEntitiesAround expression);
+    void handleArrayConcat(ArrayConcatExpression expression);
+    void handleVariable(VariableExpression expression);
 
 
 }

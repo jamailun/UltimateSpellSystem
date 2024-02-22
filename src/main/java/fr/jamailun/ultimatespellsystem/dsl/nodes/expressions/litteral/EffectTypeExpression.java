@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
 public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
 
@@ -27,6 +28,11 @@ public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
     @Override
     public String toString() {
         return PREFIX + "EffectType." + effect + SUFFIX;
+    }
+
+    @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleEffectLiteral(this);
     }
 
 }

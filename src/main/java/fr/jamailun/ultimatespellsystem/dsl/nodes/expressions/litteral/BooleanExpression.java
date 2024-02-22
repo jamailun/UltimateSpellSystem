@@ -25,6 +25,11 @@ public class BooleanExpression extends LiteralExpression<Boolean> {
     }
 
     @Override
+    public void visit(ExpressionVisitor visitor) {
+        visitor.handleBooleanLiteral(this);
+    }
+
+    @Override
     public String toString() {
         return PREFIX + (rawValue?"TRUE":"FALSE") + SUFFIX;
     }
