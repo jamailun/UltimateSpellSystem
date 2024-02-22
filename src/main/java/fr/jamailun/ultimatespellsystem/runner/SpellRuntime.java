@@ -7,6 +7,7 @@ public class SpellRuntime {
 
     private final VariablesSet variables = new VariablesSet();
     private final Player caster;
+    private boolean stopped = false;
 
     public SpellRuntime(@NotNull Player caster) {
         this.caster = caster;
@@ -24,6 +25,14 @@ public class SpellRuntime {
     public <T> T safeEvaluate(RuntimeExpression expression, Class<T> clazz) {
         Object value = expression.evaluate(this);
         return clazz.cast(value);
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public void stop() {
+        stopped = true;
     }
 
 }
