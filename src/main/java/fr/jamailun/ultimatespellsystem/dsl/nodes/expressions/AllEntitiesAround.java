@@ -37,9 +37,14 @@ public class AllEntitiesAround extends ExpressionNode {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(entityType, TypePrimitive.ENTITY_TYPE, context);
-        assertExpressionType(source, TypePrimitive.ENTITY, context);
-        assertExpressionType(distance, TypePrimitive.NUMBER, context);
+        // Distance must be a number
+        assertExpressionType(distance, context, TypePrimitive.NUMBER);
+
+        // Scope can be entity-type OR custom
+        assertExpressionType(entityType, context, TypePrimitive.ENTITY_TYPE, TypePrimitive.CUSTOM);
+
+        // Source can be entity OR location
+        assertExpressionType(source, context, TypePrimitive.ENTITY);
     }
 
     @Override

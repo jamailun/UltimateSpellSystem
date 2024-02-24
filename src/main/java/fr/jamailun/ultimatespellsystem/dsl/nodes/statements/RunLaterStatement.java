@@ -21,7 +21,7 @@ public class RunLaterStatement extends StatementNode {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(duration, TypePrimitive.DURATION, context);
+        assertExpressionType(duration, context, TypePrimitive.DURATION);
     }
 
     public StatementNode getStatement() {

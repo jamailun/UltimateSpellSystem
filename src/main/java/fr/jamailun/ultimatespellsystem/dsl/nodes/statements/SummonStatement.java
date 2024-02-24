@@ -7,6 +7,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
+import java.util.Optional;
+
 public class SummonStatement extends StatementNode {
 
     private final ExpressionNode entityType;
@@ -23,10 +25,10 @@ public class SummonStatement extends StatementNode {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(entityType, TypePrimitive.ENTITY_TYPE, context);
-        assertExpressionType(duration, TypePrimitive.DURATION, context);
+        assertExpressionType(entityType, context, TypePrimitive.ENTITY_TYPE);
+        assertExpressionType(duration, context, TypePrimitive.DURATION);
         if(properties != null)
-            assertExpressionType(properties, TypePrimitive.PROPERTIES_SET, context);
+            assertExpressionType(properties, context, TypePrimitive.PROPERTIES_SET);
 
         // Register varName
         if(varName != null) {
@@ -76,15 +78,15 @@ public class SummonStatement extends StatementNode {
         return entityType;
     }
 
-    public String getVarName() {
-        return varName == null ? null : varName.getContentString();
+    public Optional<String> getVarName() {
+        return varName == null ? Optional.empty() : Optional.of(varName.getContentString());
     }
 
     public ExpressionNode getDuration() {
         return duration;
     }
 
-    public ExpressionNode getProperties() {
-        return properties;
+    public Optional<ExpressionNode> getProperties() {
+        return Optional.ofNullable(properties);
     }
 }

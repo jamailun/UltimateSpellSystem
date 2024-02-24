@@ -20,4 +20,17 @@ public record Duration(double amount, TimeUnit timeUnit) {
     public long toTicks() {
         return (long) (toSeconds() * 20);
     }
+
+    public String niceUnit() {
+        String s = amount > 1 ? "s" : "";
+        return switch (timeUnit) {
+            case NANOSECONDS -> "nanosecond" + s;
+            case MICROSECONDS -> "microsecond" + s;
+            case MILLISECONDS -> "millisecond" + s;
+            case SECONDS -> "second" + s;
+            case MINUTES -> "minute" + s;
+            case HOURS -> "hour" + s;
+            case DAYS -> "day" + s;
+        };
+    }
 }

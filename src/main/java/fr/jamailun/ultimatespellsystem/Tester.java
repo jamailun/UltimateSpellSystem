@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 
 import java.util.List;
 
@@ -16,13 +17,13 @@ public class Tester {
         String s = """
                 # comment !
                 
-                #define %players_around = all players within 50 around %caster;
-                # send to %caster effect SPEED 2 for 3 minutes;
-                #run after 5s: {
-                #    define %var = "test"
-                #    send to %caster message %var;
-                #}
-                #repeat 3 times every 2 seconds: send to %caster message "fin";
+                define %players_around = all players within 50 around %caster;
+                send to %caster effect SPEED 2 for 3 minutes;
+                run after 5s: {
+                    define %var = "test"
+                    send to %caster message %var;
+                }
+                repeat 3 times every 2 seconds: send to %caster message "fin";
                     
                 summon IRON_GOLEM as %ig for 10 seconds with: {{
                     name  : "nom",
@@ -48,6 +49,10 @@ public class Tester {
             node.validateTypes(context);
             System.out.println(node);
         }
+
+        System.out.println("\n== PRINTING ==\n");
+
+        PrintingVisitor.print(nodes);
     }
 
 }

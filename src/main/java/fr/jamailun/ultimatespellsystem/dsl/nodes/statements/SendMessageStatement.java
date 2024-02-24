@@ -20,7 +20,7 @@ public class SendMessageStatement extends SendStatement {
     @Override
     public void validateTypes(TypesContext context) {
         super.validateTypes(context);
-        assertExpressionType(message, TypePrimitive.STRING, context);
+        assertExpressionType(message, context, TypePrimitive.STRING);
     }
 
     @Override

@@ -9,38 +9,40 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
+import java.util.Optional;
+
 public class RepeatStatement extends StatementNode {
 
     private final StatementNode statement;
     private final ExpressionNode delay; // optional
     private final ExpressionNode count;
-    private final ExpressionNode duration;
+    private final ExpressionNode period;
 
-    public RepeatStatement(StatementNode statement, ExpressionNode delay, ExpressionNode count, ExpressionNode duration) {
+    public RepeatStatement(StatementNode statement, ExpressionNode delay, ExpressionNode count, ExpressionNode period) {
         this.statement = statement;
         this.delay = delay;
         this.count = count;
-        this.duration = duration;
+        this.period = period;
     }
 
     @Override
     public void validateTypes(TypesContext context) {
         if(delay != null)
-            assertExpressionType(delay, TypePrimitive.DURATION, context);
-        assertExpressionType(count, TypePrimitive.NUMBER, context);
-        assertExpressionType(duration, TypePrimitive.DURATION, context);
+            assertExpressionType(delay, context, TypePrimitive.DURATION);
+        assertExpressionType(count, context, TypePrimitive.NUMBER);
+        assertExpressionType(period, context, TypePrimitive.DURATION);
     }
 
     public StatementNode getStatement() {
         return statement;
     }
 
-    public ExpressionNode getDuration() {
-        return duration;
+    public ExpressionNode getPeriod() {
+        return period;
     }
 
-    public ExpressionNode getDelay() {
-        return delay;
+    public Optional<ExpressionNode> getDelay() {
+        return Optional.ofNullable(delay);
     }
 
     public ExpressionNode getCount() {
@@ -71,6 +73,6 @@ public class RepeatStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return "RUN{"+(delay==null?"":" AFTER " + duration)+" " + count + " times every " + duration + "}: " + statement;
+        return "RUN{"+(delay==null?"":" AFTER " + period)+" " + count + " times every " + period + "}: " + statement;
     }
 }

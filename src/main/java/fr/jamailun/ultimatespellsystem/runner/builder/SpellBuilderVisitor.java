@@ -73,9 +73,9 @@ public class SpellBuilderVisitor implements StatementVisitor {
 
     @Override
     public void handleRepeatRun(RepeatStatement statement) {
-        RuntimeExpression period = convert(statement.getDuration());
+        RuntimeExpression period = convert(statement.getPeriod());
         RuntimeStatement child = convertOneStatement(statement.getStatement());
-        RuntimeExpression delay = convert(statement.getDelay());
+        RuntimeExpression delay = convert(statement.getDelay().orElse(null));
         RuntimeExpression count = convert(statement.getCount());
         add(new RunRepeatNode(period, child, delay, count));
     }
@@ -84,8 +84,8 @@ public class SpellBuilderVisitor implements StatementVisitor {
     public void handleSummon(SummonStatement statement) {
         RuntimeExpression type = convert(statement.getEntityType());
         RuntimeExpression duration = convert(statement.getDuration());
-        RuntimeExpression properties = convert(statement.getProperties());
-        String varName = statement.getVarName();
+        RuntimeExpression properties = convert(statement.getProperties().orElse(null));
+        String varName = statement.getVarName().orElse(null);
         add(new SummonNode(type, duration, properties, varName));
     }
 

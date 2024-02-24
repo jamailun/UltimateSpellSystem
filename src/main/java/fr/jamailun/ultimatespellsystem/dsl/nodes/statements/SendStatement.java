@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
-import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
@@ -21,7 +20,7 @@ public abstract class SendStatement extends StatementNode {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(target, TypePrimitive.ENTITY, context);
+        assertExpressionType(target, context, TypePrimitive.ENTITY);
     }
 
     public ExpressionNode getTarget() {

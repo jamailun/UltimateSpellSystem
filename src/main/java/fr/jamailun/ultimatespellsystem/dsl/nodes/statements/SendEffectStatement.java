@@ -27,10 +27,10 @@ public class SendEffectStatement extends SendStatement {
     public void validateTypes(TypesContext context) {
         super.validateTypes(context);
 
-        assertExpressionType(effectType, TypePrimitive.EFFECT_TYPE, context);
-        assertExpressionType(effectDuration, TypePrimitive.DURATION, context);
+        assertExpressionType(effectType, context, TypePrimitive.EFFECT_TYPE);
+        assertExpressionType(effectDuration, context, TypePrimitive.DURATION);
         if(effectPower != null)
-            assertExpressionType(effectPower, TypePrimitive.NUMBER, context);
+            assertExpressionType(effectPower, context, TypePrimitive.NUMBER);
     }
 
     public ExpressionNode getEffectType() {

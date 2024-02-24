@@ -4,19 +4,24 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Node {
 
     public abstract void validateTypes(TypesContext context);
 
-    protected void assertExpressionType(ExpressionNode expression, TypePrimitive type) {
-        if(!expression.getExpressionType().is(type))
+    protected void assertExpressionType(ExpressionNode expression, TypePrimitive type, TypePrimitive... otherTypes) {
+        List<TypePrimitive> allowed = new ArrayList<>(List.of(otherTypes));
+        allowed.add(type);
+
+        if(!allowed.contains(expression.getExpressionType().primitive()))
             throw new TypeException(expression, type);
     }
 
-    protected void assertExpressionType(ExpressionNode expression, TypePrimitive type, TypesContext context) {
+    protected void assertExpressionType(ExpressionNode expression, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
         expression.validateTypes(context);
-        if(!expression.getExpressionType().is(type))
-            throw new TypeException(expression, type);
+        assertExpressionType(expression, type, otherTypes);
     }
 
 }
