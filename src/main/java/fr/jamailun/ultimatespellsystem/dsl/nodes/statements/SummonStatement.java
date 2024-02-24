@@ -76,8 +76,8 @@ public class SummonStatement extends StatementNode {
         return entityType;
     }
 
-    public Token getVarName() {
-        return varName;
+    public String getVarName() {
+        return varName == null ? null : varName.getContentString();
     }
 
     public ExpressionNode getDuration() {

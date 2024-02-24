@@ -14,5 +14,6 @@ public interface StatementVisitor {
     void handleRunLater(RunLaterStatement statement);
     void handleRepeatRun(RepeatStatement statement);
     void handleSummon(SummonStatement statement);
+    void handleBlock(BlockStatement statement);
 
 }

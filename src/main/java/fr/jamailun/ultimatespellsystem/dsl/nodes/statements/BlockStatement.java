@@ -29,9 +29,11 @@ public class BlockStatement extends StatementNode {
 
     @Override
     public void visit(StatementVisitor visitor) {
-        for(StatementNode child : children) {
-            child.visit(visitor);
-        }
+        visitor.handleBlock(this);
+    }
+
+    public List<StatementNode> getChildren() {
+        return children;
     }
 
     @PreviousIndicator(expected = {TokenType.BRACES_OPEN})

@@ -42,4 +42,8 @@ public class SendMessageStatement extends SendStatement {
     public String toString() {
         return "SEND_MSG{to="+target+", " + message + "}";
     }
+
+    public ExpressionNode getMessage() {
+        return message;
+    }
 }

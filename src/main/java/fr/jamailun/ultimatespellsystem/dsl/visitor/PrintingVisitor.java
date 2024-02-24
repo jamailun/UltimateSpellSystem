@@ -94,6 +94,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleBlock(BlockStatement statement) {
+
+    }
+
+    @Override
     public void handleNullLiteral(NullExpression literal) {
 
     }

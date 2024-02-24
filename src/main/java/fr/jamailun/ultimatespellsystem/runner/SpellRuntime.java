@@ -23,6 +23,8 @@ public class SpellRuntime {
     }
 
     public <T> T safeEvaluate(RuntimeExpression expression, Class<T> clazz) {
+        if(expression == null)
+            return null;
         Object value = expression.evaluate(this);
         return clazz.cast(value);
     }
