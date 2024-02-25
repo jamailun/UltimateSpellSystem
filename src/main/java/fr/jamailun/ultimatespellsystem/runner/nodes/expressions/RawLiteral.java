@@ -1,19 +1,19 @@
-package fr.jamailun.ultimatespellsystem.runner.nodes.literals;
+package fr.jamailun.ultimatespellsystem.runner.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.LiteralExpression;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.SpellRuntime;
 
-public class SpellLiteral<T> extends RuntimeExpression {
+public class RawLiteral<T> extends RuntimeExpression {
 
     private final T raw;
 
-    public SpellLiteral(LiteralExpression<T> expression) {
+    public RawLiteral(LiteralExpression<T> expression) {
         this.raw = expression.getRaw();
     }
 
     @Override
-    public Object evaluate(SpellRuntime runtime) {
+    public T evaluate(SpellRuntime runtime) {
         return raw;
     }
 }
