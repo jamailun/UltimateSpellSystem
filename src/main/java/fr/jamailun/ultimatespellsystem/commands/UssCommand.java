@@ -25,7 +25,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         cmd.setExecutor(this);
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable"," enable");
+    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable");
 
     @Override
