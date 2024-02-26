@@ -1,0 +1,2 @@
+# Should the plugin print with DEBUG level.
+debug: true

@@ -1,22 +1,64 @@
 package fr.jamailun.ultimatespellsystem;
 
+import fr.jamailun.ultimatespellsystem.commands.UssCommand;
+import fr.jamailun.ultimatespellsystem.spells.SpellsManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.util.List;
 
 public final class UltimateSpellSystem extends JavaPlugin {
 
     private static UltimateSpellSystem instance;
 
+    private SpellsManager manager;
+
+    private boolean configDebug;
+
+    public static final String PREFIX = "§b§lUSS§d | §f";
+
     @Override
     public void onEnable() {
         instance = this;
 
+        // Config
+        FileConfiguration config = getConfig();
+        configDebug = config.getBoolean("debug", false);
+
+        // Enable
+        new UssCommand();
+
+        manager = new SpellsManager(new File(getDataFolder(), "spells"));
     }
 
     @Override
     public void onDisable() {
 
+    }
+
+    public static void logDebug(String message) {
+        if(instance.configDebug)
+            Bukkit.getConsoleSender().sendMessage(PREFIX + "§3DEBUG | §7" + message);
+    }
+    public static void logInfo(String message) {
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§aINFO | §f" + message);
+    }
+    public static void logWarning(String message) {
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN | §e" + message);
+    }
+    public static void logError(String message) {
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§4ERROR | §c" + message);
+    }
+
+    public static SpellsManager getSpellsManager() {
+        return instance.manager;
     }
 
     public static void runTaskLater(Runnable runnable, long ticks) {
@@ -33,5 +75,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
                     cancel();
             }
         }.runTaskTimer(instance, delay, period);
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        return super.onTabComplete(sender, command, alias, args);
     }
 }
