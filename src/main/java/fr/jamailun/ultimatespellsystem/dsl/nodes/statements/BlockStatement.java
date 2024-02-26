@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
+import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;

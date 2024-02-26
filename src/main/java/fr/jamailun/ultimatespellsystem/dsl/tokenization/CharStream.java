@@ -14,7 +14,7 @@ public class CharStream {
     }
 
     public static CharStream from(String string) {
-        return new CharStream(string.toCharArray());
+        return new CharStream((string + "\n").toCharArray());
     }
 
     public static CharStream from(File file) {
@@ -26,6 +26,7 @@ public class CharStream {
             while ((line = reader.readLine()) != null) {
                 sj.add(line);
             }
+            sj.add("\n");
             String fileContent = sj.toString();
             return from(fileContent);
         } catch(IOException e) {
