@@ -25,12 +25,6 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         cmd.setExecutor(this);
     }
 
-    // uss reload - reload all spells
-    // uss list
-    // uss cast <id>
-    // uss disable <id>
-    // uss enable <id>
-
     private final static List<String> args_0 = List.of("reload", "list", "cast", "disable"," enable");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable");
 
@@ -45,8 +39,9 @@ public class UssCommand implements CommandExecutor, TabCompleter {
 
         // RELOAD
         if("reload".equals(arg0)) {
+            UltimateSpellSystem.reloadConfigContent();
             spells().reloadSpells();
-            return success(sender, "Successfully reloaded " + spells().spellIds().size() + " spells.");
+            return success(sender, "Successfully reloaded configuration and " + spells().spellIds().size() + " spells.");
         }
 
         // LIST
@@ -98,8 +93,9 @@ public class UssCommand implements CommandExecutor, TabCompleter {
                     return error(sender, "Must be a player to cast a spell.");
                 }
             }
+            info(sender, "Casting spell on " + (sender.equals(player) ? "yourself" : args[2]) + ".");
             spell.cast(player);
-            return success(sender, "Successfully enabled " + id + ".");
+            return true;
         }
 
         return error(sender, "I'm not supposed to be here...");

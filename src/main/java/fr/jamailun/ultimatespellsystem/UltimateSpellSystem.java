@@ -29,13 +29,18 @@ public final class UltimateSpellSystem extends JavaPlugin {
         instance = this;
 
         // Config
-        FileConfiguration config = getConfig();
-        configDebug = config.getBoolean("debug", false);
+        reloadConfigContent();
+        saveConfig();
 
         // Enable
         new UssCommand();
 
         manager = new SpellsManager(new File(getDataFolder(), "spells"));
+    }
+
+    public static void reloadConfigContent() {
+        FileConfiguration config = instance.getConfig();
+        instance.configDebug = config.getBoolean("debug", false);
     }
 
     @Override
@@ -45,10 +50,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     public static void logDebug(String message) {
         if(instance.configDebug)
-            Bukkit.getConsoleSender().sendMessage(PREFIX + "§3DEBUG | §7" + message);
+            Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
     public static void logInfo(String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§aINFO | §f" + message);
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§3INFO | §f" + message);
     }
     public static void logWarning(String message) {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN | §e" + message);
