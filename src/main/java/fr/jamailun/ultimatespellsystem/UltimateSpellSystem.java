@@ -41,6 +41,8 @@ public final class UltimateSpellSystem extends JavaPlugin {
     public static void reloadConfigContent() {
         FileConfiguration config = instance.getConfig();
         instance.configDebug = config.getBoolean("debug", false);
+
+        logDebug("Debug mode enabled.");
     }
 
     @Override
@@ -53,10 +55,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
     public static void logInfo(String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§3INFO | §f" + message);
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§3INFO  | §f" + message);
     }
     public static void logWarning(String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN | §e" + message);
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN  | §e" + message);
     }
     public static void logError(String message) {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§4ERROR | §c" + message);

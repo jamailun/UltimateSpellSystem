@@ -35,7 +35,7 @@ public final class SpellsManager {
         for(File child : children) {
             SpellDefinition definition = SpellDefinition.loadFile(child);
             if(definition != null)
-                spells.put(child.getName(), definition);
+                spells.put(definition.getName(), definition);
         }
 
         UltimateSpellSystem.logInfo("Loaded " + spells.size() + " spells.");

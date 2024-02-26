@@ -11,7 +11,9 @@ import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.RunLaterNode;
 import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.RunRepeatNode;
 import fr.jamailun.ultimatespellsystem.runner.nodes.functions.*;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -20,12 +22,13 @@ import java.util.List;
  */
 public class SpellBuilderVisitor implements StatementVisitor {
 
-    private final ExpressionQueue queue = new ExpressionQueue();
-    private List<RuntimeStatement> currentQueue;
-    private final List<RuntimeStatement> statements = new ArrayList<>();
+    private final ExpressionQueue expressionQueue = new ExpressionQueue();
+    private List<RuntimeStatement> currentQueue; // dynamic pointer toward the top of the queue stack.
+    private final List<RuntimeStatement> statementsAccumulator = new ArrayList<>();
+    private final Deque<List<RuntimeStatement>> accumulatorsStack = new ArrayDeque<>();
 
     public SpellBuilderVisitor() {
-        currentQueue = statements;
+        currentQueue = statementsAccumulator;
     }
 
     public static List<RuntimeStatement> build(List<StatementNode> dsl) {
@@ -33,7 +36,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         for(StatementNode statement : dsl) {
             statement.visit(visitor);
         }
-        return visitor.statements;
+        return visitor.statementsAccumulator;
     }
 
     @Override
@@ -91,20 +94,23 @@ public class SpellBuilderVisitor implements StatementVisitor {
 
     @Override
     public void handleBlock(BlockStatement statement) {
-        currentQueue = new ArrayList<>();
+        pushQueue();
+
         for(StatementNode child : statement.getChildren()) {
             child.visit(this);
         }
         BlockNodes block = new BlockNodes(currentQueue);
-        currentQueue = statements;
+
+        popQueue();
+
         add(block);
     }
 
     private RuntimeExpression convert(ExpressionNode expression) {
         if(expression == null)
             return null;
-        expression.visit(queue);
-        return queue.fetch();
+        expression.visit(expressionQueue);
+        return expressionQueue.fetch();
     }
 
     private void add(RuntimeStatement rs) {
@@ -114,12 +120,25 @@ public class SpellBuilderVisitor implements StatementVisitor {
     private RuntimeStatement convertOneStatement(StatementNode dsl) {
         if(dsl == null)
             return null;
-        currentQueue = new ArrayList<>();
+        pushQueue();
+
         dsl.visit(this);
         if(currentQueue.size() > 1)
             throw new RuntimeException("Got a size > 1 ! " + currentQueue);
         RuntimeStatement node = currentQueue.get(0);
-        currentQueue = statements;
+
+        popQueue();
         return node;
+    }
+
+    private void pushQueue() {
+        accumulatorsStack.push(currentQueue);
+        currentQueue = new ArrayList<>();
+        //System.out.println("PUSH-Queue ! curr="+currentQueue+", QQ="+ accumulatorsStack);
+    }
+
+    private void popQueue() {
+        currentQueue = accumulatorsStack.pop();
+        //System.out.println("POP-Queue ! curr="+currentQueue+", QQ="+ accumulatorsStack);
     }
 }

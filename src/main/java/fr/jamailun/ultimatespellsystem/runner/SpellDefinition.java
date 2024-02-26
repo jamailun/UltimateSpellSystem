@@ -27,7 +27,7 @@ public class SpellDefinition {
         String name = file.getName()
                 .replace(" ", "-")
                 .toLowerCase()
-                .replaceAll("\\..*", "");
+                .replaceFirst("[.][^.]+$", "");
         UltimateSpellSystem.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
         return loadFile(name, file);
     }
@@ -39,6 +39,9 @@ public class SpellDefinition {
             return new SpellDefinition(name, steps);
         } catch(Exception e) {
             UltimateSpellSystem.logError("In "+file+" : " + e.getMessage());
+            for(StackTraceElement se : e.getStackTrace()) {
+                UltimateSpellSystem.logDebug("  §c" + se.toString());
+            }
             return null;
         }
     }
