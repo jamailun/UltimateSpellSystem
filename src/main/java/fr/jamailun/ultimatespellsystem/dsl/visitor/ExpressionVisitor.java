@@ -1,16 +1,9 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.MonoOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import org.bukkit.entity.EntityType;
-
-import java.util.List;
-import java.util.Map;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 
 /**
  * A visitor. Can interact with the node-tree.

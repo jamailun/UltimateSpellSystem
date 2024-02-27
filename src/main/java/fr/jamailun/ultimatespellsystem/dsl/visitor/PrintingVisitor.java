@@ -4,8 +4,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 

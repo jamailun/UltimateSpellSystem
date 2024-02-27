@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
