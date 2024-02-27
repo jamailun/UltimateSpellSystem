@@ -17,13 +17,13 @@ public class Tokenizer {
     private final static Map<String, TokenType> KEYWORDS = new HashMap<>();
     private final static Map<String, TimeUnit> TIME_UNITS = new HashMap<>();
     static {
-        OPERATORS_MONO.put('/', TokenType.SLASH);
+        OPERATORS_MONO.put('/', TokenType.OPE_DIV);
         OPERATORS_MONO.put('\\', TokenType.ANTISLASH);
-        OPERATORS_MONO.put('+', TokenType.PLUS);
-        OPERATORS_MONO.put('-', TokenType.MINUS);
-        OPERATORS_MONO.put('*', TokenType.MULTIPLY);
+        OPERATORS_MONO.put('+', TokenType.OPE_ADD);
+        OPERATORS_MONO.put('-', TokenType.OPE_SUB);
+        OPERATORS_MONO.put('*', TokenType.OPE_MUL);
         OPERATORS_MONO.put('=', TokenType.EQUAL);
-        OPERATORS_MONO.put('!', TokenType.NOT);
+        OPERATORS_MONO.put('!', TokenType.OPE_NOT);
         OPERATORS_MONO.put(':', TokenType.COLON);
         OPERATORS_MONO.put(';', TokenType.SEMI_COLON);
         OPERATORS_MONO.put(',', TokenType.COMMA);

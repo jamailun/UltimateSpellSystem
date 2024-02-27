@@ -19,6 +19,8 @@ public class SummonPropertiesExtension {
     // -- instance
 
     private final Map<String, SummonProperty> properties = new HashMap<>();
+
+    @SuppressWarnings( "deprecation" )
     private SummonPropertiesExtension() {
         register("health", (entity, value) -> {
             if(value instanceof Double number) {
@@ -38,6 +40,7 @@ public class SummonPropertiesExtension {
 
         register("name", (entity, value) -> {
             if(value instanceof String string) {
+                // Deprecated, but the new "component" system is a real pain in the ass to use.
                 entity.setCustomName(string);
             } else {
                 UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);

@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.Vector;
+
 public enum TypePrimitive {
 
     // Primitives
@@ -15,8 +17,9 @@ public enum TypePrimitive {
     DURATION(Duration.class),
     ENTITY(LivingEntity.class),
     ENTITY_TYPE(EntityType.class),
-    MATERIAL_TYPE(Material.class),
+    MATERIAL(Material.class),
     EFFECT_TYPE(PotionEffect.class),
+    LOCATION(Vector.class),
 
     // Specials
     PROPERTIES_SET,

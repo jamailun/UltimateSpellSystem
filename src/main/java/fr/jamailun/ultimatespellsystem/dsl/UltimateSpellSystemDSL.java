@@ -12,9 +12,7 @@ import java.util.List;
 
 public class UltimateSpellSystemDSL {
 
-    public static List<StatementNode> parse(CharStream chars) {
-        TokenStream tokens = Tokenizer.tokenize(chars);
-
+    public static List<StatementNode> parse(TokenStream tokens) {
         List<StatementNode> statements = new ArrayList<>();
         while(tokens.hasMore()) {
             if(tokens.peek().getType() == TokenType.EOF)
@@ -24,6 +22,11 @@ public class UltimateSpellSystemDSL {
         }
 
         return statements;
+    }
+
+    public static List<StatementNode> parse(CharStream chars) {
+        TokenStream tokens = Tokenizer.tokenize(chars);
+        return parse(tokens);
     }
 
     public static List<StatementNode> parse(String string) {

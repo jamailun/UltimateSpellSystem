@@ -2,14 +2,19 @@ package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 public enum TokenType {
 
-    // MONO-CHAR OPERATORS
+    // == MONO-CHAR OPERATORS
 
-    SLASH, // /
+    // BiOperators
+    OPE_ADD, // +
+    OPE_SUB, // -
+    OPE_MUL, // *
+    OPE_DIV, // /
+
+    // MonoOperators
+    OPE_NOT, // !
+
+    // Others
     ANTISLASH, // \
-    PLUS, // +
-    MINUS, // -
-    MULTIPLY, // *
-    NOT, // !
     COLON, // :
     SEMI_COLON, // ;
     COMMA, // ,
@@ -26,14 +31,14 @@ public enum TokenType {
     PROPERTY_OPEN, // {{
     PROPERTY_CLOSE, // }}
 
-    // BI-CHAR OPERATORS
+    // == BI-CHAR OPERATORS
 
     COMP_LE, // <=
     COMP_GE, // >=
     COMP_EQ, // ==
     COMP_NE, // !=
 
-    // KEYWORDS
+    // == KEYWORDS
 
     STOP,
     IF, ELSE,
@@ -47,14 +52,12 @@ public enum TokenType {
     SUMMON, AS, WITH,
 
 
-
-
-    // variables
+    // == RAW VALUES
     TRUE,
     FALSE,
     NULL,
 
-    // N-CHARS OPERATORS
+    // == N-CHARS OPERATORS
 
     IDENTIFIER, // any combination of character that is NOT a string
     VALUE_VARIABLE, // a WORD starting with a '%'
@@ -63,7 +66,7 @@ public enum TokenType {
     VALUE_DURATION, // number+ [s/ms/m/h/seconds]
 
 
-    // END OF FILE
+    // == END OF FILE
     EOF;
 
     public Token toToken(TokenPosition position) {

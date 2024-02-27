@@ -25,4 +25,9 @@ public class TypeException extends RuntimeException {
         super("Variable " + variable.getVariableName() + " at " + variable.firstTokenPosition() + " has type " + got + " instead of " + variable.getExpressionType());
     }
 
+
+    public TypeException(ExpressionNode expression, String message) {
+        super("Expression " + expression + " at " + expression.firstTokenPosition() + ": has type " + expression.getExpressionType() + ", " + message);
+    }
+
 }

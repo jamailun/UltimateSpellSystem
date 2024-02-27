@@ -2,11 +2,10 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
@@ -212,6 +211,40 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     @Override
     public void handleEffectLiteral(EffectTypeExpression literal) {
         builder.append("EffectType.").append(literal.getRaw());
+    }
+
+    @Override
+    public void handleBiOperator(BiOperator operator) {
+        operator.getLeft().visit(this);
+        String ope = switch (operator.getType()) {
+            case ADD -> "+";
+            case SUB -> "-";
+            case MUL -> "*";
+            case DIV -> "/";
+            case EQUAL -> "==";
+            case NOT_EQUAL -> "!=";
+            case GREATER_OR_EQ -> ">=";
+            case GREATER -> ">";
+            case LESSER_OR_EQ -> "<=";
+            case LESSER -> "<";
+        };
+        builder.append(" ").append(ope).append(" ");
+        operator.getRight().visit(this);
+    }
+
+    @Override
+    public void handleMonoOperator(MonoOperator operator) {
+        String ope = operator.getType().name();
+        builder.append(ope).append("(");
+        operator.getChild().visit(this);
+        builder.append(")");
+    }
+
+    @Override
+    public void handleParenthesis(ParenthesisExpression parenthesis) {
+        builder.append("(");
+        parenthesis.getExpression().visit(this);
+        builder.append(")");
     }
 
     @Override

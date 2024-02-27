@@ -1,0 +1,9 @@
+define %a = 2;
+define %b = 3;
+define %c = 5;
+
+define %aa = %a + %b + %c;
+
+define %bb = %a + %b * %c;
+
+define %dd = %a / %b - %c; # ((a/b)-c)

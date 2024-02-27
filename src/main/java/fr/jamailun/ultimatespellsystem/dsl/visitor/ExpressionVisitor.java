@@ -1,11 +1,10 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import org.bukkit.entity.EntityType;
@@ -26,6 +25,10 @@ public interface ExpressionVisitor {
     void handleRuntimeLiteral(RuntimeLiteral literal);
     void handleDurationLiteral(DurationExpression literal);
     void handleEffectLiteral(EffectTypeExpression literal);
+
+    void handleBiOperator(BiOperator operator);
+    void handleMonoOperator(MonoOperator operator);
+    void handleParenthesis(ParenthesisExpression parenthesis);
 
     void handlePropertiesSet(PropertiesExpression expression);
     void handleAllAround(AllEntitiesAround expression);

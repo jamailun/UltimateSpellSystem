@@ -41,7 +41,7 @@ public class VariableExpression extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "%" + varName + "(" + runtimeType + ")";
+        return "%" + varName;// + "(" + runtimeType + ")";
     }
 
     @Override

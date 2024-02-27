@@ -1,11 +1,10 @@
 package fr.jamailun.ultimatespellsystem.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.AllEntitiesAround;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.ArrayConcatExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.PropertiesExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.math.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.nodes.expressions.*;
@@ -94,6 +93,21 @@ public class ExpressionQueue implements ExpressionVisitor {
     @Override
     public void handleEffectLiteral(EffectTypeExpression literal) {
         add(new RawLiteral<>(literal));
+    }
+
+    @Override
+    public void handleBiOperator(BiOperator operator) {
+        //TODO handleBiOperator
+    }
+
+    @Override
+    public void handleMonoOperator(MonoOperator operator) {
+        //TODO handleMonoOperator
+    }
+
+    @Override
+    public void handleParenthesis(ParenthesisExpression parenthesis) {
+        //TODO handleParenthesis
     }
 
     private void add(RuntimeExpression expression) {

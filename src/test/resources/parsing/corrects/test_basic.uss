@@ -1,0 +1,2 @@
+send to %caster message "&eT'es trop fort.";
+send to %caster effect SPEED 2 for 4s; # valid
