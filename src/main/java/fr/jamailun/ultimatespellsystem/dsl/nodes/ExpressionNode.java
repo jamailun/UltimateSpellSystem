@@ -158,7 +158,7 @@ public abstract class ExpressionNode extends Node {
 
         // OR (+ non priority)
         if(token.getType() == TokenType.OPE_OR && !stack.priority) {
-
+            // if
             tokens.drop();
             // push to stack
             stack.expressionStack.push(expr);
@@ -180,7 +180,7 @@ public abstract class ExpressionNode extends Node {
 
         // EOE !
         if(stack.first) {
-            return expr;
+            return stack.deStack(expr);
         }
         return new ConditionWrapperNodeExpression( stack.deStack(expr) );
     }
