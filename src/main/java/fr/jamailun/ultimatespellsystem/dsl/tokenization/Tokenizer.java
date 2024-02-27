@@ -43,9 +43,13 @@ public class Tokenizer {
         OPERATORS_BI.put("!=", TokenType.COMP_NE);
         OPERATORS_BI.put("{{", TokenType.PROPERTY_OPEN);
         OPERATORS_BI.put("}}", TokenType.PROPERTY_CLOSE);
+        OPERATORS_BI.put("&&", TokenType.OPE_AND);
+        OPERATORS_BI.put("||", TokenType.OPE_OR);
 
         KEYWORDS.put("if", TokenType.IF);
         KEYWORDS.put("else", TokenType.ELSE);
+        KEYWORDS.put("and", TokenType.OPE_AND);
+        KEYWORDS.put("or", TokenType.OPE_OR);
         KEYWORDS.put("for", TokenType.FOR);
         KEYWORDS.put("while", TokenType.WHILE);
         KEYWORDS.put("do", TokenType.DO);
@@ -113,7 +117,8 @@ public class Tokenizer {
 
             // Basic symbols.
             // All bi-operators start with one of the mono... let's use this fact.
-            if(OPERATORS_MONO.containsKey(current)) {
+            // EDIT: just added AND and OR keywords start.
+            if(OPERATORS_MONO.containsKey(current) || current == '&' || current == '|') {
                 if(chars.hasMore()) {
                     char next = chars.peek();
 

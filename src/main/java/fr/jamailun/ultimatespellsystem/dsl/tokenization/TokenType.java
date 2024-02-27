@@ -51,6 +51,8 @@ public enum TokenType {
     RUN, AFTER, TIMES, REPEAT, EVERY,
     SUMMON, AS, WITH,
 
+    OPE_AND, // 'and' + '&&'
+    OPE_OR,  // 'or' + '||'
 
     // == RAW VALUES
     TRUE,

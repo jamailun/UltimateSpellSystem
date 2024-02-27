@@ -39,12 +39,15 @@ public abstract class ExpressionNode extends Node {
     }
 
     public static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom) {
-        return readNextExpression(tokens, allowCustom, new ExpressionParsingQueue(false));
+        return readNextExpression(tokens, allowCustom, new MathParsingQueue(false), LogicalParsingQueue.start());
     }
 
-    private static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom, ExpressionParsingQueue stack) {
+    private static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom, MathParsingQueue mathStack, LogicalParsingQueue logicStack) {
         ExpressionNode raw = readNextExpressionBuffer(tokens, allowCustom);
-        return tryConvertOperations(raw, tokens, stack);
+        ExpressionNode withMath = tryConvertMathOperations(raw, tokens, mathStack);
+        ExpressionNode withLogic = tryConvertLogicalExpression(withMath, tokens, logicStack);
+        System.out.println("[PRODUCED] " + withLogic + " -- " + tokens);
+        return withLogic;
     }
 
     private static ExpressionNode readNextExpressionBuffer(TokenStream tokens, boolean allowCustom) {
@@ -96,9 +99,13 @@ public abstract class ExpressionNode extends Node {
 
     private final static List<TokenType> LOW_PRIORITY_OPERATORS = List.of(TokenType.OPE_ADD, TokenType.OPE_SUB);
     private final static List<TokenType> HIGH_PRIORITY_OPERATORS = List.of(TokenType.OPE_MUL, TokenType.OPE_DIV);
+    private final static List<TokenType> COMPARISON_OPERATORS = List.of(
+            TokenType.COMP_NE, TokenType.COMP_EQ, TokenType.COMP_GT,
+            TokenType.COMP_LT, TokenType.COMP_LE, TokenType.COMP_GE
+    );
 
-    private static ExpressionNode tryConvertOperations(ExpressionNode expr, TokenStream tokens, ExpressionParsingQueue stack) {
-        //System.out.println("| TRY convert " + expr + ", stack = " + stack);
+    private static ExpressionNode tryConvertMathOperations(ExpressionNode expr, TokenStream tokens, MathParsingQueue stack) {
+        //System.out.println("M| TRY convert " + expr + ", stack = " + stack);
         Token token = tokens.peek();
 
         // Low-priority : push to stack
@@ -113,7 +120,7 @@ public abstract class ExpressionNode extends Node {
             //System.out.println("| -> new stack = " + stack);
 
             // fetch next one
-            return readNextExpression(tokens, true, stack);
+            return readNextExpression(tokens, true, stack, LogicalParsingQueue.start());
         }
 
         // High-priority operators
@@ -121,43 +128,115 @@ public abstract class ExpressionNode extends Node {
             tokens.drop();
             // don't push to stack. Get the next one and convert directly
             //System.out.println("| Priority operator ! (" + token + ")");
-            ExpressionNode nextOne = readNextExpression(tokens, true, new ExpressionParsingQueue(true));
+            ExpressionNode nextOne = readNextExpression(tokens, true, new MathParsingQueue(true), LogicalParsingQueue.start());
             //System.out.println("| NEXT = " + nextOne);
             BiOperator current = BiOperator.parseBiOperator(expr, token, nextOne);
             //System.out.println("| Built directly: " + current);
             // And redo (try to have more operators)
-            return tryConvertOperations(current, tokens, stack);
+            return tryConvertMathOperations(current, tokens, stack);
         }
 
         // No operator after (EOE) : unstack the stack, build expression tree, return it.
         // System.out.println("| Will start popping all stack: " + expr);
-        ExpressionNode topRight = expr;
-        // Dépiler peu à peu
-        while( ! stack.expressionStack.isEmpty()) {
-            ExpressionNode node = stack.expressionStack.pop();
-            Token ope = stack.operandsStack.pop();
-        //    System.out.println("| Popping NODE=" + node);
-        //    System.out.println("| Popping OPE =" + ope);
-        //    System.out.println("| -> new stack = " + stack);
-            // Fusion right operators
-            topRight = BiOperator.parseBiOperator(node, ope, topRight);
-        //    System.out.println("| -> Made " + topRight);
-        }
-        return topRight;
+        return stack.deStack(expr);
     }
 
-    private static class ExpressionParsingQueue {
+    private static ExpressionNode tryConvertLogicalExpression(ExpressionNode expr, TokenStream tokens, LogicalParsingQueue stack) {
+        Token token = tokens.peek();
+        System.out.println("L| Trying to convert " + expr + ". First ? " + stack.first);
+
+        // Find a comparator ('==' for example).
+        if(COMPARISON_OPERATORS.contains(token.getType())) {
+            Token comparator = tokens.next();
+            System.out.println("L| Got comparator : " + comparator);
+            ExpressionNode left = stack.deStack(expr);
+            System.out.println("L| => LEFT: " + left);
+            ExpressionNode right = ExpressionNode.readNextExpression(tokens, true, new MathParsingQueue(false), LogicalParsingQueue.start());
+            System.out.println("L| => RIGHT: " + right);
+            return BiOperator.parseBiOperator(left, comparator, right);
+        }
+
+        // OR (+ non priority)
+        if(token.getType() == TokenType.OPE_OR && !stack.priority) {
+
+            tokens.drop();
+            // push to stack
+            stack.expressionStack.push(expr);
+            stack.operandsStack.push(token);
+            System.out.println("L| => OR ! " + stack);
+            // fetch next one
+            return readNextExpression(tokens, true, new MathParsingQueue(false), stack);
+        }
+
+        // AND
+        if(token.getType() == TokenType.OPE_AND) {
+            tokens.drop();
+            // don't push to stack. Get the next one and convert directly
+            ExpressionNode nextOne = readNextExpression(tokens, true, new MathParsingQueue(false), LogicalParsingQueue.priority());
+            BiOperator current = BiOperator.parseBiOperator(expr, token, nextOne);
+            // And redo (try to have more operators)
+            return tryConvertLogicalExpression(current, tokens, stack);
+        }
+
+        // EOE !
+        if(stack.first) {
+            return expr;
+        }
+        return new ConditionWrapperNodeExpression( stack.deStack(expr) );
+    }
+
+    private static class MathParsingQueue extends ParsingQueue {
+        MathParsingQueue(boolean priority) {
+            super(priority);
+        }
+    }
+
+    private static class LogicalParsingQueue extends ParsingQueue {
+        private final boolean first;
+        LogicalParsingQueue(boolean priority, boolean first) {
+            super(priority);
+            this.first = first;
+            assert !first || !priority;
+        }
+        static LogicalParsingQueue start() {
+            return new LogicalParsingQueue(false, true);
+        }
+        static LogicalParsingQueue priority() {
+            return new LogicalParsingQueue(true,  false);
+        }
+        static LogicalParsingQueue nonPriority() {
+            return new LogicalParsingQueue(false,  false);
+        }
+    }
+
+    private static abstract class ParsingQueue {
         final Deque<ExpressionNode> expressionStack = new ArrayDeque<>();
         final Deque<Token> operandsStack = new ArrayDeque<>();
         final boolean priority;
 
-        ExpressionParsingQueue(boolean priority) {
+        ParsingQueue(boolean priority) {
             this.priority = priority;
         }
 
         @Override
         public String toString() {
             return "{"+(priority?"! ":"")+"E="+expressionStack+", O="+operandsStack+"}";
+        }
+
+        ExpressionNode deStack(ExpressionNode expr) {
+            ExpressionNode topRight = expr;
+            // Dépiler peu à peu
+            while( ! expressionStack.isEmpty()) {
+                ExpressionNode node = expressionStack.pop();
+                Token ope = operandsStack.pop();
+                //    System.out.println("| Popping NODE=" + node);
+                //    System.out.println("| Popping OPE =" + ope);
+                //    System.out.println("| -> new stack = " + stack);
+                // Fusion right operators
+                topRight = BiOperator.parseBiOperator(node, ope, topRight);
+                //    System.out.println("| -> Made " + topRight);
+            }
+            return topRight;
         }
     }
 

@@ -54,6 +54,10 @@ public abstract class BiOperator extends Operator {
             case OPE_ADD -> new AddOperator(pos, left, right);
             case OPE_SUB -> new SubOperator(pos, left, right);
             case OPE_MUL, OPE_DIV -> new MulDivOperator(operand, left, right);
+            case COMP_EQ, COMP_NE,
+                    COMP_GE, COMP_GT,
+                    COMP_LE, COMP_LT,
+                    OPE_AND, OPE_OR -> new LogicalOperator(operand, left, right);
             default -> throw new SyntaxException(operand, "Unknown Bi-operator.");
         };
     }
@@ -82,7 +86,10 @@ public abstract class BiOperator extends Operator {
         GREATER_OR_EQ,
         GREATER,
         LESSER_OR_EQ,
-        LESSER;
+        LESSER,
+
+        AND,
+        OR
     }
 
 }

@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.runner.builder;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.ElseStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.IfStatement;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeStatement;
@@ -104,6 +106,16 @@ public class SpellBuilderVisitor implements StatementVisitor {
         popQueue();
 
         add(block);
+    }
+
+    @Override
+    public void handleIf(IfStatement statement) {
+        //TODO handleIf
+    }
+
+    @Override
+    public void handleElse(ElseStatement statement) {
+        //TODO handleElse
     }
 
     private RuntimeExpression convert(ExpressionNode expression) {

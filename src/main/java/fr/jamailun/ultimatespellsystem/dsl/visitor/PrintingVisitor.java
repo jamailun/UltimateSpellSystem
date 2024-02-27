@@ -7,6 +7,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.ElseStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.IfStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
 import java.text.DecimalFormat;
@@ -170,6 +172,26 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleIf(IfStatement statement) {
+        builder.append(indent()).append("IF(");
+        statement.getCondition().visit(this);
+        builder.append("):");
+        right();
+        statement.getChild().visit(this);
+        left();
+        builder.append("\n");
+    }
+
+    @Override
+    public void handleElse(ElseStatement statement) {
+        builder.append(indent()).append("ELSE:");
+        right();
+        statement.getChild().visit(this);
+        left();
+        builder.append("\n");
+    }
+
+    @Override
     public void handleNullLiteral(NullExpression literal) {
         builder.append("NULL");
     }
@@ -227,6 +249,8 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             case GREATER -> ">";
             case LESSER_OR_EQ -> "<=";
             case LESSER -> "<";
+            case AND -> "and";
+            case OR -> "or";
         };
         builder.append(" ").append(ope).append(" ");
         operator.getRight().visit(this);

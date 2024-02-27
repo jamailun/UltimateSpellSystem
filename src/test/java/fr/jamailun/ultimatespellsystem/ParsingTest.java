@@ -29,6 +29,7 @@ public class ParsingTest {
 
         boolean failed = false;
         for(File file : children) {
+            System.out.println("\n\n ================[ " + file.getName() + "]================\n");
             try {
                 // Tokenize
                 TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));
@@ -36,6 +37,8 @@ public class ParsingTest {
 
                 // Parse
                 List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+
+                System.out.println(" ----------------------- ");
 
                 // validate
                 TypesContext context = new TypesContext();

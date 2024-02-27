@@ -30,4 +30,8 @@ public class TypeException extends RuntimeException {
         super("Expression " + expression + " at " + expression.firstTokenPosition() + ": has type " + expression.getExpressionType() + ", " + message);
     }
 
+    public TypeException(String message) {
+        super(message);
+    }
+
 }
