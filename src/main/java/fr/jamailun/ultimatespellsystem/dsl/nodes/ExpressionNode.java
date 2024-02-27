@@ -10,11 +10,13 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.bukkit.entity.EntityType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 public abstract class ExpressionNode extends Node {
 
@@ -37,7 +39,7 @@ public abstract class ExpressionNode extends Node {
     }
 
     public static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom) {
-        return readNextExpression(tokens, allowCustom, new ExpressionParsingQueue());
+        return readNextExpression(tokens, allowCustom, new ExpressionParsingQueue(false));
     }
 
     private static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom, ExpressionParsingQueue stack) {
@@ -92,44 +94,71 @@ public abstract class ExpressionNode extends Node {
         };
     }
 
+    private final static List<TokenType> LOW_PRIORITY_OPERATORS = List.of(TokenType.OPE_ADD, TokenType.OPE_SUB);
+    private final static List<TokenType> HIGH_PRIORITY_OPERATORS = List.of(TokenType.OPE_MUL, TokenType.OPE_DIV);
+
     private static ExpressionNode tryConvertOperations(ExpressionNode expr, TokenStream tokens, ExpressionParsingQueue stack) {
+        //System.out.println("| TRY convert " + expr + ", stack = " + stack);
         Token token = tokens.peek();
-        return switch (token.getType()) {
-            // Low-priority : push to stack
-            case OPE_ADD, OPE_SUB -> {
-                tokens.drop();
-                // push to stack
-                stack.expressionStack.push(expr);
-                stack.operandsStack.push(token);
-                // fetch next one
-                yield readNextExpression(tokens, true, stack);
-            }
-            // High-priority operators
-            case OPE_MUL, OPE_DIV -> {
-                tokens.drop();
-                // don't push to stack. Get the next one and convert directly
-                ExpressionNode nextOne = readNextExpression(tokens, true, stack);
-                BiOperator current = BiOperator.parseBiOperator(expr, token, nextOne);
-                // And redo (try to have more operators)
-                yield tryConvertOperations(current, tokens, stack);
-            }
-            // No operator after (EOE) : unstack the stack, build expression tree, return it.
-            default -> {
-                // Dépiler peu à peu
-                ExpressionNode topRight = expr;
-                while( ! stack.expressionStack.isEmpty()) {
-                    ExpressionNode node = stack.expressionStack.pop();
-                    Token ope = stack.operandsStack.pop();
-                    topRight = BiOperator.parseBiOperator(node, ope, topRight);
-                }
-                yield topRight;
-            }
-        };
+
+        // Low-priority : push to stack
+        if(LOW_PRIORITY_OPERATORS.contains(token.getType()) && !stack.priority) {
+            tokens.drop();
+            // push to stack
+            stack.expressionStack.push(expr);
+            stack.operandsStack.push(token);
+
+            //System.out.println("| Pushing EXPR=" + expr);
+            //System.out.println("| Pushing OPERAND=" + token);
+            //System.out.println("| -> new stack = " + stack);
+
+            // fetch next one
+            return readNextExpression(tokens, true, stack);
+        }
+
+        // High-priority operators
+        if(HIGH_PRIORITY_OPERATORS.contains(token.getType())) {
+            tokens.drop();
+            // don't push to stack. Get the next one and convert directly
+            //System.out.println("| Priority operator ! (" + token + ")");
+            ExpressionNode nextOne = readNextExpression(tokens, true, new ExpressionParsingQueue(true));
+            //System.out.println("| NEXT = " + nextOne);
+            BiOperator current = BiOperator.parseBiOperator(expr, token, nextOne);
+            //System.out.println("| Built directly: " + current);
+            // And redo (try to have more operators)
+            return tryConvertOperations(current, tokens, stack);
+        }
+
+        // No operator after (EOE) : unstack the stack, build expression tree, return it.
+        // System.out.println("| Will start popping all stack: " + expr);
+        ExpressionNode topRight = expr;
+        // Dépiler peu à peu
+        while( ! stack.expressionStack.isEmpty()) {
+            ExpressionNode node = stack.expressionStack.pop();
+            Token ope = stack.operandsStack.pop();
+        //    System.out.println("| Popping NODE=" + node);
+        //    System.out.println("| Popping OPE =" + ope);
+        //    System.out.println("| -> new stack = " + stack);
+            // Fusion right operators
+            topRight = BiOperator.parseBiOperator(node, ope, topRight);
+        //    System.out.println("| -> Made " + topRight);
+        }
+        return topRight;
     }
 
     private static class ExpressionParsingQueue {
         final Deque<ExpressionNode> expressionStack = new ArrayDeque<>();
         final Deque<Token> operandsStack = new ArrayDeque<>();
+        final boolean priority;
+
+        ExpressionParsingQueue(boolean priority) {
+            this.priority = priority;
+        }
+
+        @Override
+        public String toString() {
+            return "{"+(priority?"! ":"")+"E="+expressionStack+", O="+operandsStack+"}";
+        }
     }
 
 }

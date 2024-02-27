@@ -38,6 +38,11 @@ public class ParenthesisExpression extends ExpressionNode {
         return expression;
     }
 
+    @Override
+    public String toString() {
+        return " (" + expression + ") ";
+    }
+
     @PreviousIndicator(expected = {TokenType.BRACKET_OPEN})
     public static ParenthesisExpression parseParenthesis(TokenStream tokens) {
         TokenPosition pos = tokens.position();

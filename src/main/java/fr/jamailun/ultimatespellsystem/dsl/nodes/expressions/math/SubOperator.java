@@ -37,6 +37,6 @@ public class SubOperator extends BiOperator {
 
     @Override
     public String toString() {
-        return left + "-" + right;
+        return "(" + left + "-" + right + ")";
     }
 }
