@@ -1,12 +1,13 @@
 define %a = 55;
+define %b = 56;
 
 # Nice separation with parenthesis
-if((%a == 1) || (%a == 2))
-    send to %caster message "A";
+# if((%a == 1) || (%a == 2))
+#    send to %caster message "A";
 
 # No separation
-#if(%a == 3 || %a == 4)
-#    send to %caster message "A";
+if(%a == 3 || %b == 4)
+    send to %caster message "A";
 
 #if(%a == 33 || true)
 #    send to %caster message "B";

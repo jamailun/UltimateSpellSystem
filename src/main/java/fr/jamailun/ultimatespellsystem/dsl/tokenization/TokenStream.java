@@ -56,8 +56,8 @@ public class TokenStream {
             throw new SyntaxException(peek, List.of(allowed));
     }
 
-    public boolean dropOptional(TokenType type) {
-        if(hasMore() && peek().getType() == type) {
+    public boolean dropOptional(TokenType... types) {
+        if(hasMore() && List.of(types).contains(peek().getType())) {
             drop();
             return true;
         }

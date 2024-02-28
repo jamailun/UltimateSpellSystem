@@ -151,14 +151,15 @@ public abstract class ExpressionNode extends Node {
             System.out.println("L| Got comparator : " + comparator);
             ExpressionNode left = stack.deStack(expr);
             System.out.println("L| => LEFT: " + left);
-            ExpressionNode right = ExpressionNode.readNextExpression(tokens, true, new MathParsingQueue(false), LogicalParsingQueue.start());
+            ExpressionNode right = ExpressionNode.readNextExpression(tokens, true, new MathParsingQueue(false), LogicalParsingQueue.startComparison());
             System.out.println("L| => RIGHT: " + right);
-            return BiOperator.parseBiOperator(left, comparator, right);
+            BiOperator expression = BiOperator.parseBiOperator(left, comparator, right);
+            System.out.println("L| LEFT+OPE+RIGHT = " + expression);
+            return tryConvertLogicalExpression(expression, tokens, LogicalParsingQueue.start());
         }
 
         // OR (+ non priority)
-        if(token.getType() == TokenType.OPE_OR && !stack.priority) {
-            // if
+        if(token.getType() == TokenType.OPE_OR && !stack.priority && !stack.fromComparison) {
             tokens.drop();
             // push to stack
             stack.expressionStack.push(expr);
@@ -169,7 +170,7 @@ public abstract class ExpressionNode extends Node {
         }
 
         // AND
-        if(token.getType() == TokenType.OPE_AND) {
+        if(token.getType() == TokenType.OPE_AND && !stack.fromComparison) {
             tokens.drop();
             // don't push to stack. Get the next one and convert directly
             ExpressionNode nextOne = readNextExpression(tokens, true, new MathParsingQueue(false), LogicalParsingQueue.priority());
@@ -179,10 +180,17 @@ public abstract class ExpressionNode extends Node {
         }
 
         // EOE !
-        if(stack.first) {
-            return stack.deStack(expr);
+        ExpressionNode returnedExpression = stack.deStack(expr);
+        System.out.println("L| EOE: " + returnedExpression);
+        if( ! stack.first) {
+            returnedExpression = new ConditionWrapperNodeExpression( returnedExpression );
+            System.out.println("L| not first : wrapped result.");
         }
-        return new ConditionWrapperNodeExpression( stack.deStack(expr) );
+        if(stack.fromComparison) {
+            System.out.println("L| FROM COMPARISON.");
+            // return tryConvertLogicalExpression(returnedExpression, tokens, LogicalParsingQueue.start());
+        }
+        return returnedExpression;
     }
 
     private static class MathParsingQueue extends ParsingQueue {
@@ -193,19 +201,21 @@ public abstract class ExpressionNode extends Node {
 
     private static class LogicalParsingQueue extends ParsingQueue {
         private final boolean first;
-        LogicalParsingQueue(boolean priority, boolean first) {
+        private final boolean fromComparison;
+        LogicalParsingQueue(boolean priority, boolean first, boolean fromComparison) {
             super(priority);
             this.first = first;
+            this.fromComparison = fromComparison;
             assert !first || !priority;
         }
         static LogicalParsingQueue start() {
-            return new LogicalParsingQueue(false, true);
+            return new LogicalParsingQueue(false, true, false);
         }
         static LogicalParsingQueue priority() {
-            return new LogicalParsingQueue(true,  false);
+            return new LogicalParsingQueue(true,  false,false);
         }
-        static LogicalParsingQueue nonPriority() {
-            return new LogicalParsingQueue(false,  false);
+        static LogicalParsingQueue startComparison() {
+            return new LogicalParsingQueue(false,  true, true);
         }
     }
 
