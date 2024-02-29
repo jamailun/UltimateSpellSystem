@@ -35,7 +35,7 @@ public class SummonNode extends RuntimeStatement {
         Location loc = caster.getLocation();
 
         // Summon
-        Entity entity = SummonsRegistry.getInstance().summon(
+        Entity entity = SummonsRegistry.instance().summon(
                 new SummonAttributes(caster, loc, entityType, getProperties(runtime), duration)
         );
 

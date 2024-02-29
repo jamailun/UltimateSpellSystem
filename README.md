@@ -1,6 +1,6 @@
 # Ultimate Spells System
 
-Bukkit API, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language).
+Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language). Check the syntax [here](DSL.md)
 
 # Author
 
@@ -19,7 +19,7 @@ send to %caster message "You just casted a spell !";
 define %x = 12;
 if(%x > 6) {
     summon IRON_GOLEM for 4 seconds with: {{
-        name: "Michel",
+        name: "&eMichel",
         health: 4
     }} 
 }
@@ -29,4 +29,10 @@ See the [full specifications]() for more details.
 
 # API
 
+//TODO
+
 You can code your own plugin to interact with USS.
+
+You can provides custom attributes for summoned entities.
+
+You can listen to specific events.

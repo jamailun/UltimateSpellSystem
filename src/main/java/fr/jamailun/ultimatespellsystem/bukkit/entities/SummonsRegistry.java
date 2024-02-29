@@ -10,7 +10,7 @@ import java.util.*;
  */
 public final class SummonsRegistry {
     private static final SummonsRegistry INSTANCE = new SummonsRegistry();
-    public static SummonsRegistry getInstance() {return INSTANCE;}
+    public static SummonsRegistry instance() {return INSTANCE;}
     private SummonsRegistry() {}
 
     private final Map<UUID, SummonAttributes> summonedEntities = new HashMap<>();

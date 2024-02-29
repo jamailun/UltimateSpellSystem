@@ -12,7 +12,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class SummonPropertiesExtension {
+/**
+ *
+ */
+public final class SummonPropertiesExtension {
     private static final SummonPropertiesExtension INSTANCE = new SummonPropertiesExtension();
     public static SummonPropertiesExtension instance() {
         return INSTANCE;
@@ -23,7 +26,7 @@ public class SummonPropertiesExtension {
     private final Map<String, SummonProperty> properties = new HashMap<>();
 
     private SummonPropertiesExtension() {
-        register("health", (entity, value) -> {
+        register((entity, value) -> {
             if(entity instanceof LivingEntity livingEntity) {
                 if (value instanceof Double number) {
                     Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
@@ -31,9 +34,9 @@ public class SummonPropertiesExtension {
                     UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
                 }
             }
-        });
+        }, "health", "max_health");
 
-        register("attack_damage", (entity, value) -> {
+        register((entity, value) -> {
             if(entity instanceof LivingEntity livingEntity) {
                 if (value instanceof Double number) {
                     Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(number);
@@ -41,19 +44,24 @@ public class SummonPropertiesExtension {
                     UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
                 }
             }
-        });
+        }, "attack_damage", "attack", "damage");
 
-        register("name", (entity, value) -> {
+        register((entity, value) -> {
             if(value instanceof String string) {
                 entity.customName(KyoriAdaptor.adventure(string));
             } else {
                 UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);
             }
-        });
+        }, "name", "custom_name");
     }
 
-    public void register(String key, SummonProperty applier) {
+    public void register(SummonProperty applier, String key, String... otherKeys) {
         properties.put(key, applier);
+        if(otherKeys != null) {
+            for(String otherKey : otherKeys) {
+                properties.put(otherKey, applier);
+            }
+        }
     }
 
     public @Nullable SummonProperty getApplier(String property) {
