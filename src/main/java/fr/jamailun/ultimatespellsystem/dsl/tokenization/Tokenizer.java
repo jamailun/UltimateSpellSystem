@@ -72,7 +72,10 @@ public class Tokenizer {
         KEYWORDS.put("times", TokenType.TIMES);
         KEYWORDS.put("summon", TokenType.SUMMON);
         KEYWORDS.put("as", TokenType.AS);
+        KEYWORDS.put("at", TokenType.AT);
         KEYWORDS.put("with", TokenType.WITH);
+        KEYWORDS.put("position", TokenType.POSITION);
+        KEYWORDS.put("of", TokenType.OF);
 
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");

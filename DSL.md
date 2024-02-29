@@ -61,7 +61,7 @@ Exhaustive list will follow. Elements between square brackets `[ ]` are optional
     - `ST_TRUE` the statement to execute if the condition evaluates to true.
     - `ST_FALSE` the statement to execute otherwise.
   
-- `run after <DELAY> <ST>` : run a statement after a delay.
+- `run after <DELAY>: <ST>` : run a statement after a delay.
     - `DELAY` is a **Duration**.
     - `ST` is a **Statement** to execute after the delay.
   

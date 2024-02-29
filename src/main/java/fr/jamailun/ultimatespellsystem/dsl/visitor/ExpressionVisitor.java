@@ -1,6 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
@@ -10,6 +12,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOpera
  */
 public interface ExpressionVisitor {
 
+    // Literals
     void handleNullLiteral(NullExpression literal);
     void handleBooleanLiteral(BooleanExpression literal);
     void handleNumberLiteral(NumberExpression literal);
@@ -19,14 +22,18 @@ public interface ExpressionVisitor {
     void handleDurationLiteral(DurationExpression literal);
     void handleEffectLiteral(EffectTypeExpression literal);
 
+    // Operators-ish
     void handleBiOperator(BiOperator operator);
     void handleMonoOperator(MonoOperator operator);
     void handleParenthesis(ParenthesisExpression parenthesis);
 
+    // Specifics
     void handlePropertiesSet(PropertiesExpression expression);
-    void handleAllAround(AllEntitiesAround expression);
     void handleArrayConcat(ArrayConcatExpression expression);
     void handleVariable(VariableExpression expression);
 
+    // Functions
+    void handleAllAround(AllEntitiesAroundExpression expression);
+    void handlePositionOf(PositionOfExpression expression);
 
 }

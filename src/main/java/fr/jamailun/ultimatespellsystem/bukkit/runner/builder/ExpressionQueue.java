@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
@@ -36,12 +38,18 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleAllAround(AllEntitiesAround expression) {
+    public void handleAllAround(AllEntitiesAroundExpression expression) {
         RuntimeExpression distance = evaluate(expression.getDistance());
         RuntimeExpression scope = evaluate(expression.getEntityType());
         RuntimeExpression source = evaluate(expression.getSource());
         boolean including = expression.isIncluding();
         add(new AllAroundNode(distance, scope, source, including));
+    }
+
+    @Override
+    public void handlePositionOf(PositionOfExpression expression) {
+        RuntimeExpression entity = evaluate(expression.getEntity());
+        add(new PositionOfNode(entity, expression.getExpressionType().isCollection()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
@@ -10,14 +10,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
-public class AllEntitiesAround extends ExpressionNode {
+public class AllEntitiesAroundExpression extends ExpressionNode {
 
     private final ExpressionNode entityType;
     private final ExpressionNode source;
     private final ExpressionNode distance;
     private final boolean including;
 
-    protected AllEntitiesAround(TokenPosition pos, ExpressionNode entityType, boolean including, ExpressionNode source, ExpressionNode distance) {
+    protected AllEntitiesAroundExpression(TokenPosition pos, ExpressionNode entityType, boolean including, ExpressionNode source, ExpressionNode distance) {
         super(pos);
         this.entityType = entityType;
         this.including = including;
@@ -53,7 +53,7 @@ public class AllEntitiesAround extends ExpressionNode {
     }
 
     @PreviousIndicator(expected = {TokenType.ALL}) // all (ENTITY_TYPE) within (DISTANCE) around (SOURCE) [[including]]
-    public static AllEntitiesAround parseAllExpression(TokenStream tokens) {
+    public static AllEntitiesAroundExpression parseAllExpression(TokenStream tokens) {
         TokenPosition pos = tokens.position();
 
         // Entity type
@@ -68,7 +68,7 @@ public class AllEntitiesAround extends ExpressionNode {
         ExpressionNode source = ExpressionNode.readNextExpression(tokens);
         boolean including = tokens.dropOptional(TokenType.INCLUDING);
 
-        return new AllEntitiesAround(pos, scope, including, source, distance);
+        return new AllEntitiesAroundExpression(pos, scope, including, source, distance);
     }
 
     public ExpressionNode getEntityType() {

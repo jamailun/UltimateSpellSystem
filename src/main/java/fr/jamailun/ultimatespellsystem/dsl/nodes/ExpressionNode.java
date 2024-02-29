@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
@@ -90,8 +92,10 @@ public abstract class ExpressionNode extends Node {
             case PROPERTY_OPEN -> PropertiesExpression.parseProperties(tokens);
             case SQUARE_BRACKET_OPEN -> ArrayConcatExpression.parseNextArrayConcat(tokens);
             case BRACKET_OPEN -> ParenthesisExpression.parseParenthesis(tokens);
-            // all entities around
-            case ALL -> AllEntitiesAround.parseAllExpression(tokens);
+
+            // 'function'-expressions
+            case ALL -> AllEntitiesAroundExpression.parseAllExpression(tokens);
+            case POSITION -> PositionOfExpression.parsePositionOf(tokens);
 
             // Other
             default -> throw new SyntaxException(token, "Unexpected expression-start.");

@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class SummonNode extends RuntimeStatement {
 
-    private final RuntimeExpression type;
-    private final RuntimeExpression duration;
+    private final RuntimeExpression type, source, duration;
     private final RuntimeExpression optProperty;
     private final String optVariableName;
 
-    public SummonNode(RuntimeExpression type, RuntimeExpression duration, RuntimeExpression optProperty, String optVariableName) {
+    public SummonNode(RuntimeExpression type, RuntimeExpression source, RuntimeExpression duration, RuntimeExpression optProperty, String optVariableName) {
         this.type = type;
+        this.source = source;
         this.duration = duration;
         this.optProperty = optProperty;
         this.optVariableName = optVariableName;
@@ -33,6 +33,16 @@ public class SummonNode extends RuntimeStatement {
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
         Entity caster = runtime.getCaster();
         Location loc = caster.getLocation();
+        if(source != null) {
+            Object sourceValue = source.evaluate(runtime);
+            if(sourceValue instanceof Location sourceLoc) {
+                loc = sourceLoc;
+            } else if(sourceValue instanceof Entity sourceEntity) {
+                loc = sourceEntity.getLocation();
+            } else {
+                throw new RuntimeException("Unknown type for location: " + sourceValue);
+            }
+        }
 
         // Summon
         Entity entity = SummonsRegistry.instance().summon(

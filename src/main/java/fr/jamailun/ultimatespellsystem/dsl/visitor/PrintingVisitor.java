@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
@@ -152,6 +154,10 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     public void handleSummon(SummonStatement statement) {
         builder.append(indent()).append("summon ");
         statement.getEntityType().visit(this);
+        statement.getSource().ifPresent(p -> {
+            builder.append(" at ");
+            p.visit(this);
+        });
         builder.append(" for ");
         statement.getDuration().visit(this);
         statement.getVarName().ifPresent(v -> builder.append(" as %").append(v));
@@ -298,7 +304,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleAllAround(AllEntitiesAround expression) {
+    public void handleAllAround(AllEntitiesAroundExpression expression) {
         builder.append("<all ");
         expression.getEntityType().visit(this);
         builder.append(" within ");
@@ -307,6 +313,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         expression.getSource().visit(this);
         String add = expression.isIncluding() ? "(including)" : "(excluding)";
         builder.append(" ").append(add).append(">");
+    }
+
+    @Override
+    public void handlePositionOf(PositionOfExpression expression) {
+        builder.append("position of (");
+        expression.getEntity().visit(this);
+        builder.append(")");
     }
 
     @Override

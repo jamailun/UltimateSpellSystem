@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.Nullable;
 

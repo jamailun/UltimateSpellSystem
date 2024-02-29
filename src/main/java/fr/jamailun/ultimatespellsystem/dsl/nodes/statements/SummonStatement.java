@@ -12,27 +12,29 @@ import java.util.Optional;
 public class SummonStatement extends StatementNode {
 
     private final ExpressionNode entityType;
-    private final Token varName; // nullable
+    private final ExpressionNode optSource; // nullable
+    private final Token optVarName; // nullable
     private final ExpressionNode duration;
-    private final ExpressionNode properties; // nullable
+    private final ExpressionNode optProperties; // nullable
 
-    public SummonStatement(ExpressionNode entityType, Token varName, ExpressionNode duration, ExpressionNode properties) {
+    public SummonStatement(ExpressionNode entityType, ExpressionNode optSource, Token varName, ExpressionNode duration, ExpressionNode properties) {
         this.entityType = entityType;
-        this.varName = varName;
+        this.optSource = optSource;
+        this.optVarName = varName;
         this.duration = duration;
-        this.properties = properties;
+        this.optProperties = properties;
     }
 
     @Override
     public void validateTypes(TypesContext context) {
         assertExpressionType(entityType, context, TypePrimitive.ENTITY_TYPE);
         assertExpressionType(duration, context, TypePrimitive.DURATION);
-        if(properties != null)
-            assertExpressionType(properties, context, TypePrimitive.PROPERTIES_SET);
+        if(optProperties != null)
+            assertExpressionType(optProperties, context, TypePrimitive.PROPERTIES_SET);
 
         // Register varName
-        if(varName != null) {
-            context.registerVariable(varName.getContentString(), varName.pos(), TypePrimitive.ENTITY_TYPE.asType());
+        if(optVarName != null) {
+            context.registerVariable(optVarName.getContentString(), optVarName.pos(), TypePrimitive.ENTITY_TYPE.asType());
         }
     }
 
@@ -41,11 +43,16 @@ public class SummonStatement extends StatementNode {
         visitor.handleSummon(this);
     }
 
-    // SUMMON (ENTITY_TYPE) [[AS (VAR_NAME)]] FOR (DURATION) [WITH : (PROPS)]
+    // SUMMON (ENTITY_TYPE) [AT (POSITION/ENTITY)] [[AS (VAR_NAME)]] FOR (DURATION) [WITH : (PROPS)]
     @PreviousIndicator(expected = {TokenType.SUMMON})
     public static SummonStatement parseSummonStatement(TokenStream tokens) {
         //IRON_GOLEM as %ig for 10 seconds with:
         ExpressionNode entityType = ExpressionNode.readNextExpression(tokens);
+
+        ExpressionNode source = null;
+        if(tokens.dropOptional(TokenType.AT)) {
+            source = ExpressionNode.readNextExpression(tokens);
+        }
 
         // AS (VARIABLE)
         Token varName = null;
@@ -62,15 +69,16 @@ public class SummonStatement extends StatementNode {
             optProperties = ExpressionNode.readNextExpression(tokens);
         }
 
-        return new SummonStatement(entityType, varName, duration, optProperties);
+        return new SummonStatement(entityType, source, varName, duration, optProperties);
     }
 
     @Override
     public String toString() {
         return "SUMMON{" + entityType
-                + (varName != null ? " AS %" + varName.getContentString() : "")
+                + (optSource != null ? " AT " + optSource : "")
+                + (optVarName != null ? " AS %" + optVarName.getContentString() : "")
                 + " FOR " + duration
-                + (properties!=null?" WITH " + properties : "")
+                + (optProperties !=null?" WITH " + optProperties : "")
                 + "}";
     }
 
@@ -79,7 +87,7 @@ public class SummonStatement extends StatementNode {
     }
 
     public Optional<String> getVarName() {
-        return varName == null ? Optional.empty() : Optional.of(varName.getContentString());
+        return optVarName == null ? Optional.empty() : Optional.of(optVarName.getContentString());
     }
 
     public ExpressionNode getDuration() {
@@ -87,6 +95,10 @@ public class SummonStatement extends StatementNode {
     }
 
     public Optional<ExpressionNode> getProperties() {
-        return Optional.ofNullable(properties);
+        return Optional.ofNullable(optProperties);
+    }
+
+    public Optional<ExpressionNode> getSource() {
+        return Optional.ofNullable(optSource);
     }
 }

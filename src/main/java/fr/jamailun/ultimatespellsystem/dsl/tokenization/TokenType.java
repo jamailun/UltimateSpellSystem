@@ -49,7 +49,8 @@ public enum TokenType {
     SEND,TO,MESSAGE,EFFECT,
     ALL, INCLUDING, AROUND, WITHIN,
     RUN, AFTER, TIMES, REPEAT, EVERY,
-    SUMMON, AS, WITH,
+    SUMMON, AT, AS, WITH,
+    POSITION, OF,
 
     OPE_AND, // 'and' + '&&'
     OPE_OR,  // 'or' + '||'

@@ -3,6 +3,11 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SpellRuntime {
 
     private final VariablesSet variables = new VariablesSet();
@@ -27,6 +32,16 @@ public class SpellRuntime {
             return null;
         Object value = expression.evaluate(this);
         return clazz.cast(value);
+    }
+
+    public <T> List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz) {
+        if(expression == null)
+            return null;
+        Object value = expression.evaluate(this);
+        if(value instanceof Collection<?> c) {
+            return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
+        }
+        return null;
     }
 
     public boolean isStopped() {

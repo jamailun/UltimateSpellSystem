@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.DefineNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
@@ -91,10 +92,11 @@ public class SpellBuilderVisitor implements StatementVisitor {
     @Override
     public void handleSummon(SummonStatement statement) {
         RuntimeExpression type = convert(statement.getEntityType());
+        RuntimeExpression source = convert(statement.getSource().orElse(null));
         RuntimeExpression duration = convert(statement.getDuration());
         RuntimeExpression properties = convert(statement.getProperties().orElse(null));
         String varName = statement.getVarName().orElse(null);
-        add(new SummonNode(type, duration, properties, varName));
+        add(new SummonNode(type, source, duration, properties, varName));
     }
 
     @Override
