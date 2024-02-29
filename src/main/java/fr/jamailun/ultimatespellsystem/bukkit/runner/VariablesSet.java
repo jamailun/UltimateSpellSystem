@@ -1,5 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +20,7 @@ public class VariablesSet {
             return;
         }
         objects.put(key, value);
+        UltimateSpellSystem.logDebug("§e[Vars] §7["+key+"] <= " + value);
     }
 
     public Optional<Class<?>> getClassOf(String key) {

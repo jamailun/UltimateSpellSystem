@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.bukkit.entity.Entity;
@@ -20,6 +21,7 @@ public class PositionOfNode extends RuntimeExpression {
             return runtime.safeEvaluateList(this.entity, Entity.class);
         } else {
             Entity entity = runtime.safeEvaluate(this.entity, Entity.class);
+            UltimateSpellSystem.logDebug("PositionOf : " + entity + (entity==null?"":entity.getType()+" at " + entity.getLocation()));
             return (entity == null) ? null : entity.getLocation();
         }
     }

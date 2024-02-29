@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsRegistry;
@@ -49,6 +50,7 @@ public class SummonNode extends RuntimeStatement {
                 new SummonAttributes(caster, loc, entityType, getProperties(runtime), duration)
         );
 
+        UltimateSpellSystem.logDebug("Summon created " + entity);
         // Set variable if set
         if(optVariableName != null) {
             runtime.variables().set(optVariableName, entity);

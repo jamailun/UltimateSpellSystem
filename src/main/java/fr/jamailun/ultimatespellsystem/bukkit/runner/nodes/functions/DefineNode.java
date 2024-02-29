@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
@@ -23,6 +24,7 @@ public class DefineNode extends RuntimeStatement {
         if(clazz == null)
             throw new RuntimeException("Cannot run a null-typed expression : " + runtime);
         Object value = runtime.safeEvaluate(expression, clazz);
+        UltimateSpellSystem.logDebug("Define %"+varName + " with == (" + value + ")");
         runtime.variables().set(varName, value);
     }
 }

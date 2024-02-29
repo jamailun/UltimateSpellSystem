@@ -69,6 +69,8 @@ public class SummonStatement extends StatementNode {
             optProperties = ExpressionNode.readNextExpression(tokens);
         }
 
+        tokens.dropOptional(TokenType.SEMI_COLON);
+
         return new SummonStatement(entityType, source, varName, duration, optProperties);
     }
 

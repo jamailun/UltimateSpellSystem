@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.KyoriAdaptor;
 import org.bukkit.entity.LivingEntity;
 
 public class SendMessageNode extends RuntimeStatement {
@@ -20,6 +21,6 @@ public class SendMessageNode extends RuntimeStatement {
         LivingEntity target = runtime.safeEvaluate(targetRef, LivingEntity.class);
         String message = runtime.safeEvaluate(messageRef, String.class);
 
-        target.sendPlainMessage(message);
+        target.sendMessage(KyoriAdaptor.adventure(message));
     }
 }

@@ -1,10 +1,9 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-
-import java.util.Vector;
 
 public enum TypePrimitive {
 
@@ -19,7 +18,7 @@ public enum TypePrimitive {
     ENTITY_TYPE(EntityType.class),
     MATERIAL(Material.class),
     EFFECT_TYPE(PotionEffect.class),
-    LOCATION(Vector.class),
+    LOCATION(Location.class),
 
     // Specials
     PROPERTIES_SET,
