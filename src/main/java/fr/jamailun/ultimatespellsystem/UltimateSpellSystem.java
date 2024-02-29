@@ -68,8 +68,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
         return instance.manager;
     }
 
-    public static void runTaskLater(Runnable runnable, long ticks) {
-        Bukkit.getScheduler().runTaskLater(instance, runnable, ticks);
+    public static BukkitRunnable runTaskLater(Runnable runnable, long ticks) {
+        BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
+        task.runTaskLater(instance, ticks);
+        return task;
     }
     public static void runTaskRepeat(Runnable runnable, int amount, long delay, long period) {
         new BukkitRunnable() {

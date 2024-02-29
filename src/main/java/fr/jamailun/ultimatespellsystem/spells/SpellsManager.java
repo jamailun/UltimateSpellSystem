@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.spells;
 
 import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.runner.SpellDefinition;
 
 import java.io.File;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.commands;
 
 import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.runner.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.spells.SpellDefinition;
 import fr.jamailun.ultimatespellsystem.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;

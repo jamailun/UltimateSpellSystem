@@ -1,16 +1,16 @@
 package fr.jamailun.ultimatespellsystem.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
-import fr.jamailun.ultimatespellsystem.extensible.SummonPropertiesExtension;
+import fr.jamailun.ultimatespellsystem.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.entities.SummonsRegistry;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.runner.SpellRuntime;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class SummonNode extends RuntimeStatement {
@@ -28,35 +28,29 @@ public class SummonNode extends RuntimeStatement {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run(SpellRuntime runtime) {
         EntityType entityType = runtime.safeEvaluate(type, EntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
+        Entity caster = runtime.getCaster();
+        Location loc = caster.getLocation();
 
         // Summon
-        Location loc = runtime.getCaster().getLocation();
-        Entity entity = loc.getWorld().spawnEntity(loc, entityType, false);
-
-        // Properties
-        if(optProperty != null && entity instanceof LivingEntity livingEntity) {
-            // Already checked by type validation !
-            Map<String, Object> map = (Map<String, Object>) optProperty.evaluate(runtime);
-            for(String key : map.keySet()) {
-                SummonPropertiesExtension.SummonProperty prop = SummonPropertiesExtension.instance().getApplier(key);
-                if(prop != null)
-                    prop.accept(livingEntity, map.get(key));
-            }
-        }
-
-        // Delete after time
-        UltimateSpellSystem.runTaskLater(
-                entity::remove,
-                duration.toTicks()
+        Entity entity = SummonsRegistry.getInstance().summon(
+                new SummonAttributes(caster, loc, entityType, getProperties(runtime), duration)
         );
 
         // Set variable if set
         if(optVariableName != null) {
             runtime.variables().set(optVariableName, entity);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getProperties(SpellRuntime runtime) {
+        if(optProperty != null) {
+            // Already checked by type validation !
+            return (Map<String, Object>) optProperty.evaluate(runtime);
+        }
+        return Collections.emptyMap();
     }
 }

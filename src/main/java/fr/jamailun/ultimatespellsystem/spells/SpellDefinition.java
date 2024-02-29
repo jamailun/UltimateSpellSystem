@@ -1,10 +1,14 @@
-package fr.jamailun.ultimatespellsystem.runner;
+package fr.jamailun.ultimatespellsystem.spells;
 
 import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import fr.jamailun.ultimatespellsystem.events.PlayerCastSpellEvent;
+import fr.jamailun.ultimatespellsystem.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.runner.builder.SpellBuilderVisitor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +52,29 @@ public class SpellDefinition {
         }
     }
 
+    /**
+     * Cast a spell, in a forceful way. An event will be emitted.
+     * @param player the play to cast the spell.
+     * @see PlayerCastSpellEvent
+     */
+    public void castNotCancellable(@NotNull Player player) {
+        Bukkit.getServer().getPluginManager().callEvent(new PlayerCastSpellEvent(player, this, false));
+        castSpell(player);
+    }
+
+    /**
+     * Cast a spell, in a cancellable way. An event will be emitted.
+     * @param player the play to cast the spell.
+     * @see PlayerCastSpellEvent
+     */
     public void cast(@NotNull Player player) {
+        PlayerCastSpellEvent event = new PlayerCastSpellEvent(player, this, true);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled())
+            castSpell(player);
+    }
+
+    private void castSpell(@NotNull Player player) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
         UltimateSpellSystem.logDebug(prefix + " Casted on " + player);

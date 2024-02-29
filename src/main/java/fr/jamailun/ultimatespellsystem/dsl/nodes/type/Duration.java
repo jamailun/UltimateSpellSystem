@@ -17,6 +17,10 @@ public record Duration(double amount, TimeUnit timeUnit) {
        return amount * factor;
     }
 
+    public long toMs() {
+        return (long) (toSeconds() * 1000);
+    }
+
     public long toTicks() {
         return (long) (toSeconds() * 20);
     }

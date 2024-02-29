@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.extensible;
 
 import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,18 +24,22 @@ public class SummonPropertiesExtension {
     @SuppressWarnings( "deprecation" )
     private SummonPropertiesExtension() {
         register("health", (entity, value) -> {
-            if(value instanceof Double number) {
-                Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
-            } else {
-                UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
+            if(entity instanceof LivingEntity livingEntity) {
+                if (value instanceof Double number) {
+                    Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
+                } else {
+                    UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
+                }
             }
         });
 
         register("attack_damage", (entity, value) -> {
-            if(value instanceof Double number) {
-                Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(number);
-            } else {
-                UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
+            if(entity instanceof LivingEntity livingEntity) {
+                if (value instanceof Double number) {
+                    Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(number);
+                } else {
+                    UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
+                }
             }
         });
 
@@ -56,6 +61,6 @@ public class SummonPropertiesExtension {
         return properties.get(property);
     }
 
-    public interface SummonProperty extends BiConsumer<LivingEntity, Object> {}
+    public interface SummonProperty extends BiConsumer<Entity, Object> {}
 
 }
