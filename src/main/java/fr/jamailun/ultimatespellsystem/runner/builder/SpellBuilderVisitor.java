@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.runner.builder;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
@@ -11,9 +10,11 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.BlockNodes;
+import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.IfElseNode;
 import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.RunLaterNode;
 import fr.jamailun.ultimatespellsystem.runner.nodes.blocks.RunRepeatNode;
 import fr.jamailun.ultimatespellsystem.runner.nodes.functions.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -114,10 +115,8 @@ public class SpellBuilderVisitor implements StatementVisitor {
     public void handleIf(IfStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());
-        //TODO handleIf
-    }
-    public void handleElse(ElseStatement statement) {
-        //TODO handleElse
+        RuntimeStatement childFalse = convertOneStatement(statement.getElse().orElse(null));
+        add(new IfElseNode(condition, childTrue, childFalse));
     }
 
     private RuntimeExpression convert(ExpressionNode expression) {
@@ -131,7 +130,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         currentQueue.add(rs);
     }
 
-    private RuntimeStatement convertOneStatement(StatementNode dsl) {
+    private RuntimeStatement convertOneStatement(@Nullable StatementNode dsl) {
         if(dsl == null)
             return null;
         pushQueue();

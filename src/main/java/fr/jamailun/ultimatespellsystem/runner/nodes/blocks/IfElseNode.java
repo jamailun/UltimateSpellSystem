@@ -7,12 +7,12 @@ import fr.jamailun.ultimatespellsystem.runner.SpellRuntime;
 public class IfElseNode extends RuntimeStatement {
 
     private final RuntimeExpression condition;
-    private final RuntimeStatement childTrue, childElse;
+    private final RuntimeStatement childTrue, childFalse;
 
-    public IfElseNode(RuntimeExpression condition, RuntimeStatement childTrue, RuntimeStatement childElse) {
+    public IfElseNode(RuntimeExpression condition, RuntimeStatement childTrue, RuntimeStatement childFalse) {
         this.condition = condition;
         this.childTrue = childTrue;
-        this.childElse = childElse;
+        this.childFalse = childFalse;
     }
 
     @Override
@@ -21,6 +21,6 @@ public class IfElseNode extends RuntimeStatement {
         if(condition != null && condition)
             childTrue.run(runtime);
         else
-            childElse.run(runtime);
+            childFalse.run(runtime);
     }
 }
