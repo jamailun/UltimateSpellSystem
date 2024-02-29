@@ -1,10 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 
 import java.io.File;
 import java.util.ArrayList;

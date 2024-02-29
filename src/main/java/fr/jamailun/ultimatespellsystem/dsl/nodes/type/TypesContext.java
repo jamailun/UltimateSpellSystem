@@ -30,6 +30,10 @@ public class TypesContext {
 
     }
 
+    public TypesContext() {
+        registerAbsolute("caster", TypePrimitive.ENTITY.asType());
+    }
+
     private final Map<String, VariableDefinition> variables = new HashMap<>();
 
     public void registerAbsolute(String varName, Type type) {

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -11,15 +11,14 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 import java.util.Optional;
 
-public class RepeatStatement extends StatementNode {
+public class RepeatStatement extends BlockHolder {
 
-    private final StatementNode statement;
     private final ExpressionNode delay; // optional
     private final ExpressionNode count;
     private final ExpressionNode period;
 
-    public RepeatStatement(StatementNode statement, ExpressionNode delay, ExpressionNode count, ExpressionNode period) {
-        this.statement = statement;
+    public RepeatStatement(StatementNode child, ExpressionNode delay, ExpressionNode count, ExpressionNode period) {
+        super(child);
         this.delay = delay;
         this.count = count;
         this.period = period;
@@ -31,10 +30,6 @@ public class RepeatStatement extends StatementNode {
             assertExpressionType(delay, context, TypePrimitive.DURATION);
         assertExpressionType(count, context, TypePrimitive.NUMBER);
         assertExpressionType(period, context, TypePrimitive.DURATION);
-    }
-
-    public StatementNode getStatement() {
-        return statement;
     }
 
     public ExpressionNode getPeriod() {
@@ -73,6 +68,6 @@ public class RepeatStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return "RUN{"+(delay==null?"":" AFTER " + period)+" " + count + " times every " + period + "}: " + statement;
+        return "RUN{"+(delay==null?"":" AFTER " + period)+" " + count + " times every " + period + "}: " + child;
     }
 }

@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.runner;
 import fr.jamailun.ultimatespellsystem.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
 import fr.jamailun.ultimatespellsystem.runner.builder.SpellBuilderVisitor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,7 @@ public class SpellDefinition {
     public static @Nullable SpellDefinition loadFile(String name, File file) {
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
+            DslValidator.validateDsl(dsl);
             List<RuntimeStatement> steps = SpellBuilderVisitor.build(dsl);
             return new SpellDefinition(name, steps);
         } catch(Exception e) {

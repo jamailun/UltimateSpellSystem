@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -9,23 +9,18 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
-public class RunLaterStatement extends StatementNode {
+public class RunLaterStatement extends BlockHolder {
 
-    private final StatementNode statement;
     private final ExpressionNode duration;
 
-    public RunLaterStatement(StatementNode statement, ExpressionNode duration) {
-        this.statement = statement;
+    public RunLaterStatement(StatementNode child, ExpressionNode duration) {
+        super(child);
         this.duration = duration;
     }
 
     @Override
     public void validateTypes(TypesContext context) {
         assertExpressionType(duration, context, TypePrimitive.DURATION);
-    }
-
-    public StatementNode getStatement() {
-        return statement;
     }
 
     public ExpressionNode getDuration() {
@@ -50,6 +45,6 @@ public class RunLaterStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return "RUN{AFTER " + duration + "}: " + statement;
+        return "RUN{AFTER " + duration + "}: " + child;
     }
 }

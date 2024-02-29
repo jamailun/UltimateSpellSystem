@@ -6,21 +6,21 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 
 import java.util.List;
 
-public class SyntaxException extends RuntimeException {
+public class SyntaxException extends UssException {
 
     public SyntaxException(TokenPosition position, String message) {
-        super("SyntaxException at " + position + " : " + message);
+        super(position, message);
     }
 
     public SyntaxException(Token token, String message) {
-        super("SyntaxException with "+token+" at " + token.pos() + " : " + message);
+        super(token, message);
     }
 
     public SyntaxException(Token token, TokenType expected) {
-        super("SyntaxException with "+token+" at " + token.pos() + " : Expected a " + expected + ".");
+        super(token, "Expected a " + expected + ".");
     }
     public SyntaxException(Token token, List<TokenType> expected) {
-        super("SyntaxException with "+token+" at " + token.pos() + " : Expected " + expected + ".");
+        super(token, "Expected one of: " + expected + ".");
     }
 
 }

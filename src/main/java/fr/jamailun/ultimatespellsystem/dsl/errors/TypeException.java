@@ -7,31 +7,18 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 
-public class TypeException extends RuntimeException {
+public class TypeException extends UssException {
 
     public TypeException(ExpressionNode expression, TypePrimitive expected) {
-        super("Expression " + expression + " at " + expression.firstTokenPosition() + " has type " + expression.getExpressionType() + ", expected " + expected);
+        super(expression.firstTokenPosition(), "Expression " + expression + " has type " + expression.getExpressionType() + ", expected " + expected);
     }
-
-    public TypeException(ExpressionNode expression, TypePrimitive expected, boolean collection) {
-        this(expression, new Type(expected, collection));
-    }
-
-    public TypeException(ExpressionNode expression, Type expected) {
-        super("Expression " + expression + " at " + expression.firstTokenPosition() + " has type " + expression.getExpressionType() + ", expected " + expected);
-    }
-
-    public TypeException(VariableExpression variable, Type got) {
-        super("Variable " + variable.getVariableName() + " at " + variable.firstTokenPosition() + " has type " + got + " instead of " + variable.getExpressionType());
-    }
-
 
     public TypeException(ExpressionNode expression, String message) {
-        super("Expression " + expression + " at " + expression.firstTokenPosition() + ": has type " + expression.getExpressionType() + ", " + message);
+        super(expression.firstTokenPosition(), "Expression " + expression + " of type " + expression.getExpressionType() + " : " + message);
     }
 
-    public TypeException(String message) {
-        super(message);
+    public TypeException(TokenPosition pos, String message) {
+        super(pos, message);
     }
 
 }

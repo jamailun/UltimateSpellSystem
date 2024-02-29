@@ -7,8 +7,10 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.ElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ElseStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
 import java.text.DecimalFormat;
@@ -128,7 +130,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append(indent()).append("run after ");
         statement.getDuration().visit(this);
         builder.append(" : ");
-        statement.getStatement().visit(this);
+        statement.getChild().visit(this);
     }
 
     @Override
@@ -143,7 +145,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append(" every ");
         statement.getPeriod().visit(this);
         builder.append(" : ");
-        statement.getStatement().visit(this);
+        statement.getChild().visit(this);
     }
 
     @Override
@@ -180,9 +182,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         statement.getChild().visit(this);
         left();
         builder.append("\n");
-    }
 
-    @Override
+        if(statement.getElse().isPresent()) {
+            handleElse(statement.getElse().get());
+        }
+    }
     public void handleElse(ElseStatement statement) {
         builder.append(indent()).append("ELSE:");
         right();

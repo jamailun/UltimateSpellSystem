@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -9,14 +9,17 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
-public class IfStatement extends StatementNode {
+import java.util.Optional;
+
+public class IfStatement extends BlockHolder {
 
     private final ExpressionNode condition;
-    private final StatementNode child;
+    private final ElseStatement optElse;
 
-    public IfStatement(ExpressionNode condition, StatementNode child) {
+    public IfStatement(ExpressionNode condition, StatementNode child, ElseStatement elseStatement) {
+        super(child);
         this.condition = condition;
-        this.child = child;
+        this.optElse = elseStatement;
     }
 
     @Override
@@ -24,12 +27,12 @@ public class IfStatement extends StatementNode {
         assertExpressionType(condition, context, TypePrimitive.BOOLEAN);
     }
 
-    public StatementNode getChild() {
-        return child;
-    }
-
     public ExpressionNode getCondition() {
         return condition;
+    }
+
+    public Optional<ElseStatement> getElse() {
+        return Optional.ofNullable(optElse);
     }
 
     @Override
@@ -47,12 +50,18 @@ public class IfStatement extends StatementNode {
         // Content
         StatementNode child = StatementNode.parseNextStatement(tokens);
 
+        ElseStatement elseStatement = null;
+        if(tokens.dropOptional(TokenType.ELSE)) {
+            elseStatement = ElseStatement.parseElseStatement(tokens);
+        }
+
         // Return
-        return new IfStatement(condition, child);
+        return new IfStatement(condition, child, elseStatement);
     }
 
     @Override
     public String toString() {
-        return "IF(" + condition +") : " + child;
+        return "IF(" + condition +") : " + child
+                + (optElse==null ? "" : "\n " + optElse);
     }
 }

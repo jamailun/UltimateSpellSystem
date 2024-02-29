@@ -3,8 +3,10 @@ package fr.jamailun.ultimatespellsystem.runner.builder;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.ElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ElseStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.runner.RuntimeStatement;
@@ -72,14 +74,14 @@ public class SpellBuilderVisitor implements StatementVisitor {
     @Override
     public void handleRunLater(RunLaterStatement statement) {
         RuntimeExpression duration = convert(statement.getDuration());
-        RuntimeStatement child = convertOneStatement(statement.getStatement());
+        RuntimeStatement child = convertOneStatement(statement.getChild());
         add(new RunLaterNode(duration, child));
     }
 
     @Override
     public void handleRepeatRun(RepeatStatement statement) {
         RuntimeExpression period = convert(statement.getPeriod());
-        RuntimeStatement child = convertOneStatement(statement.getStatement());
+        RuntimeStatement child = convertOneStatement(statement.getChild());
         RuntimeExpression delay = convert(statement.getDelay().orElse(null));
         RuntimeExpression count = convert(statement.getCount());
         add(new RunRepeatNode(period, child, delay, count));
@@ -110,10 +112,10 @@ public class SpellBuilderVisitor implements StatementVisitor {
 
     @Override
     public void handleIf(IfStatement statement) {
+        RuntimeExpression condition = convert(statement.getCondition());
+        RuntimeStatement childTrue = convertOneStatement(statement.getChild());
         //TODO handleIf
     }
-
-    @Override
     public void handleElse(ElseStatement statement) {
         //TODO handleElse
     }

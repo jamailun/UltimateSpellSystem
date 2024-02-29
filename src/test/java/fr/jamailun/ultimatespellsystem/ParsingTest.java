@@ -1,60 +1,84 @@
 package fr.jamailun.ultimatespellsystem;
 
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
+import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
-public class ParsingTest {
+abstract class ParsingTest {
 
-    @Test
-    void testParsingValid() {
-        File resourcesDirectory = new File("src/test/resources");
-        File validSpells = new File(resourcesDirectory, "parsing/corrects");
-        Assertions.assertTrue(validSpells.exists() && validSpells.isDirectory());
+    protected final File PARSINGS_FILE = new File("src/test/resources/parsing");
 
-        File[] children = validSpells.listFiles();
+    protected List<File> listTests(String subFolder) {
+        File directory = new File(PARSINGS_FILE, subFolder);
+        Assertions.assertTrue(directory.exists() && directory.isDirectory());
+
+        File[] children = directory.listFiles();
         if(children == null) {
-            System.err.println("Pas de tests !");
-            return;
+            return Collections.emptyList();
         }
+        return List.of(children);
+    }
 
-        boolean failed = false;
-        for(File file : children) {
-            System.out.println("\n\n ================[ " + file.getName() + "]================\n");
-            try {
-                // Tokenize
-                TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));
-                System.out.println(tokens + "\n");
+    protected String toString(Exception e) {
+        return e.getClass().getSimpleName() + " : " + e.getMessage();
+    }
 
-                // Parse
-                List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+    protected int countOk = 0;
+    protected final Map<File, String> failures = new HashMap<>();
 
-                System.out.println(" ----------------------- ");
+    protected void addOk() {
+        countOk++;
+    }
+    protected void addFails(File test, String error) {
+        failures.put(test, error);
+    }
 
-                // validate
-                TypesContext context = new TypesContext();
-                context.registerAbsolute("caster", TypePrimitive.ENTITY.asType());
-                for(StatementNode node : nodes) {
-                    node.validateTypes(context);
-                    System.out.println("> " + node);
-                }
+    protected void parseAndVerify(File file) throws UssException {
+        System.out.println("\n\n ================[ " + file.getName() + "]================\n");
+        // Tokenize
+        TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));
+        System.out.println(tokens + "\n");
 
-            } catch(Exception e) {
-                e.printStackTrace();
-                failed = true;
-            }
+        // Parse
+        List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+
+        System.out.println(" ----------------------- ");
+
+        // validate
+        TypesContext context = new TypesContext();
+        for (StatementNode node : nodes) {
+            node.validateTypes(context);
+            System.out.println("> " + node);
         }
+    }
 
-        Assertions.assertFalse(failed, "One or more tests failed.");
+    public static final String RESET = "\033[0m";  // Text Reset
+    public static final String RED_BOLD = "\033[1;31m";    // RED
+    public static final String RED = "\033[0;31m";     // RED
+    public static final String GREEN_BOLD = "\033[1;32m";  // GREEN
+    public static final String WHITE_BOLD = "\033[1;37m";  // WHITE
+
+    protected void printResults() {
+        String color = failures.isEmpty() ? GREEN_BOLD : RED_BOLD;
+        System.out.println("\n" + WHITE_BOLD + "==================== [" + color + " RESULTS " + WHITE_BOLD + "] ====================" + RESET + "\n");
+        System.out.println(color + "Success : " + countOk + RESET);
+        System.out.println(color + "Failures : " + failures.size() + RESET);
+        if(!failures.isEmpty()) {
+            System.out.println();
+            failures.forEach((k, v) -> System.out.println(RED_BOLD + " - " + k.getName() + " > " + RED + v));
+        }
+        System.out.println("\n" + WHITE_BOLD + "=====================================================" + RESET + "\n");
+
+        Assertions.assertTrue(failures.isEmpty());
     }
 
 }

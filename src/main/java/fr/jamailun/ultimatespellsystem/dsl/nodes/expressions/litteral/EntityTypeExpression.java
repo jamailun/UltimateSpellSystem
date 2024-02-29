@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 
-import fr.jamailun.ultimatespellsystem.dsl.errors.SpellException;
+import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
@@ -8,7 +8,6 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class EntityTypeExpression extends LiteralExpression<EntityType> {
 
@@ -69,14 +68,14 @@ public class EntityTypeExpression extends LiteralExpression<EntityType> {
             EntityType.LIGHTNING
     );
 
-    public static EntityType fromString(String value) {
+    public static EntityType fromString(TokenPosition pos, String value) {
         try {
             EntityType type = EntityType.valueOf(value);
             if(ALLOWED_ENTITY_TYPES.contains(type))
                 return type;
-            throw new SpellException("Unauthorized EntityType: " + value);
-        } catch (Exception ignored) {
-            return null;
+            throw new SyntaxException(pos, "Unauthorized EntityType: '" + value + "'");
+        } catch (IllegalArgumentException e) {
+            throw new SyntaxException(pos, "Unknown EntityType: '" + value + "'");
         }
     }
 

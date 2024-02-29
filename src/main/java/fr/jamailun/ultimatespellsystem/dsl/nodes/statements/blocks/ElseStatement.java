@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.flow;
+package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
@@ -7,12 +7,10 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
-public class ElseStatement extends StatementNode {
-
-    private final StatementNode child;
+public class ElseStatement extends BlockHolder {
 
     public ElseStatement(StatementNode child) {
-        this.child = child;
+        super(child);
     }
 
     @Override
@@ -20,13 +18,9 @@ public class ElseStatement extends StatementNode {
         // nothing
     }
 
-    public StatementNode getChild() {
-        return child;
-    }
-
     @Override
     public void visit(StatementVisitor visitor) {
-        visitor.handleElse(this);
+        // NOP !!
     }
 
     @PreviousIndicator(expected = TokenType.ELSE)

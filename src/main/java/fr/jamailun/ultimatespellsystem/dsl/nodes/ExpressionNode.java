@@ -18,6 +18,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
+/**
+ * An "expression" is an element of the AST that can have, by itself, a type.
+ */
 public abstract class ExpressionNode extends Node {
 
     private final TokenPosition position;
@@ -45,9 +48,7 @@ public abstract class ExpressionNode extends Node {
     private static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom, MathParsingQueue mathStack, boolean logicFirst) {
         ExpressionNode raw = readNextExpressionBuffer(tokens, allowCustom);
         ExpressionNode withMath = tryConvertMathOperations(raw, tokens, mathStack);
-        ExpressionNode withLogic = tryConvertLogicalExpression(withMath, tokens, logicFirst);
-        System.out.println("[PRODUCED] " + withLogic + " -- " + tokens);
-        return withLogic;
+        return tryConvertLogicalExpression(withMath, tokens, logicFirst);
     }
 
     private static ExpressionNode readNextExpressionBuffer(TokenStream tokens, boolean allowCustom) {
@@ -72,7 +73,7 @@ public abstract class ExpressionNode extends Node {
                     yield new EffectTypeExpression(token.pos(), effect);
 
                 // EntityType ?
-                EntityType entityType = EntityTypeExpression.fromString(value);
+                EntityType entityType = EntityTypeExpression.fromString(token.pos(), value);
                 if(entityType != null)
                     yield new EntityTypeExpression(token.pos(), entityType);
 
