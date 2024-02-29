@@ -25,4 +25,9 @@ public class PositionOfNode extends RuntimeExpression {
             return (entity == null) ? null : entity.getLocation();
         }
     }
+
+    @Override
+    public String toString() {
+        return "position(" + entity + ")";
+    }
 }

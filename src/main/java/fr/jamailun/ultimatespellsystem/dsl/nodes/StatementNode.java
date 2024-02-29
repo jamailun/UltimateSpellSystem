@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
@@ -31,7 +31,7 @@ public abstract class StatementNode extends Node {
             case SUMMON -> SummonStatement.parseSummonStatement(tokens);
 
             // Control-Flow
-            case IF -> IfStatement.parseIfStatement(tokens);
+            case IF -> IfElseStatement.parseIfStatement(tokens);
             case ELSE -> throw new SyntaxException(token, "An ELSE must follow an IF (or the IF's child statement).");
 
             default -> throw new SyntaxException(token, "Unexpected token to begin a statement.");

@@ -6,6 +6,8 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 
+import java.util.StringJoiner;
+
 public class DefineNode extends RuntimeStatement {
 
     private final String varName;
@@ -26,5 +28,10 @@ public class DefineNode extends RuntimeStatement {
         Object value = runtime.safeEvaluate(expression, clazz);
         UltimateSpellSystem.logDebug("Define %"+varName + " with == (" + value + ")");
         runtime.variables().set(varName, value);
+    }
+
+    @Override
+    public String toString() {
+        return "DEFINE %" + varName + " = " + expression;
     }
 }

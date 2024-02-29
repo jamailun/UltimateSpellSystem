@@ -32,8 +32,8 @@ public class LogicalOperator extends BiOperator {
             throw new TypeException(this, "A " + type + " cannot handle collections.");
         }
 
-        // Only allow same type
-        if(leftType.primitive() != rightType.primitive()) {
+        // Only allow same type (but still allow NULL :) )
+        if(leftType.primitive() != rightType.primitive() && leftType.primitive() != TypePrimitive.NULL) {
             throw new TypeException(firstTokenPosition(), "Logical operator "+this+" has unequal types : "+leftType+ " and "+rightType+".");
         }
 

@@ -20,7 +20,12 @@ public class IfElseNode extends RuntimeStatement {
         Boolean condition = runtime.safeEvaluate(this.condition, Boolean.class);
         if(condition != null && condition)
             childTrue.run(runtime);
-        else
+        else if(childFalse != null)
             childFalse.run(runtime);
+    }
+
+    @Override
+    public String toString() {
+        return "IF("+condition+"): " + childTrue + (childFalse == null ? "" : " ELSE: " + childFalse);
     }
 }

@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.DefineNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
@@ -114,7 +114,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleIf(IfStatement statement) {
+    public void handleIf(IfElseStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());
         RuntimeStatement childFalse = convertOneStatement(statement.getElse().orElse(null));

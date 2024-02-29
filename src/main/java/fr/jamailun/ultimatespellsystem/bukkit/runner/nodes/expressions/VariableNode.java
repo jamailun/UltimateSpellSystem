@@ -16,4 +16,9 @@ public class VariableNode extends RuntimeExpression {
     public Object evaluate(SpellRuntime runtime) {
         return runtime.variables().get(variableName);
     }
+
+    @Override
+    public String toString() {
+        return "%" + variableName;
+    }
 }

@@ -17,6 +17,16 @@ public record Duration(double amount, TimeUnit timeUnit) {
        return amount * factor;
     }
 
+    public Duration add(Duration other) {
+        if(other.timeUnit == timeUnit)
+            return new Duration(amount + other.amount, timeUnit);
+        return new Duration(toSeconds() + other.toSeconds(), TimeUnit.SECONDS);
+    }
+
+    public Duration sub(Duration other) {
+        return new Duration(Math.max(0, toSeconds() - other.toSeconds()), TimeUnit.SECONDS);
+    }
+
     public long toMs() {
         return (long) (toSeconds() * 1000);
     }

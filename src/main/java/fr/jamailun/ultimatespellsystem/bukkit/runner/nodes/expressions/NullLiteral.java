@@ -9,4 +9,9 @@ public class NullLiteral extends RuntimeExpression {
     public Void evaluate(SpellRuntime runtime) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "null";
+    }
 }

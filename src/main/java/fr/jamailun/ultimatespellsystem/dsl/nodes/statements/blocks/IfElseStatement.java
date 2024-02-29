@@ -11,12 +11,12 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
 import java.util.Optional;
 
-public class IfStatement extends BlockHolder {
+public class IfElseStatement extends BlockHolder {
 
     private final ExpressionNode condition;
-    private final ElseStatement optElse;
+    private final StatementNode optElse;
 
-    public IfStatement(ExpressionNode condition, StatementNode child, ElseStatement elseStatement) {
+    public IfElseStatement(ExpressionNode condition, StatementNode child, StatementNode elseStatement) {
         super(child);
         this.condition = condition;
         this.optElse = elseStatement;
@@ -31,7 +31,7 @@ public class IfStatement extends BlockHolder {
         return condition;
     }
 
-    public Optional<ElseStatement> getElse() {
+    public Optional<StatementNode> getElse() {
         return Optional.ofNullable(optElse);
     }
 
@@ -41,7 +41,7 @@ public class IfStatement extends BlockHolder {
     }
 
     @PreviousIndicator(expected = TokenType.IF)
-    public static IfStatement parseIfStatement(TokenStream tokens) {
+    public static IfElseStatement parseIfStatement(TokenStream tokens) {
         // Condition
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);
         ExpressionNode condition = ExpressionNode.readNextExpression(tokens);
@@ -50,13 +50,13 @@ public class IfStatement extends BlockHolder {
         // Content
         StatementNode child = StatementNode.parseNextStatement(tokens);
 
-        ElseStatement elseStatement = null;
+        StatementNode elseStatement = null;
         if(tokens.dropOptional(TokenType.ELSE)) {
-            elseStatement = ElseStatement.parseElseStatement(tokens);
+            elseStatement = StatementNode.parseNextStatement(tokens);
         }
 
         // Return
-        return new IfStatement(condition, child, elseStatement);
+        return new IfElseStatement(condition, child, elseStatement);
     }
 
     @Override

@@ -23,4 +23,9 @@ public class SendMessageNode extends RuntimeStatement {
 
         target.sendMessage(KyoriAdaptor.adventure(message));
     }
+
+    @Override
+    public String toString() {
+        return "SEND TO " + targetRef + " MESSAGE " + messageRef;
+    }
 }

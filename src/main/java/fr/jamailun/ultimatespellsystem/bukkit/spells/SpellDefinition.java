@@ -33,6 +33,12 @@ public class SpellDefinition {
                 .replace(" ", "-")
                 .toLowerCase()
                 .replaceFirst("[.][^.]+$", "");
+
+        if(name.startsWith(".")) {
+            UltimateSpellSystem.logInfo("Skip " + file.getName());
+            return null;
+        }
+
         UltimateSpellSystem.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
         return loadFile(name, file);
     }

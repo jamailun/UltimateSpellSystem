@@ -9,8 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -180,7 +179,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleIf(IfStatement statement) {
+    public void handleIf(IfElseStatement statement) {
         builder.append(indent()).append("IF(");
         statement.getCondition().visit(this);
         builder.append("):");
@@ -189,16 +188,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         left();
         builder.append("\n");
 
-        if(statement.getElse().isPresent()) {
-            handleElse(statement.getElse().get());
-        }
-    }
-    public void handleElse(ElseStatement statement) {
-        builder.append(indent()).append("ELSE:");
-        right();
-        statement.getChild().visit(this);
-        left();
-        builder.append("\n");
+        statement.getElse().ifPresent(e -> {
+            builder.append(indent()).append("ELSE:");
+            right();
+            e.visit(this);
+            left();
+            builder.append("\n");
+        });
     }
 
     @Override

@@ -8,4 +8,9 @@ public class StopNode extends RuntimeStatement {
     public void run(SpellRuntime runtime) {
         runtime.stop();
     }
+
+    @Override
+    public String toString() {
+        return "STOP";
+    }
 }

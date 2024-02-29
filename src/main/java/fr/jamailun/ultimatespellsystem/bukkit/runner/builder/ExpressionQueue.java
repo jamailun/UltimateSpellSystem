@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
@@ -105,7 +106,22 @@ public class ExpressionQueue implements ExpressionVisitor {
 
     @Override
     public void handleBiOperator(BiOperator operator) {
-        //TODO handleBiOperator
+        RuntimeExpression left = evaluate(operator.getLeft());
+        RuntimeExpression right = evaluate(operator.getRight());
+        add(switch (operator.getType()) {
+            case ADD -> new RunAddOpe(left, right);
+            case SUB -> new RunSubOpe(left, right);
+            case MUL -> new RunMulDivOpe(left, right, true);
+            case DIV -> new RunMulDivOpe(left, right, false);
+            case EQUAL -> new RunEqualsOrNotOpe(left, right, true);
+            case NOT_EQUAL -> new RunEqualsOrNotOpe(left, right, false);
+            case GREATER_OR_EQ -> new RunCompOpe(left, right, true, true);
+            case GREATER -> new RunCompOpe(left, right, false, true);
+            case LESSER_OR_EQ -> new RunCompOpe(left, right, true, false);
+            case LESSER -> new RunCompOpe(left, right, false, false);
+            case AND ->  new RunAndOrOpe(left, right, true);
+            case OR -> new RunAndOrOpe(left, right, false);
+        });
     }
 
     @Override
@@ -115,7 +131,7 @@ public class ExpressionQueue implements ExpressionVisitor {
 
     @Override
     public void handleParenthesis(ParenthesisExpression parenthesis) {
-        //TODO handleParenthesis
+        parenthesis.getExpression().visit(this);
     }
 
     private void add(RuntimeExpression expression) {

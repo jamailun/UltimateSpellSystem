@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class BlockNodes extends RuntimeStatement {
 
@@ -16,5 +17,12 @@ public class BlockNodes extends RuntimeStatement {
     @Override
     public void run(SpellRuntime runtime) {
         children.forEach(c -> c.run(runtime));
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner(";\n", "{", "}");
+        children.forEach(c -> sj.add(c.toString()));
+        return sj.toString();
     }
 }

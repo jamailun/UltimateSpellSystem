@@ -4,6 +4,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.LiteralExp
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 
+import java.util.Objects;
+
 public class RawLiteral<T> extends RuntimeExpression {
 
     private final T raw;
@@ -15,5 +17,10 @@ public class RawLiteral<T> extends RuntimeExpression {
     @Override
     public T evaluate(SpellRuntime runtime) {
         return raw;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toString(raw);
     }
 }

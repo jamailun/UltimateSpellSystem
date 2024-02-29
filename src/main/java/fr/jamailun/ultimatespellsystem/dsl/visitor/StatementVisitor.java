@@ -1,8 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 
@@ -20,6 +19,6 @@ public interface StatementVisitor {
     void handleSummon(SummonStatement statement);
     void handleBlock(BlockStatement statement);
 
-    void handleIf(IfStatement statement);
+    void handleIf(IfElseStatement statement);
 
 }
