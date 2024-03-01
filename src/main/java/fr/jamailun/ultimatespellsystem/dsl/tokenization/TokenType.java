@@ -52,6 +52,8 @@ public enum TokenType {
     SUMMON, AT, AS, WITH,
     POSITION, OF,
 
+    INCREMENT, DECREMENT,
+
     OPE_AND, // 'and' + '&&'
     OPE_OR,  // 'or' + '||'
 

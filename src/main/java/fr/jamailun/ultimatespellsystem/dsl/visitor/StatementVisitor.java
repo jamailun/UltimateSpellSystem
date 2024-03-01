@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
@@ -18,7 +19,9 @@ public interface StatementVisitor {
     void handleRepeatRun(RepeatStatement statement);
     void handleSummon(SummonStatement statement);
     void handleBlock(BlockStatement statement);
+    void handleIncrement(IncrementStatement statement);
 
     void handleIf(IfElseStatement statement);
+    void handleForLoop(ForLoopStatement statement);
 
 }

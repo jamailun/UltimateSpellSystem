@@ -18,6 +18,11 @@ public class SpellRuntime {
         this.caster = caster;
         variables.set("caster", caster);
     }
+    private SpellRuntime(@NotNull Player caster, VariablesSet variables, boolean stopped) {
+        this.caster = caster;
+        this.variables.copy(variables);
+        this.stopped = stopped;
+    }
 
     public Player getCaster() {
         return caster;
@@ -51,5 +56,10 @@ public class SpellRuntime {
     public void stop() {
         stopped = true;
     }
+
+    public SpellRuntime makeChild() {
+        return new SpellRuntime(caster, variables, stopped);
+    }
+
 
 }

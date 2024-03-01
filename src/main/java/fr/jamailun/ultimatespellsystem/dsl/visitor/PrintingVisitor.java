@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
@@ -179,6 +180,12 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleIncrement(IncrementStatement statement) {
+        builder.append(statement.isPositive() ? "++" : "--")
+                .append("%").append(statement.getVarName());
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         builder.append(indent()).append("IF(");
         statement.getCondition().visit(this);
@@ -195,6 +202,17 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             left();
             builder.append("\n");
         });
+    }
+
+    @Override
+    public void handleForLoop(ForLoopStatement statement) {
+        builder.append("FOR(");
+        statement.getInitialization().visit(this);
+        statement.getCondition().visit(this);
+        builder.append(";");
+        statement.getInitialization().visit(this);
+        builder.append("):");
+        statement.getChild().visit(this);
     }
 
     @Override

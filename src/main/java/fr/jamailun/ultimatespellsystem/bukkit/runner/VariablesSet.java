@@ -14,6 +14,10 @@ public class VariablesSet {
         return objects.get(key);
     }
 
+    public void copy(VariablesSet parent) {
+        objects.putAll(parent.objects);
+    }
+
     public void set(String key, Object value) {
         if(value == null) {
             objects.remove(key);

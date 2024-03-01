@@ -1,0 +1,27 @@
+package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
+
+import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+
+public class IncrementNode extends RuntimeStatement {
+
+    private final String varName;
+    private final boolean increments;
+
+    public IncrementNode(String varName, boolean increments) {
+        this.varName = varName;
+        this.increments = increments;
+    }
+
+    @Override
+    public void run(SpellRuntime runtime) {
+        Object value = runtime.variables().get(varName);
+        if(value instanceof Double d) {
+            double v = d + (increments ? 1 : -1);
+            runtime.variables().set(varName, v);
+            return;
+        }
+        throw new RuntimeException("Invalid type for variable " + varName + " : " + value);
+    }
+
+}

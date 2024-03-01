@@ -1,19 +1,18 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.DefineNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.IncrementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.BlockNodes;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.IfElseNode;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.RunLaterNode;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.RunRepeatNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -114,11 +113,27 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
+    public void handleIncrement(IncrementStatement statement) {
+        String varName = statement.getVarName();
+        boolean increments = statement.isPositive();
+        add(new IncrementNode(varName, increments));
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());
         RuntimeStatement childFalse = convertOneStatement(statement.getElse().orElse(null));
         add(new IfElseNode(condition, childTrue, childFalse));
+    }
+
+    @Override
+    public void handleForLoop(ForLoopStatement statement) {
+        RuntimeStatement init = convertOneStatement(statement.getInitialization());
+        RuntimeExpression condition = convert(statement.getCondition());
+        RuntimeStatement iteration = convertOneStatement(statement.getIteration());
+        RuntimeStatement child = convertOneStatement(statement.getChild());
+        add(new ForLoopNode(init, condition, iteration, child));
     }
 
     private RuntimeExpression convert(ExpressionNode expression) {

@@ -76,6 +76,8 @@ public class Tokenizer {
         KEYWORDS.put("with", TokenType.WITH);
         KEYWORDS.put("position", TokenType.POSITION);
         KEYWORDS.put("of", TokenType.OF);
+        KEYWORDS.put("increment", TokenType.INCREMENT);
+        KEYWORDS.put("decrement", TokenType.DECREMENT);
 
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");
