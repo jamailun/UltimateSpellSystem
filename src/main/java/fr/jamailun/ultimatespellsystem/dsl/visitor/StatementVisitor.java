@@ -20,6 +20,7 @@ public interface StatementVisitor {
     void handleSummon(SummonStatement statement);
     void handleBlock(BlockStatement statement);
     void handleIncrement(IncrementStatement statement);
+    void handleTeleport(TeleportStatement statement);
 
     void handleIf(IfElseStatement statement);
     void handleForLoop(ForLoopStatement statement);

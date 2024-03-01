@@ -51,6 +51,7 @@ public enum TokenType {
     RUN, AFTER, TIMES, REPEAT, EVERY,
     SUMMON, AT, AS, WITH,
     POSITION, OF,
+    TELEPORT,
 
     INCREMENT, DECREMENT,
 

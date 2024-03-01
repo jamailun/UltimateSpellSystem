@@ -186,6 +186,14 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleTeleport(TeleportStatement statement) {
+        builder.append("teleport ");
+        statement.getEntity().visit(this);
+        builder.append(" to ");
+        statement.getTarget().visit(this);
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         builder.append(indent()).append("IF(");
         statement.getCondition().visit(this);

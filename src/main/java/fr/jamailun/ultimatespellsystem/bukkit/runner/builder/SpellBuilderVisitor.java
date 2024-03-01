@@ -120,6 +120,13 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
+    public void handleTeleport(TeleportStatement statement) {
+        RuntimeExpression entity = convert(statement.getEntity());
+        RuntimeExpression target = convert(statement.getTarget());
+        add(new TeleportNode(entity, target));
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());

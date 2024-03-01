@@ -33,7 +33,7 @@ public class ForLoopStatement extends StatementNode {
 
     @Override
     public void visit(StatementVisitor visitor) {
-
+        visitor.handleForLoop(this);
     }
 
     @PreviousIndicator(expected = TokenType.FOR)

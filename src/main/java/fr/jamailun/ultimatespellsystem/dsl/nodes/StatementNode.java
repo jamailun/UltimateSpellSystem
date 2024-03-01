@@ -34,6 +34,7 @@ public abstract class StatementNode extends Node {
             case DEFINE -> DefineStatement.parseNextDefine(tokens);
             case STOP -> StopStatement.parseStop(tokens);
             case SUMMON -> SummonStatement.parseSummonStatement(tokens);
+            case TELEPORT -> TeleportStatement.parseTeleport(tokens);
 
             // Control-Flow
             case IF -> IfElseStatement.parseIfStatement(tokens);
