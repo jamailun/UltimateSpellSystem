@@ -41,7 +41,6 @@ public class TeleportStatement extends StatementNode {
 
     @PreviousIndicator(expected = TokenType.TELEPORT)
     public static TeleportStatement parseTeleport(TokenStream tokens) {
-        Token var = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
         ExpressionNode entity = ExpressionNode.readNextExpression(tokens);
         tokens.dropOrThrow(TokenType.TO);
         ExpressionNode target = ExpressionNode.readNextExpression(tokens);

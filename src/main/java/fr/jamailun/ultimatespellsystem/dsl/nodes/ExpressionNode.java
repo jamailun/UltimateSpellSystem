@@ -81,7 +81,7 @@ public abstract class ExpressionNode extends Node {
                     tokens.dropOrThrow(TokenType.DOT);
                     Token real = tokens.nextOrThrow(TokenType.IDENTIFIER);
                     String v = real.getContentString();
-                    if(EntityTypeRegistry.isAllowed(value)) {
+                    if(EntityTypeRegistry.isAllowed(v)) {
                         yield new EntityTypeExpression(token.pos(), v);
                     } else {
                         throw new SyntaxException(token, "Unknown EntityType '" + v + "'.");
