@@ -5,7 +5,9 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.KyoriAdaptor;
-import org.bukkit.entity.LivingEntity;
+import net.kyori.adventure.text.Component;
+
+import java.util.List;
 
 public class SendMessageNode extends RuntimeStatement {
 
@@ -19,10 +21,16 @@ public class SendMessageNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        SpellEntity target = runtime.safeEvaluate(targetRef, SpellEntity.class);
-        String message = runtime.safeEvaluate(messageRef, String.class);
+        List<SpellEntity> targets = runtime.safeEvaluateAcceptsList(targetRef, SpellEntity.class);
 
-        target.sendMessage(KyoriAdaptor.adventure(message));
+        List<Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
+                .stream()
+                .map(KyoriAdaptor::adventure)
+                .toList();
+
+        for(SpellEntity target : targets) {
+            messages.forEach(target::sendMessage);
+        }
     }
 
     @Override

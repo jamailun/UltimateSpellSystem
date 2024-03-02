@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -27,10 +28,10 @@ public class SendEffectStatement extends SendStatement {
     public void validateTypes(TypesContext context) {
         super.validateTypes(context);
 
-        assertExpressionType(effectType, context, TypePrimitive.EFFECT_TYPE);
-        assertExpressionType(effectDuration, context, TypePrimitive.DURATION);
+        assertExpressionType(effectType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.EFFECT_TYPE);
+        assertExpressionType(effectDuration, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         if(effectPower != null)
-            assertExpressionType(effectPower, context, TypePrimitive.NUMBER);
+            assertExpressionType(effectPower, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
     }
 
     public ExpressionNode getEffectType() {

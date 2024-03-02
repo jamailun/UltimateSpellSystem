@@ -11,6 +11,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class SendEffectNode extends RuntimeStatement {
 
     private final RuntimeExpression targetRef;
@@ -27,7 +29,8 @@ public class SendEffectNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        SpellEntity target = runtime.safeEvaluate(targetRef, SpellEntity.class);
+        List<SpellEntity> targets = runtime.safeEvaluateAcceptsList(targetRef, SpellEntity.class);
+
         PotionEffect effect = runtime.safeEvaluate(effectRef, PotionEffect.class);
         Duration duration = runtime.safeEvaluate(durationRef, Duration.class);
         int durationTicks = (int) duration.toTicks();
@@ -39,8 +42,9 @@ public class SendEffectNode extends RuntimeStatement {
                 UltimateSpellSystem.logWarning("Invalid power value to effect " + effect);
             }
         }
-        PotionEffectType bukkitEffect = convertEffect(effect);
-        target.addPotionEffect(new org.bukkit.potion.PotionEffect(bukkitEffect, durationTicks, power - 1));
+        org.bukkit.potion.PotionEffect potionEffect = new org.bukkit.potion.PotionEffect(convertEffect(effect), durationTicks, power - 1);
+
+        targets.forEach(e -> e.addPotionEffect(potionEffect));
     }
 
     private PotionEffectType convertEffect(PotionEffect effect) {
