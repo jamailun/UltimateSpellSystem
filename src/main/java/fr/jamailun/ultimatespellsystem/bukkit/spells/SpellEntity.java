@@ -21,6 +21,8 @@ public interface SpellEntity {
 
     @NotNull Location getLocation();
 
+    @NotNull Location getEyeLocation();
+
     void teleport(@NotNull Location location);
 
     void sendMessage(Component component);

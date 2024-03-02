@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.bukkit.Location;
@@ -44,7 +45,7 @@ public class AllAroundNode extends RuntimeExpression {
         if(scope instanceof EntityType entityType) {
             scopePredicate = (entity -> entity.getType() == entityType);
         } else if(scope instanceof String s) {
-            System.err.println("Unknown scope: '" + s + "'.");
+            UltimateSpellSystem.logError("Unknown scope: '" + s + "'.");
             scopePredicate = (e -> true);
         } else {
             throw new RuntimeException("Invalid scope type : " + scope);

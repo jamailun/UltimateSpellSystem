@@ -82,7 +82,6 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         currentIndent -= indentDelta;
         if(currentIndent < 0) {
             currentIndent = 0;
-            System.err.println("Bad indent !");
         }
         dirty = true;
     }

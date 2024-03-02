@@ -34,6 +34,13 @@ public class BukkitSpellEntity implements SpellEntity{
     }
 
     @Override
+    public @NotNull Location getEyeLocation() {
+        if(entity instanceof LivingEntity living)
+            return living.getEyeLocation();
+        return entity.getLocation();
+    }
+
+    @Override
     public void teleport(@NotNull Location location) {
         entity.teleport(location);
     }

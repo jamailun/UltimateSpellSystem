@@ -61,6 +61,11 @@ public abstract class CustomEntity implements SpellEntity {
     }
 
     @Override
+    public @NotNull Location getEyeLocation() {
+        return location;
+    }
+
+    @Override
     public void teleport(@NotNull Location location) {
         this.location.set(location.x(), location.y(), location.z());
         this.location.setPitch(location.getPitch());

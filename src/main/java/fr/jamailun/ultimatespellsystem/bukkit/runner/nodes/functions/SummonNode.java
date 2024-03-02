@@ -38,8 +38,13 @@ public class SummonNode extends RuntimeStatement {
             Object sourceValue = source.evaluate(runtime);
             if(sourceValue instanceof Location sourceLoc) {
                 loc = sourceLoc;
-            } else if(sourceValue instanceof Entity sourceEntity) {
-                loc = sourceEntity.getLocation();
+            } else if(sourceValue instanceof SpellEntity sourceEntity) {
+                UltimateSpellSystem.logDebug("§aPREFERS EYES ? " + entityType.doesPreferEyesLocation());
+                if(entityType.doesPreferEyesLocation()) {
+                    loc = sourceEntity.getEyeLocation();
+                } else {
+                    loc = sourceEntity.getLocation();
+                }
             } else {
                 throw new RuntimeException("Unknown type for location: " + sourceValue);
             }
