@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,17 @@ public class SpellRuntime {
             return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
         }
         return null;
+    }
+
+    public <T> List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz) {
+        if(expression == null)
+            return Collections.emptyList();
+        Object value = expression.evaluate(this);
+        if(value instanceof Collection<?> c) {
+            return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
+        }
+        T singleton = clazz.cast(value);
+        return Collections.singletonList(singleton);
     }
 
     public boolean isStopped() {

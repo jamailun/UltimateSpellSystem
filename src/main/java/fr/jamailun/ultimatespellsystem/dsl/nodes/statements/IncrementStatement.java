@@ -13,7 +13,7 @@ public class IncrementStatement extends StatementNode {
     private final String varName;
     private final boolean isPositive;
 
-    public IncrementStatement( String varName, boolean isPositive) {
+    public IncrementStatement(String varName, boolean isPositive) {
         this.isPositive = isPositive;
         this.varName = varName;
     }

@@ -4,9 +4,12 @@ import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+/**
+ * Enumeration of a possible types.
+ */
 public enum TypePrimitive {
 
-    // Primitives
+    // Real Primitives
     STRING(String.class),
     NUMBER(Double.class),
     BOOLEAN(Boolean.class),

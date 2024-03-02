@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -26,7 +27,7 @@ public class ForLoopStatement extends StatementNode {
     public void validateTypes(TypesContext context) {
         TypesContext childContext = context.childContext();
         initialization.validateTypes(childContext);
-        assertExpressionType(nodeCondition, childContext, TypePrimitive.BOOLEAN);
+        assertExpressionType(nodeCondition, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.BOOLEAN);
         iteration.validateTypes(childContext);
         child.validateTypes(childContext);
     }

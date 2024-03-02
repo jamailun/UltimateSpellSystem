@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
@@ -27,10 +28,10 @@ public class SummonStatement extends StatementNode {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(entityType, context, TypePrimitive.ENTITY_TYPE);
-        assertExpressionType(duration, context, TypePrimitive.DURATION);
+        assertExpressionType(entityType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY_TYPE);
+        assertExpressionType(duration,  CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         if(optProperties != null)
-            assertExpressionType(optProperties, context, TypePrimitive.PROPERTIES_SET);
+            assertExpressionType(optProperties, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.PROPERTIES_SET);
 
         // Register varName
         if(optVarName != null) {

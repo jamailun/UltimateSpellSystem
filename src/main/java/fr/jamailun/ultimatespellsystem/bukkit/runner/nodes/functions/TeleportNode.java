@@ -5,7 +5,8 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+
+import java.util.List;
 
 public class TeleportNode extends RuntimeStatement {
 
@@ -19,16 +20,19 @@ public class TeleportNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        SpellEntity entity = runtime.safeEvaluate(this.entity, SpellEntity.class);
+        List<SpellEntity> entities = runtime.safeEvaluateAcceptsList(this.entity, SpellEntity.class);
         Object target = this.target.evaluate(runtime);
 
-        if(target instanceof Location location) {
-            entity.teleport(location);
+        Location location;
+        if(target instanceof Location loc) {
+            location = loc;
         } else if(target instanceof SpellEntity ent) {
-            entity.teleport(ent.getLocation());
+            location = ent.getLocation();
         } else {
             throw new RuntimeException("Invalid type for target " + target);
         }
+
+        entities.forEach(e -> e.teleport(location));
     }
 
     @Override

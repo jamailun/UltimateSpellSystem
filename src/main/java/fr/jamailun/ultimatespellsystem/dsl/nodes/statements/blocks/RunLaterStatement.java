@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -20,7 +21,7 @@ public class RunLaterStatement extends BlockHolder {
 
     @Override
     public void validateTypes(TypesContext context) {
-        assertExpressionType(duration, context, TypePrimitive.DURATION);
+        assertExpressionType(duration, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
     }
 
     public ExpressionNode getDuration() {

@@ -10,10 +10,22 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 
+/**
+ * A statement is an instruction.
+ */
 public abstract class StatementNode extends Node {
 
+    /**
+     * Make this statement be visited.
+     * @param visitor the visitor to use.
+     */
     public abstract void visit(StatementVisitor visitor);
 
+    /**
+     * Read a new statement from the tokens stream.
+     * @param tokens the stream of tokens.
+     * @return a non-null statement.
+     */
     public static StatementNode parseNextStatement(TokenStream tokens) {
         Token token = tokens.next();
         return switch (token.getType()) {
@@ -44,6 +56,5 @@ public abstract class StatementNode extends Node {
             default -> throw new SyntaxException(token, "Unexpected token to begin a statement.");
         };
     }
-
 
 }

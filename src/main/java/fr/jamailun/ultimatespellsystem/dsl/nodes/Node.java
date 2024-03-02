@@ -23,6 +23,7 @@ public abstract class Node {
     /**
      * Assert an expression to be of a specific type.
      * @param expression the expression to check.
+     * @param filter the filter for collection.
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
@@ -41,6 +42,7 @@ public abstract class Node {
     /**
      * Validate the type of expression, and then it to be of a specific type.
      * @param expression the expression to check.
+     * @param filter the filter for collection.
      * @param context the current context.
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
@@ -50,6 +52,13 @@ public abstract class Node {
         assertExpressionType(expression, filter, type, otherTypes);
     }
 
+    /**
+     * Validate the type of expression, and then it to be of a specific type.
+     * @param expression the expression to check.
+     * @param context the current context.
+     * @param type the expected type.
+     * @param otherTypes a variadic for other allowed types.
+     */
     protected void assertExpressionType(ExpressionNode expression, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
         assertExpressionType(expression, CollectionFilter.ANY, context, type, otherTypes);
     }

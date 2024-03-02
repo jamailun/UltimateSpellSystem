@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -27,9 +28,9 @@ public class RepeatStatement extends BlockHolder {
     @Override
     public void validateTypes(TypesContext context) {
         if(delay != null)
-            assertExpressionType(delay, context, TypePrimitive.DURATION);
-        assertExpressionType(count, context, TypePrimitive.NUMBER);
-        assertExpressionType(period, context, TypePrimitive.DURATION);
+            assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
+        assertExpressionType(count, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
+        assertExpressionType(period, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
     }
 
     public ExpressionNode getPeriod() {

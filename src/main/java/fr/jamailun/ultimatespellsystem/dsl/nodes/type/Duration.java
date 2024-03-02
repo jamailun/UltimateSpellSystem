@@ -2,8 +2,17 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Represents a duration.
+ * @param amount the quantity of time unit.
+ * @param timeUnit the unit to use.
+ */
 public record Duration(double amount, TimeUnit timeUnit) {
 
+    /**
+     * Convert the duration to a raw seconds-count.
+     * @return an amount of seconds.
+     */
     public double toSeconds() {
         double factor = switch (timeUnit) {
             case NANOSECONDS -> 1E-9;
@@ -17,24 +26,46 @@ public record Duration(double amount, TimeUnit timeUnit) {
        return amount * factor;
     }
 
+    /**
+     * Adds this duration with another one.
+     * @param other the other duration.
+     * @return a new instance of duration.
+     */
     public Duration add(Duration other) {
         if(other.timeUnit == timeUnit)
             return new Duration(amount + other.amount, timeUnit);
         return new Duration(toSeconds() + other.toSeconds(), TimeUnit.SECONDS);
     }
 
+    /**
+     * Subtracts this duration with another one.
+     * @param other the other duration.
+     * @return a new instance of duration.
+     */
     public Duration sub(Duration other) {
         return new Duration(Math.max(0, toSeconds() - other.toSeconds()), TimeUnit.SECONDS);
     }
 
+    /**
+     * Convert the duration to a raw milliseconds-count.
+     * @return an amount of milliseconds.
+     */
     public long toMs() {
         return (long) (toSeconds() * 1000);
     }
 
+    /**
+     * Convert the duration to a raw ticks-count.
+     * @return an amount of ticks.
+     */
     public long toTicks() {
         return (long) (toSeconds() * 20);
     }
 
+    /**
+     * For debug purposes, get the unit as a nice string.
+     * @return a non-null string.
+     */
     public String niceUnit() {
         String s = amount > 1 ? "s" : "";
         return switch (timeUnit) {
