@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.lang.reflect.Constructor;
@@ -47,5 +48,12 @@ public class UssEntityType {
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Cannot generate custom for " + custom, e);
         }
+    }
+
+    public boolean isOf(Entity entity) {
+        if(isBukkit()) {
+            return getBukkit() == entity.getType();
+        }
+        return false;
     }
 }

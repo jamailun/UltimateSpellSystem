@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 
@@ -25,12 +26,16 @@ public abstract class Node {
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
-    protected void assertExpressionType(ExpressionNode expression, TypePrimitive type, TypePrimitive... otherTypes) {
+    protected void assertExpressionType(ExpressionNode expression, CollectionFilter filter, TypePrimitive type, TypePrimitive... otherTypes) {
         List<TypePrimitive> allowed = new ArrayList<>(List.of(otherTypes));
         allowed.add(type);
 
         if(!allowed.contains(expression.getExpressionType().primitive()))
             throw new TypeException(expression, type);
+
+        if(!filter.isValid(expression.getExpressionType())) {
+            throw new TypeException(expression, "Type is correct, but expected a "+filter+".");
+        }
     }
 
     /**
@@ -40,9 +45,13 @@ public abstract class Node {
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
-    protected void assertExpressionType(ExpressionNode expression, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
+    protected void assertExpressionType(ExpressionNode expression, CollectionFilter filter, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
         expression.validateTypes(context);
-        assertExpressionType(expression, type, otherTypes);
+        assertExpressionType(expression, filter, type, otherTypes);
+    }
+
+    protected void assertExpressionType(ExpressionNode expression, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
+        assertExpressionType(expression, CollectionFilter.ANY, context, type, otherTypes);
     }
 
 }

@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
@@ -44,7 +45,7 @@ public class ArrayConcatExpression extends ExpressionNode {
             if(typePrimitive == null) {
                 typePrimitive = node.getExpressionType().primitive();
             } else {
-                assertExpressionType(node, typePrimitive);
+                assertExpressionType(node, CollectionFilter.MONO_ELEMENT, typePrimitive);
             }
         }
     }

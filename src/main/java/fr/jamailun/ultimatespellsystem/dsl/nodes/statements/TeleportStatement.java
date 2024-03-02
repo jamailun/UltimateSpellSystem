@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -31,7 +32,7 @@ public class TeleportStatement extends StatementNode {
     @Override
     public void validateTypes(TypesContext context) {
         assertExpressionType(entity, context, TypePrimitive.ENTITY);
-        assertExpressionType(target, context, TypePrimitive.ENTITY, TypePrimitive.LOCATION);
+        assertExpressionType(target, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY, TypePrimitive.LOCATION);
     }
 
     @Override

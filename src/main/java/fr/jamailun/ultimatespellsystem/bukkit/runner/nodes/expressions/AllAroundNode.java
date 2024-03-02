@@ -1,11 +1,12 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class AllAroundNode extends RuntimeExpression {
         // Source
         Object source = this.source.evaluate(runtime);
         Location location;
-        if(source instanceof Entity entity) {
+        if(source instanceof SpellEntity entity) {
             location = entity.getLocation();
         } else if(source instanceof Location loc) {
             location = loc;
@@ -42,8 +43,8 @@ public class AllAroundNode extends RuntimeExpression {
         // Scope
         Object scope = this.scope.evaluate(runtime);
         Predicate<Entity> scopePredicate;
-        if(scope instanceof EntityType entityType) {
-            scopePredicate = (entity -> entity.getType() == entityType);
+        if(scope instanceof UssEntityType entityType) {
+            scopePredicate = (entityType::isOf);
         } else if(scope instanceof String s) {
             UltimateSpellSystem.logError("Unknown scope: '" + s + "'.");
             scopePredicate = (e -> true);
