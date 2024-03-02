@@ -22,10 +22,12 @@ public abstract class CustomEntity implements SpellEntity {
 
     protected Vector velocity = new Vector();
     private boolean valid = true;
+    private final boolean debug;
 
     public CustomEntity(SummonAttributes attributes) {
         this.attributes = attributes;
         this.location = attributes.getLocation().clone();
+        debug = attributes.tryGetAttribute("debug", Boolean.class, false);
 
         int ticksPeriod = 5;
         runnable = UltimateSpellSystem.runTaskRepeat(() -> tick(ticksPeriod), 0, ticksPeriod);
@@ -35,6 +37,7 @@ public abstract class CustomEntity implements SpellEntity {
     public final void tick(int ticksPeriod) {
         if(!isValid())
             return;
+        if(debug) UltimateSpellSystem.logDebug(uuid + " - " + location);
 
         // Movement
         this.location.add(velocity.clone().multiply( (double)ticksPeriod/20d));

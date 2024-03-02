@@ -24,7 +24,7 @@ public class TeleportNode extends RuntimeStatement {
 
         if(target instanceof Location location) {
             entity.teleport(location);
-        } else if(target instanceof Entity ent) {
+        } else if(target instanceof SpellEntity ent) {
             entity.teleport(ent.getLocation());
         } else {
             throw new RuntimeException("Invalid type for target " + target);
