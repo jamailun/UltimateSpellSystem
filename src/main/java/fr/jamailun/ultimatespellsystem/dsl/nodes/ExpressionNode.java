@@ -9,12 +9,12 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperato
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
-import org.bukkit.entity.EntityType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -75,9 +75,18 @@ public abstract class ExpressionNode extends Node {
                     yield new EffectTypeExpression(token.pos(), effect);
 
                 // EntityType ?
-                EntityType entityType = EntityTypeExpression.fromString(token.pos(), value);
-                if(entityType != null)
-                    yield new EntityTypeExpression(token.pos(), entityType);
+                if(EntityTypeRegistry.isAllowed(value)) {
+                    yield new EntityTypeExpression(token.pos(), value);
+                } else if("EntityType".equals(value)) {
+                    tokens.dropOrThrow(TokenType.DOT);
+                    Token real = tokens.nextOrThrow(TokenType.IDENTIFIER);
+                    String v = real.getContentString();
+                    if(EntityTypeRegistry.isAllowed(value)) {
+                        yield new EntityTypeExpression(token.pos(), v);
+                    } else {
+                        throw new SyntaxException(token, "Unknown EntityType '" + v + "'.");
+                    }
+                }
 
                 // Custom value : checked at runtime !
                 if(allowCustom) {

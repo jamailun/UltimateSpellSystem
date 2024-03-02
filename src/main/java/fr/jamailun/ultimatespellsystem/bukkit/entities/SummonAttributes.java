@@ -5,9 +5,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.SummonPropertiesExtension;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Map;
@@ -17,18 +16,18 @@ import java.util.function.Consumer;
 /**
  * This is a container-class, for all useful elements about a summoned entity.
  */
-public class SummonAttributes {
+public class SummonAttributes implements NewEntityAttributes {
 
     private final Entity summoner;
     private final Map<String, Object> attributes;
     private final Location summonLocation;
-    private final EntityType summonEntityType;
+    private final UssEntityType summonEntityType;
     private final Duration summonDuration;
     private Entity entity;
     private Instant summonInstant;
     private BukkitRunnable deathTimer;
 
-    public SummonAttributes(Entity summoner, Location location, EntityType type, Map<String, Object> attributes, Duration duration) {
+    public SummonAttributes(Entity summoner, Location location, UssEntityType type, Map<String, Object> attributes, Duration duration) {
         this.summoner = summoner;
         this.summonLocation = location;
         this.summonEntityType = type;
@@ -49,7 +48,13 @@ public class SummonAttributes {
             throw new IllegalStateException("Cannot summon an already summoned summon.");
 
         // Summon the entity
-        entity = summonLocation.getWorld().spawnEntity(summonLocation, summonEntityType, false);
+        if(summonEntityType.isBukkit()) {
+            entity = summonLocation.getWorld().spawnEntity(summonLocation, summonEntityType.getBukkit(), false);
+        } else {
+            CustomEntity custom = summonEntityType.generateCustom(this);
+            entity = custom.getEntity();
+        }
+
         summonInstant = Instant.now();
 
         // Apply properties
@@ -78,7 +83,7 @@ public class SummonAttributes {
         return entity.getUniqueId();
     }
 
-    public Entity getSummoner() {
+    public @NotNull Entity getSummoner() {
         return summoner;
     }
 
@@ -98,23 +103,22 @@ public class SummonAttributes {
         return deathTimer;
     }
 
-    public Map<String, Object> getAttributes() {
+    public @NotNull Map<String, Object> getAttributes() {
         return Map.copyOf(attributes);
     }
 
-    public @Nullable Object getAttribute(String key) {
-        return attributes.get(key);
-    }
-
-    public Location getSummonLocation() {
+    @Override
+    public @NotNull Location getLocation() {
         return summonLocation;
     }
 
-    public EntityType getSummonEntityType() {
+    @Override
+    public @NotNull UssEntityType getEntityType() {
         return summonEntityType;
     }
 
-    public Duration getSummonDuration() {
+    @Override
+    public @NotNull Duration getDuration() {
         return summonDuration;
     }
 }

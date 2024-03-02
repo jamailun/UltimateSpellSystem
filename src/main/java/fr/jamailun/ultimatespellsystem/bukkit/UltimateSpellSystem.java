@@ -1,6 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit;
 
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.OrbArea;
+import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,6 +25,11 @@ public final class UltimateSpellSystem extends JavaPlugin {
     private boolean configDebug;
 
     public static final String PREFIX = "§b§lUSS§d | §f";
+
+    // Register provider
+    static {
+        EntityTypeProvider.register("orb", OrbArea.class);
+    }
 
     @Override
     public void onEnable() {

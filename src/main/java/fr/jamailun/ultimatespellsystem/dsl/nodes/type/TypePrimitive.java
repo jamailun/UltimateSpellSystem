@@ -15,7 +15,7 @@ public enum TypePrimitive {
     // In-game
     DURATION(Duration.class),
     ENTITY(LivingEntity.class),
-    ENTITY_TYPE(EntityType.class),
+    ENTITY_TYPE(String.class),
     MATERIAL(Material.class),
     EFFECT_TYPE(PotionEffect.class),
     LOCATION(Location.class),

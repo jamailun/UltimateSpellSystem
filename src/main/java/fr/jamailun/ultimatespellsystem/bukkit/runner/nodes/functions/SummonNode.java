@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsRegistry;
@@ -30,7 +31,7 @@ public class SummonNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        EntityType entityType = runtime.safeEvaluate(type, EntityType.class);
+        UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
         Entity caster = runtime.getCaster();
         Location loc = caster.getLocation();

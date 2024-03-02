@@ -24,7 +24,7 @@ public class VariablesSet {
             return;
         }
         objects.put(key, value);
-        UltimateSpellSystem.logDebug("§e[Vars] §7["+key+"] <= " + value);
+        UltimateSpellSystem.logDebug("§e[Vars] §7["+key+"] <-- " + value);
     }
 
     public Optional<Class<?>> getClassOf(String key) {

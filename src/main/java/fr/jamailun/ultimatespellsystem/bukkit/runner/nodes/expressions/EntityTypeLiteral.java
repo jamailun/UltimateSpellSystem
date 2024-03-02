@@ -1,0 +1,29 @@
+package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
+
+import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
+import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.EntityTypeExpression;
+
+/**
+ * Literal for {@link UssEntityType}
+ */
+public class EntityTypeLiteral extends RuntimeExpression {
+
+    private final String name;
+
+    public EntityTypeLiteral(EntityTypeExpression dsl) {
+        this.name = dsl.getRaw();
+    }
+
+    @Override
+    public UssEntityType evaluate(SpellRuntime runtime) {
+        return EntityTypeProvider.find(name);
+    }
+
+    @Override
+    public String toString() {
+        return "EntityType." + name;
+    }
+}

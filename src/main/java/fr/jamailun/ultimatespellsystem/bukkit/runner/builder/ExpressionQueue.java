@@ -86,7 +86,7 @@ public class ExpressionQueue implements ExpressionVisitor {
 
     @Override
     public void handleEntityTypeLiteral(EntityTypeExpression literal) {
-        add(new RawLiteral<>(literal));
+        add(new EntityTypeLiteral(literal));
     }
 
     @Override
