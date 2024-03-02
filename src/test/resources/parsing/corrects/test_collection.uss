@@ -1,0 +1,3 @@
+define %msgs = ["a", "b", "c"];
+
+send to %caster message %msgs;

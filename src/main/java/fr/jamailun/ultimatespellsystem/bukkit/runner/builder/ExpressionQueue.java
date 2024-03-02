@@ -11,7 +11,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOpera
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.*;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.*;
 
@@ -55,8 +54,11 @@ public class ExpressionQueue implements ExpressionVisitor {
 
     @Override
     public void handleArrayConcat(ArrayConcatExpression expression) {
-        //TODO !
-        throw new NotImplementedException("Not yet implemented: #handleArrayConcat");
+        List<RuntimeExpression> elements = expression.getElements()
+                .stream()
+                .map(this::evaluate)
+                .toList();
+        add(new ArrayNode(elements));
     }
 
     @Override
