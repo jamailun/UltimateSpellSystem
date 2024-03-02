@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,12 +15,21 @@ public final class RunAddOpe extends RuntimeBiOperators {
         super(left, right);
     }
 
+    private final static DecimalFormat numberFormat = new DecimalFormat("#.##");
+
+    private static String toStringObject(Object object) {
+        if(object instanceof Double d) {
+            return numberFormat.format(d);
+        }
+        return Objects.toString(object);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     protected Object evaluate(Object left, Object right) {
         // Anyone of them is a String
         if(left instanceof String || right instanceof String) {
-            return Objects.toString(left) + right;
+            return toStringObject(left) + toStringObject(right);
         }
 
         // If one of them is null, return the other one
