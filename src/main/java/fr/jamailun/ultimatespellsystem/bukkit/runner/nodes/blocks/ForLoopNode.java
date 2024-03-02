@@ -46,16 +46,19 @@ public class ForLoopNode extends RuntimeStatement {
 
         void applyIteration() {
             iterationCount++;
-            iteration.run(runtime);
             child.run(runtime);
+            iteration.run(runtime);
         }
 
         boolean conditionValid() {
             Object eval = condition.evaluate(runtime);
             if(eval instanceof Boolean bool) {
-                return iterationCount < MAX_ITERATIONS && bool;
+                if(iterationCount < MAX_ITERATIONS)
+                    return bool;
+                UltimateSpellSystem.logWarning("ForLoop : forcefully existed after " + iterationCount + " iterations.");
+                return false;
             }
-            UltimateSpellSystem.logWarning("ForLoop : forcefully existed after " + iterationCount + " iterations.");
+            UltimateSpellSystem.logWarning("ForLoop : unexpected type " + eval);
             return false;
         }
 
