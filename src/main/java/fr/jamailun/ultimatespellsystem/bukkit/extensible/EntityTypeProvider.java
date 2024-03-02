@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.extensible;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.CustomEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.Orb;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
 import org.bukkit.entity.EntityType;
@@ -14,10 +15,13 @@ public final class EntityTypeProvider {
     private final static Map<String, UssEntityType> REGISTERED_TYPES = new HashMap<>();
 
     static {
+        // Bukkit
         for(EntityType type : EntityTypeRegistry.DEFAULT_TYPES) {
             String name = EntityTypeRegistry.prepare(type.name());
             REGISTERED_TYPES.put(name, new UssEntityType(type));
         }
+        // Custom
+        register("orb", Orb.class);
     }
 
     public static void register(EntityType bukkitType) {
@@ -39,4 +43,5 @@ public final class EntityTypeProvider {
         return type;
     }
 
+    public static void loadDefaults() {/* load class and run static blocks ! */}
 }

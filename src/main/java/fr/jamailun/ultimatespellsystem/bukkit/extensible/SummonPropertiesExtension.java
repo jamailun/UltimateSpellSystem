@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.extensible;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.KyoriAdaptor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 /**
@@ -25,37 +27,45 @@ public final class SummonPropertiesExtension {
 
     private final Map<String, SummonProperty> properties = new HashMap<>();
 
+    private SummonProperty createAttributeSetter(Attribute attribute) {
+        return createForLivingEntity((entity, value) -> {
+            if (value instanceof Double number) {
+                Objects.requireNonNull(entity.getAttribute(attribute)).setBaseValue(number);
+            } else {
+                UltimateSpellSystem.logWarning("Invalid type for "+attribute+": " + value);
+            }
+        });
+    }
+
+    private SummonProperty createForLivingEntity(BiConsumer<LivingEntity, Object> base) {
+        return (spellEntity, value) -> {
+            spellEntity.getBukkitEntity().ifPresent(be -> {
+                if(be instanceof LivingEntity living)
+                    base.accept(living, value);
+            });
+        };
+    }
+    private SummonProperty createForBukkitEntity(BiConsumer<Entity, Object> base) {
+        return (spellEntity, value) -> spellEntity.getBukkitEntity().ifPresent(be -> base.accept(be, value));
+    }
+
     private SummonPropertiesExtension() {
-        register((entity, value) -> {
-            if(entity instanceof LivingEntity livingEntity) {
-                if (value instanceof Double number) {
-                    Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
-                } else {
-                    UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
-                }
-            }
-        }, "health", "max_health");
+        registerApplierEntity(createAttributeSetter(Attribute.GENERIC_MAX_HEALTH), "health", "max_health");
+        registerApplierEntity(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
+        registerApplierEntity(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
+        registerApplierEntity(createAttributeSetter(Attribute.GENERIC_ARMOR_TOUGHNESS), "toughness", "armor_toughness");
+        registerApplierEntity(createAttributeSetter(Attribute.GENERIC_MOVEMENT_SPEED), "speed", "movement_speed");
 
-        register((entity, value) -> {
-            if(entity instanceof LivingEntity livingEntity) {
-                if (value instanceof Double number) {
-                    Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(number);
-                } else {
-                    UltimateSpellSystem.logWarning("Invalid type for HEALTH: " + value);
-                }
-            }
-        }, "attack_damage", "attack", "damage");
-
-        register((entity, value) -> {
+        registerApplierEntity(createForBukkitEntity((entity, value) -> {
             if(value instanceof String string) {
                 entity.customName(KyoriAdaptor.adventure(string));
             } else {
                 UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);
             }
-        }, "name", "custom_name");
+        }), "name", "custom_name");
     }
 
-    public void register(SummonProperty applier, String key, String... otherKeys) {
+    public void registerApplierEntity(SummonProperty applier, String key, String... otherKeys) {
         properties.put(key, applier);
         if(otherKeys != null) {
             for(String otherKey : otherKeys) {
@@ -64,10 +74,10 @@ public final class SummonPropertiesExtension {
         }
     }
 
-    public @Nullable SummonProperty getApplier(String property) {
-        return properties.get(property);
+    public Optional<SummonProperty> getApplier(String property) {
+        return Optional.ofNullable(properties.get(property));
     }
 
-    public interface SummonProperty extends BiConsumer<Entity, Object> {}
+    public interface SummonProperty extends BiConsumer<SpellEntity, Object> {}
 
 }

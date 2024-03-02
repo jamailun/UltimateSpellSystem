@@ -1,51 +1,23 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
-import org.bukkit.*;
-import org.bukkit.util.BoundingBox;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.Particle;
+import org.bukkit.potion.PotionEffect;
 
-import java.util.UUID;
+public class Orb extends CustomEntity {
 
-public class Orb {
-
-    private Vector velocity; // blocks per seconds
-    private final UUID uuid = UUID.randomUUID();
-
-    private final BoundingBox boundingBox;
-    private final World world;
-
-    public Orb(Location location, double radius) {
-        boundingBox = BoundingBox.of(location, radius, radius, radius);
-        world = location.getWorld();
+    public Orb(SummonAttributes attributes) {
+        super(attributes);
     }
 
-    public @NotNull Location getLocation() {
-        return boundingBox.getCenter().toLocation(world);
+    @Override
+    protected void tickEntity(int ticksPeriod) {
+        // Particules ?
+        this.location.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, location, 5);
+
+        // Effects ?
+        System.out.println("j'exiiiiste ! " + this);
     }
 
-    /**
-     * Get the velocity.
-     * @param vector a vector : unit is "blocks/second".
-     */
-    public void setVelocity(@NotNull Vector vector) {
-        this.velocity = vector.clone();
-    }
-
-    public @NotNull Vector getVelocity() {
-        return velocity;
-    }
-
-    public void move(double deltaSeconds) {
-        boundingBox.shift(
-                velocity.getX() * deltaSeconds,
-                velocity.getY() * deltaSeconds,
-                velocity.getZ() * deltaSeconds
-        );
-    }
-
-    public @NotNull BoundingBox getBoundingBox() {
-        return boundingBox;
-    }
-
+    @Override
+    public void addPotionEffect(PotionEffect effect) {}
 }

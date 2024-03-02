@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -17,7 +18,7 @@ public class EntitySummonedEvent extends Event {
         this.attributes = attributes;
     }
 
-    public Entity getEntity() {
+    public SpellEntity getEntity() {
         return attributes.getEntity();
     }
 

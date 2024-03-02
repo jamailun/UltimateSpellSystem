@@ -1,21 +1,22 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+
 import java.util.*;
 
 /**
  * A registry for all summons. It's a singleton.
  */
-public final class SummonsRegistry {
-    private static final SummonsRegistry INSTANCE = new SummonsRegistry();
-    public static SummonsRegistry instance() {return INSTANCE;}
-    private SummonsRegistry() {}
+public class SummonsManager {
 
     private final Map<UUID, SummonAttributes> summonedEntities = new HashMap<>();
 
-    public Entity summon(SummonAttributes summon) {
+    public SpellEntity summon(SummonAttributes summon) {
         // Summon
         summon.summon(this::remove);
         summonedEntities.put(summon.getUUID(), summon);
@@ -31,9 +32,9 @@ public final class SummonsRegistry {
         SummonAttributes removed = summonedEntities.remove(uuid);
         if(removed != null) {
             removed.getKillTask().cancel();
-            Entity summon = removed.getEntity();
-            if(summon != null && summon.isValid())
-                summon.remove();
+            SpellEntity entity = removed.getEntity();
+            if(entity != null)
+                entity.remove();
         }
     }
 

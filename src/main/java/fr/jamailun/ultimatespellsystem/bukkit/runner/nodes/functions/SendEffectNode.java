@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
@@ -26,7 +27,7 @@ public class SendEffectNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        LivingEntity target = runtime.safeEvaluate(targetRef, LivingEntity.class);
+        SpellEntity target = runtime.safeEvaluate(targetRef, SpellEntity.class);
         PotionEffect effect = runtime.safeEvaluate(effectRef, PotionEffect.class);
         Duration duration = runtime.safeEvaluate(durationRef, Duration.class);
         int durationTicks = (int) duration.toTicks();

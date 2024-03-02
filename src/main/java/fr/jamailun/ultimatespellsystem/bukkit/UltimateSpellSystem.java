@@ -1,8 +1,9 @@
 package fr.jamailun.ultimatespellsystem.bukkit;
 
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.OrbArea;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.listeners.CollisionListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,16 +20,20 @@ import java.util.List;
 public final class UltimateSpellSystem extends JavaPlugin {
 
     private static UltimateSpellSystem instance;
+    public static UltimateSpellSystem instance() {
+        return instance;
+    }
 
-    private SpellsManager manager;
+    private SpellsManager spellsManager;
+    private SummonsManager summonsManager;
 
     private boolean configDebug;
 
     public static final String PREFIX = "§b§lUSS§d | §f";
 
-    // Register provider
-    static {
-        EntityTypeProvider.register("orb", OrbArea.class);
+    @Override
+    public void onLoad() {
+        EntityTypeProvider.loadDefaults();
     }
 
     @Override
@@ -39,10 +44,14 @@ public final class UltimateSpellSystem extends JavaPlugin {
         reloadConfigContent();
         saveConfig();
 
-        // Enable
+        // Commands
         new UssCommand();
 
-        manager = new SpellsManager(new File(getDataFolder(), "spells"));
+        // Events
+        new CollisionListener(this);
+
+        spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
+        summonsManager = new SummonsManager();
     }
 
     public static void reloadConfigContent() {
@@ -72,7 +81,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
     }
 
     public static SpellsManager getSpellsManager() {
-        return instance.manager;
+        return instance.spellsManager;
+    }
+    public static SummonsManager getSummonsManager() {
+        return instance.summonsManager;
     }
 
     public static BukkitRunnable runTaskLater(Runnable runnable, long ticks) {
@@ -91,6 +103,12 @@ public final class UltimateSpellSystem extends JavaPlugin {
                     cancel();
             }
         }.runTaskTimer(instance, delay, period);
+    }
+
+    public static BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
+        BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
+        task.runTaskTimer(instance, delay, period);
+        return task;
     }
 
     @Override

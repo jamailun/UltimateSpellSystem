@@ -32,10 +32,10 @@ public class UssEntityType {
         return custom;
     }
 
-    public CustomEntity generateCustom(NewEntityAttributes attributes) {
+    public CustomEntity generateCustom(SummonAttributes attributes) {
         assert custom != null;
         try {
-            Constructor<? extends CustomEntity> c = custom.getConstructor(NewEntityAttributes.class);
+            Constructor<? extends CustomEntity> c = custom.getConstructor(SummonAttributes.class);
             return c.newInstance(attributes);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Cannot generate custom for " + custom, e);

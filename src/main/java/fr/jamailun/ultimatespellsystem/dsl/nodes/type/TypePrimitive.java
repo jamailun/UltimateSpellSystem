@@ -1,9 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 public enum TypePrimitive {
 
@@ -14,7 +13,7 @@ public enum TypePrimitive {
 
     // In-game
     DURATION(Duration.class),
-    ENTITY(LivingEntity.class),
+    ENTITY(SpellEntity.class),
     ENTITY_TYPE(String.class),
     MATERIAL(Material.class),
     EFFECT_TYPE(PotionEffect.class),

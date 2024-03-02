@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner;
 
+import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class SpellRuntime {
 
     public SpellRuntime(@NotNull Player caster) {
         this.caster = caster;
-        variables.set("caster", caster);
+        variables.set("caster", new BukkitSpellEntity(caster));
     }
     private SpellRuntime(@NotNull Player caster, VariablesSet variables, boolean stopped) {
         this.caster = caster;

@@ -1,42 +1,95 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * A custom entity, created through summoning.
- */
-public abstract class CustomEntity {
+import java.util.Optional;
+import java.util.UUID;
 
-    /** Attributes. */
-    protected final NewEntityAttributes attributes;
+public abstract class CustomEntity implements SpellEntity {
 
-    /**
-     * Create a new Custom entity.
-     * @param attributes the attributes to use.
-     */
-    public CustomEntity(@NotNull NewEntityAttributes attributes) {
+    protected final UUID uuid = UUID.randomUUID();
+    protected final Location location;
+    protected final SummonAttributes attributes;
+    private final BukkitRunnable runnable;
+
+
+    protected Vector velocity = new Vector();
+    private boolean valid = true;
+
+    public CustomEntity(SummonAttributes attributes) {
         this.attributes = attributes;
+        this.location = attributes.getLocation().clone();
+
+        int ticksPeriod = 5;
+        runnable = UltimateSpellSystem.runTaskRepeat(() -> tick(ticksPeriod), 0, ticksPeriod);
     }
 
-    public abstract Entity getEntity();
 
-    /**
-     * Mark the entity for removal.
-     */
-    public abstract void remove();
+    public final void tick(int ticksPeriod) {
+        if(!isValid())
+            return;
 
-    /**
-     * Get the current velocity.
-     * @return a non-null velocity, in meters/tick.
-     */
-    public abstract Vector getVelocity();
+        // Movement
+        this.location.add(velocity.clone().multiply( (double)ticksPeriod/20d));
 
+        // Tick
+        tickEntity(ticksPeriod);
+    }
 
-    /**
-     * Set the current velocity.
-     * @param velocity  a non-null velocity, in meters/tick.
-     */
-    public abstract void setVelocity(@NotNull Vector velocity);
+    protected abstract void tickEntity(int ticks);
+
+    @Override
+    public UUID getUniqueId() {
+        return uuid;
+    }
+
+    @Override
+    public Optional<Entity> getBukkitEntity() {
+        return Optional.empty();
+    }
+
+    @Override
+    public @NotNull Location getLocation() {
+        return location;
+    }
+
+    @Override
+    public void teleport(@NotNull Location location) {
+        this.location.set(location.x(), location.y(), location.z());
+        this.location.setPitch(location.getPitch());
+        this.location.setYaw(location.getYaw());
+    }
+
+    @Override
+    public void sendMessage(Component component) {
+        // Nothing
+    }
+
+    @Override
+    public void remove() {
+        valid = false;
+        if( ! runnable.isCancelled()) {
+            runnable.cancel();
+        }
+    }
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    public @NotNull Vector getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(@NotNull Vector velocity) {
+        this.velocity = velocity;
+    }
 }
