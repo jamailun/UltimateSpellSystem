@@ -20,4 +20,8 @@ public record Type(TypePrimitive primitive, boolean isCollection) {
     public String toString() {
         return primitive + (isCollection?"[]":"");
     }
+
+    public Type asMonoElement() {
+        return new Type(primitive, false);
+    }
 }

@@ -220,6 +220,16 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleForeachLoop(ForeachLoopStatement statement) {
+        builder.append("FOREACH(%")
+                .append(statement.getVariableName())
+                .append(" : ");
+        statement.getSource().visit(this);
+        builder.append("):");
+        statement.getChild().visit(this);
+    }
+
+    @Override
     public void handleWhileLoop(WhileLoopStatement statement) {
         if(statement.isWhileFirst()) {
             builder.append("WHILE(");

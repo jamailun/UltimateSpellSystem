@@ -49,6 +49,7 @@ public abstract class StatementNode extends Node {
             case IF -> IfElseStatement.parseIfStatement(tokens);
             case ELSE -> throw new SyntaxException(token, "An ELSE must follow an IF (or the IF's child statement).");
             case FOR -> ForLoopStatement.parseForLoop(tokens);
+            case FOREACH -> ForeachLoopStatement.parseForLoop(tokens);
             case WHILE -> WhileLoopStatement.parseWhileLoop(tokens, true);
             case DO -> WhileLoopStatement.parseWhileLoop(tokens, false);
 

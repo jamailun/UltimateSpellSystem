@@ -21,5 +21,6 @@ public interface StatementVisitor {
 
     void handleIf(IfElseStatement statement);
     void handleForLoop(ForLoopStatement statement);
+    void handleForeachLoop(ForeachLoopStatement statement);
     void handleWhileLoop(WhileLoopStatement statement);
 }

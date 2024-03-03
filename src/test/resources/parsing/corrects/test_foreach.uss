@@ -1,0 +1,5 @@
+define %ard = (all PLAYER within 50 around %caster);
+
+foreach(%p : %ard) {
+    send to %caster message "Found " + %p;
+}

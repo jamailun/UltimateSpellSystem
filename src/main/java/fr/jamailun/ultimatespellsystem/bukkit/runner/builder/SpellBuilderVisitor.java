@@ -141,6 +141,15 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
+    public void handleForeachLoop(ForeachLoopStatement statement) {
+        String varName = statement.getVariableName();
+        RuntimeExpression source = convert(statement.getSource());
+        RuntimeStatement child = convertOneStatement(statement.getChild());
+        add(new ForeachLoopNode(varName, source, child));
+
+    }
+
+    @Override
     public void handleWhileLoop(WhileLoopStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement child = convertOneStatement(statement.getChild());

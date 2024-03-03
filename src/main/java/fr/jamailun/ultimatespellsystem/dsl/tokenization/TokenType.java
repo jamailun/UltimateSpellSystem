@@ -52,6 +52,7 @@ public enum TokenType {
     SUMMON, AT, AS, WITH,
     POSITION, OF,
     TELEPORT,
+    FOREACH,
 
     INCREMENT, DECREMENT,
 
