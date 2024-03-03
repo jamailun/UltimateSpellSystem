@@ -53,7 +53,7 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleArrayConcat(ArrayConcatExpression expression) {
+    public void handleArray(ArrayExpression expression) {
         List<RuntimeExpression> elements = expression.getElements()
                 .stream()
                 .map(this::evaluate)
@@ -134,6 +134,13 @@ public class ExpressionQueue implements ExpressionVisitor {
     @Override
     public void handleParenthesis(ParenthesisExpression parenthesis) {
         parenthesis.getExpression().visit(this);
+    }
+
+    @Override
+    public void handleArrayGet(ArrayGetterExpression arrayGetter) {
+        RuntimeExpression array = evaluate(arrayGetter.getArray());
+        RuntimeExpression index = evaluate(arrayGetter.getIndex());
+        add(new ArrayGetNode(array, index));
     }
 
     private void add(RuntimeExpression expression) {

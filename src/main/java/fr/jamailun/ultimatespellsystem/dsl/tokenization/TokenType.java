@@ -30,6 +30,8 @@ public enum TokenType {
     COMP_GT, // >
     PROPERTY_OPEN, // {{
     PROPERTY_CLOSE, // }}
+    ARRAY_OPEN, // [[
+    ARRAY_CLOSE, // ]]
 
     // == BI-CHAR OPERATORS
 

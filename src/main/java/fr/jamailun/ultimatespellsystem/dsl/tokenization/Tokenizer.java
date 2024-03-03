@@ -45,6 +45,8 @@ public class Tokenizer {
         OPERATORS_BI.put("}}", TokenType.PROPERTY_CLOSE);
         OPERATORS_BI.put("&&", TokenType.OPE_AND);
         OPERATORS_BI.put("||", TokenType.OPE_OR);
+        OPERATORS_BI.put("[[", TokenType.ARRAY_OPEN);
+        OPERATORS_BI.put("]]", TokenType.ARRAY_CLOSE);
 
         KEYWORDS.put("null", TokenType.NULL);
         KEYWORDS.put("if", TokenType.IF);

@@ -327,6 +327,14 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleArrayGet(ArrayGetterExpression arrayGetter) {
+        arrayGetter.getArray().visit(this);
+        builder.append("[");
+        arrayGetter.getIndex().visit(this);
+        builder.append("]");
+    }
+
+    @Override
     public void handlePropertiesSet(PropertiesExpression expression) {
         builder.append("{{");
         if(expression.getExpressions().isEmpty()) {
@@ -368,7 +376,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleArrayConcat(ArrayConcatExpression expression) {
+    public void handleArray(ArrayExpression expression) {
         builder.append("[");
         boolean first = true;
         for(ExpressionNode child : expression.getElements()) {

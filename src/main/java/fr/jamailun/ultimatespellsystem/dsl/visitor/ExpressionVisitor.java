@@ -26,10 +26,11 @@ public interface ExpressionVisitor {
     void handleBiOperator(BiOperator operator);
     void handleMonoOperator(MonoOperator operator);
     void handleParenthesis(ParenthesisExpression parenthesis);
+    void handleArrayGet(ArrayGetterExpression arrayGetter);
 
     // Specifics
     void handlePropertiesSet(PropertiesExpression expression);
-    void handleArrayConcat(ArrayConcatExpression expression);
+    void handleArray(ArrayExpression expression);
     void handleVariable(VariableExpression expression);
 
     // Functions

@@ -11,12 +11,12 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayConcatExpression extends ExpressionNode {
+public class ArrayExpression extends ExpressionNode {
 
     private final List<ExpressionNode> elements;
     private TypePrimitive typePrimitive;
 
-    protected ArrayConcatExpression(TokenPosition position, List<ExpressionNode> elements) {
+    protected ArrayExpression(TokenPosition position, List<ExpressionNode> elements) {
         super(position);
         this.elements = elements;
     }
@@ -30,7 +30,7 @@ public class ArrayConcatExpression extends ExpressionNode {
 
     @Override
     public void visit(ExpressionVisitor visitor) {
-        visitor.handleArrayConcat(this);
+        visitor.handleArray(this);
     }
 
     @Override
@@ -50,14 +50,14 @@ public class ArrayConcatExpression extends ExpressionNode {
         }
     }
 
-    @PreviousIndicator(expected = {TokenType.SQUARE_BRACKET_OPEN})
-    public static ArrayConcatExpression parseNextArrayConcat(TokenStream tokens) {
+    @PreviousIndicator(expected = TokenType.ARRAY_OPEN)
+    public static ArrayExpression parseNextArrayConcat(TokenStream tokens) {
         TokenPosition pos = tokens.position();
         List<ExpressionNode> nodes = new ArrayList<>();
         boolean first = true;
         while(tokens.hasMore()) {
             Token peek = tokens.peek();
-            if(peek.getType() == TokenType.SQUARE_BRACKET_CLOSE)
+            if(peek.getType() == TokenType.ARRAY_CLOSE)
                 break;
             if( ! first) {
                 tokens.dropOrThrow(TokenType.COMMA);
@@ -66,8 +66,8 @@ public class ArrayConcatExpression extends ExpressionNode {
             ExpressionNode node = ExpressionNode.readNextExpression(tokens);
             nodes.add(node);
         }
-        tokens.dropOrThrow(TokenType.SQUARE_BRACKET_CLOSE);
-        return new ArrayConcatExpression(pos, nodes);
+        tokens.dropOrThrow(TokenType.ARRAY_CLOSE);
+        return new ArrayExpression(pos, nodes);
     }
 
     @Override
