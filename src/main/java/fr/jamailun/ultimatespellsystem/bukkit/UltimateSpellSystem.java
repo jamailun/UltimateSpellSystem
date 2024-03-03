@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.bukkit;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
-import fr.jamailun.ultimatespellsystem.bukkit.listeners.CollisionListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -46,9 +45,6 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
         // Commands
         new UssCommand();
-
-        // Events
-        new CollisionListener(this);
 
         spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
         summonsManager = new SummonsManager();
