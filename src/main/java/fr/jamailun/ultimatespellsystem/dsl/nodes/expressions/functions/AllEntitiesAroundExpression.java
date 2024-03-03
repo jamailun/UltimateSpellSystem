@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
@@ -38,13 +39,13 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
     @Override
     public void validateTypes(TypesContext context) {
         // Distance must be a number
-        assertExpressionType(distance, context, TypePrimitive.NUMBER);
+        assertExpressionType(distance, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
 
         // Scope can be entity-type OR custom
-        assertExpressionType(entityType, context, TypePrimitive.ENTITY_TYPE, TypePrimitive.CUSTOM);
+        assertExpressionType(entityType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY_TYPE, TypePrimitive.CUSTOM);
 
         // Source can be entity OR location
-        assertExpressionType(source, context, TypePrimitive.ENTITY);
+        assertExpressionType(source, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY, TypePrimitive.LOCATION);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
         return "FETCH_ALL{" + entityType + " around " + source + (including ?"(STRICT)":"") + ", within "+ distance + "}";
     }
 
-    @PreviousIndicator(expected = {TokenType.ALL}) // all (ENTITY_TYPE) within (DISTANCE) around (SOURCE) [[including]]
+    @PreviousIndicator(expected = {TokenType.ALL}) // all (SCOPE) within (DISTANCE) around (SOURCE) [[including]]
     public static AllEntitiesAroundExpression parseAllExpression(TokenStream tokens) {
         TokenPosition pos = tokens.position();
 
