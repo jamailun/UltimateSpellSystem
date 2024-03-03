@@ -20,6 +20,7 @@ public class SpellRuntime {
         this.caster = caster;
         variables.set("caster", new BukkitSpellEntity(caster));
     }
+
     private SpellRuntime(@NotNull Player caster, VariablesSet variables, boolean stopped) {
         this.caster = caster;
         this.variables.copy(variables);

@@ -27,6 +27,8 @@ public class ForeachLoopNode extends RuntimeStatement {
         for(Object object : list) {
             runtime.variables().set(varName, object);
             child.run(runtime);
+            if(runtime.isStopped())
+                return;
         }
     }
 

@@ -16,7 +16,11 @@ public class BlockNodes extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
-        children.forEach(c -> c.run(runtime));
+        for(RuntimeStatement child : children) {
+            child.run(runtime);
+            if(runtime.isStopped())
+                return;
+        }
     }
 
     @Override

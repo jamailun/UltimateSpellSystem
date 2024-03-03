@@ -89,6 +89,9 @@ public class SpellDefinition {
         for(RuntimeStatement statement : steps) {
             UltimateSpellSystem.logDebug(prefix + "Running " + statement.toString());
             statement.run(runtime);
+
+            if(runtime.isStopped())
+                break;
         }
 
         UltimateSpellSystem.logDebug(prefix + "End of cast on " + player);

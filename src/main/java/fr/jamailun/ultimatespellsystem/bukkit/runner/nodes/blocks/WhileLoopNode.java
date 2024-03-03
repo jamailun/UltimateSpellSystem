@@ -31,10 +31,14 @@ public class WhileLoopNode extends RuntimeStatement {
         if(whileFirst) {
             while(run.conditionValid()) {
                 run.applyIteration();
+                if(runtime.isStopped())
+                    return;
             }
         } else {
             do {
                 run.applyIteration();
+                if(runtime.isStopped())
+                    return;
             } while(run.conditionValid());
         }
 
