@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.extensible.SummonPropertiesExtension;
+import fr.jamailun.ultimatespellsystem.bukkit.extensible.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -67,7 +67,7 @@ public class SummonAttributes {
 
         // Apply properties
         for(String key : attributes.keySet()) {
-            SummonPropertiesExtension.instance()
+            SummonPropertiesProvider.instance()
                     .findOptional(key)
                     .ifPresent(p -> p.accept(entity, attributes.get(key)));
         }

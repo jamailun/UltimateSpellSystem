@@ -13,9 +13,9 @@ import java.util.function.BiConsumer;
 /**
  * Provider for summon-properties.
  */
-public class SummonPropertiesExtension extends UssProvider<SummonPropertiesExtension.SummonProperty> {
-    private static final SummonPropertiesExtension INSTANCE = new SummonPropertiesExtension();
-    public static SummonPropertiesExtension instance() {
+public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvider.SummonProperty> {
+    private static final SummonPropertiesProvider INSTANCE = new SummonPropertiesProvider();
+    public static SummonPropertiesProvider instance() {
         return INSTANCE;
     }
 
@@ -44,7 +44,7 @@ public class SummonPropertiesExtension extends UssProvider<SummonPropertiesExten
         return (spellEntity, value) -> spellEntity.getBukkitEntity().ifPresent(be -> base.accept(be, value));
     }
 
-    private SummonPropertiesExtension() {
+    private SummonPropertiesProvider() {
         register(createAttributeSetter(Attribute.GENERIC_MAX_HEALTH), "health", "max_health");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
