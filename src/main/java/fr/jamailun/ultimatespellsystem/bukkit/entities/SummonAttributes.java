@@ -68,7 +68,7 @@ public class SummonAttributes {
         // Apply properties
         for(String key : attributes.keySet()) {
             SummonPropertiesExtension.instance()
-                    .getApplier(key)
+                    .findOptional(key)
                     .ifPresent(p -> p.accept(entity, attributes.get(key)));
         }
 
