@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 
@@ -38,7 +39,7 @@ public final class RunSubOpe extends RuntimeBiOperators {
             return ll.clone().subtract(rl);
         }
 
-        throw new RuntimeException("Unexpected types : L="+left+", R="+right);
+        throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
 
     @Override

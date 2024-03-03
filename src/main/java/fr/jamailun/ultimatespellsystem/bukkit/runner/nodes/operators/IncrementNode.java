@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 
 public class IncrementNode extends RuntimeStatement {
 
@@ -21,7 +22,7 @@ public class IncrementNode extends RuntimeStatement {
             runtime.variables().set(varName, v);
             return;
         }
-        throw new RuntimeException("Invalid type for variable " + varName + " : " + value);
+        throw new UnreachableRuntimeException("Invalid type for variable " + varName + " : " + value);
     }
 
 }

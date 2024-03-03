@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -37,7 +38,7 @@ public class AllAroundNode extends RuntimeExpression {
         } else if(source instanceof Location loc) {
             location = loc;
         } else {
-            throw new RuntimeException("Invalid source type : " + source);
+            throw new UnreachableRuntimeException("Invalid source type : " + source);
         }
 
         // Scope
@@ -49,7 +50,7 @@ public class AllAroundNode extends RuntimeExpression {
             UltimateSpellSystem.logError("Unknown scope: '" + s + "'.");
             scopePredicate = (e -> true);
         } else {
-            throw new RuntimeException("Invalid scope type : " + scope);
+            throw new UnreachableRuntimeException("Invalid scope type : " + scope);
         }
 
         // Game-logic

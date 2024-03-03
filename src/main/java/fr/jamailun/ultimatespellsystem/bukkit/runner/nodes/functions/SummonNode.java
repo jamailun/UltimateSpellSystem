@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
@@ -39,14 +40,13 @@ public class SummonNode extends RuntimeStatement {
             if(sourceValue instanceof Location sourceLoc) {
                 loc = sourceLoc;
             } else if(sourceValue instanceof SpellEntity sourceEntity) {
-                UltimateSpellSystem.logDebug("§aPREFERS EYES ? " + entityType.doesPreferEyesLocation());
                 if(entityType.doesPreferEyesLocation()) {
                     loc = sourceEntity.getEyeLocation();
                 } else {
                     loc = sourceEntity.getLocation();
                 }
             } else {
-                throw new RuntimeException("Unknown type for location: " + sourceValue);
+                throw new UnreachableRuntimeException("Unknown type for location: " + sourceValue);
             }
         }
 

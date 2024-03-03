@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
 public final class RunCompOpe extends RuntimeBiOperators {
@@ -21,7 +22,7 @@ public final class RunCompOpe extends RuntimeBiOperators {
         if(left instanceof Duration ld && right instanceof Duration rd) {
             return compare(ld.toSeconds(), rd.toSeconds());
         }
-        throw new RuntimeException("Unexpected types : L="+left+", R="+right);
+        throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
 
     private boolean compare(double left, double right) {

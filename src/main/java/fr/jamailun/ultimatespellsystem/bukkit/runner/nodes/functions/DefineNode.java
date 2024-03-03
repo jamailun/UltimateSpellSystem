@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 
 public class DefineNode extends RuntimeStatement {
 
@@ -20,18 +21,15 @@ public class DefineNode extends RuntimeStatement {
 
     @Override
     public void run(SpellRuntime runtime) {
+        if(type.is(TypePrimitive.NULL))
+            return;
+
         Class<?> clazz = type.primitive().clazz;
         if(clazz == null)
             throw new RuntimeException("Cannot run a null-typed expression : " + runtime);
 
-        Object value;
-        if(type.isCollection()) {
-            value = runtime.safeEvaluateList(expression, clazz);
-        } else {
-            value = runtime.safeEvaluate(expression, clazz);
-        }
+        Object value = runtime.safeEvaluateAcceptsList(expression, clazz);
 
-        UltimateSpellSystem.logDebug("Define %"+varName + " with == (" + value + ")");
         runtime.variables().set(varName, value);
     }
 

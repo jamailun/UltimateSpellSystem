@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 
 public final class RunMulDivOpe extends RuntimeBiOperators {
 
@@ -16,7 +17,7 @@ public final class RunMulDivOpe extends RuntimeBiOperators {
         if(left instanceof Double l && right instanceof Double r) {
             return isMultiplication ? (l * r) : (l / r);
         }
-        throw new RuntimeException("Unexpected types : L="+left+", R="+right);
+        throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
 
     @Override

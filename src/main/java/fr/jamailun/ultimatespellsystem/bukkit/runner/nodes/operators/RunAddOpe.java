@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 
@@ -55,7 +56,7 @@ public final class RunAddOpe extends RuntimeBiOperators {
             return union;
         }
 
-        throw new RuntimeException("Unexpected types : L="+left+", R="+right);
+        throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
 
     @Override

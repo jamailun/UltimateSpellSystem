@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 
@@ -29,7 +30,7 @@ public class TeleportNode extends RuntimeStatement {
         } else if(target instanceof SpellEntity ent) {
             location = ent.getLocation();
         } else {
-            throw new RuntimeException("Invalid type for target " + target);
+            throw new UnreachableRuntimeException("Invalid type for target " + target);
         }
 
         entities.forEach(e -> e.teleport(location));
