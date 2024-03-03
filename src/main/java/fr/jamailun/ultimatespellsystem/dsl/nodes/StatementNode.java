@@ -1,11 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
@@ -52,6 +49,8 @@ public abstract class StatementNode extends Node {
             case IF -> IfElseStatement.parseIfStatement(tokens);
             case ELSE -> throw new SyntaxException(token, "An ELSE must follow an IF (or the IF's child statement).");
             case FOR -> ForLoopStatement.parseForLoop(tokens);
+            case WHILE -> WhileLoopStatement.parseWhileLoop(tokens, true);
+            case DO -> WhileLoopStatement.parseWhileLoop(tokens, false);
 
             default -> throw new SyntaxException(token, "Unexpected token to begin a statement.");
         };

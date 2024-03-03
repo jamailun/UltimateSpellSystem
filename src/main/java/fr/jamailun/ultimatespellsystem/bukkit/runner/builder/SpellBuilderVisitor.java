@@ -6,10 +6,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.IncrementNo
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
@@ -141,6 +138,14 @@ public class SpellBuilderVisitor implements StatementVisitor {
         RuntimeStatement iteration = convertOneStatement(statement.getIteration());
         RuntimeStatement child = convertOneStatement(statement.getChild());
         add(new ForLoopNode(init, condition, iteration, child));
+    }
+
+    @Override
+    public void handleWhileLoop(WhileLoopStatement statement) {
+        RuntimeExpression condition = convert(statement.getCondition());
+        RuntimeStatement child = convertOneStatement(statement.getChild());
+        boolean whileFirst = statement.isWhileFirst();
+        add(new WhileLoopNode(condition, child, whileFirst));
     }
 
     private RuntimeExpression convert(ExpressionNode expression) {

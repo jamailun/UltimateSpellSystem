@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.ForLoopStatement;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
@@ -10,9 +10,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.IfElseStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RunLaterStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
 import java.text.DecimalFormat;
@@ -220,6 +217,23 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         statement.getInitialization().visit(this);
         builder.append("):");
         statement.getChild().visit(this);
+    }
+
+    @Override
+    public void handleWhileLoop(WhileLoopStatement statement) {
+        if(statement.isWhileFirst()) {
+            builder.append("WHILE(");
+            statement.getCondition().visit(this);
+            builder.append(") ");
+        } else {
+            builder.append("DO ");
+        }
+        statement.getChild().visit(this);
+        if(!statement.isWhileFirst()) {
+            builder.append(" WHILE(");
+            statement.getCondition().visit(this);
+            builder.append(") ");
+        }
     }
 
     @Override
