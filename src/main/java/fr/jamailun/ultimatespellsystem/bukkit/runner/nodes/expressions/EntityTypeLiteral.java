@@ -19,7 +19,7 @@ public class EntityTypeLiteral extends RuntimeExpression {
 
     @Override
     public UssEntityType evaluate(SpellRuntime runtime) {
-        return EntityTypeProvider.find(name);
+        return EntityTypeProvider.instance().find(name);
     }
 
     @Override

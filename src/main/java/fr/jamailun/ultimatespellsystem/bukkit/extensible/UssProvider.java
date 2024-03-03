@@ -16,10 +16,17 @@ public abstract class UssProvider<T> {
         return key.toLowerCase().replace(' ', '_');
     }
 
+    protected void postRegister(String key,@NotNull T t) {}
+
     public final void register(@Nonnull T t, String name, String... nameVariants) {
-        data.put(prepare(name), t);
+        String pn = prepare(name);
+        data.put(pn, t);
+        postRegister(pn, t);
+
         for(String v : nameVariants) {
-            data.put(prepare(v), t);
+            String pv = prepare(v);
+            data.put(pv, t);
+            postRegister(pv, t);
         }
     }
 
