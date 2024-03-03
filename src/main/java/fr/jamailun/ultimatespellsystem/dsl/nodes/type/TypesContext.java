@@ -42,11 +42,7 @@ public class TypesContext {
      * Create a new context, and register the '%caster' variable.
      */
     public TypesContext() {
-        registerAbsolute("caster", TypePrimitive.ENTITY.asType());
-    }
-
-    public void registerAbsolute(String varName, Type type) {
-        variables.put(varName, new VariableDefinition(type));
+        variables.put("caster", new VariableDefinition(TypePrimitive.ENTITY.asType()));
     }
 
     /**
@@ -55,15 +51,15 @@ public class TypesContext {
      * @param variable the expression defining the variable.
      */
     public void registerVariable(String varName, ExpressionNode variable) {
-        if(variables.containsKey(varName)) {
-            throw new SyntaxException(variable.firstTokenPosition(), "Variable " + varName + " already defined.");
+        if("caster".equals(varName)) {
+            throw new SyntaxException(variable.firstTokenPosition(), "Cannot override variable '%" + varName + "'.");
         }
         variables.put(varName, new VariableDefinition(variable));
     }
 
     public void registerVariable(String varName, TokenPosition position, Type type) {
-        if(variables.containsKey(varName)) {
-            throw new SyntaxException(position, "Variable " + varName + " already defined.");
+        if("caster".equals(varName)) {
+            throw new SyntaxException(position, "Cannot override variable '%" + varName + "'.");
         }
         variables.put(varName, new VariableDefinition(type));
     }

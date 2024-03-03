@@ -46,6 +46,7 @@ public class Tokenizer {
         OPERATORS_BI.put("&&", TokenType.OPE_AND);
         OPERATORS_BI.put("||", TokenType.OPE_OR);
 
+        KEYWORDS.put("null", TokenType.NULL);
         KEYWORDS.put("if", TokenType.IF);
         KEYWORDS.put("else", TokenType.ELSE);
         KEYWORDS.put("and", TokenType.OPE_AND);

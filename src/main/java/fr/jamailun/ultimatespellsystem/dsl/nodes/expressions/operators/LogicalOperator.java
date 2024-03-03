@@ -33,8 +33,10 @@ public class LogicalOperator extends BiOperator {
         }
 
         // Only allow same type (but still allow NULL :) )
-        if(leftType.primitive() != rightType.primitive() && leftType.primitive() != TypePrimitive.NULL) {
-            throw new TypeException(firstTokenPosition(), "Logical operator "+this+" has unequal types : "+leftType+ " and "+rightType+".");
+        if(!(leftType.is(TypePrimitive.NULL) || rightType.is(TypePrimitive.NULL))) {
+            if (leftType.primitive() != rightType.primitive()) {
+                throw new TypeException(firstTokenPosition(), "Logical operator " + this + " has unequal types : " + leftType + " and " + rightType + ".");
+            }
         }
 
         // If inequality, must be numeric

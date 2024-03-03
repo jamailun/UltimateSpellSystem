@@ -1,0 +1,5 @@
+define %i = null;
+
+if(%i == null) {
+    send to %caster message "a";
+}
