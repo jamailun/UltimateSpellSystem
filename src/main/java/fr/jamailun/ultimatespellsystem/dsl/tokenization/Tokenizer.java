@@ -83,6 +83,9 @@ public class Tokenizer {
         KEYWORDS.put("decrement", TokenType.DECREMENT);
         KEYWORDS.put("teleport", TokenType.TELEPORT);
         KEYWORDS.put("foreach", TokenType.FOREACH);
+        KEYWORDS.put("play", TokenType.PLAY);
+        KEYWORDS.put("particle", TokenType.PARTICLE);
+        KEYWORDS.put("block", TokenType.BLOCK);
 
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");

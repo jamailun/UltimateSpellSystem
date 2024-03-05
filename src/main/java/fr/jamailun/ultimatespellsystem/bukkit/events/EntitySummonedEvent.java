@@ -18,15 +18,27 @@ public class EntitySummonedEvent extends Event {
         this.attributes = attributes;
     }
 
-    public SpellEntity getEntity() {
+    /**
+     * Get the entity that own the summoned entity.
+     * @return a non-null bukkit Entity.
+     */
+    public @NotNull SpellEntity getEntity() {
         return attributes.getEntity();
     }
 
-    public Entity getSummoner() {
+    /**
+     * Get the entity that has been summoned.
+     * @return a non-null bukkit Entity.
+     */
+    public @NotNull Entity getSummoner() {
         return attributes.getSummoner();
     }
 
-    public SummonAttributes getAttributes() {
+    /**
+     * Get the attributes of this summon.
+     * @return the attributes.
+     */
+    public @NotNull SummonAttributes getAttributes() {
         return attributes;
     }
 

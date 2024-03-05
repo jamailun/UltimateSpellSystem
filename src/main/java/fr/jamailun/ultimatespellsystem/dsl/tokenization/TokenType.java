@@ -55,6 +55,7 @@ public enum TokenType {
     POSITION, OF,
     TELEPORT,
     FOREACH,
+    PLAY, PARTICLE, BLOCK,
 
     INCREMENT, DECREMENT,
 
