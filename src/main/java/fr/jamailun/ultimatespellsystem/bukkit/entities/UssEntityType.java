@@ -6,6 +6,9 @@ import org.bukkit.entity.EntityType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Wraps Entity Types to allow custom entities.
+ */
 public class UssEntityType {
 
     private final EntityType bukkit;

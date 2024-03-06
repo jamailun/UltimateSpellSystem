@@ -9,6 +9,9 @@ import org.bukkit.potion.PotionEffect;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Represents one potion effect, given by an orb.
+ */
 public class OrbEffect {
 
     private final PotionEffect builtEffect;
@@ -18,6 +21,12 @@ public class OrbEffect {
         UltimateSpellSystem.logDebug("New orb-effect : (" + builtEffect + ")");
     }
 
+    /**
+     * Build an OrbEffect from a map.
+     * @param context the debug location of the attributes, used for printing-purpose.
+     * @param values the map of attributes. Expected keys: {type, duration, power}
+     * @return null if an error occurred.
+     */
     public static OrbEffect build(String context, Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
@@ -55,6 +64,10 @@ public class OrbEffect {
         return new OrbEffect(effect, duration, power.intValue());
     }
 
+    /**
+     * Apply the potion effects to a collection of entities.
+     * @param entities a non-null collection.
+     */
     public void apply(Collection<LivingEntity> entities) {
         entities.forEach(e -> e.addPotionEffect(builtEffect));
     }

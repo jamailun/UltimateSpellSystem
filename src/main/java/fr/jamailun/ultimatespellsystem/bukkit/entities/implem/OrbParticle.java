@@ -1,16 +1,14 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.SendEffectNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
 
-import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Represents particles emitted by an orb.
+ */
 public class OrbParticle {
 
     private final Particle type;
@@ -25,6 +23,13 @@ public class OrbParticle {
         UltimateSpellSystem.logDebug("New orb-particle : (" + this +")");
     }
 
+    /**
+     * Build an OrbParticle from a map.
+     * @param context the debug location of the attributes, used for printing-purpose.
+     * @param radius the radius for particles
+     * @param values the map of attributes. Expected keys: {type, duration, power}
+     * @return null if an error occurred.
+     */
     public static OrbParticle build(String context, double radius, Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
@@ -66,6 +71,10 @@ public class OrbParticle {
         return new OrbParticle(particle, radius, speed, count);
     }
 
+    /**
+     * Apply the particle-effect to a location.
+     * @param location the non-ull location to use.
+     */
     public void apply(Location location) {
         location.getWorld().spawnParticle(
                 type, location, count,
@@ -74,13 +83,4 @@ public class OrbParticle {
         );
     }
 
-    @Override
-    public String toString() {
-        return "OrbParticle{" +
-                "type=" + type +
-                ", radius=" + radius +
-                ", speed=" + speed +
-                ", count=" + count +
-                '}';
-    }
 }

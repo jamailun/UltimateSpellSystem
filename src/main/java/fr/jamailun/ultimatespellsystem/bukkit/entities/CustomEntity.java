@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * A Custom Entity is an implementation of {@link SpellEntity} for non-bukkit ones.
+ */
 public abstract class CustomEntity implements SpellEntity {
 
     protected final UUID uuid = UUID.randomUUID();
@@ -19,11 +22,14 @@ public abstract class CustomEntity implements SpellEntity {
     protected final SummonAttributes attributes;
     private final BukkitRunnable runnable;
 
-
     protected Vector velocity = new Vector();
     private boolean valid = true;
     private final boolean debug;
 
+    /**
+     * Create a new custom entity. All entities are summons, so summonattributes are required.
+     * @param attributes the attributes the custom entity is from.
+     */
     public CustomEntity(SummonAttributes attributes) {
         this.attributes = attributes;
         this.location = attributes.getLocation().clone();
@@ -33,7 +39,10 @@ public abstract class CustomEntity implements SpellEntity {
         runnable = UltimateSpellSystem.runTaskRepeat(() -> tick(ticksPeriod), 0, ticksPeriod);
     }
 
-
+    /**
+     * Tick the entity.
+     * @param ticksPeriod the amount of ticks since the last tick.
+     */
     public final void tick(int ticksPeriod) {
         if(!isValid())
             return;
@@ -46,6 +55,10 @@ public abstract class CustomEntity implements SpellEntity {
         tickEntity(ticksPeriod);
     }
 
+    /**
+     * Implementation-specific tick.
+     * @param ticks the amount of ticks since the last tick.
+     */
     protected abstract void tickEntity(int ticks);
 
     @Override

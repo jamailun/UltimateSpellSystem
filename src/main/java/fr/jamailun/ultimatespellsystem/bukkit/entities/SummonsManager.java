@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -16,7 +17,12 @@ public class SummonsManager {
 
     private final Map<UUID, SummonAttributes> summonedEntities = new HashMap<>();
 
-    public SpellEntity summon(SummonAttributes summon) {
+    /**
+     * Summon a creature.
+     * @param summon the attributes to use.
+     * @return a reference to the newly created entity.
+     */
+    public @NotNull SpellEntity summon(@NotNull SummonAttributes summon) {
         // Summon
         summon.summon(this::remove);
         summonedEntities.put(summon.getUUID(), summon);
@@ -28,6 +34,10 @@ public class SummonsManager {
         return summon.getEntity();
     }
 
+    /**
+     * Remove a summoned entity.
+     * @param uuid the UUID of the creature to remove.
+     */
     public void remove(UUID uuid) {
         SummonAttributes removed = summonedEntities.remove(uuid);
         if(removed != null) {
@@ -38,6 +48,11 @@ public class SummonsManager {
         }
     }
 
+    /**
+     * Check if a UUID belongs to a summoned creature.
+     * @param uuid the UUID to check.
+     * @return true if a summoned creature owns this UUID.
+     */
     public boolean isASummonedEntity(UUID uuid) {
         return summonedEntities.containsKey(uuid);
     }

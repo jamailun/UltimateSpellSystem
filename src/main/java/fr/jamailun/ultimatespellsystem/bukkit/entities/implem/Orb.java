@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.CustomEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import org.bukkit.entity.LivingEntity;
