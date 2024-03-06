@@ -12,9 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -121,7 +119,11 @@ public class SummonAttributes {
      * @return null if the key is not set.
      */
     public @Nullable Object getAttribute(String key) {
-        return getAttributes().get(key);
+        return attributes.get(key);
+    }
+
+    public boolean hasAttribute(String key) {
+        return attributes.containsKey(key);
     }
 
     /**
@@ -135,7 +137,7 @@ public class SummonAttributes {
     public <R> R tryGetAttribute(String key, Class<R> clazz, R defaultValue) {
         Object value = getAttribute(key);
         if(value == null) {
-            UltimateSpellSystem.logDebug("tryGetAttribute("+key+"): NULL Entries are " + List.copyOf(getAttributes().keySet()));
+            UltimateSpellSystem.logDebug("tryGetAttribute("+key+"): NULL Entries are " + List.copyOf(attributes.keySet()));
             return defaultValue;
         }
         try {
@@ -145,5 +147,24 @@ public class SummonAttributes {
             return defaultValue;
         }
     }
+
+    public <R> @NotNull List<R> tryGetAttributes(String key, Class<R> clazz) {
+        Object value = getAttribute(key);
+        if(!(value instanceof Collection<?> collection)) {
+            return Collections.emptyList();
+        }
+        List<R> list = new ArrayList<>();
+        try {
+            for(Object item : collection) {
+                list.add(clazz.cast(item));
+            }
+            return list;
+        } catch(ClassCastException e) {
+            UltimateSpellSystem.logWarning("Summon tried to read attribute " + key + ": " + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+
 
 }

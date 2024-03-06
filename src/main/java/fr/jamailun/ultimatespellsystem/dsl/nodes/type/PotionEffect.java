@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

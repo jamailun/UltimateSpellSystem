@@ -47,7 +47,7 @@ public class SendEffectNode extends RuntimeStatement {
         targets.forEach(e -> e.addPotionEffect(potionEffect));
     }
 
-    private PotionEffectType convertEffect(PotionEffect effect) {
+    public static PotionEffectType convertEffect(PotionEffect effect) {
         return switch (effect) {
             case SPEED -> PotionEffectType.SPEED;
             case SLOW -> PotionEffectType.SLOW;
