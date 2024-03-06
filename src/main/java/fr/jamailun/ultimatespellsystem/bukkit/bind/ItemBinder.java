@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -37,18 +38,26 @@ public class ItemBinder {
         if(item == null) {
             throw new BindException("ItemStack cannot be null.");
         }
-        if(item.getItemMeta() == null) {
+        ItemMeta meta = item.getItemMeta();
+        if(meta == null) {
             throw new BindException("ItemStack doesn't have metadata.");
         }
-        item.getItemMeta()
-                .getPersistentDataContainer()
-                .set(key, PersistentDataType.STRING, spell.getName());
+        // Write
+        meta.getPersistentDataContainer()
+            .set(key, PersistentDataType.STRING, spell.getName());
+        item.setItemMeta(meta);
     }
 
+    /**
+     * Remove any spell-bind to an item. If no spell have been bound, do nothing.
+     * @param item the item to unbind.
+     */
     public void unbind(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return;
-        item.getItemMeta().getPersistentDataContainer().remove(key);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().remove(key);
+        item.setItemMeta(meta);
     }
 
     /**

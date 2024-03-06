@@ -35,6 +35,7 @@ public class ItemBoundInteractListener implements Listener {
                 // Not cancellable after that !
                 def.castNotCancellable(player);
             }
+            event.setCancelled(cast.isInteractionCancelled());
         });
     }
 

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
 
+import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
@@ -35,8 +36,10 @@ public class PropertiesExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
-        // Nothing here
+    public void validateTypes(TypesContext contextParent) {
+        TypesContext context = contextParent.childContext();
+        for(ExpressionNode expression : expressions.values())
+            expression.validateTypes(context);
     }
 
     public Map<String, ExpressionNode> getExpressions() {
@@ -56,13 +59,21 @@ public class PropertiesExpression extends ExpressionNode {
                 tokens.dropOrThrow(TokenType.COMMA);
             }
             // KEY
-            Token word = tokens.nextOrThrow(TokenType.IDENTIFIER);
+            String propKey;
+            Token word = tokens.next();
+            if(word.getType() == TokenType.IDENTIFIER) {
+                propKey = word.getContentString();
+            } else if(word.getType().letters) {
+                propKey = word.getType().name().toLowerCase();
+            } else {
+                throw new SyntaxException(word, "Unexpected token for property-key.");
+            }
             // :
             tokens.dropOrThrow(TokenType.COLON);
             // VALUE
             ExpressionNode value = ExpressionNode.readNextExpression(tokens, true);
             // build
-            expressions.put(word.getContentString(), value);
+            expressions.put(propKey, value);
         }
         tokens.dropOrThrow(TokenType.PROPERTY_CLOSE);
         return new PropertiesExpression(pos, expressions);

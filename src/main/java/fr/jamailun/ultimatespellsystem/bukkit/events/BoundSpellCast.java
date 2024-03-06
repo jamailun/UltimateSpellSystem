@@ -17,6 +17,7 @@ public class BoundSpellCast extends Event implements Cancellable {
     private final SpellDefinition spell;
     private final ItemStack boundItem;
     private boolean cancelled = false;
+    private boolean interactionCancelled = true;
 
     public BoundSpellCast(Player player, SpellDefinition spell, ItemStack boundItem) {
         this.player = player;
@@ -52,5 +53,13 @@ public class BoundSpellCast extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public boolean isInteractionCancelled() {
+        return interactionCancelled;
+    }
+
+    public void setInteractionCancelled(boolean b) {
+        this.interactionCancelled = b;
     }
 }

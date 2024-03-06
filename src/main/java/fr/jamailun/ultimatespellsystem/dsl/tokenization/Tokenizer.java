@@ -2,10 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.ParsingException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -48,45 +45,12 @@ public class Tokenizer {
         OPERATORS_BI.put("[[", TokenType.ARRAY_OPEN);
         OPERATORS_BI.put("]]", TokenType.ARRAY_CLOSE);
 
-        KEYWORDS.put("null", TokenType.NULL);
-        KEYWORDS.put("if", TokenType.IF);
-        KEYWORDS.put("else", TokenType.ELSE);
-        KEYWORDS.put("and", TokenType.OPE_AND);
-        KEYWORDS.put("or", TokenType.OPE_OR);
-        KEYWORDS.put("for", TokenType.FOR);
-        KEYWORDS.put("while", TokenType.WHILE);
-        KEYWORDS.put("do", TokenType.DO);
-        KEYWORDS.put("define", TokenType.DEFINE);
-        KEYWORDS.put("stop", TokenType.STOP);
-        KEYWORDS.put("true", TokenType.TRUE);
-        KEYWORDS.put("false", TokenType.FALSE);
-        KEYWORDS.put("send", TokenType.SEND);
-        KEYWORDS.put("to", TokenType.TO);
-        KEYWORDS.put("message", TokenType.MESSAGE);
-        KEYWORDS.put("effect", TokenType.EFFECT);
-        KEYWORDS.put("all", TokenType.ALL);
-        KEYWORDS.put("including", TokenType.INCLUDING);
-        KEYWORDS.put("around", TokenType.AROUND);
-        KEYWORDS.put("within", TokenType.WITHIN);
-        KEYWORDS.put("run", TokenType.RUN);
-        KEYWORDS.put("after", TokenType.AFTER);
-        KEYWORDS.put("repeat", TokenType.REPEAT);
-        KEYWORDS.put("every", TokenType.EVERY);
-        KEYWORDS.put("times", TokenType.TIMES);
-        KEYWORDS.put("summon", TokenType.SUMMON);
-        KEYWORDS.put("as", TokenType.AS);
-        KEYWORDS.put("at", TokenType.AT);
-        KEYWORDS.put("with", TokenType.WITH);
-        KEYWORDS.put("position", TokenType.POSITION);
-        KEYWORDS.put("of", TokenType.OF);
-        KEYWORDS.put("increment", TokenType.INCREMENT);
-        KEYWORDS.put("decrement", TokenType.DECREMENT);
-        KEYWORDS.put("teleport", TokenType.TELEPORT);
-        KEYWORDS.put("foreach", TokenType.FOREACH);
-        KEYWORDS.put("play", TokenType.PLAY);
-        KEYWORDS.put("particle", TokenType.PARTICLE);
-        KEYWORDS.put("block", TokenType.BLOCK);
+        // words
+        Arrays.stream(TokenType.values())
+                        .filter(t -> t.letters)
+                        .forEach(t -> KEYWORDS.put(t.name().toLowerCase(), t));
 
+        // TimeUnits
         putTimeUnit(TimeUnit.DAYS, "d", "D", "day", "days");
         putTimeUnit(TimeUnit.HOURS, "h", "H", "hour", "hours");
         putTimeUnit(TimeUnit.MINUTES, "m", "minute", "minutes");

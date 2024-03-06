@@ -124,6 +124,16 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
+    public void handlePlayParticle(PlayParticleStatement statement) {
+        //TODO
+    }
+
+    @Override
+    public void handlePlayBlock(PlayBlockStatement statement) {
+        //TODO
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());

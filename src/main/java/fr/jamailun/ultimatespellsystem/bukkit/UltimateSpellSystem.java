@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -40,17 +41,21 @@ public final class UltimateSpellSystem extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        itemBinder = new ItemBinder(this);
 
         // Config
         reloadConfigContent();
         saveConfig();
 
+        // Managers
+        itemBinder = new ItemBinder(this);
+        spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
+        summonsManager = new SummonsManager();
+
         // Commands
         new UssCommand();
 
-        spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
-        summonsManager = new SummonsManager();
+        // Listeners
+        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder), this);
     }
 
     public static void reloadConfigContent() {

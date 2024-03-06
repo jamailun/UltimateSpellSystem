@@ -39,33 +39,51 @@ public enum TokenType {
     COMP_GE, // >=
     COMP_EQ, // ==
     COMP_NE, // !=
+    OPE_AND, // '&&'
+    OPE_OR,  // '||'
 
     // == KEYWORDS
 
-    STOP,
-    IF, ELSE,
-    FOR,
-    WHILE,DO,
+    STOP(true),
+    IF(true),
+    ELSE(true),
+    FOR(true),
+    WHILE(true),
+    DO(true),
 
-    DEFINE,
-    SEND,TO,MESSAGE,EFFECT,
-    ALL, INCLUDING, AROUND, WITHIN,
-    RUN, AFTER, TIMES, REPEAT, EVERY,
-    SUMMON, AT, AS, WITH,
-    POSITION, OF,
-    TELEPORT,
-    FOREACH,
-    PLAY, PARTICLE, BLOCK,
+    DEFINE(true),
+    SEND(true),
+    TO(true),
+    MESSAGE(true),
+    EFFECT(true),
+    ALL(true),
+    INCLUDING(true),
+    AROUND(true),
+    WITHIN(true),
+    RUN(true),
+    AFTER(true),
+    TIMES(true),
+    REPEAT(true),
+    EVERY(true),
+    SUMMON(true),
+    AT(true),
+    AS(true),
+    WITH(true),
+    POSITION(true),
+    OF(true),
+    TELEPORT(true),
+    FOREACH(true),
+    PLAY(true),
+    PARTICLE(true),
+    BLOCK(true),
 
-    INCREMENT, DECREMENT,
-
-    OPE_AND, // 'and' + '&&'
-    OPE_OR,  // 'or' + '||'
+    INCREMENT(true),
+    DECREMENT(true),
 
     // == RAW VALUES
-    TRUE,
-    FALSE,
-    NULL,
+    TRUE(true),
+    FALSE(true),
+    NULL(true),
 
     // == N-CHARS OPERATORS
 
@@ -78,6 +96,15 @@ public enum TokenType {
 
     // == END OF FILE
     EOF;
+
+    public final boolean letters;
+
+    TokenType() {
+        this(false);
+    }
+    TokenType(boolean letters) {
+        this.letters = letters;
+    }
 
     public Token toToken(TokenPosition position) {
         return new Token(this, position);

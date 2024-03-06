@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.net.BindException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class UssCommand implements CommandExecutor, TabCompleter {
@@ -27,7 +28,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         cmd.setExecutor(this);
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind");
+    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
     @Override
@@ -67,6 +68,22 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             ItemStack item = p.getInventory().getItemInMainHand();
             UltimateSpellSystem.getItemBinder().unbind(item);
             return success(sender, "Item-in hand unbound.");
+        }
+
+        if("bind-check".equals(arg0)) {
+            if (!(sender instanceof Player p)) {
+                return error(sender, "You must be a player to " + arg0 + " a spell to an item.");
+            }
+            ItemStack item = p.getInventory().getItemInMainHand();
+            Optional<String> s = UltimateSpellSystem.getItemBinder().tryFindBoundSpell(item);
+            if(s.isPresent()) {
+                String sid = s.get();
+                boolean exists = spells().getSpell(sid) != null;
+                info(sender, "Spell " + (exists?"§a":"§c") + sid + "§7 is present on the item.");
+            } else {
+                info(sender, "No spell has been bound to this item.");
+            }
+            return true;
         }
 
         // From here, another argument is required.
