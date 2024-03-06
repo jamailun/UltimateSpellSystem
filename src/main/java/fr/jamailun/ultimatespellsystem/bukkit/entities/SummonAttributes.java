@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.extensible.SummonPropertiesProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;

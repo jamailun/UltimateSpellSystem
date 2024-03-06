@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
-import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;

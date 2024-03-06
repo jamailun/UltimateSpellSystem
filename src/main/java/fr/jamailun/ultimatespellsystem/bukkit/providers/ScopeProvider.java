@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.extensible;
+package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import org.bukkit.entity.*;

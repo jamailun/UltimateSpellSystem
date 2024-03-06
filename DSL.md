@@ -117,7 +117,7 @@ An expression is a **typed** value. It can also do actions.
 
 - `all <SCOPE> within <DISTANCE> around <SOURCE> [including]` : Get all entities (of a specific scope) around something.
   - `SCOPE` a scope to filter entities with. Can be an **EntityType** or a **Custom** identifier.
-If it's the latter, see the [ScopeProvider](src/main/java/fr/jamailun/ultimatespellsystem/bukkit/extensible/ScopeProvider.java).
+If it's the latter, see the [ScopeProvider](src/main/java/fr/jamailun/ultimatespellsystem/bukkit/providers/ScopeProvider.java).
   - `DISTANCE` is a **Number**.
   - `SOURCE` is either an **Entity** or a **Location**.
   - If the keyword `including` at the end, the source will also be included in the list (**if** the source is an Entity).

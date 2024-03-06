@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.extensible;
+package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

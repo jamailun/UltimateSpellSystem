@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
-import fr.jamailun.ultimatespellsystem.bukkit.extensible.ScopeProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
