@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,7 +30,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     private SummonsManager summonsManager;
     private ItemBinder itemBinder;
 
-    private boolean configDebug;
+    private final UssConfig config = new UssConfig();
 
     public static final String PREFIX = "§b§lUSS§d | §f";
 
@@ -55,12 +56,12 @@ public final class UltimateSpellSystem extends JavaPlugin {
         new UssCommand();
 
         // Listeners
-        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder), this);
+        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config.onlyRightClick), this);
     }
 
     public static void reloadConfigContent() {
         FileConfiguration config = instance.getConfig();
-        instance.configDebug = config.getBoolean("debug", false);
+        instance.config.reload(config);
 
         logDebug("Debug mode enabled.");
     }
@@ -71,7 +72,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     }
 
     public static void logDebug(String message) {
-        if(instance.configDebug)
+        if(instance.config.debug)
             Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
     public static void logInfo(String message) {

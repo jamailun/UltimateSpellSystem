@@ -1,7 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.bind;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.events.ItemBoundEvent;
+import fr.jamailun.ultimatespellsystem.bukkit.events.ItemUnBoundEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,6 +33,8 @@ public class ItemBinder {
 
     /**
      * Bind a spell to an item.
+     * <br/>
+     * If the binding is successful, an event will be propagated.
      * @param item the item to bind the spell to.
      * @param spell the spell to bind.
      * @throws BindException if the item instance cannot be bound.
@@ -46,6 +51,8 @@ public class ItemBinder {
         meta.getPersistentDataContainer()
             .set(key, PersistentDataType.STRING, spell.getName());
         item.setItemMeta(meta);
+        // Propagate
+        Bukkit.getPluginManager().callEvent(new ItemBoundEvent(spell, item));
     }
 
     /**
@@ -53,11 +60,28 @@ public class ItemBinder {
      * @param item the item to unbind.
      */
     public void unbind(@Nullable ItemStack item) {
-        if(item == null || item.getItemMeta() == null)
+        // Check if contains spell. handles null item.
+        Optional<String> spellIdOpt = tryFindBoundSpell(item);
+        if(spellIdOpt.isEmpty())
             return;
+
+        String spellId = spellIdOpt.get();
+        SpellDefinition spell = UltimateSpellSystem.getSpellsManager().getSpell(spellId);
+
+        ItemUnBoundEvent event;
+        if(spell == null) {
+            event = new ItemUnBoundEvent(spellId, item);
+        } else {
+            event = new ItemUnBoundEvent(spell, item);
+        }
+
+        // Write
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().remove(key);
         item.setItemMeta(meta);
+
+        // Propagate
+        Bukkit.getPluginManager().callEvent(event);
     }
 
     /**
