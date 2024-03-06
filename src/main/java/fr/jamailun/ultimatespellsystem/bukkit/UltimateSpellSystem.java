@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit;
 
+import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.extensible.EntityTypeProvider;
@@ -25,6 +26,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     private SpellsManager spellsManager;
     private SummonsManager summonsManager;
+    private ItemBinder itemBinder;
 
     private boolean configDebug;
 
@@ -38,6 +40,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        itemBinder = new ItemBinder(this);
 
         // Config
         reloadConfigContent();
@@ -105,6 +108,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
         BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
         task.runTaskTimer(instance, delay, period);
         return task;
+    }
+
+    public static @NotNull ItemBinder getItemBinder() {
+        return instance.itemBinder;
     }
 
     @Override

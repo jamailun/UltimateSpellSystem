@@ -6,9 +6,11 @@ import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.net.BindException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -25,8 +27,8 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         cmd.setExecutor(this);
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable");
-    private final static List<String> args_0_with_id = List.of("cast", "disable"," enable");
+    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind");
+    private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -57,6 +59,16 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        // UNBIND
+        if("unbind".equals(arg0)) {
+            if (!(sender instanceof Player p)) {
+                return error(sender, "You must be a player to " + arg0 + " a spell to an item.");
+            }
+            ItemStack item = p.getInventory().getItemInMainHand();
+            UltimateSpellSystem.getItemBinder().unbind(item);
+            return success(sender, "Item-in hand unbound.");
+        }
+
         // From here, another argument is required.
         if(args.length == 1) {
             return error(sender, "Syntax is /" + label + " " + args[0] + " §4<id>");
@@ -75,6 +87,19 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         if("enable".equals(arg0)) {
             spell.setEnabled(true);
             return success(sender, "Successfully enabled " + id + ".");
+        }
+
+        if("bind".equals(arg0)) {
+            if(!(sender instanceof Player p)) {
+                return error(sender, "You must be a player to " + arg0 + " a spell to an item.");
+            }
+            ItemStack item = p.getInventory().getItemInMainHand();
+            try {
+                UltimateSpellSystem.getItemBinder().bind(item, spell);
+            } catch(BindException e) {
+                return error(sender, e.getMessage());
+            }
+            return success(sender, "Item bound successfully.");
         }
 
         // Cast
