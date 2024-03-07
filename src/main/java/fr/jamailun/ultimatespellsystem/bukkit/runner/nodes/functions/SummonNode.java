@@ -52,7 +52,7 @@ public class SummonNode extends RuntimeStatement {
 
         // Summon
         SpellEntity entity = UltimateSpellSystem.getSummonsManager().summon(
-                new SummonAttributes(caster, loc, entityType, getProperties(runtime), duration)
+                new SummonAttributes(caster, loc, entityType, getProperties(optProperty, runtime), duration)
         );
 
         UltimateSpellSystem.logDebug("Summon created " + entity);
@@ -60,14 +60,5 @@ public class SummonNode extends RuntimeStatement {
         if(optVariableName != null) {
             runtime.variables().set(optVariableName, entity);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> getProperties(SpellRuntime runtime) {
-        if(optProperty != null) {
-            // Already checked by type validation !
-            return (Map<String, Object>) optProperty.evaluate(runtime);
-        }
-        return Collections.emptyMap();
     }
 }

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
+package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import org.bukkit.Location;
@@ -9,13 +9,13 @@ import java.util.Map;
 /**
  * Represents particles emitted by an orb.
  */
-public class OrbParticle {
+public class ParticleHolder {
 
     private final Particle type;
     private final double radius, speed;
     private final int count;
 
-    OrbParticle(Particle type, double radius, double speed, int count) {
+    public ParticleHolder(Particle type, double radius, double speed, int count) {
         this.type = type;
         this.radius = radius;
         this.speed = speed;
@@ -30,7 +30,7 @@ public class OrbParticle {
      * @param values the map of attributes. Expected keys: {type, duration, power}
      * @return null if an error occurred.
      */
-    public static OrbParticle build(String context, double radius, Map<?, ?> values) {
+    public static ParticleHolder build(String context, double radius, Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
@@ -68,7 +68,7 @@ public class OrbParticle {
         }
 
         // Create
-        return new OrbParticle(particle, radius, speed, count);
+        return new ParticleHolder(particle, radius, speed, count);
     }
 
     /**

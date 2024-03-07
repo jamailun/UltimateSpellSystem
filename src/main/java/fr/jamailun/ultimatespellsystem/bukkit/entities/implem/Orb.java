@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.CustomEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.holders.ParticleHolder;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.holders.PotionEffectHolder;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
@@ -11,8 +13,8 @@ import java.util.*;
 public class Orb extends CustomEntity {
 
     private final double radius;
-    private final List<OrbParticle> particles = new ArrayList<>();
-    private final List<OrbEffect> effects = new ArrayList<>();
+    private final List<ParticleHolder> particles = new ArrayList<>();
+    private final List<PotionEffectHolder> effects = new ArrayList<>();
     private boolean hasEffects = false;
     private final boolean autoApply;
 
@@ -28,14 +30,14 @@ public class Orb extends CustomEntity {
         // Particles (MONO)
         Map<?,?> particleMap = attributes.tryGetAttribute("particle", Map.class, null);
         if(particleMap != null) {
-            OrbParticle op = OrbParticle.build(CTX+"particle", radius, particleMap);
+            ParticleHolder op = ParticleHolder.build(CTX+"particle", radius, particleMap);
             if(op != null)
                 particles.add(op);
         }
         // Particles (MULTI)
         if(attributes.hasAttribute("particles")) {
             for(Map<?,?> map : attributes.tryGetAttributes("particles", Map.class)) {
-                OrbParticle op = OrbParticle.build(CTX+"particles", radius, map);
+                ParticleHolder op = ParticleHolder.build(CTX+"particles", radius, map);
                 if(op != null) {
                     particles.add(op);
                 }
@@ -45,7 +47,7 @@ public class Orb extends CustomEntity {
         // Effects (MONO)
         Map<?,?> effectMap = attributes.tryGetAttribute("effect", Map.class, null);
         if(effectMap != null) {
-            OrbEffect oe = OrbEffect.build(CTX+"effect", effectMap);
+            PotionEffectHolder oe = PotionEffectHolder.build(CTX+"effect", effectMap);
             if(oe != null) {
                 effects.add(oe);
                 hasEffects = true;
@@ -54,7 +56,7 @@ public class Orb extends CustomEntity {
         // Effects (MULTI)
         if(attributes.hasAttribute("effects")) {
             for(Map<?,?> mapEffect : attributes.tryGetAttributes("effects", Map.class)) {
-                OrbEffect effect = OrbEffect.build(CTX+"effects", mapEffect);
+                PotionEffectHolder effect = PotionEffectHolder.build(CTX+"effects", mapEffect);
                 if(effect != null) {
                     effects.add(effect);
                     hasEffects = true;

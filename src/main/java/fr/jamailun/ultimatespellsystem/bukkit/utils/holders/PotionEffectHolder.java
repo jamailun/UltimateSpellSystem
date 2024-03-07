@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
+package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.SendEffectNode;
@@ -10,24 +10,24 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Represents one potion effect, given by an orb.
+ * Holds a potion effect.
  */
-public class OrbEffect {
+public class PotionEffectHolder {
 
     private final PotionEffect builtEffect;
 
-    OrbEffect(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, Duration duration, int power) {
+    public PotionEffectHolder(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, Duration duration, int power) {
         builtEffect = new PotionEffect(SendEffectNode.convertEffect(effect), (int) duration.toTicks(), power - 1);
         UltimateSpellSystem.logDebug("New orb-effect : (" + builtEffect + ")");
     }
 
     /**
-     * Build an OrbEffect from a map.
+     * Build a PotionEffectHolder from a map.
      * @param context the debug location of the attributes, used for printing-purpose.
      * @param values the map of attributes. Expected keys: {type, duration, power}
      * @return null if an error occurred.
      */
-    public static OrbEffect build(String context, Map<?, ?> values) {
+    public static PotionEffectHolder build(String context, Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect;
@@ -53,7 +53,7 @@ public class OrbEffect {
 
         // Power
         if(!values.containsKey("power")) {
-            return new OrbEffect(effect, duration, 1);
+            return new PotionEffectHolder(effect, duration, 1);
         }
 
         Object powRaw = values.get("power");
@@ -61,7 +61,7 @@ public class OrbEffect {
             UltimateSpellSystem.logError("(" + context + ") Invalid duration type : '" + durRaw + "'.");
             return null;
         }
-        return new OrbEffect(effect, duration, power.intValue());
+        return new PotionEffectHolder(effect, duration, power.intValue());
     }
 
     /**

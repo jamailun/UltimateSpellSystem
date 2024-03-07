@@ -2,6 +2,10 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.DefineNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlayBlockNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlayNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlayParticleNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlaySoundNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.IncrementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -124,13 +128,15 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handlePlayParticle(PlayParticleStatement statement) {
-        //TODO
-    }
-
-    @Override
-    public void handlePlayBlock(PlayBlockStatement statement) {
-        //TODO
+    public void handlePlay(PlayStatement statement) {
+        RuntimeExpression location = convert(statement.getLocation());
+        RuntimeExpression properties = convert(statement.getProperties());
+        PlayNode node = switch (statement.getType()) {
+            case BLOCK -> new PlayBlockNode(location, properties);
+            case PARTICLE -> new PlayParticleNode(location, properties);
+            case SOUND -> new PlaySoundNode(location, properties);
+        };
+        add(node);
     }
 
     @Override

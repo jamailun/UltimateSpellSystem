@@ -18,8 +18,7 @@ public interface StatementVisitor {
     void handleBlock(BlockStatement statement);
     void handleIncrement(IncrementStatement statement);
     void handleTeleport(TeleportStatement statement);
-    void handlePlayParticle(PlayParticleStatement statement);
-    void handlePlayBlock(PlayBlockStatement statement);
+    void handlePlay(PlayStatement statement);
 
     void handleIf(IfElseStatement statement);
     void handleForLoop(ForLoopStatement statement);

@@ -190,27 +190,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handlePlayParticle(PlayParticleStatement statement) {
-        builder.append("PLAY PARTICLE '")
-                .append(statement.getParticleType())
+    public void handlePlay(PlayStatement statement) {
+        builder.append("PLAY ")
+                .append(statement.getType())
                 .append(" AT ");
         statement.getLocation().visit(this);
-        statement.getProperties().ifPresent(p -> {
-            builder.append(" WITH ");
-            p.visit(this);
-        });
-    }
-
-    @Override
-    public void handlePlayBlock(PlayBlockStatement statement) {
-        builder.append("PLAY BLOCK '");
-        statement.getBlockType().visit(this);
-        builder.append(" AT ");
-        statement.getLocation().visit(this);
-        statement.getProperties().ifPresent(p -> {
-            builder.append(" WITH ");
-            p.visit(this);
-        });
+        builder.append(" WITH ");;
+        statement.getProperties().visit(this);
     }
 
     @Override
