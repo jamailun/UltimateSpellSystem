@@ -77,6 +77,7 @@ public enum TokenType {
     PARTICLE(true),
     BLOCK(true),
     SOUND(true),
+    CALL(true),
 
     INCREMENT(true),
     DECREMENT(true),

@@ -1,20 +1,19 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * An event about a binding of a spell.
  */
 public abstract class BindingEvent extends Event {
     private final String spellId;
-    protected final SpellDefinition spell;
+    protected final Spell spell;
     private final ItemStack boundItem;
 
-    public BindingEvent(SpellDefinition spell, ItemStack boundItem) {
+    public BindingEvent(Spell spell, ItemStack boundItem) {
         this.spell = spell;
         this.spellId = spell.getName();
         this.boundItem = boundItem;
@@ -37,7 +36,7 @@ public abstract class BindingEvent extends Event {
      * Get the spell ID, used by this event.
      * @return a non-null spell definition.
      */
-    public SpellDefinition getSpell() {
+    public Spell getSpell() {
         return spell;
     }
 

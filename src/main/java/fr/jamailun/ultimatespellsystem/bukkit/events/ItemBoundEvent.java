@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ItemBoundEvent extends BindingEvent {
 
-    public ItemBoundEvent(SpellDefinition spell, ItemStack boundItem) {
+    public ItemBoundEvent(Spell spell, ItemStack boundItem) {
         super(spell, boundItem);
     }
 

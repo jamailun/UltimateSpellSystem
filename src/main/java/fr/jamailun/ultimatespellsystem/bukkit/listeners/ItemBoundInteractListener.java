@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCast;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +34,7 @@ public class ItemBoundInteractListener implements Listener {
 
         // If it finds the spell, cast it (according to event result)
         binder.tryFindBoundSpell(inHand).ifPresent(id -> {
-            SpellDefinition def = UltimateSpellSystem.getSpellsManager().getSpell(id);
+            Spell def = UltimateSpellSystem.getSpellsManager().getSpell(id);
             if(def == null) {
                 UltimateSpellSystem.logError("Player " + player.getName() + " used item " + inHand + ". Unknown spell-id: '"+id+"'.");
                 return;

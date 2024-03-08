@@ -19,6 +19,7 @@ public interface StatementVisitor {
     void handleIncrement(IncrementStatement statement);
     void handleTeleport(TeleportStatement statement);
     void handlePlay(PlayStatement statement);
+    void functionCall(FunctionCallStatement statement);
 
     void handleIf(IfElseStatement statement);
     void handleForLoop(ForLoopStatement statement);

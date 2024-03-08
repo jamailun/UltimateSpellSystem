@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.commands;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -91,7 +91,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             return error(sender, "Syntax is /" + label + " " + args[0] + " §4<id>");
         }
         String id = args[1].toLowerCase();
-        SpellDefinition spell = spells().getSpell(id);
+        Spell spell = spells().getSpell(id);
         if(spell == null) {
             return error(sender, "Unknown spell ID '" + id + "'. Do §7/"+label+" list§c to obtain the list of existing spells.");
         }
@@ -184,7 +184,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private String print(SpellDefinition spell) {
+    private String print(Spell spell) {
         return (spell.isEnabled() ? "§a" : "§c") + spell.getName();
     }
 

@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ public class ItemUnBoundEvent extends BindingEvent {
     public ItemUnBoundEvent(String spellId, ItemStack boundItem) {
         super(spellId, boundItem);
     }
-    public ItemUnBoundEvent(SpellDefinition spell, ItemStack boundItem) {
+    public ItemUnBoundEvent(Spell spell, ItemStack boundItem) {
         super(spell, boundItem);
     }
 
@@ -24,7 +24,7 @@ public class ItemUnBoundEvent extends BindingEvent {
      * @see #getSpellId()
      */
     @Override
-    public @Nullable SpellDefinition getSpell() {
+    public @Nullable Spell getSpell() {
         return spell;
     }
 

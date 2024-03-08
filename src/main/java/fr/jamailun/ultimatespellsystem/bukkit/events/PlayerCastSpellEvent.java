@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -12,17 +12,17 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerCastSpellEvent extends Event implements MaybeCancellable {
 
     private final Player player;
-    private final SpellDefinition spell;
+    private final Spell spell;
     private boolean cancelled = false;
     private final boolean cancellable;
 
-    public PlayerCastSpellEvent(Player player, SpellDefinition spell, boolean cancellable) {
+    public PlayerCastSpellEvent(Player player, Spell spell, boolean cancellable) {
         this.player = player;
         this.spell = spell;
         this.cancellable = cancellable;
     }
 
-    public @NotNull SpellDefinition getSpell() {
+    public @NotNull Spell getSpell() {
         return spell;
     }
 

@@ -45,6 +45,7 @@ public abstract class StatementNode extends Node {
             case SUMMON -> SummonStatement.parseSummonStatement(tokens);
             case TELEPORT -> TeleportStatement.parseTeleport(tokens);
             case PLAY -> PlayStatement.parsePlay(tokens);
+            case CALL -> FunctionCallStatement.parseFunctionCall(tokens);
 
             // Control-Flow
             case IF -> IfElseStatement.parseIfStatement(tokens);

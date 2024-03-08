@@ -1,6 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.spells;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.HashMap;
@@ -9,7 +11,8 @@ import java.util.Map;
 
 public final class SpellsManager {
 
-    private final Map<String, SpellDefinition> spells = new HashMap<>();
+    private final Map<String, SpellFunction> functions = new HashMap<>();
+    private final Map<String, Spell> spells = new HashMap<>();
     private final File spellsFolder;
 
     public SpellsManager(File spellsFolder) {
@@ -32,12 +35,31 @@ public final class SpellsManager {
             return;
         }
         for(File child : children) {
-            SpellDefinition definition = SpellDefinition.loadFile(child);
+            Spell definition = SpellDefinition.loadFile(child);
             if(definition != null)
                 spells.put(definition.getName(), definition);
         }
 
         UltimateSpellSystem.logInfo("Loaded " + spells.size() + " spells.");
+    }
+
+    /**
+     * Register a custom spell implementation.
+     * @param spell the spell to use.
+     * @return false if the spell is invalid or if the name already exists. True in case of success.
+     */
+    public boolean registerSpell(Spell spell) {
+        if(spell == null || spell.getName() == null || spell.getName().isBlank() || spell.getName().isEmpty()) {
+            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell + " : null spell or null/empty name.");
+            return false;
+        }
+        if(spells.containsKey(spell.getName())) {
+            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell.getName() + " : duplicate name.");
+            return false;
+        }
+        spells.put(spell.getName(), spell);
+        UltimateSpellSystem.logDebug("Registered custom spell '" + spell.getName() + "'.");
+        return true;
     }
 
     /**
@@ -48,8 +70,17 @@ public final class SpellsManager {
         return List.copyOf(spells.keySet());
     }
 
-    public SpellDefinition getSpell(String name) {
+    public @Nullable Spell getSpell(String name) {
         return spells.get(name);
+    }
+
+    public void registerFunction(@NotNull String id, @NotNull SpellFunction function) {
+        functions.put(id, function);
+        UltimateSpellSystem.logDebug("Registered spell-function '" + id + "'.");
+    }
+
+    public @Nullable SpellFunction getFunction(String id) {
+        return functions.get(id);
     }
 
 }

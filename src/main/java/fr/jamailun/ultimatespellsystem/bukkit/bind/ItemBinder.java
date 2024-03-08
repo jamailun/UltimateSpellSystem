@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.bind;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.events.ItemBoundEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.events.ItemUnBoundEvent;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,7 @@ import java.net.BindException;
 import java.util.Optional;
 
 /**
- * Utils class, able to bind a {@link SpellDefinition} ID to an {@link ItemStack}.
+ * Utils class, able to bind a {@link Spell} ID to an {@link ItemStack}.
  */
 public class ItemBinder {
 
@@ -39,7 +39,7 @@ public class ItemBinder {
      * @param spell the spell to bind.
      * @throws BindException if the item instance cannot be bound.
      */
-    public void bind(@Nullable ItemStack item, @NotNull SpellDefinition spell) throws BindException {
+    public void bind(@Nullable ItemStack item, @NotNull Spell spell) throws BindException {
         if(item == null) {
             throw new BindException("ItemStack cannot be null.");
         }
@@ -66,7 +66,7 @@ public class ItemBinder {
             return;
 
         String spellId = spellIdOpt.get();
-        SpellDefinition spell = UltimateSpellSystem.getSpellsManager().getSpell(spellId);
+        Spell spell = UltimateSpellSystem.getSpellsManager().getSpell(spellId);
 
         ItemUnBoundEvent event;
         if(spell == null) {

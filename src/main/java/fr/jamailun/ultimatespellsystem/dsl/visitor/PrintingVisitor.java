@@ -200,6 +200,19 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void functionCall(FunctionCallStatement statement) {
+        builder.append("CALL ")
+                .append(statement.getFunctionId())
+                .append(" (");
+        boolean first = true;
+        for(ExpressionNode arg : statement.getArguments()) {
+            if(first) first = false; else builder.append(", ");
+            arg.visit(this);
+        }
+        builder.append(")");
+    }
+
+    @Override
     public void handleIf(IfElseStatement statement) {
         builder.append(indent()).append("IF(");
         statement.getCondition().visit(this);

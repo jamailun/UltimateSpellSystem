@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellDefinition;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -16,7 +16,7 @@ public class BoundSpellCast extends BindingEvent implements Cancellable {
     private boolean cancelled = false;
     private boolean interactionCancelled = true;
 
-    public BoundSpellCast(Player player, SpellDefinition spell, ItemStack boundItem) {
+    public BoundSpellCast(Player player, Spell spell, ItemStack boundItem) {
         super(spell, boundItem);
         this.player = player;
     }
