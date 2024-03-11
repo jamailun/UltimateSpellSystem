@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
@@ -10,15 +11,17 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Event called every time a player cast a USS spell.
  */
-public class BoundSpellCast extends BindingEvent implements Cancellable {
+public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
 
     private final LivingEntity caster;
     private boolean cancelled = false;
     private boolean interactionCancelled = true;
+    private final Action action;
 
-    public BoundSpellCast(LivingEntity caster, Spell spell, ItemStack boundItem) {
+    public BoundSpellCastEvent(LivingEntity caster, Spell spell, ItemStack boundItem, Action action) {
         super(spell, boundItem);
         this.caster = caster;
+        this.action = action;
     }
 
     /**
@@ -36,6 +39,10 @@ public class BoundSpellCast extends BindingEvent implements Cancellable {
     }
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+
+    public @NotNull Action getAction() {
+        return action;
     }
 
     @Override
@@ -62,5 +69,23 @@ public class BoundSpellCast extends BindingEvent implements Cancellable {
      */
     public void setInteractionCancelled(boolean b) {
         this.interactionCancelled = b;
+    }
+
+    public enum Action {
+        LEFT_CLICK_AIR,
+        LEFT_CLICK_BLOCK,
+        RIGHT_CLICK_AIR,
+        RIGHT_CLICK_BLOCK,
+        ATTACK;
+
+        public static Action convert(org.bukkit.event.block.Action action) {
+            return switch (action) {
+                case LEFT_CLICK_BLOCK -> LEFT_CLICK_BLOCK;
+                case RIGHT_CLICK_BLOCK -> RIGHT_CLICK_BLOCK;
+                case LEFT_CLICK_AIR -> LEFT_CLICK_AIR;
+                case RIGHT_CLICK_AIR -> RIGHT_CLICK_AIR;
+                case PHYSICAL -> throw new UnreachableRuntimeException("Cannot be physical.");
+            };
+        }
     }
 }

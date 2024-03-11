@@ -2,7 +2,6 @@ package fr.jamailun.ultimatespellsystem.bukkit.events;
 
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -56,4 +55,5 @@ public class EntityCastSpellEvent extends Event implements MaybeCancellable {
     public boolean isCancellable() {
         return cancellable;
     }
+
 }

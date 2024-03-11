@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
-import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCast;
+import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,8 +25,8 @@ public class ItemBoundInteractListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void playerInteracts(PlayerInteractEvent event) {
-        // Optionally ignore non right-click.
-        if(onlyRightClick && (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK))
+        // Optionally ignore non right-click (but always ignore PHYSICAL !)
+        if(event.getAction() == Action.PHYSICAL || onlyRightClick && (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK))
             return;
 
         Player player = event.getPlayer();
@@ -39,7 +39,7 @@ public class ItemBoundInteractListener implements Listener {
                 UltimateSpellSystem.logError("Player " + player.getName() + " used item " + inHand + ". Unknown spell-id: '"+id+"'.");
                 return;
             }
-            BoundSpellCast cast = new BoundSpellCast(player, def, inHand);
+            BoundSpellCastEvent cast = new BoundSpellCastEvent(player, def, inHand, BoundSpellCastEvent.Action.convert(event.getAction()));
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !

@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
-import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCast;
+import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
@@ -37,7 +37,7 @@ public class AttackListener implements Listener {
                 UltimateSpellSystem.logError("Entity " + entity.getName() + " used item " + item + ". Unknown spell-id: '"+id+"'.");
                 return;
             }
-            BoundSpellCast cast = new BoundSpellCast(entity, def, item);
+            BoundSpellCastEvent cast = new BoundSpellCastEvent(entity, def, item, BoundSpellCastEvent.Action.ATTACK);
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
