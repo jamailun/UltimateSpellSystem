@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionO
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 
 /**
  * A visitor. Can interact with the node-tree.
@@ -36,5 +37,6 @@ public interface ExpressionVisitor {
     // Functions
     void handleAllAround(AllEntitiesAroundExpression expression);
     void handlePositionOf(PositionOfExpression expression);
+    void handleCustomExpression(CustomExpression expression);
 
 }

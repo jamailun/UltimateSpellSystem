@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperato
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
@@ -112,6 +113,7 @@ public abstract class ExpressionNode extends Node {
             // 'function'-expressions
             case ALL -> AllEntitiesAroundExpression.parseAllExpression(tokens);
             case POSITION -> PositionOfExpression.parsePositionOf(tokens);
+            case CALL -> CustomExpression.parseCustomExpressionCall(tokens);
 
             // Other
             default -> throw new SyntaxException(token, "Unexpected expression-start.");
