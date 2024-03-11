@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.events;
 
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
@@ -12,21 +12,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BoundSpellCast extends BindingEvent implements Cancellable {
 
-    private final Player player;
+    private final LivingEntity caster;
     private boolean cancelled = false;
     private boolean interactionCancelled = true;
 
-    public BoundSpellCast(Player player, Spell spell, ItemStack boundItem) {
+    public BoundSpellCast(LivingEntity caster, Spell spell, ItemStack boundItem) {
         super(spell, boundItem);
-        this.player = player;
+        this.caster = caster;
     }
 
     /**
      * Get the player casting the spell.
      * @return a non-null player, holding an item bound to a spell.
      */
-    public @NotNull Player getPlayer() {
-        return player;
+    public @NotNull LivingEntity getCaster() {
+        return caster;
     }
 
     private static final HandlerList HANDLERS = new HandlerList();

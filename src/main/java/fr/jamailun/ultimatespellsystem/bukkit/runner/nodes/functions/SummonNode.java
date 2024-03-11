@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.Collections;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class SummonNode extends RuntimeStatement {
     public void run(SpellRuntime runtime) {
         UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
-        Entity caster = runtime.getCaster();
+        LivingEntity caster = runtime.getCaster();
         Location loc = caster.getLocation();
         if(source != null) {
             Object sourceValue = source.evaluate(runtime);

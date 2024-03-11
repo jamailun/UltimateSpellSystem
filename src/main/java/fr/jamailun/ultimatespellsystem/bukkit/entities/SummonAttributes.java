@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +21,7 @@ import java.util.function.Consumer;
  */
 public class SummonAttributes {
 
-    protected final Entity summoner;
+    protected final LivingEntity summoner;
     protected final Map<String, Object> attributes;
     protected final Location summonLocation;
     protected final UssEntityType summonEntityType;
@@ -38,7 +39,7 @@ public class SummonAttributes {
      * @param attributes properties to use. Implementation-dependent.
      * @param duration the duration of the summoning, after which the creature will be removed.
      */
-    public SummonAttributes(Entity summoner, Location location, UssEntityType type, Map<String, Object> attributes, Duration duration) {
+    public SummonAttributes(LivingEntity summoner, Location location, UssEntityType type, Map<String, Object> attributes, Duration duration) {
         this.summoner = summoner;
         this.summonLocation = location;
         this.summonEntityType = type;
@@ -88,9 +89,9 @@ public class SummonAttributes {
 
     /**
      * Get the summoner, i.e. the caster.
-     * @return a non-null SpellEntity.
+     * @return a non-null LivingEntity.
      */
-    public @NotNull Entity getSummoner() {
+    public @NotNull LivingEntity getSummoner() {
         return summoner;
     }
 

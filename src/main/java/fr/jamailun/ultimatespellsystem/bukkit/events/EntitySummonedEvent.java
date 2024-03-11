@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.events;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ public class EntitySummonedEvent extends Event {
      * Get the entity that has been summoned.
      * @return a non-null bukkit Entity.
      */
-    public @NotNull Entity getSummoner() {
+    public @NotNull LivingEntity getSummoner() {
         return attributes.getSummoner();
     }
 

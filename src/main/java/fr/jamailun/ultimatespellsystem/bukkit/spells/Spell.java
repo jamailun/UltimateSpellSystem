@@ -1,8 +1,9 @@
 package fr.jamailun.ultimatespellsystem.bukkit.spells;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.events.PlayerCastSpellEvent;
+import fr.jamailun.ultimatespellsystem.bukkit.events.EntityCastSpellEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,27 +18,27 @@ public abstract class Spell {
 
     /**
      * Cast a spell, in a forceful way. An event will be emitted.
-     * @param player the play to cast the spell.
-     * @see PlayerCastSpellEvent
+     * @param entity the play to cast the spell.
+     * @see EntityCastSpellEvent
      */
-    public final void castNotCancellable(@NotNull Player player) {
-        Bukkit.getServer().getPluginManager().callEvent(new PlayerCastSpellEvent(player, this, false));
-        castSpell(player);
+    public final void castNotCancellable(@NotNull LivingEntity entity) {
+        Bukkit.getServer().getPluginManager().callEvent(new EntityCastSpellEvent(entity, this, false));
+        castSpell(entity);
     }
 
     /**
      * Cast a spell, in a cancellable way. An event will be emitted.
      * @param player the play to cast the spell.
-     * @see PlayerCastSpellEvent
+     * @see EntityCastSpellEvent
      */
     public final void cast(@NotNull Player player) {
-        PlayerCastSpellEvent event = new PlayerCastSpellEvent(player, this, true);
+        EntityCastSpellEvent event = new EntityCastSpellEvent(player, this, true);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled())
             castSpell(player);
     }
 
-    protected abstract void castSpell(@NotNull Player player);
+    protected abstract void castSpell(@NotNull LivingEntity player);
 
 
     public final boolean isEnabled() {

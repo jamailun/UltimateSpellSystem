@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.builder.SpellBuilderVisitor;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,12 +56,12 @@ public class SpellDefinition extends Spell {
     }
 
     @Override
-    protected void castSpell(@NotNull Player player) {
+    protected void castSpell(@NotNull LivingEntity caster) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
-        UltimateSpellSystem.logDebug(prefix + " Casted on " + player);
+        UltimateSpellSystem.logDebug(prefix + " Casted on " + caster);
 
-        SpellRuntime runtime = new SpellRuntime(player);
+        SpellRuntime runtime = new SpellRuntime(caster);
         for(RuntimeStatement statement : steps) {
             UltimateSpellSystem.logDebug(prefix + "Running " + statement.toString());
             statement.run(runtime);
@@ -69,6 +70,6 @@ public class SpellDefinition extends Spell {
                 break;
         }
 
-        UltimateSpellSystem.logDebug(prefix + "End of cast on " + player);
+        UltimateSpellSystem.logDebug(prefix + "End of cast on " + caster);
     }
 }
