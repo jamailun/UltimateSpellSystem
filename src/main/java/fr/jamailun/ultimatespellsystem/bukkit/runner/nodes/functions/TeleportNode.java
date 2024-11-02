@@ -23,6 +23,9 @@ public class TeleportNode extends RuntimeStatement {
     public void run(SpellRuntime runtime) {
         List<SpellEntity> entities = runtime.safeEvaluateAcceptsList(this.entity, SpellEntity.class);
         Object target = this.target.evaluate(runtime);
+        if(target instanceof List<?> list && list.size() == 1) {
+            target = list.get(0);
+        }
 
         Location location;
         if(target instanceof Location loc) {

@@ -11,7 +11,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
 
+@Getter
 public class PlayStatement extends StatementNode {
 
     private final Type type;
@@ -45,18 +47,6 @@ public class PlayStatement extends StatementNode {
         ExpressionNode properties = ExpressionNode.readNextExpression(tokens);
         tokens.dropOptional(TokenType.SEMI_COLON);
         return new PlayStatement(type, location, properties);
-    }
-
-    public ExpressionNode getLocation() {
-        return location;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public ExpressionNode getProperties() {
-        return properties;
     }
 
     @Override

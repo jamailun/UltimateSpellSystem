@@ -40,6 +40,9 @@ public class SpellRuntime {
         if(expression == null)
             return null;
         Object value = expression.evaluate(this);
+        if(value instanceof List<?> list && list.size() == 1) {
+            return clazz.cast(list.get(0));
+        }
         return clazz.cast(value);
     }
 

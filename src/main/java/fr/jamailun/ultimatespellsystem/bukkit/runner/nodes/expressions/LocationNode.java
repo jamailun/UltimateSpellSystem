@@ -38,4 +38,9 @@ public class LocationNode extends RuntimeExpression {
         }
         return new Location(world, x, y, z);
     }
+
+    @Override
+    public String toString() {
+        return "LOC("+world+", " + x + ", " + y + ", " + z + ")";
+    }
 }
