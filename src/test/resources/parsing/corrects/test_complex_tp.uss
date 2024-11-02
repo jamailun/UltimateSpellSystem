@@ -3,7 +3,7 @@ define %delay = 2 seconds;
 define %output = @("world", 0, 100, 0);
 
 # If monsters around, cancel
-if(sizeof(all monsters within 5 around %caster) < 1) {
+if(sizeof(all monsters within 5 around %caster) != 0) {
   send to %caster message "&cDes monstres sont trop proches de toi.";
   stop;
 }
