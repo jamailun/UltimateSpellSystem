@@ -1,8 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner;
 
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
+import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,11 +11,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The execution context of a spell.
+ */
 public class SpellRuntime {
 
     private final VariablesSet variables = new VariablesSet();
-    private final LivingEntity caster;
-    private boolean stopped = false;
+    @Getter private final LivingEntity caster;
+    @Getter private boolean stopped = false;
 
     public SpellRuntime(@NotNull LivingEntity caster) {
         this.caster = caster;
@@ -26,10 +29,6 @@ public class SpellRuntime {
         this.caster = caster;
         this.variables.copy(variables);
         this.stopped = stopped;
-    }
-
-    public LivingEntity getCaster() {
-        return caster;
     }
 
     public VariablesSet variables() {
@@ -65,10 +64,6 @@ public class SpellRuntime {
         }
         T singleton = clazz.cast(value);
         return Collections.singletonList(singleton);
-    }
-
-    public boolean isStopped() {
-        return stopped;
     }
 
     public void stop() {

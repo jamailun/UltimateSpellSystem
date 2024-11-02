@@ -3,12 +3,17 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class VariablesSet {
 
     private final Map<String, Object> objects = new HashMap<>();
+
+    public List<String> names() {
+        return List.copyOf(objects.keySet());
+    }
 
     public Object get(String key) {
         return objects.get(key);

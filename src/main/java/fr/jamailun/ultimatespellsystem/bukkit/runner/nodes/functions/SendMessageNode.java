@@ -25,12 +25,20 @@ public class SendMessageNode extends RuntimeStatement {
 
         List<Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
                 .stream()
+                .map(message -> replaceVars(message, runtime.makeChild()))
                 .map(KyoriAdaptor::adventure)
                 .toList();
 
         for(SpellEntity target : targets) {
             messages.forEach(target::sendMessage);
         }
+    }
+
+    private String replaceVars(String value, SpellRuntime runtime) {
+        for(String varName : runtime.variables().names()) {
+            value = value.replace("%" + varName, String.valueOf(runtime.variables().get(varName)));
+        }
+        return value;
     }
 
     @Override
