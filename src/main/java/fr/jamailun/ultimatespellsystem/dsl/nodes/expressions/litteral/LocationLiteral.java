@@ -88,4 +88,9 @@ public class LocationLiteral extends ExpressionNode {
 
         return new LocationLiteral(position, world, x, y, z, yaw, pitch);
     }
+
+    @Override
+    public String toString() {
+        return "Loc{"+world+", ("+vectorX+","+vectorY+","+vectorZ+")}";
+    }
 }

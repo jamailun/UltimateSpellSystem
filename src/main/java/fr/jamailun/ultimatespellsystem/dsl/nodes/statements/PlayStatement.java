@@ -58,4 +58,8 @@ public class PlayStatement extends StatementNode {
         BLOCK, PARTICLE, SOUND
     }
 
+    @Override
+    public String toString() {
+        return "Play_"+type+" :: " + properties;
+    }
 }

@@ -46,4 +46,9 @@ public class SizeOfExpression extends ExpressionNode {
 
         return new SizeOfExpression(position, child);
     }
+
+    @Override
+    public String toString() {
+        return "size-of(" + child + ")";
+    }
 }

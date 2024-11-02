@@ -77,7 +77,7 @@ public abstract class ExpressionNode extends Node {
                 yield new SubOperator(position, new NumberExpression(position, 0), nextExpression);
             }
             // Literals
-            case VALUE_NUMBER -> new NumberExpression(token); // UNIT !!!
+            case VALUE_NUMBER -> new NumberExpression(token);
             case TRUE, FALSE -> new BooleanExpression(token);
             case VALUE_STRING -> new StringExpression(token);
             case VALUE_DURATION -> new DurationExpression(token);

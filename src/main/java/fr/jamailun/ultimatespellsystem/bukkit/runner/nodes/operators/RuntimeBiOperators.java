@@ -21,7 +21,7 @@ public abstract class RuntimeBiOperators extends RuntimeExpression {
         if(left instanceof List<?> listLeft && listLeft.size() == 1)
             left = listLeft.get(0);
 
-        Object right = leftExpression.evaluate(runtime);
+        Object right = rightExpression.evaluate(runtime);
         if(right instanceof List<?> listRight && listRight.size() == 1)
             right = listRight.get(0);
 
