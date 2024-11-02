@@ -16,8 +16,8 @@ public final class RunCompOpe extends RuntimeBiOperators {
 
     @Override
     protected Boolean evaluate(Object left, Object right) {
-        if(left instanceof Double ld && right instanceof Double rd) {
-            return compare(ld, rd);
+        if(left instanceof Number ld && right instanceof Number rd) {
+            return compare(ld.doubleValue(), rd.doubleValue());
         }
         if(left instanceof Duration ld && right instanceof Duration rd) {
             return compare(ld.toSeconds(), rd.toSeconds());

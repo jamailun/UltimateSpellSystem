@@ -14,8 +14,8 @@ public final class RunMulDivOpe extends RuntimeBiOperators {
     @Override
     protected Object evaluate(Object left, Object right) {
         // Left and right MUSt be numbers !
-        if(left instanceof Double l && right instanceof Double r) {
-            return isMultiplication ? (l * r) : (l / r);
+        if(left instanceof Number l && right instanceof Number r) {
+            return isMultiplication ? (l.doubleValue() * r.doubleValue()) : (l.doubleValue() / r.doubleValue());
         }
         throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }

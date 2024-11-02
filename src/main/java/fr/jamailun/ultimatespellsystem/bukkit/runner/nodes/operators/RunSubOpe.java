@@ -26,8 +26,8 @@ public final class RunSubOpe extends RuntimeBiOperators {
         if(right == null) return left;
 
         // Add doubles
-        if(left instanceof Double ld && right instanceof Double rd) {
-            return ld - rd;
+        if(left instanceof Number ld && right instanceof Number rd) {
+            return ld.doubleValue() - rd.doubleValue();
         }
         // Add durations
         if(left instanceof Duration ld && right instanceof Duration rd) {
