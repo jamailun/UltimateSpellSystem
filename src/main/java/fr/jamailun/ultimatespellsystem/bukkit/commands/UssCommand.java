@@ -49,13 +49,13 @@ public class UssCommand implements CommandExecutor, TabCompleter {
 
         // LIST
         if("list".equals(arg0)) {
-            List<String> ids = spells().spellIds();
-            if(ids.isEmpty()) {
+            List<Spell> spells = spells().spells();
+            if(spells.isEmpty()) {
                 return info(sender, "Aucun spell n'a été configuré.");
             }
-            info(sender, "List des " + ids.size() + " spells:");
-            for(String id : ids) {
-                info(sender, "- " + print(spells().getSpell(id)));
+            info(sender, "List des " + spells.size() + " spells:");
+            for(Spell spell : spells) {
+                info(sender, "- " + print(spell));
             }
             return true;
         }
@@ -79,7 +79,8 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             if(s.isPresent()) {
                 String sid = s.get();
                 boolean exists = spells().getSpell(sid) != null;
-                info(sender, "Spell " + (exists?"§a":"§c") + sid + "§7 is present on the item.");
+                boolean destroy = UltimateSpellSystem.getItemBinder().hasDestroyKey(item);
+                info(sender, "Spell " + (exists?"§a":"§c") + sid + "§7 is present on the item" + (destroy ? " §3[Destroyable]" : "") + "§7.");
             } else {
                 info(sender, "No spell has been bound to this item.");
             }
@@ -110,9 +111,13 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             if(!(sender instanceof Player p)) {
                 return error(sender, "You must be a player to " + arg0 + " a spell to an item.");
             }
+            boolean destroy = false;
+            if(args.length > 2) {
+                destroy = Boolean.parseBoolean(args[2]);
+            }
             ItemStack item = p.getInventory().getItemInMainHand();
             try {
-                UltimateSpellSystem.getItemBinder().bind(item, spell);
+                UltimateSpellSystem.getItemBinder().bind(item, spell, destroy);
             } catch(BindException e) {
                 return error(sender, e.getMessage());
             }
@@ -140,7 +145,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        return error(sender, "I'm not supposed to be here...");
+        throw new RuntimeException("Unreachable exception.");
     }
 
     @Override

@@ -42,6 +42,7 @@ public class AttackListener implements Listener {
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
                 def.castNotCancellable(entity);
+                // Don't decrement item.
             }
             event.setCancelled(cast.isInteractionCancelled());
         });

@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 public class ItemBinder {
 
-    private final NamespacedKey key;
+    private final NamespacedKey key, destroyKey;
 
     /**
      * Create a new binder.
@@ -29,6 +30,7 @@ public class ItemBinder {
      */
     public ItemBinder(Plugin plugin) {
         this.key = new NamespacedKey(plugin, "spell");
+        this.destroyKey = new NamespacedKey(plugin, "spell.destroy");
     }
 
     /**
@@ -39,7 +41,7 @@ public class ItemBinder {
      * @param spell the spell to bind.
      * @throws BindException if the item instance cannot be bound.
      */
-    public void bind(@Nullable ItemStack item, @NotNull Spell spell) throws BindException {
+    public void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws BindException {
         if(item == null) {
             throw new BindException("ItemStack cannot be null.");
         }
@@ -48,8 +50,13 @@ public class ItemBinder {
             throw new BindException("ItemStack doesn't have metadata.");
         }
         // Write
-        meta.getPersistentDataContainer()
-            .set(key, PersistentDataType.STRING, spell.getName());
+        PersistentDataContainer nbt = meta.getPersistentDataContainer();
+        nbt.set(key, PersistentDataType.STRING, spell.getName());
+        if(destroy) {
+           nbt.set(destroyKey, PersistentDataType.BOOLEAN, true);
+        } else {
+            nbt.remove(destroyKey);
+        }
         item.setItemMeta(meta);
         // Propagate
         Bukkit.getPluginManager().callEvent(new ItemBoundEvent(spell, item));
@@ -62,7 +69,7 @@ public class ItemBinder {
     public void unbind(@Nullable ItemStack item) {
         // Check if contains spell. handles null item.
         Optional<String> spellIdOpt = tryFindBoundSpell(item);
-        if(spellIdOpt.isEmpty())
+        if(item == null || spellIdOpt.isEmpty())
             return;
 
         String spellId = spellIdOpt.get();
@@ -78,6 +85,7 @@ public class ItemBinder {
         // Write
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().remove(key);
+        meta.getPersistentDataContainer().remove(destroyKey);
         item.setItemMeta(meta);
 
         // Propagate
@@ -96,10 +104,13 @@ public class ItemBinder {
     }
 
     /**
-     * Get the key used by this binder.
-     * @return a non-null key with the 'spell' name.
+     * Check if an item should be destroyed after being used.
+     * @param item the item to test. Can be null.
+     * @return if the item has the "destroy key".
      */
-    public @NotNull NamespacedKey getKey() {
-        return key;
+    public boolean hasDestroyKey(@Nullable ItemStack item) {
+        if(item == null || item.getItemMeta() == null)
+            return false;
+        return item.getItemMeta().getPersistentDataContainer().has(destroyKey);
     }
 }

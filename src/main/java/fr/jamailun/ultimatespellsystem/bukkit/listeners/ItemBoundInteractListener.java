@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,6 +45,10 @@ public class ItemBoundInteractListener implements Listener {
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
                 def.castNotCancellable(player);
+                // Decrement item-count if needed.
+                if(player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(inHand)) {
+                    player.getInventory().getItemInMainHand().setAmount(inHand.getAmount() - 1);
+                }
             }
             event.setCancelled(cast.isInteractionCancelled());
         });

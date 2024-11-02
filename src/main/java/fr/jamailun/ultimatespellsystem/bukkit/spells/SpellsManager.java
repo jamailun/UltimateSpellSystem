@@ -70,6 +70,10 @@ public final class SpellsManager {
         return List.copyOf(spells.keySet());
     }
 
+    public List<Spell> spells() {
+        return List.copyOf(spells.values());
+    }
+
     public @Nullable Spell getSpell(String name) {
         return spells.get(name);
     }
