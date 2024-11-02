@@ -1,0 +1,27 @@
+# -- config                                                                             test                                                                                          # -- config
+define %delay = 2 seconds;
+define %output = @("world", 0, 100, 0);
+
+# If monsters around, cancel
+if(sizeof(all monsters within 5 around %caster) < 1) {
+  send to %caster message "&cDes monstres sont trop proches de toi.";
+  stop;
+}
+
+# Intro
+send to %caster message "&bTéléportation vers le &2Stronghold&b...";
+play sound at %caster with: {{
+  type: BLOCK_BEACON_ACTIVATE,
+  pitch: 0.8
+}};
+send to %caster effect slowness 10 for %delay;
+send to %caster effect resistance 10 for %delay;
+
+# Teleport after 5 seconds (sound effect + resistance for falling-damage)
+run after %delay: {
+  teleport %caster to %output;
+  send to %caster effect resistance 5 for 2s;
+  play sound at %caster with: {{
+    type: ITEM_CHORUS_FRUIT_TELEPORT
+  }};
+}

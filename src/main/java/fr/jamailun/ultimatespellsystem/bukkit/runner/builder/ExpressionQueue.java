@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
@@ -67,6 +68,12 @@ public class ExpressionQueue implements ExpressionVisitor {
 
         //TODO
         System.err.println("Un-handled custom expression.");
+    }
+
+    @Override
+    public void handleSizeOf(SizeOfExpression expression) {
+        RuntimeExpression child = evaluate(expression.getChild());
+        add(new SizeOfNode(child));
     }
 
     @Override

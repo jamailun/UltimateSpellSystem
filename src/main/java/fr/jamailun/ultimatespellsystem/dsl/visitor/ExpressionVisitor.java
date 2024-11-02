@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
@@ -39,5 +40,6 @@ public interface ExpressionVisitor {
     void handleAllAround(AllEntitiesAroundExpression expression);
     void handlePositionOf(PositionOfExpression expression);
     void handleCustomExpression(CustomExpression expression);
+    void handleSizeOf(SizeOfExpression expression);
 
 }

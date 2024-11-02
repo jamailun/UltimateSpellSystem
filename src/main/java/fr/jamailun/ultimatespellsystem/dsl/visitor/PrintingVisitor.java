@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -429,6 +430,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             arg.visit(this);
         }
         builder.append("]");
+    }
+
+    @Override
+    public void handleSizeOf(SizeOfExpression expression) {
+        builder.append("sizeof(");
+        expression.getChild().visit(this);
+        builder.append(")");
     }
 
     @Override
