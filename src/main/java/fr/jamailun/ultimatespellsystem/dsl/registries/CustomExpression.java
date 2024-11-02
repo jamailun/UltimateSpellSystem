@@ -3,16 +3,15 @@ package fr.jamailun.ultimatespellsystem.dsl.registries;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.FunctionCallStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A custom expression, able to
@@ -29,9 +28,13 @@ public abstract class CustomExpression extends ExpressionNode {
         this.arguments = List.copyOf(arguments);
     }
 
-    public abstract String getLabel();
+    public abstract @NotNull String getLabel();
 
-    protected abstract List<TypedArgument> getArguments();
+    protected abstract @NotNull List<TypedArgument> getArguments();
+
+    public @NotNull List<ExpressionNode> getRuntimeArguments() {
+        return arguments;
+    }
 
     @Override
     public final void visit(ExpressionVisitor visitor) {

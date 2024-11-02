@@ -18,6 +18,10 @@ public final class CustomExpressionsRegistry {
         REGISTRY.put(label, expressionFunction);
     }
 
+    public static boolean exists(String label) {
+        return REGISTRY.containsKey(label);
+    }
+
     public static @Nullable CustomExpressionProvider find(String label) {
         return REGISTRY.get(label);
     }

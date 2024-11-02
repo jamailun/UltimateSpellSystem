@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionO
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.*;
@@ -50,6 +51,12 @@ public class ExpressionQueue implements ExpressionVisitor {
     public void handlePositionOf(PositionOfExpression expression) {
         RuntimeExpression entity = evaluate(expression.getEntity());
         add(new PositionOfNode(entity, expression.getExpressionType().isCollection()));
+    }
+
+    @Override
+    public void handleCustomExpression(CustomExpression expression) {
+        //TODO
+        System.err.println("Un-handled custom expression.");
     }
 
     @Override

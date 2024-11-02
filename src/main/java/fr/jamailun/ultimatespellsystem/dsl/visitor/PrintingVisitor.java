@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperato
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -396,6 +397,19 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append("position of (");
         expression.getEntity().visit(this);
         builder.append(")");
+    }
+
+    @Override
+    public void handleCustomExpression(CustomExpression expression) {
+        builder.append("@CUSTOM(")
+                .append(expression.getLabel())
+                .append(")[");
+        boolean first = true;
+        for(ExpressionNode arg : expression.getRuntimeArguments()) {
+            if(first) first = false; else builder.append(", ");
+            arg.visit(this);
+        }
+        builder.append("]");
     }
 
     @Override
