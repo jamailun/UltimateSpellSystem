@@ -141,7 +141,12 @@ public class UssCommand implements CommandExecutor, TabCompleter {
                 }
             }
             info(sender, "Casting spell on " + (sender.equals(player) ? "yourself" : args[2]) + ".");
-            spell.cast(player);
+            try {
+                spell.cast(player);
+            } catch (RuntimeException e) {
+                error(sender, "An error occurred. " + e.getClass().getSimpleName() + " : " + e.getMessage());
+                e.printStackTrace();
+            }
             return true;
         }
 

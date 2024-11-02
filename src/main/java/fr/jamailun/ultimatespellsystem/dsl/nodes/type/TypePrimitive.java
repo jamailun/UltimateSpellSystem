@@ -30,7 +30,7 @@ public enum TypePrimitive {
     public final Class<?> clazz;
 
     TypePrimitive() {
-        this.clazz = null;
+        this(null);
     }
     TypePrimitive(Class<?> clazz) {
         this.clazz = clazz;

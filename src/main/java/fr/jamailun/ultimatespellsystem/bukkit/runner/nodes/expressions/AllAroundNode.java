@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
@@ -64,7 +65,7 @@ public class AllAroundNode extends RuntimeExpression {
             list.remove(around);
         }
 
-        System.out.println("ALL AROUND :: " + list);
+        UltimateSpellSystem.logDebug("All around :: " + list);
 
         return list;
     }
