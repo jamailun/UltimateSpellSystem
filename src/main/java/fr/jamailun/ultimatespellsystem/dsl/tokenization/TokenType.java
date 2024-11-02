@@ -32,6 +32,7 @@ public enum TokenType {
     PROPERTY_CLOSE, // }}
     ARRAY_OPEN, // [[
     ARRAY_CLOSE, // ]]
+    CHAR_AT, // @
 
     // == BI-CHAR OPERATORS
 
@@ -94,7 +95,6 @@ public enum TokenType {
     VALUE_STRING, // combination of characters between quotes
     VALUE_NUMBER,
     VALUE_DURATION, // number+ [s/ms/m/h/seconds]
-
 
     // == END OF FILE
     EOF;

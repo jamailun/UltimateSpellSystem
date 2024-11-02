@@ -5,6 +5,9 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
+/**
+ * A literal for a boolean, such as "true" and "false".
+ */
 public class BooleanExpression extends LiteralExpression<Boolean> {
 
     private final boolean rawValue;

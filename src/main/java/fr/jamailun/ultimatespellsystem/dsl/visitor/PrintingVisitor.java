@@ -17,6 +17,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Made to print content.
+ */
 public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     private final static DecimalFormat formatNumber = new DecimalFormat("#.##");
@@ -196,7 +199,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
                 .append(statement.getType())
                 .append(" AT ");
         statement.getLocation().visit(this);
-        builder.append(" WITH ");;
+        builder.append(" WITH ");
         statement.getProperties().visit(this);
     }
 
@@ -312,6 +315,22 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     @Override
     public void handleEffectLiteral(EffectTypeExpression literal) {
         builder.append("EffectType.").append(literal.getRaw());
+    }
+
+    @Override
+    public void handleLocationLiteral(LocationLiteral literal) {
+        builder.append("Location(");
+        literal.getWorld().visit(this); builder.append(", ");
+        literal.getVectorX().visit(this); builder.append(", ");
+        literal.getVectorY().visit(this); builder.append(", ");
+        literal.getVectorZ().visit(this);
+        if(literal.asYawAndPitch()) {
+            builder.append(", ");
+            literal.getYaw().visit(this);
+            builder.append(", ");
+            literal.getPitch().visit(this);
+        }
+        builder.append(")");
     }
 
     @Override

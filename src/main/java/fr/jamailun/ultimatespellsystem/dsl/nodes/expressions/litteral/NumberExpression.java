@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 
 public class NumberExpression extends LiteralExpression<Double> {
@@ -12,6 +13,11 @@ public class NumberExpression extends LiteralExpression<Double> {
     public NumberExpression(Token token) {
         super(token.pos());
         this.rawValue = token.getContentNumber();
+    }
+
+    public NumberExpression(TokenPosition position, double number) {
+        super(position);
+        this.rawValue = number;
     }
 
     @Override

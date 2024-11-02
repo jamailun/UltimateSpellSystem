@@ -33,6 +33,7 @@ public class Tokenizer {
         OPERATORS_MONO.put('}', TokenType.BRACES_CLOSE);
         OPERATORS_MONO.put('<', TokenType.COMP_LT);
         OPERATORS_MONO.put('>', TokenType.COMP_GT);
+        OPERATORS_MONO.put('@', TokenType.CHAR_AT);
 
         OPERATORS_BI.put("<=", TokenType.COMP_LE);
         OPERATORS_BI.put(">=", TokenType.COMP_GE);

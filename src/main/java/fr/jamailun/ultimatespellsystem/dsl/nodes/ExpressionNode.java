@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionO
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.SubOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
@@ -69,6 +70,11 @@ public abstract class ExpressionNode extends Node {
                 ExpressionNode nextExpression = readNextExpression(tokens);
                 yield new NotOperator(token, nextExpression);
             }
+            case OPE_SUB -> {
+                TokenPosition position = tokens.position();
+                ExpressionNode nextExpression = readNextExpression(tokens);
+                yield new SubOperator(position, new NumberExpression(position, 0), nextExpression);
+            }
             // Literals
             case VALUE_NUMBER -> new NumberExpression(token); // UNIT !!!
             case TRUE, FALSE -> new BooleanExpression(token);
@@ -103,6 +109,7 @@ public abstract class ExpressionNode extends Node {
 
                 throw new SyntaxException(token, "Expected an expression.");
             }
+            case CHAR_AT -> LocationLiteral.readNextLocation(tokens);
             // Var
             case VALUE_VARIABLE -> new VariableExpression(token);
             // Openers: '{{', '[[', '('

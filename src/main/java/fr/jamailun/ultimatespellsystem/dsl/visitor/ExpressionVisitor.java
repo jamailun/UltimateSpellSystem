@@ -22,6 +22,7 @@ public interface ExpressionVisitor {
     void handleRuntimeLiteral(RuntimeLiteral literal);
     void handleDurationLiteral(DurationExpression literal);
     void handleEffectLiteral(EffectTypeExpression literal);
+    void handleLocationLiteral(LocationLiteral literal);
 
     // Operators-ish
     void handleBiOperator(BiOperator operator);

@@ -9,6 +9,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpressionsRegistry;
+import fr.jamailun.ultimatespellsystem.dsl.registries.RegistryException;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.*;
@@ -55,6 +57,14 @@ public class ExpressionQueue implements ExpressionVisitor {
 
     @Override
     public void handleCustomExpression(CustomExpression expression) {
+        // Find the executor of the custom function
+        CustomExpressionsRegistry.CustomExpressionProvider provider = CustomExpressionsRegistry.find(expression.getLabel());
+        if(provider == null)
+            throw new RegistryException(expression.firstTokenPosition(), expression.getLabel());
+
+        // Handle all arguments
+
+
         //TODO
         System.err.println("Un-handled custom expression.");
     }
@@ -111,6 +121,20 @@ public class ExpressionQueue implements ExpressionVisitor {
     @Override
     public void handleEffectLiteral(EffectTypeExpression literal) {
         add(new RawLiteral<>(literal));
+    }
+
+    @Override
+    public void handleLocationLiteral(LocationLiteral literal) {
+        RuntimeExpression world = evaluate(literal.getWorld());
+        RuntimeExpression x = evaluate(literal.getVectorX());
+        RuntimeExpression y = evaluate(literal.getVectorY());
+        RuntimeExpression z = evaluate(literal.getVectorZ());
+        RuntimeExpression yaw = null, pitch = null;
+        if(literal.asYawAndPitch()) {
+            yaw = evaluate(literal.getYaw());
+            pitch = evaluate(literal.getPitch());
+        }
+        add(new LocationNode(world, x, y, z, yaw, pitch));
     }
 
     @Override
