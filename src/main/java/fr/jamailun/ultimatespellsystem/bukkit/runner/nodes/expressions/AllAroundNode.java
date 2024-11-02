@@ -32,6 +32,10 @@ public class AllAroundNode extends RuntimeExpression {
 
         // Source
         Object source = this.source.evaluate(runtime);
+        if(source instanceof List<?> list && list.size() == 1) {
+            source = list.get(0);
+        }
+
         Location location;
         if(source instanceof SpellEntity entity) {
             location = entity.getLocation();
@@ -59,6 +63,8 @@ public class AllAroundNode extends RuntimeExpression {
         if(!including && source instanceof Entity around) {
             list.remove(around);
         }
+
+        System.out.println("ALL AROUND :: " + list);
 
         return list;
     }

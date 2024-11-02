@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
+import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
@@ -11,8 +12,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class UssEntityType {
 
-    private final EntityType bukkit;
-    private final Class<? extends CustomEntity> custom;
+    @Getter private final EntityType bukkit;
+    @Getter private final Class<? extends CustomEntity> custom;
     private final boolean preferEyesLocation; // si oui, alors la Location de summon sera les YEUX du caster
 
     public UssEntityType(EntityType bukkit) {
@@ -33,14 +34,6 @@ public class UssEntityType {
 
     public boolean isBukkit() {
         return bukkit != null;
-    }
-
-    public EntityType getBukkit() {
-        return bukkit;
-    }
-
-    public Class<? extends CustomEntity> getCustom() {
-        return custom;
     }
 
     public CustomEntity generateCustom(SummonAttributes attributes) {

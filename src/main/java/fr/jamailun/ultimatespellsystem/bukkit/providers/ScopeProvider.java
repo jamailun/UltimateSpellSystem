@@ -16,10 +16,11 @@ public final class ScopeProvider extends UssProvider<Predicate<Entity>> {
 
     static {
         // Custom scopes
-        instance().register(e -> e instanceof Mob, "MOB", "MOBS");
-        instance().register(e -> e instanceof Monster, "MONSTER", "MONSTERS");
-        instance().register(e -> e instanceof Animals, "ANIMAL", "ANIMALS");
-        instance().register(e -> UltimateSpellSystem.getSummonsManager().isASummonedEntity(e.getUniqueId()), "SUMMON", "SUMMONS", "SUMMONED");
+        instance().register(e -> e instanceof LivingEntity, "living", "living-entity", "living-entities");
+        instance().register(e -> e instanceof Mob, "mob");
+        instance().register(e -> e instanceof Monster, "monster");
+        instance().register(e -> e instanceof Animals, "animal");
+        instance().register(e -> UltimateSpellSystem.getSummonsManager().isASummonedEntity(e.getUniqueId()), "summon", "summoned");
     }
 
     public @Nullable Predicate<Entity> find(@NotNull String key) {
@@ -34,7 +35,7 @@ public final class ScopeProvider extends UssProvider<Predicate<Entity>> {
 
         // try again, with removing the 'S' ??
         if(key.endsWith("s")) {
-            p = findByEntityType(key.substring(0, key.length() - 1));
+            p = find(key.substring(0, key.length() - 1));
             return p;
         }
         return null;
@@ -42,7 +43,7 @@ public final class ScopeProvider extends UssProvider<Predicate<Entity>> {
 
     private @Nullable Predicate<Entity> findByEntityType(@NotNull String key) {
         try {
-            EntityType bukkitEntityType = EntityType.valueOf(key.toUpperCase());
+            EntityType bukkitEntityType = EntityType.valueOf(key.toLowerCase());
             return (e -> e.getType() == bukkitEntityType);
         } catch(IllegalArgumentException ignored) {
             return null;

@@ -43,6 +43,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        saveDefaultConfig();
 
         // Config
         reloadConfigContent();

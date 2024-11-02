@@ -11,7 +11,7 @@ public enum TypePrimitive {
 
     // Real Primitives
     STRING(String.class),
-    NUMBER(Double.class),
+    NUMBER(Number.class),
     BOOLEAN(Boolean.class),
 
     // In-game
