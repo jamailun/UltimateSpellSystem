@@ -1,11 +1,11 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -54,6 +54,17 @@ public class SummonsManager {
      */
     public boolean isASummonedEntity(@NotNull UUID uuid) {
         return summonedEntities.containsKey(uuid);
+    }
+
+    /**
+     * Get the UUID of the summoner, if the UUID belongs tpo a summoned entity.
+     * @param uuid the UUID to test
+     * @return the UUID of the summoner, if the parameter UUID belongs to a summoned entity.
+     */
+    public @Nullable UUID getUuidOfSummoner(@NotNull UUID uuid) {
+        return find(uuid)
+                .map(a -> a.getSummoner().getUniqueId())
+                .orElse(null);
     }
 
     /**

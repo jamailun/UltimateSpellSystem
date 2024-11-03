@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 public class AggroListener implements Listener {
 
@@ -24,20 +26,43 @@ public class AggroListener implements Listener {
             return;
         SummonAttributes summon = attrOpt.get();
 
-        boolean canAggro = summon.tryGetAttribute("can_aggro_caster", Boolean.class, false);
-        if(Objects.equals(summon.getSummoner(), event.getTarget())) {
-            if(!canAggro) {
-                LivingEntity newTarget = findAggro(summon);
-                if(newTarget == null){
-                    event.setCancelled(true);
-                } else {
-                    event.setTarget(newTarget);
-                }
+        // has target ?
+        if(event.getTarget() == null) {
+            // Always find closest
+            event.setTarget(findAggro(summon));
+        } else {
+            if(canAggro(summon, event.getTarget()))
+                return;
+
+            // If we can, change the target
+            Entity newTarget = findAggro(summon);
+            if(newTarget == null) {
+                // We cancel the event if nothing changed
+                event.setCancelled(true);
+            } else {
+                event.setTarget(newTarget);
             }
         }
     }
 
-    private @Nullable LivingEntity findAggro(@NotNull SummonAttributes summon) {
+    private boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
+        UUID summonerUuid = summon.getSummoner().getUniqueId();
+
+        // Test is caster
+        if(Objects.equals(summonerUuid, target.getUniqueId())) {
+            return summon.tryGetAttribute("can_aggro_caster", Boolean.class, false);
+        }
+
+        // Test is a summon of the same caster
+        UltimateSpellSystem.logInfo("target.owner.uuid: " + UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()));
+        if(Objects.equals(summonerUuid, UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()))) {
+            return summon.tryGetAttribute("can_aggro_summons", Boolean.class, false);
+        }
+
+        return true;
+    }
+
+    private @Nullable Entity findAggro(@NotNull SummonAttributes summon) {
         Object scope = summon.getAttribute("aggro_scope");
         if(scope == null) return null;
 
@@ -45,9 +70,13 @@ public class AggroListener implements Listener {
         double range = summon.tryGetAttribute("aggro_range", Double.class, 7d);
         return EntitiesFinder.findEntitiesAround(scope, location, range)
                 .stream()
-                .filter(e -> e instanceof LivingEntity)
-                .map(e -> (LivingEntity) e)
+                // Remove itself
                 .filter(e -> !Objects.equals(e.getUniqueId(), summon.getUUID()))
+                // Only living
+                .filter(e -> e instanceof LivingEntity)
+                // Only aggro-able
+                .filter(e -> canAggro(summon, e))
+                // Get the closest
                 .min(Comparator.comparing(e -> e.getLocation().distanceSquared(location)))
                 .orElse(null);
     }
