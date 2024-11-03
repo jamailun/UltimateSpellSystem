@@ -37,13 +37,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
     }
 
     protected <T extends Entity> SummonProperty createForEntity(BiConsumer<T, Object> base, Class<T> clazz) {
-        return (spellEntity, value) -> {
-            spellEntity.getBukkitEntity().ifPresent(be -> {
-                if(clazz.isInstance(be)) {
-                    base.accept(clazz.cast(be), value);
-                }
-            });
-        };
+        return createForEntity(base, clazz, Object.class);
     }
 
     protected <T extends Entity, V> SummonProperty createForEntity(BiConsumer<T, V> base, Class<T> clazz, Class<V> classValue) {
@@ -65,6 +59,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
     }
 
     private SummonPropertiesProvider() {
+        // Statistics attributes
         register(createAttributeSetter(Attribute.GENERIC_MAX_HEALTH), "health", "max_health");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
@@ -73,15 +68,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         register(createAttributeSetter(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "kbr", "knockback_resistance", "kb_resistance");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_KNOCKBACK), "kb", "knockback", "attack_knockback");
 
-        register(createForBukkitEntity((entity, value) -> {
-            if(value instanceof String string) {
-                entity.customName(LegacyComponentSerializer.legacyAmpersand().deserialize(string));
-            } else {
-                UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);
-            }
-        }), "name", "custom_name");
-
+        // Baby tag
         register(createForEntity((age,baby) -> {if(baby) age.setBaby(); else age.setAdult();}, Ageable.class, Boolean.class), "baby", "is_baby");
+
+        // Custom name
+        register(createForEntity((entity,name) -> entity.customName(LegacyComponentSerializer.legacyAmpersand().deserialize(name)), Entity.class, String.class), "name", "custom_name");
+        register(createForEntity(Entity::setCustomNameVisible, Entity.class, Boolean.class), "name_visible", "custom_name_visible");
     }
 
     public interface SummonProperty extends BiConsumer<SpellEntity, Object> {}
