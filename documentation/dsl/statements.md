@@ -85,7 +85,7 @@ Exhaustive list will follow. Elements between square brackets `[ ]` are optional
         - _Note: If nothing is provided, will spawn on the caster._
     - `VAR` is the variable to store the newly created entity.
     - `DURATION` is the **duration** of the summon, after which it will be [removed](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html#remove()).
-    - `ATTRIBUTES` a **property set** defining all attributes for the summon. Check the [summon attributes documentation]() for more information.
+    - `ATTRIBUTES` a **property set** defining all attributes for the summon. Check the [summon attributes documentation](/documentation/attributes/summon_attributes.md) for more information.
 
 
 - `teleport <ENTITY> to <TARGET>` Teleport an entity to another or to a location.
@@ -96,6 +96,6 @@ Exhaustive list will follow. Elements between square brackets `[ ]` are optional
 - `play <ACTION> AT <POS> WITH: <ATTRIBUTES>` : Play an effect at a position, with some attributes.
   - `ACTION`: Can be either `particle`, `sound` or `block`.
   - `POS`: a **Location** (or **Entity**) to play the effect at. Can be a list.
-  - `ATTRIBUTES` : A **property set** to specify more data. Check the [play documentation]() for more informations.
+  - `ATTRIBUTES` : A **property set** to specify more data. Check the [play documentation](/documentation/attributes/play_attributes.md) for more informations.
 
 
