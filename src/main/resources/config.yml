@@ -1,5 +1,19 @@
 # Should the plugin print with DEBUG level.
 debug: true
 
-# Only detect right-click for bound-items.
-only-right-clicks: true
+# Trigger configuration for bound-items
+trigger:
+  left-click:
+    air: false
+    block: false
+  right-click:
+    air: true
+    block: true
+  attack: false
+  ignore:
+    sprint: false
+    sneak: true
+
+after-trigger:
+  use-item: true
+  use-block: false

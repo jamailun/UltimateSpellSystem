@@ -58,8 +58,10 @@ public final class UltimateSpellSystem extends JavaPlugin {
         new UssCommand();
 
         // Listeners
-        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config.onlyRightClick), this);
-        Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder), this);
+        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
+        Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder, config), this);
+
+        logInfo("Plugin loaded.");
     }
 
     public static void reloadConfigContent() {
@@ -71,11 +73,12 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        summonsManager.purgeAll();
+        logInfo("Plugin disabled.");
     }
 
     public static void logDebug(String message) {
-        if(instance.config.debug)
+        if(instance.config.isDebug())
             Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
     public static void logInfo(String message) {
@@ -88,19 +91,19 @@ public final class UltimateSpellSystem extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§4ERROR | §c" + message);
     }
 
-    public static SpellsManager getSpellsManager() {
+    public static @NotNull SpellsManager getSpellsManager() {
         return instance.spellsManager;
     }
-    public static SummonsManager getSummonsManager() {
+    public static @NotNull SummonsManager getSummonsManager() {
         return instance.summonsManager;
     }
 
-    public static BukkitRunnable runTaskLater(Runnable runnable, long ticks) {
+    public static @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks) {
         BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
         task.runTaskLater(instance, ticks);
         return task;
     }
-    public static void runTaskRepeat(Runnable runnable, int amount, long delay, long period) {
+    public static void runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period) {
         new BukkitRunnable() {
             private int count = 0;
             @Override
@@ -113,7 +116,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
         }.runTaskTimer(instance, delay, period);
     }
 
-    public static BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
+    public static @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
         BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
         task.runTaskTimer(instance, delay, period);
         return task;

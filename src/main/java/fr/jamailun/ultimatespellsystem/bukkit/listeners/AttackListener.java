@@ -4,6 +4,8 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -13,20 +15,20 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public class AttackListener implements Listener {
 
     private final ItemBinder binder;
-
-    public AttackListener(ItemBinder binder) {
-        this.binder = binder;
-    }
+    private final UssConfig config;
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void playerLeftClick(EntityDamageByEntityEvent event) {
+    void playerLeftClick(EntityDamageByEntityEvent event) {
         if(event.getDamager() instanceof Mob mob) {
             handle(mob, mob.getEquipment().getItemInMainHand(), event);
-        } else if(event.getDamager() instanceof HumanEntity human) {
-            handle(human, human.getEquipment().getItemInMainHand(), event);
+        } else if(event.getDamager() instanceof Player player) {
+            if(config.doesTriggerAttack(player)) {
+                handle(player, player.getEquipment().getItemInMainHand(), event);
+            }
         }
     }
 

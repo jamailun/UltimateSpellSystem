@@ -4,33 +4,30 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+@RequiredArgsConstructor
 public class ItemBoundInteractListener implements Listener {
 
     private final ItemBinder binder;
-    private final boolean onlyRightClick;
-
-    public ItemBoundInteractListener(ItemBinder binder, boolean onlyRightClick) {
-        this.binder = binder;
-        this.onlyRightClick = onlyRightClick;
-    }
+    private final UssConfig config;
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void playerInteracts(PlayerInteractEvent event) {
-        // Optionally ignore non right-click (but always ignore PHYSICAL !)
-        if(event.getAction() == Action.PHYSICAL || onlyRightClick && (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK))
+    void playerInteracts(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if(!config.doesTriggerInteract(event.getAction(), player))
             return;
 
-        Player player = event.getPlayer();
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
         // If it finds the spell, cast it (according to event result)
@@ -50,7 +47,8 @@ public class ItemBoundInteractListener implements Listener {
                     player.getInventory().getItemInMainHand().setAmount(inHand.getAmount() - 1);
                 }
             }
-            event.setCancelled(cast.isInteractionCancelled());
+            event.setUseInteractedBlock(config.isAfterTriggerUseBlock() ? Event.Result.DEFAULT : Event.Result.DENY);
+            event.setUseItemInHand(config.isAfterTriggerUseItem() ? Event.Result.DEFAULT : Event.Result.DENY);
         });
     }
 
