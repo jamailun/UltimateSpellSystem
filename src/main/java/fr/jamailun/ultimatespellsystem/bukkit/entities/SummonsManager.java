@@ -1,12 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -54,7 +52,7 @@ public class SummonsManager {
      * @param uuid the UUID to check.
      * @return true if a summoned creature owns this UUID.
      */
-    public boolean isASummonedEntity(UUID uuid) {
+    public boolean isASummonedEntity(@NotNull UUID uuid) {
         return summonedEntities.containsKey(uuid);
     }
 
@@ -74,8 +72,12 @@ public class SummonsManager {
     public int purgeAll() {
         int size = summonedEntities.size();
         for(UUID uuid : List.copyOf(summonedEntities.keySet())) {
-            summonedEntities.get(uuid).getKillTask().cancel();
+            var summon = summonedEntities.get(uuid);
+            // Clean
+            summon.getKillTask().cancel();
             summonedEntities.remove(uuid);
+            // Remove from world
+            summon.getEntity().remove();
         }
         return size;
     }

@@ -28,7 +28,7 @@ public class Orb extends CustomEntity {
         autoApply = attributes.tryGetAttribute("autoApply", Boolean.class, false);
 
         // Particles (MONO)
-        Map<?,?> particleMap = attributes.tryGetAttribute("particle", Map.class, null);
+        Map<?,?> particleMap = attributes.tryGetAttribute("particle", Map.class);
         if(particleMap != null) {
             ParticleHolder op = ParticleHolder.build(CTX+"particle", radius, particleMap);
             if(op != null)
@@ -45,7 +45,7 @@ public class Orb extends CustomEntity {
         }
 
         // Effects (MONO)
-        Map<?,?> effectMap = attributes.tryGetAttribute("effect", Map.class, null);
+        Map<?,?> effectMap = attributes.tryGetAttribute("effect", Map.class);
         if(effectMap != null) {
             PotionEffectHolder oe = PotionEffectHolder.build(CTX+"effect", effectMap);
             if(oe != null) {

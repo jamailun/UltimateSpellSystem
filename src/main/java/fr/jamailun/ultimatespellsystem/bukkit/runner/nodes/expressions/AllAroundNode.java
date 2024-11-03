@@ -1,19 +1,15 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class AllAroundNode extends RuntimeExpression {
 
@@ -49,17 +45,9 @@ public class AllAroundNode extends RuntimeExpression {
 
         // Scope
         Object scope = this.scope.evaluate(runtime);
-        Predicate<Entity> scopePredicate;
-        if(scope instanceof UssEntityType entityType) {
-            scopePredicate = (entityType::isOf);
-        } else if(scope instanceof String s) {
-            scopePredicate = ScopeProvider.instance().find(s);
-        } else {
-            throw new UnreachableRuntimeException("Invalid scope type : " + scope);
-        }
 
         // Game-logic
-        List<Entity> list = new ArrayList<>(location.getWorld().getNearbyEntities(location, distance, distance, distance, scopePredicate));
+        List<Entity> list = EntitiesFinder.findEntitiesAround(scope, location, distance);
 
         // Remove entity around if not including.
         if(!including && source instanceof Entity around) {

@@ -32,7 +32,7 @@ public class SummonAttributes {
     protected BukkitRunnable deathTimer;
 
     /**
-     * Create a new set of attributes. Don't forget to call {@link SummonsManager#summon(SummonAttributes)} to proceed
+     * Create a new set of attributes. Don't forget to call {@link SummonsManager#summon(SummonAttributes, SpellRuntime)} to proceed
      * to the summoning.
      * @param summoner the entity owning the creature.
      * @param location the location on which summon the creature.
@@ -174,8 +174,38 @@ public class SummonAttributes {
      * @param key the key of the attribute.
      * @return null if the key is not set.
      */
-    public @Nullable Object getAttribute(String key) {
+    public @Nullable Object getAttribute(@NotNull String key) {
         return attributes.get(key);
+    }
+
+    /**
+     * Try to get a custom attribute.
+     * @param key the key of the attribute.
+     * @param clazz the class to cast the attribute to.
+     * @return the default value OR a non-null value of required type.
+     * @param <T> the generic to use, for the returned value.
+     */
+    public <T> @Nullable T tryGetAttribute(@NotNull String key, @NotNull Class<T> clazz) {
+        Object object = getAttribute(key);
+        try {
+            return object != null ? clazz.cast(object) : null;
+        } catch(ClassCastException e) {
+            UltimateSpellSystem.logWarning("Attribute '" + key +"' in summon was expected of type " + clazz + " but was " + object.getClass() + ".");
+            return null;
+        }
+    }
+
+    /**
+     * Try to get a custom attribute.
+     * @param key the key of the attribute.
+     * @param clazz the class to cast the attribute to.
+     * @param defaultValue the default value. Returned if the key is not set, <b>or</b> if the cast fails.
+     * @return the default value OR a non-null value of required type.
+     * @param <T> the generic to use, for the returned value.
+     */
+    public <T> @NotNull T tryGetAttribute(@NotNull String key, @NotNull Class<T> clazz, @NotNull T defaultValue) {
+        T t = tryGetAttribute(key, clazz);
+        return Objects.requireNonNullElse(t, defaultValue);
     }
 
     /**
@@ -185,28 +215,6 @@ public class SummonAttributes {
      */
     public boolean hasAttribute(String key) {
         return attributes.containsKey(key);
-    }
-
-    /**
-     * Try to get a custom attribute.
-     * @param key the key of the attribute.
-     * @param clazz the class to cast the attribute to.
-     * @param defaultValue the default value. Returned if the key is not set, <b>or</b> if the cast fails.
-     * @return the default value OR a non-null value of required type.
-     * @param <R> the generic to use, for the returned value.
-     */
-    public <R> R tryGetAttribute(String key, Class<R> clazz, R defaultValue) {
-        Object value = getAttribute(key);
-        if(value == null) {
-            UltimateSpellSystem.logDebug("tryGetAttribute("+key+"): NULL Entries are " + List.copyOf(attributes.keySet()));
-            return defaultValue;
-        }
-        try {
-            return clazz.cast(value);
-        } catch(ClassCastException e) {
-            UltimateSpellSystem.logWarning("Summon tried to read attribute " + key + ": " + e.getMessage());
-            return defaultValue;
-        }
     }
 
     /**

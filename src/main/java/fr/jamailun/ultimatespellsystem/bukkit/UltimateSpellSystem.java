@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
+import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AttackListener;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
@@ -11,7 +12,6 @@ import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -60,13 +60,13 @@ public final class UltimateSpellSystem extends JavaPlugin {
         // Listeners
         Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
         Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder, config), this);
+        Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
 
         logInfo("Plugin loaded.");
     }
 
     public static void reloadConfigContent() {
-        FileConfiguration config = instance.getConfig();
-        instance.config.reload(config);
+        instance().config.reload(instance.getConfig());
 
         logDebug("Debug mode enabled.");
     }
@@ -78,7 +78,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     }
 
     public static void logDebug(String message) {
-        if(instance.config.isDebug())
+        if(instance().config.isDebug())
             Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
     public static void logInfo(String message) {
