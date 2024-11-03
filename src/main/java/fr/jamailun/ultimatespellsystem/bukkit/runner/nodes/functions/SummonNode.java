@@ -49,7 +49,8 @@ public class SummonNode extends RuntimeStatement {
 
         // Summon
         SpellEntity entity = UltimateSpellSystem.getSummonsManager().summon(
-                new SummonAttributes(caster, loc, entityType, getProperties(optProperty, runtime), duration)
+                new SummonAttributes(caster, loc, entityType, getProperties(optProperty, runtime), duration),
+                runtime
         );
 
         UltimateSpellSystem.logDebug("Summon created " + entity);

@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
@@ -22,9 +23,9 @@ public class SummonsManager {
      * @param summon the attributes to use.
      * @return a reference to the newly created entity.
      */
-    public @NotNull SpellEntity summon(@NotNull SummonAttributes summon) {
+    public @NotNull SpellEntity summon(@NotNull SummonAttributes summon, @NotNull SpellRuntime runtime) {
         // Summon
-        summon.summon(this::remove);
+        summon.summon(this::remove, runtime);
         summonedEntities.put(summon.getUUID(), summon);
 
         // propagate info

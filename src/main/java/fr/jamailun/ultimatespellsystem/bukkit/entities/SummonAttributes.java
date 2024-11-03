@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -59,7 +60,7 @@ public class SummonAttributes {
      * Summon the entity.
      * @param callback the callback to call once the entity is removed.
      */
-    final void summon(Consumer<UUID> callback) {
+    final void summon(Consumer<UUID> callback, SpellRuntime runtime) {
         if(hasBeenSummoned())
             throw new IllegalStateException("Cannot summon an already summoned summon.");
 
@@ -77,7 +78,7 @@ public class SummonAttributes {
         for(String key : attributes.keySet()) {
             SummonPropertiesProvider.instance()
                     .findOptional(key)
-                    .ifPresent(p -> p.accept(entity, attributes.get(key)));
+                    .ifPresent(p -> p.accept(entity, attributes.get(key), runtime));
         }
 
         // Start the death timer

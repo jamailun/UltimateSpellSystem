@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.StringTransformation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -25,20 +26,13 @@ public class SendMessageNode extends RuntimeStatement {
 
         List<? extends Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
                 .stream()
-                .map(message -> replaceVars(message, runtime.makeChild()))
+                .map(message -> StringTransformation.transformString(message, runtime.makeChild()))
                 .map(LegacyComponentSerializer.legacyAmpersand()::deserialize)
                 .toList();
 
         for(SpellEntity target : targets) {
             messages.forEach(target::sendMessage);
         }
-    }
-
-    private String replaceVars(String value, SpellRuntime runtime) {
-        for(String varName : runtime.variables().names()) {
-            value = value.replace("%" + varName, String.valueOf(runtime.variables().get(varName)));
-        }
-        return value;
     }
 
     @Override
