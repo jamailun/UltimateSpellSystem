@@ -66,4 +66,9 @@ public class BukkitSpellEntity implements SpellEntity{
             living.addPotionEffect(effect);
         }
     }
+
+    @Override
+    public String toString() {
+        return entity.getName();
+    }
 }

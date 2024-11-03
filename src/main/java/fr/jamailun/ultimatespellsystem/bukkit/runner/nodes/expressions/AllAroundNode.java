@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -27,7 +28,7 @@ public class AllAroundNode extends RuntimeExpression {
     }
 
     @Override
-    public List<Entity> evaluate(SpellRuntime runtime) {
+    public List<? extends SpellEntity> evaluate(SpellRuntime runtime) {
         // Distance
         Double distance = runtime.safeEvaluate(this.distance, Double.class);
 
@@ -65,8 +66,8 @@ public class AllAroundNode extends RuntimeExpression {
             list.remove(around);
         }
 
-        UltimateSpellSystem.logDebug("All around :: " + list);
-
-        return list;
+        return list.stream()
+                .map(BukkitSpellEntity::new)
+                .toList();
     }
 }
