@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
-import fr.jamailun.ultimatespellsystem.bukkit.utils.KyoriAdaptor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -50,10 +50,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR_TOUGHNESS), "toughness", "armor_toughness");
         register(createAttributeSetter(Attribute.GENERIC_MOVEMENT_SPEED), "speed", "movement_speed");
+        register(createAttributeSetter(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "kb-resistance", "knockback_resistance", "kb_resistance");
+        register(createAttributeSetter(Attribute.GENERIC_ATTACK_KNOCKBACK), "kb", "knockback", "attack_knockback");
 
         register(createForBukkitEntity((entity, value) -> {
             if(value instanceof String string) {
-                entity.customName(KyoriAdaptor.adventure(string));
+                entity.customName(LegacyComponentSerializer.legacyAmpersand().deserialize(string));
             } else {
                 UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);
             }

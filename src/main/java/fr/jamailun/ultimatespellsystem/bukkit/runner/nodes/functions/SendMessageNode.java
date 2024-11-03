@@ -4,8 +4,8 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
-import fr.jamailun.ultimatespellsystem.bukkit.utils.KyoriAdaptor;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ public class SendMessageNode extends RuntimeStatement {
     public void run(SpellRuntime runtime) {
         List<SpellEntity> targets = runtime.safeEvaluateAcceptsList(targetRef, SpellEntity.class);
 
-        List<Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
+        List<? extends Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
                 .stream()
                 .map(message -> replaceVars(message, runtime.makeChild()))
-                .map(KyoriAdaptor::adventure)
+                .map(LegacyComponentSerializer.legacyAmpersand()::deserialize)
                 .toList();
 
         for(SpellEntity target : targets) {
