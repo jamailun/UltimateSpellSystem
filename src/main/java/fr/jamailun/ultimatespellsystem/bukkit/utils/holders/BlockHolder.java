@@ -35,14 +35,14 @@ public class BlockHolder {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid sound-type : '" + typeRaw + "'.");
+            UltimateSpellSystem.logError("(" + context + ") Invalid material-type : '" + typeRaw + "'.");
             return null;
         }
         Material material;
         try {
             material = Material.valueOf(type.toUpperCase());
         } catch(IllegalArgumentException e) {
-            UltimateSpellSystem.logError("(" + context + ") Unknown sound-type : '" + type + "' ("+e.getMessage()+")");
+            UltimateSpellSystem.logError("(" + context + ") Unknown material-type : '" + type + "' ("+e.getMessage()+")");
             return null;
         }
         // Count

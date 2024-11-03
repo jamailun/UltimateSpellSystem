@@ -1,10 +1,10 @@
 # Ultimate Spells System
 
-Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language). Check the syntax [here](DSL.md)
+Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language).
 
 # Author
 
-Made by jamailun.
+Made by [jamailun](https://github.com/jamailun).
 
 # Basics
 
@@ -16,16 +16,16 @@ A spell follow a very basic syntax. For example :
 # I'm a comment
 send to %caster message "You just casted a spell !";
 
-define %x = 12;
-if(%x > 6) {
+define %enemies_around = sizeof(all monsters within 10 around %caster)
+if(%enemies_around > 2) {
     summon IRON_GOLEM for 4 seconds with: {{
         name: "&eMichel",
-        health: 4
+        health: 25 + 5 * %enemies_around
     }} 
 }
 ```
 
-See the [full specifications]() for more details.
+See the [full specifications](/documentation/README.md) for more details.
 
 # API
 
