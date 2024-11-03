@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -32,10 +33,29 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
     }
 
     protected SummonProperty createForLivingEntity(BiConsumer<LivingEntity, Object> base) {
+        return createForEntity(base, LivingEntity.class);
+    }
+
+    protected <T extends Entity> SummonProperty createForEntity(BiConsumer<T, Object> base, Class<T> clazz) {
         return (spellEntity, value) -> {
             spellEntity.getBukkitEntity().ifPresent(be -> {
-                if(be instanceof LivingEntity living)
-                    base.accept(living, value);
+                if(clazz.isInstance(be)) {
+                    base.accept(clazz.cast(be), value);
+                }
+            });
+        };
+    }
+
+    protected <T extends Entity, V> SummonProperty createForEntity(BiConsumer<T, V> base, Class<T> clazz, Class<V> classValue) {
+        return (spellEntity, value) -> {
+            spellEntity.getBukkitEntity().ifPresent(be -> {
+                if(clazz.isInstance(be)) {
+                    if(classValue.isInstance(value)) {
+                        base.accept(clazz.cast(be), classValue.cast(value));
+                    } else {
+                        UltimateSpellSystem.logWarning("Invalid type for '"+value+"', expected " + classValue + "(" + value.getClass() + ")");
+                    }
+                }
             });
         };
     }
@@ -50,7 +70,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR_TOUGHNESS), "toughness", "armor_toughness");
         register(createAttributeSetter(Attribute.GENERIC_MOVEMENT_SPEED), "speed", "movement_speed");
-        register(createAttributeSetter(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "kb-resistance", "knockback_resistance", "kb_resistance");
+        register(createAttributeSetter(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "kbr", "knockback_resistance", "kb_resistance");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_KNOCKBACK), "kb", "knockback", "attack_knockback");
 
         register(createForBukkitEntity((entity, value) -> {
@@ -60,6 +80,8 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
                 UltimateSpellSystem.logWarning("Invalid type for NAME: " + value);
             }
         }), "name", "custom_name");
+
+        register(createForEntity((age,baby) -> {if(baby) age.setBaby(); else age.setAdult();}, Ageable.class, Boolean.class), "baby", "is_baby");
     }
 
     public interface SummonProperty extends BiConsumer<SpellEntity, Object> {}
