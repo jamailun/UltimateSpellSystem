@@ -1,16 +1,15 @@
 package fr.jamailun.ultimatespellsystem.bukkit.bind;
 
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.UssKeys;
 import fr.jamailun.ultimatespellsystem.bukkit.events.ItemBoundEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.events.ItemUnBoundEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,17 +20,6 @@ import java.util.Optional;
  * Utils class, able to bind a {@link Spell} ID to an {@link ItemStack}.
  */
 public class ItemBinder {
-
-    private final NamespacedKey key, destroyKey;
-
-    /**
-     * Create a new binder.
-     * @param plugin the plugin to use. It will own the {@link NamespacedKey}.
-     */
-    public ItemBinder(Plugin plugin) {
-        this.key = new NamespacedKey(plugin, "spell");
-        this.destroyKey = new NamespacedKey(plugin, "spell.destroy");
-    }
 
     /**
      * Bind a spell to an item.
@@ -51,11 +39,11 @@ public class ItemBinder {
         }
         // Write
         PersistentDataContainer nbt = meta.getPersistentDataContainer();
-        nbt.set(key, PersistentDataType.STRING, spell.getName());
+        nbt.set(UssKeys.getBindKey(), PersistentDataType.STRING, spell.getName());
         if(destroy) {
-           nbt.set(destroyKey, PersistentDataType.BOOLEAN, true);
+           nbt.set(UssKeys.getBindDestroysKey(), PersistentDataType.BOOLEAN, true);
         } else {
-            nbt.remove(destroyKey);
+            nbt.remove(UssKeys.getBindDestroysKey());
         }
         item.setItemMeta(meta);
         // Propagate
@@ -84,8 +72,8 @@ public class ItemBinder {
 
         // Write
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().remove(key);
-        meta.getPersistentDataContainer().remove(destroyKey);
+        meta.getPersistentDataContainer().remove(UssKeys.getBindKey());
+        meta.getPersistentDataContainer().remove(UssKeys.getBindDestroysKey());
         item.setItemMeta(meta);
 
         // Propagate
@@ -100,7 +88,7 @@ public class ItemBinder {
     public @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return Optional.empty();
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING));
+        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer().get(UssKeys.getBindKey(), PersistentDataType.STRING));
     }
 
     /**
@@ -111,6 +99,6 @@ public class ItemBinder {
     public boolean hasDestroyKey(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return false;
-        return item.getItemMeta().getPersistentDataContainer().has(destroyKey);
+        return item.getItemMeta().getPersistentDataContainer().has(UssKeys.getBindDestroysKey());
     }
 }
