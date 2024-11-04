@@ -5,20 +5,14 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.StringTransformation;
 import org.apache.logging.log4j.util.TriConsumer;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -102,71 +96,11 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
 
     protected @NotNull SummonProperty createEquipment(@NotNull EquipmentSlot slot) {
         return createForEntity((entity,mapRaw,run) -> {
-            Map<String, Object> map = convertMap(mapRaw);
-
-            // Type of the equipment
-            String type = readMap(map, "type", String.class, Material.AIR.name());
-            Material material;
-            try {
-                material = Material.valueOf(type.toUpperCase());
-            } catch(IllegalArgumentException e) {
-                UltimateSpellSystem.logWarning("Illegal item for slot "+slot+" : " + type + ".");
-                material = Material.AIR;
-            }
-
-            // Amount
-            int amount = readMap(map, "amount", Integer.class, 1);
-            int damage = readMap(map, "damage", Integer.class, 0);
-            String name = readMap(map, "type", String.class, null);
-            List<?> lore = readMap(map, "lore", List.class, null);
-
-            UltimateSpellSystem.logInfo("DROPPABLE type = " + (map.containsKey("droppable") ? map.get("droppable") + "|" + map.get("droppable").getClass() : "null"));
-            UltimateSpellSystem.logInfo("LORE type = " + (map.containsKey("lore") ? map.get("lore") + "|" + map.get("lore").getClass() : "null"));
-
-            boolean droppable = readMap(map, "droppable", Boolean.class, false);
-
-            ItemStack item = new ItemStack(material, amount);
-            ItemMeta meta = item.getItemMeta();
-            if(meta != null) {
-                if(name != null)
-                    meta.displayName(StringTransformation.parse(StringTransformation.transformString(name, run)));
-                if(lore != null)
-                    meta.lore(
-                        lore.stream()
-                            .filter(Objects::nonNull)
-                            .map(Objects::toString)
-                            .map(line -> StringTransformation.parse("&7&o" + StringTransformation.transformString(line, run)))
-                            .toList()
-                    );
-            }
-            if(meta instanceof Damageable damageMeta) {
-                damageMeta.setDamage(damage);
-            }
-            item.setItemMeta(meta);
-
+            ItemStack item = ItemReader.readFromMap(mapRaw, run, "slot " + slot);
             if(entity.getEquipment() != null)
                 entity.getEquipment().setItem(slot, item);
         }, LivingEntity.class, Map.class);
     }
 
-    @SuppressWarnings("unchecked")
-    protected @NotNull Map<String, Object> convertMap(@NotNull Map<?,?> map) {
-        try {
-            return (Map<String, Object>) map;
-        } catch(ClassCastException e) {
-            UltimateSpellSystem.logError("Could not convert map " + map + ".");
-            return new HashMap<>();
-        }
-    }
-
-    protected <T> T readMap(@NotNull Map<String,Object> map, @NotNull String key, @NotNull Class<T> clazz, @Nullable T defaultValue) {
-        Object object = map.get(key);
-        if(object == null) return defaultValue;
-        try {
-            return clazz.cast(object);
-        } catch(ClassCastException e) {
-            return defaultValue;
-        }
-    }
 
 }

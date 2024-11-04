@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AttackListener;
+import fr.jamailun.ultimatespellsystem.bukkit.listeners.EntityDeathListener;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
@@ -38,6 +39,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
     @Override
     public void onLoad() {
         EntityTypeProvider.loadDefaults();
+        UssKeys.initialize(this);
     }
 
     @Override
@@ -61,6 +63,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
         Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder, config), this);
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
 
         logInfo("Plugin loaded.");
     }
