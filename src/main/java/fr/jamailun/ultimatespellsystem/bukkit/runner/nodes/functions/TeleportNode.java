@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeEx
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class TeleportNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         List<Object> entities = runtime.safeEvaluateAcceptsList(this.entity, Object.class);
 
         // Target (mono)

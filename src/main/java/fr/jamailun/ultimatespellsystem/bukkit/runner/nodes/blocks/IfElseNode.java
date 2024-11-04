@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import org.jetbrains.annotations.NotNull;
 
 public class IfElseNode extends RuntimeStatement {
 
@@ -16,7 +17,7 @@ public class IfElseNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         Boolean condition = runtime.safeEvaluate(this.condition, Boolean.class);
         if(condition != null && condition)
             childTrue.run(runtime);

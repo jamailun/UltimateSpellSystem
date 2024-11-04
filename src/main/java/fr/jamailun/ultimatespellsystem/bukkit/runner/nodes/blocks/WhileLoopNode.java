@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import org.jetbrains.annotations.NotNull;
 
 public class WhileLoopNode extends RuntimeStatement {
 
@@ -23,7 +24,7 @@ public class WhileLoopNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtimeParent) {
+    public void run(@NotNull SpellRuntime runtimeParent) {
         SpellRuntime runtime = runtimeParent.makeChild();
 
         RunInstance run = new RunInstance(runtime);

@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class FunctionCallNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         SpellFunction function = UltimateSpellSystem.getSpellsManager().getFunction(functionId);
         if(function == null)
             throw new UnknownFunctionException(functionId);

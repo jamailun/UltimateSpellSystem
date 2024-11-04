@@ -5,24 +5,25 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Abstract node, for playing something.
+ */
+@RequiredArgsConstructor
 public abstract class PlayNode extends RuntimeStatement {
 
     private final RuntimeExpression location;
     private final RuntimeExpression properties;
 
-    public PlayNode(RuntimeExpression location, RuntimeExpression properties) {
-        this.location = location;
-        this.properties = properties;
-    }
-
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         List<Object> list = runtime.safeEvaluateAcceptsList(location, Object.class);
         List<Location> locations = new ArrayList<>();
         for(Object holder : list) {
@@ -43,6 +44,6 @@ public abstract class PlayNode extends RuntimeStatement {
         apply(locations, attributes);
     }
 
-    protected abstract void apply(List<Location> locations, Map<String, Object> properties);
+    protected abstract void apply(@NotNull List<Location> locations, @NotNull Map<String, Object> properties);
 
 }

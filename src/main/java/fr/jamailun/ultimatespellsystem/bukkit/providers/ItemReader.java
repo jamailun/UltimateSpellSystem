@@ -39,6 +39,7 @@ public final class ItemReader {
         String name = read(data, "type", String.class, null);
         List<?> lore = read(data, "lore", List.class, null);
         boolean droppable = read(data, "droppable", Boolean.class, false);
+        boolean unbreakable = read(data, "unbreakable", Boolean.class, false);
 
         ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
@@ -60,6 +61,7 @@ public final class ItemReader {
         }
         if(meta instanceof Damageable damageMeta) {
             damageMeta.setDamage(damage);
+            damageMeta.setUnbreakable(unbreakable);
         }
 
         item.setItemMeta(meta);

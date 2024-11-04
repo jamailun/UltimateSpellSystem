@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ForeachLoopNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtimeParent) {
+    public void run(@NotNull SpellRuntime runtimeParent) {
         SpellRuntime runtime = runtimeParent.makeChild();
 
         List<Object> list = runtime.safeEvaluateList(source, Object.class);

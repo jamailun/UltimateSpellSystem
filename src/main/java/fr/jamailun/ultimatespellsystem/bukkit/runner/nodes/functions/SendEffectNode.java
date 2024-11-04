@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class SendEffectNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         List<SpellEntity> targets = runtime.safeEvaluateAcceptsList(targetRef, SpellEntity.class);
 
         PotionEffect effect = runtime.safeEvaluate(effectRef, PotionEffect.class);

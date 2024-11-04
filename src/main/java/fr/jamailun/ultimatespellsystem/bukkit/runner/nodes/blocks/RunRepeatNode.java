@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import org.jetbrains.annotations.NotNull;
 
 public class RunRepeatNode extends RuntimeStatement {
 
@@ -20,7 +21,7 @@ public class RunRepeatNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         Duration period = runtime.safeEvaluate(this.period, Duration.class);
         Duration delay = runtime.safeEvaluate(this.optDelay, Duration.class);
         int count = runtime.safeEvaluate(this.count, Double.class).intValue();

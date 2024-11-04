@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import org.jetbrains.annotations.NotNull;
 
 public class IncrementNode extends RuntimeStatement {
 
@@ -15,7 +16,7 @@ public class IncrementNode extends RuntimeStatement {
     }
 
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         Object value = runtime.variables().get(varName);
         if(value instanceof Double d) {
             double v = d + (increments ? 1 : -1);

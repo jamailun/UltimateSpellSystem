@@ -5,21 +5,21 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * A node that can define a variable to the runtime.
+ */
+@RequiredArgsConstructor
 public class DefineNode extends RuntimeStatement {
 
     private final String varName;
     private final RuntimeExpression expression;
     private final Type type;
 
-    public DefineNode(String varName, RuntimeExpression expression, Type type) {
-        this.varName = varName;
-        this.expression = expression;
-        this.type = type;
-    }
-
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         if(type.is(TypePrimitive.NULL))
             return;
 

@@ -3,19 +3,23 @@ package fr.jamailun.ultimatespellsystem.bukkit.spells;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A global manager to access spells.
+ */
 public final class SpellsManager {
 
     private final Map<String, SpellFunction> functions = new HashMap<>();
     private final Map<String, Spell> spells = new HashMap<>();
     private final File spellsFolder;
 
-    public SpellsManager(File spellsFolder) {
+    public SpellsManager(@NotNull File spellsFolder) {
         this.spellsFolder = spellsFolder;
         if(! (spellsFolder.exists() || spellsFolder.mkdirs())) {
             UltimateSpellSystem.logError("Cannot access " + spellsFolder + ".");
@@ -64,17 +68,21 @@ public final class SpellsManager {
 
     /**
      * Get all spell IDs.
-     * @return a <b>copy</b> of the spell IDs.
+     * @return a non-null <b>read-only copy</b> list of spells IDs.
      */
-    public List<String> spellIds() {
+    public @NotNull @Unmodifiable List<String> spellIds() {
         return List.copyOf(spells.keySet());
     }
 
-    public List<Spell> spells() {
+    /**
+     * Get all spells.
+     * @return a non-null <b>read-only copy</b> list of spells.
+     */
+    public @NotNull @Unmodifiable List<Spell> spells() {
         return List.copyOf(spells.values());
     }
 
-    public @Nullable Spell getSpell(String name) {
+    public @Nullable Spell getSpell(@NotNull String name) {
         return spells.get(name);
     }
 
@@ -83,7 +91,7 @@ public final class SpellsManager {
         UltimateSpellSystem.logDebug("Registered spell-function '" + id + "'.");
     }
 
-    public @Nullable SpellFunction getFunction(String id) {
+    public @Nullable SpellFunction getFunction(@NotNull String id) {
         return functions.get(id);
     }
 

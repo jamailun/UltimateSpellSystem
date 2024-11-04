@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class BlockHolder {
     private final Material type;
     private final Duration duration;
 
-    public BlockHolder(Material type, Duration duration) {
+    public BlockHolder(@NotNull Material type, @NotNull Duration duration) {
         this.type = type;
         this.duration = duration;
         UltimateSpellSystem.logDebug("New block-holder : (" + this +")");
@@ -61,10 +62,10 @@ public class BlockHolder {
     }
 
     /**
-     * Play the sound-effect to a location.
-     * @param location the non-ull location to use.
+     * Play the block-effect to a location.
+     * @param location the non-null location to use.
      */
-    public void apply(Location location) {
+    public void apply(@NotNull Location location) {
         BlockData newData = type.createBlockData();
         BlockData originalData = location.getBlock().getBlockData();
         List<Player> players = location.getWorld().getPlayers();

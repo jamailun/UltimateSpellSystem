@@ -9,25 +9,20 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public class SummonNode extends RuntimeStatement {
 
     private final RuntimeExpression type, source, duration;
     private final RuntimeExpression optProperty;
     private final String optVariableName;
 
-    public SummonNode(RuntimeExpression type, RuntimeExpression source, RuntimeExpression duration, RuntimeExpression optProperty, String optVariableName) {
-        this.type = type;
-        this.source = source;
-        this.duration = duration;
-        this.optProperty = optProperty;
-        this.optVariableName = optVariableName;
-    }
-
     @Override
-    public void run(SpellRuntime runtime) {
+    public void run(@NotNull SpellRuntime runtime) {
         UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
         LivingEntity caster = runtime.getCaster();

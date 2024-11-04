@@ -20,6 +20,10 @@ public class SpellRuntime {
     @Getter private final LivingEntity caster;
     @Getter private boolean stopped = false;
 
+    /**
+     * Create a new context.
+     * @param caster the caster to declare.
+     */
     public SpellRuntime(@NotNull LivingEntity caster) {
         this.caster = caster;
         variables.set("caster", new BukkitSpellEntity(caster));
