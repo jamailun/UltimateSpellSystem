@@ -38,10 +38,6 @@ public final class ItemReader {
         int damage = read(data, "damage", Integer.class, 0);
         String name = read(data, "type", String.class, null);
         List<?> lore = read(data, "lore", List.class, null);
-
-        UltimateSpellSystem.logInfo("DROPPABLE type = " + (map.containsKey("droppable") ? map.get("droppable") + "|" + map.get("droppable").getClass() : "null"));
-        UltimateSpellSystem.logInfo("LORE type = " + (map.containsKey("lore") ? map.get("lore") + "|" + map.get("lore").getClass() : "null"));
-
         boolean droppable = read(data, "droppable", Boolean.class, false);
 
         ItemStack item = new ItemStack(material, amount);

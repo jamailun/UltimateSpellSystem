@@ -59,4 +59,9 @@ public class SummonNode extends RuntimeStatement {
             runtime.variables().set(optVariableName, entity);
         }
     }
+
+    @Override
+    public String toString() {
+        return "SummonNode{"+(optProperty==null?"":optProperty+":= ")+type+", for "+duration+" at "+source+"}";
+    }
 }
