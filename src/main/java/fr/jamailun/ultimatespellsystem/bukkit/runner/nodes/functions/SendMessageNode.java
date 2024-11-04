@@ -6,7 +6,6 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.StringTransformation;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class SendMessageNode extends RuntimeStatement {
         List<? extends Component> messages = runtime.safeEvaluateAcceptsList(messageRef, String.class)
                 .stream()
                 .map(message -> StringTransformation.transformString(message, runtime.makeChild()))
-                .map(LegacyComponentSerializer.legacyAmpersand()::deserialize)
+                .map(StringTransformation::parse)
                 .toList();
 
         for(SpellEntity target : targets) {

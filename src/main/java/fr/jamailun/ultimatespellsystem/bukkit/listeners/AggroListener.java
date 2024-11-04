@@ -54,7 +54,6 @@ public class AggroListener implements Listener {
         }
 
         // Test is a summon of the same caster
-        UltimateSpellSystem.logInfo("target.owner.uuid: " + UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()));
         if(Objects.equals(summonerUuid, UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()))) {
             return summon.tryGetAttribute("can_aggro_summons", Boolean.class, false);
         }

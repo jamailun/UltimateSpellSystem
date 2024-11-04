@@ -1,6 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 public final class StringTransformation {
@@ -18,6 +20,10 @@ public final class StringTransformation {
             string = string.replace("%" + varName, String.valueOf(runtime.variables().get(varName)));
         }
         return string;
+    }
+
+    public static @NotNull Component parse(@NotNull String string) {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
     }
 
 }
