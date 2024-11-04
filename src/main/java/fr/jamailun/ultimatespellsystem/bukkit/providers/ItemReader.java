@@ -17,8 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Read items from configuration.
+ */
 public final class ItemReader {
-    
+
+    /**
+     * Read an item from a data-map.
+     * @param map the map to use. {@code Must be String - Any}
+     * @param runtime the context to use.
+     * @param context the string context to print on errors.
+     * @return a non-null item. The material will be {@code AIR} if a problem occurred (or if type not defined).
+     */
     public static @NotNull ItemStack readFromMap(@Nullable Map<?,?> map, @NotNull SpellRuntime runtime, String context) {
         Map<String, Object> data = convert(map);
         if(data == null) return new ItemStack(Material.AIR);
@@ -33,7 +43,7 @@ public final class ItemReader {
             material = Material.AIR;
         }
 
-        // Amount
+        // Read data
         int amount = read(data, "amount", Integer.class, 1);
         int damage = read(data, "damage", Integer.class, 0);
         String name = read(data, "type", String.class, null);
@@ -41,6 +51,7 @@ public final class ItemReader {
         boolean droppable = read(data, "droppable", Boolean.class, false);
         boolean unbreakable = read(data, "unbreakable", Boolean.class, false);
 
+        // Apply data to item meta
         ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
         if(meta != null) {
@@ -64,10 +75,10 @@ public final class ItemReader {
             damageMeta.setUnbreakable(unbreakable);
         }
 
+        // Set and return
         item.setItemMeta(meta);
         return item;
     }
-
 
     @SuppressWarnings("unchecked")
     private static @Nullable Map<String, Object> convert(@Nullable Map<?,?> map) {

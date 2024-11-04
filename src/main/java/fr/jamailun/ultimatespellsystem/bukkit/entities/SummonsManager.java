@@ -1,9 +1,14 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
+import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.Clock;
+import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Mob;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +20,22 @@ import java.util.*;
 public class SummonsManager {
 
     private final Map<UUID, SummonAttributes> summonedEntities = new HashMap<>();
+    private final Clock aggroClock;
+
+    public SummonsManager(@NotNull UssConfig config) {
+        config.registerObserver(this::refreshConfig);
+        aggroClock = new Clock(this::recomputeAggro, config.getCheckSummonsAggroEverySeconds());
+    }
+
+    private void recomputeAggro() {
+        UltimateSpellSystem.logDebug("Recompute aggro.");
+        for(SummonAttributes summon : summonedEntities.values()) {
+            if(summon.getEntity().getBukkitEntity().orElse(null) instanceof Mob mob && (mob.getTarget() == null || !mob.getTarget().isValid())) {
+                mob.setTarget(AggroListener.findAggro(summon));
+                UltimateSpellSystem.logDebug("new aggro = " + mob.getTarget());
+            }
+        }
+    }
 
     /**
      * Summon a creature.
@@ -76,6 +97,10 @@ public class SummonsManager {
         return Optional.ofNullable(summonedEntities.get(uuid));
     }
 
+    public void refreshConfig(@NotNull UssConfig config) {
+        aggroClock.setFrequency(config.getCheckSummonsAggroEverySeconds());
+    }
+
     /**
      * Purge all summoned entities.
      * @return the amount of removed entities.
@@ -92,6 +117,5 @@ public class SummonsManager {
         }
         return size;
     }
-
 
 }

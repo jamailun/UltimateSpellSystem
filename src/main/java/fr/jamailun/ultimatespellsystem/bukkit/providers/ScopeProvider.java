@@ -25,10 +25,12 @@ public final class ScopeProvider extends UssProvider<Predicate<Entity>> {
         instance().register(e -> UltimateSpellSystem.getSummonsManager().isASummonedEntity(e.getUniqueId()), "summon", "summoned");
     }
 
+    @Override
     public @Nullable Predicate<Entity> find(@NotNull String key) {
         Predicate<Entity> p = super.find(key);
-        if(p != null)
+        if(p != null) {
             return p;
+        }
 
         // try to find with EntityType
         p = findByEntityType(key);

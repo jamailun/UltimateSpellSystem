@@ -45,7 +45,7 @@ public class AggroListener implements Listener {
         }
     }
 
-    private boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
+    private static boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
         UUID summonerUuid = summon.getSummoner().getUniqueId();
 
         // Test is caster
@@ -61,7 +61,12 @@ public class AggroListener implements Listener {
         return true;
     }
 
-    private @Nullable Entity findAggro(@NotNull SummonAttributes summon) {
+    /**
+     * Find an aggro-able target for a summon. Beware, his operation can have a certain cost to it.
+     * @param summon the summon to check.
+     * @return {@code null} if no suitable target has been found.
+     */
+    public static @Nullable LivingEntity findAggro(@NotNull SummonAttributes summon) {
         Object scope = summon.getAttribute("aggro_scope");
         if(scope == null) return null;
 
@@ -73,6 +78,7 @@ public class AggroListener implements Listener {
                 .filter(e -> !Objects.equals(e.getUniqueId(), summon.getUUID()))
                 // Only living
                 .filter(e -> e instanceof LivingEntity)
+                .map(e -> (LivingEntity) e)
                 // Only aggro-able
                 .filter(e -> canAggro(summon, e))
                 // Get the closest

@@ -54,7 +54,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
         // Managers
         itemBinder = new ItemBinder();
         spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
-        summonsManager = new SummonsManager();
+        summonsManager = new SummonsManager(config);
 
         // Commands
         new UssCommand();

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils;
 
+import fr.jamailun.ultimatespellsystem.bukkit.utils.observable.AbstractObservable;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -7,7 +8,7 @@ import org.bukkit.event.block.Action;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class UssConfig {
+public class UssConfig extends AbstractObservable<UssConfig> {
 
     private boolean debug;
     private boolean triggerLeftClickAir;
@@ -19,6 +20,8 @@ public class UssConfig {
     private boolean ignoreTriggerOnSprint;
     private boolean afterTriggerUseItem;
     private boolean afterTriggerUseBlock;
+
+    private double checkSummonsAggroEverySeconds;
 
     public void reload(@NotNull ConfigurationSection config) {
         debug = config.getBoolean("debug", false);
@@ -33,6 +36,10 @@ public class UssConfig {
 
         afterTriggerUseItem = config.getBoolean("after-trigger.use-item", true);
         afterTriggerUseBlock = config.getBoolean("after-trigger.use-block", true);
+
+        checkSummonsAggroEverySeconds = config.getDouble("tick.aggro.summmons", 5d);
+
+        callObservers(this);
     }
 
     public boolean doesTriggerInteract(@NotNull Action action, @NotNull Player player) {

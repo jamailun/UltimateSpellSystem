@@ -17,3 +17,10 @@ trigger:
 after-trigger:
   use-item: true
   use-block: false
+
+# Clock configurations, in second. '-1' disable clocks.
+tick:
+  # Aggro tick config
+  aggro:
+    # Every x seconds, compute aggro for summons that do not have any target.
+    summmons: 5
