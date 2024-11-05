@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 
-public final class RunCompOpe extends RuntimeBiOperators {
+public final class RunCompOpe extends RuntimeBiOperator {
 
     private final boolean isEqual, isGreater;
 

@@ -17,7 +17,7 @@ public class MathFunctionOperator extends MonoOperator {
     }
 
     @Override
-    public MonoOpeType getType() {
+    public @NotNull MonoOpeType getType() {
         return type;
     }
 

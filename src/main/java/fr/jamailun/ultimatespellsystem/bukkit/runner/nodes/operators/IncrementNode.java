@@ -10,7 +10,7 @@ public class IncrementNode extends RuntimeStatement {
     private final String varName;
     private final boolean increments;
 
-    public IncrementNode(String varName, boolean increments) {
+    public IncrementNode(@NotNull String varName, boolean increments) {
         this.varName = varName;
         this.increments = increments;
     }

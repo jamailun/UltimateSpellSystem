@@ -16,7 +16,7 @@ public class NotOperator extends MonoOperator {
     }
 
     @Override
-    public MonoOpeType getType() {
+    public @NotNull MonoOpeType getType() {
         return MonoOpeType.NOT;
     }
 

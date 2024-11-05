@@ -15,6 +15,7 @@ import fr.jamailun.ultimatespellsystem.dsl.registries.RegistryException;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handlePropertiesSet(PropertiesExpression expression) {
+    public void handlePropertiesSet(@NotNull PropertiesExpression expression) {
         Map<String, RuntimeExpression> map = new HashMap<>();
         for(Map.Entry<String, ExpressionNode> dslEntry : expression.getExpressions().entrySet()) {
             RuntimeExpression node = evaluate(dslEntry.getValue());
@@ -42,7 +43,7 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleAllAround(AllEntitiesAroundExpression expression) {
+    public void handleAllAround(@NotNull AllEntitiesAroundExpression expression) {
         RuntimeExpression distance = evaluate(expression.getDistance());
         RuntimeExpression scope = evaluate(expression.getEntityType());
         RuntimeExpression source = evaluate(expression.getSource());
@@ -51,13 +52,13 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handlePositionOf(PositionOfExpression expression) {
+    public void handlePositionOf(@NotNull PositionOfExpression expression) {
         RuntimeExpression entity = evaluate(expression.getEntity());
         add(new PositionOfNode(entity, expression.getExpressionType().isCollection()));
     }
 
     @Override
-    public void handleCustomExpression(CustomExpression expression) {
+    public void handleCustomExpression(@NotNull CustomExpression expression) {
         // Find the executor of the custom function
         CustomExpressionsRegistry.CustomExpressionProvider provider = CustomExpressionsRegistry.find(expression.getLabel());
         if(provider == null)
@@ -71,13 +72,13 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleSizeOf(SizeOfExpression expression) {
+    public void handleSizeOf(@NotNull SizeOfExpression expression) {
         RuntimeExpression child = evaluate(expression.getChild());
         add(new SizeOfNode(child));
     }
 
     @Override
-    public void handleArray(ArrayExpression expression) {
+    public void handleArray(@NotNull ArrayExpression expression) {
         List<RuntimeExpression> elements = expression.getElements()
                 .stream()
                 .map(this::evaluate)
@@ -86,52 +87,52 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleVariable(VariableExpression expression) {
+    public void handleVariable(@NotNull VariableExpression expression) {
         add(new VariableNode(expression.getVariableName()));
     }
 
     @Override
-    public void handleNullLiteral(NullExpression literal) {
+    public void handleNullLiteral(@NotNull NullExpression literal) {
         add(new NullLiteral());
     }
 
     @Override
-    public void handleBooleanLiteral(BooleanExpression literal) {
+    public void handleBooleanLiteral(@NotNull BooleanExpression literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleNumberLiteral(NumberExpression literal) {
+    public void handleNumberLiteral(@NotNull NumberExpression literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleStringLiteral(StringExpression literal) {
+    public void handleStringLiteral(@NotNull StringExpression literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleEntityTypeLiteral(EntityTypeExpression literal) {
+    public void handleEntityTypeLiteral(@NotNull EntityTypeExpression literal) {
         add(new EntityTypeLiteral(literal));
     }
 
     @Override
-    public void handleRuntimeLiteral(RuntimeLiteral literal) {
+    public void handleRuntimeLiteral(@NotNull RuntimeLiteral literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleDurationLiteral(DurationExpression literal) {
+    public void handleDurationLiteral(@NotNull DurationExpression literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleEffectLiteral(EffectTypeExpression literal) {
+    public void handleEffectLiteral(@NotNull EffectTypeExpression literal) {
         add(new RawLiteral<>(literal));
     }
 
     @Override
-    public void handleLocationLiteral(LocationLiteral literal) {
+    public void handleLocationLiteral(@NotNull LocationLiteral literal) {
         RuntimeExpression world = evaluate(literal.getWorld());
         RuntimeExpression x = evaluate(literal.getVectorX());
         RuntimeExpression y = evaluate(literal.getVectorY());
@@ -145,7 +146,7 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleBiOperator(BiOperator operator) {
+    public void handleBiOperator(@NotNull BiOperator operator) {
         RuntimeExpression left = evaluate(operator.getLeft());
         RuntimeExpression right = evaluate(operator.getRight());
         add(switch (operator.getType()) {
@@ -165,18 +166,22 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleMonoOperator(MonoOperator operator) {
-        //TODO handleMonoOperator
-        throw new RuntimeException("Not implemented: handleMonoOperator !!!");
+    public void handleMonoOperator(@NotNull MonoOperator operator) {
+        RuntimeExpression child = evaluate(operator.getChild());
+        if(operator.getType() == MonoOperator.MonoOpeType.NOT) {
+            add(new RunNotOpe(child));
+        } else {
+            add(new RunMathOpe(child, operator.getType()));
+        }
     }
 
     @Override
-    public void handleParenthesis(ParenthesisExpression parenthesis) {
+    public void handleParenthesis(@NotNull ParenthesisExpression parenthesis) {
         parenthesis.getExpression().visit(this);
     }
 
     @Override
-    public void handleArrayGet(ArrayGetterExpression arrayGetter) {
+    public void handleArrayGet(@NotNull ArrayGetterExpression arrayGetter) {
         RuntimeExpression array = evaluate(arrayGetter.getArray());
         RuntimeExpression index = evaluate(arrayGetter.getIndex());
         add(new ArrayGetNode(array, index));

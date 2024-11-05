@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 public class PositionOfNode extends RuntimeExpression {
 
@@ -16,7 +17,7 @@ public class PositionOfNode extends RuntimeExpression {
     }
 
     @Override
-    public Object evaluate(SpellRuntime runtime) {
+    public Object evaluate(@NotNull SpellRuntime runtime) {
         if(isCollection) {
             return runtime.safeEvaluateList(this.entity, Entity.class);
         } else {

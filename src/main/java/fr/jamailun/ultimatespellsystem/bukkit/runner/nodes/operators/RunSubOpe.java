@@ -8,7 +8,7 @@ import org.bukkit.Location;
 
 import java.util.Objects;
 
-public final class RunSubOpe extends RuntimeBiOperators {
+public final class RunSubOpe extends RuntimeBiOperator {
 
     public RunSubOpe(RuntimeExpression left, RuntimeExpression right) {
         super(left, right);

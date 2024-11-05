@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownWorldExceptio
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 public class LocationNode extends RuntimeExpression {
 
@@ -22,7 +23,7 @@ public class LocationNode extends RuntimeExpression {
     }
 
     @Override
-    public Location evaluate(SpellRuntime runtime) {
+    public Location evaluate(@NotNull SpellRuntime runtime) {
         String worldName = runtime.safeEvaluate(this.world, String.class);
         World world = Bukkit.getWorld(worldName);
         if(world == null)

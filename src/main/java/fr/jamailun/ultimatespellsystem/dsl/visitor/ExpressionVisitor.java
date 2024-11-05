@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A visitor. Can interact with the node-tree.
@@ -15,31 +16,31 @@ import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 public interface ExpressionVisitor {
 
     // Literals
-    void handleNullLiteral(NullExpression literal);
-    void handleBooleanLiteral(BooleanExpression literal);
-    void handleNumberLiteral(NumberExpression literal);
-    void handleStringLiteral(StringExpression literal);
-    void handleEntityTypeLiteral(EntityTypeExpression literal);
-    void handleRuntimeLiteral(RuntimeLiteral literal);
-    void handleDurationLiteral(DurationExpression literal);
-    void handleEffectLiteral(EffectTypeExpression literal);
-    void handleLocationLiteral(LocationLiteral literal);
+    void handleNullLiteral(@NotNull NullExpression literal);
+    void handleBooleanLiteral(@NotNull BooleanExpression literal);
+    void handleNumberLiteral(@NotNull NumberExpression literal);
+    void handleStringLiteral(@NotNull StringExpression literal);
+    void handleEntityTypeLiteral(@NotNull EntityTypeExpression literal);
+    void handleRuntimeLiteral(@NotNull RuntimeLiteral literal);
+    void handleDurationLiteral(@NotNull DurationExpression literal);
+    void handleEffectLiteral(@NotNull EffectTypeExpression literal);
+    void handleLocationLiteral(@NotNull LocationLiteral literal);
 
     // Operators-ish
-    void handleBiOperator(BiOperator operator);
-    void handleMonoOperator(MonoOperator operator);
-    void handleParenthesis(ParenthesisExpression parenthesis);
-    void handleArrayGet(ArrayGetterExpression arrayGetter);
+    void handleBiOperator(@NotNull BiOperator operator);
+    void handleMonoOperator(@NotNull MonoOperator operator);
+    void handleParenthesis(@NotNull ParenthesisExpression parenthesis);
+    void handleArrayGet(@NotNull ArrayGetterExpression arrayGetter);
 
     // Specifics
-    void handlePropertiesSet(PropertiesExpression expression);
-    void handleArray(ArrayExpression expression);
-    void handleVariable(VariableExpression expression);
+    void handlePropertiesSet(@NotNull PropertiesExpression expression);
+    void handleArray(@NotNull ArrayExpression expression);
+    void handleVariable(@NotNull VariableExpression expression);
 
     // Functions
-    void handleAllAround(AllEntitiesAroundExpression expression);
-    void handlePositionOf(PositionOfExpression expression);
-    void handleCustomExpression(CustomExpression expression);
-    void handleSizeOf(SizeOfExpression expression);
+    void handleAllAround(@NotNull AllEntitiesAroundExpression expression);
+    void handlePositionOf(@NotNull PositionOfExpression expression);
+    void handleCustomExpression(@NotNull CustomExpression expression);
+    void handleSizeOf(@NotNull SizeOfExpression expression);
 
 }

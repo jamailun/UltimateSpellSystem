@@ -5,8 +5,12 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Function;
+
+@Getter
 public abstract class MonoOperator extends ExpressionNode {
 
     protected final ExpressionNode child;
@@ -16,7 +20,11 @@ public abstract class MonoOperator extends ExpressionNode {
         this.child = child;
     }
 
-    public abstract MonoOpeType getType();
+    /**
+     * Get this instance type of operation.
+     * @return a non-null type of mono-operation.
+     */
+    public abstract @NotNull MonoOpeType getType();
 
     @Override
     public void visit(@NotNull ExpressionVisitor visitor) {
@@ -30,17 +38,24 @@ public abstract class MonoOperator extends ExpressionNode {
        validateTypes(child.getExpressionType());
     }
 
-    public ExpressionNode getChild() {
-        return child;
-    }
-
-    public abstract void validateTypes(Type childType);
+    /**
+     * Validate the static-type of the code usage.
+     * @param childType the type to test.
+     */
+    public abstract void validateTypes(@NotNull Type childType);
 
     public enum MonoOpeType {
-        NOT,
-        SIN,
-        COS,
-        TAN
+        NOT(x -> x),
+        SIN(x -> Math.sin(x.doubleValue())),
+        COS(x -> Math.cos(x.doubleValue())),
+        TAN(x -> Math.tan(x.doubleValue())),
+        SQRT(x -> Math.sqrt(x.doubleValue())),
+        ABS(x -> x instanceof Integer || x instanceof Long || x instanceof Short || x instanceof Byte ? Math.abs(x.longValue()) : Math.abs(x.doubleValue())),
+        ;
+        public final Function<Number, Number> function;
+        MonoOpeType(Function<Number, Number> function) {
+            this.function = function;
+        }
     }
 
 }

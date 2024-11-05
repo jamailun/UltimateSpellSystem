@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.EntityTypeExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Literal for {@link UssEntityType}
@@ -18,7 +19,7 @@ public class EntityTypeLiteral extends RuntimeExpression {
     }
 
     @Override
-    public UssEntityType evaluate(SpellRuntime runtime) {
+    public UssEntityType evaluate(@NotNull SpellRuntime runtime) {
         return EntityTypeProvider.instance().find(name);
     }
 

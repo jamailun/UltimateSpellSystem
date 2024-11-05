@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 
-public final class RunAndOrOpe extends RuntimeBiOperators {
+public final class RunAndOrOpe extends RuntimeBiOperator {
 
     private final boolean isAnd;
     public RunAndOrOpe(RuntimeExpression left, RuntimeExpression right, boolean isAnd) {

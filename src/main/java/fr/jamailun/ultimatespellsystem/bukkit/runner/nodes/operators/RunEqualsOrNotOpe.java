@@ -5,7 +5,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 
 import java.util.Objects;
 
-public final class RunEqualsOrNotOpe extends RuntimeBiOperators {
+public final class RunEqualsOrNotOpe extends RuntimeBiOperator {
 
     private final boolean isEqual;
 

@@ -15,6 +15,7 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
@@ -46,19 +47,19 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleStop(StopStatement statement) {
+    public void handleStop(@NotNull StopStatement statement) {
         add(new StopNode());
     }
 
     @Override
-    public void handleSendMessage(SendMessageStatement statement) {
+    public void handleSendMessage(@NotNull SendMessageStatement statement) {
         RuntimeExpression target = convert(statement.getTarget());
         RuntimeExpression message = convert(statement.getMessage());
         add(new SendMessageNode(target, message));
     }
 
     @Override
-    public void handleSendEffect(SendEffectStatement statement) {
+    public void handleSendEffect(@NotNull SendEffectStatement statement) {
         RuntimeExpression target = convert(statement.getTarget());
         RuntimeExpression effect = convert(statement.getEffectType());
         RuntimeExpression power = convert(statement.getEffectPower().orElse(null));
@@ -67,21 +68,21 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleDefine(DefineStatement statement) {
+    public void handleDefine(@NotNull DefineStatement statement) {
         String varName = statement.getVarName();
         RuntimeExpression value = convert(statement.getExpression());
         add(new DefineNode(varName, value, statement.getExpression().getExpressionType()));
     }
 
     @Override
-    public void handleRunLater(RunLaterStatement statement) {
+    public void handleRunLater(@NotNull RunLaterStatement statement) {
         RuntimeExpression duration = convert(statement.getDuration());
         RuntimeStatement child = convertOneStatement(statement.getChild());
         add(new RunLaterNode(duration, child));
     }
 
     @Override
-    public void handleRepeatRun(RepeatStatement statement) {
+    public void handleRepeatRun(@NotNull RepeatStatement statement) {
         RuntimeExpression period = convert(statement.getPeriod());
         RuntimeStatement child = convertOneStatement(statement.getChild());
         RuntimeExpression delay = convert(statement.getDelay().orElse(null));
@@ -90,7 +91,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleSummon(SummonStatement statement) {
+    public void handleSummon(@NotNull SummonStatement statement) {
         RuntimeExpression type = convert(statement.getEntityType());
         RuntimeExpression source = convert(statement.getSource().orElse(null));
         RuntimeExpression duration = convert(statement.getDuration());
@@ -100,7 +101,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleBlock(BlockStatement statement) {
+    public void handleBlock(@NotNull BlockStatement statement) {
         pushQueue();
 
         for(StatementNode child : statement.getChildren()) {
@@ -114,21 +115,21 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleIncrement(IncrementStatement statement) {
+    public void handleIncrement(@NotNull IncrementStatement statement) {
         String varName = statement.getVarName();
         boolean increments = statement.isPositive();
         add(new IncrementNode(varName, increments));
     }
 
     @Override
-    public void handleTeleport(TeleportStatement statement) {
+    public void handleTeleport(@NotNull TeleportStatement statement) {
         RuntimeExpression entity = convert(statement.getEntity());
         RuntimeExpression target = convert(statement.getTarget());
         add(new TeleportNode(entity, target));
     }
 
     @Override
-    public void handlePlay(PlayStatement statement) {
+    public void handlePlay(@NotNull PlayStatement statement) {
         RuntimeExpression location = convert(statement.getLocation());
         RuntimeExpression properties = convert(statement.getProperties());
         PlayNode node = switch (statement.getType()) {
@@ -140,7 +141,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void functionCall(FunctionCallStatement statement) {
+    public void functionCall(@NotNull FunctionCallStatement statement) {
         String functionId = statement.getFunctionId();
         //XXX Improve that !
         List<RuntimeExpression> list = statement.getArguments()
@@ -151,7 +152,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleIf(IfElseStatement statement) {
+    public void handleIf(@NotNull IfElseStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement childTrue = convertOneStatement(statement.getChild());
         RuntimeStatement childFalse = convertOneStatement(statement.getElse().orElse(null));
@@ -159,7 +160,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleForLoop(ForLoopStatement statement) {
+    public void handleForLoop(@NotNull ForLoopStatement statement) {
         RuntimeStatement init = convertOneStatement(statement.getInitialization());
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement iteration = convertOneStatement(statement.getIteration());
@@ -168,7 +169,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleForeachLoop(ForeachLoopStatement statement) {
+    public void handleForeachLoop(@NotNull ForeachLoopStatement statement) {
         String varName = statement.getVariableName();
         RuntimeExpression source = convert(statement.getSource());
         RuntimeStatement child = convertOneStatement(statement.getChild());
@@ -177,7 +178,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleWhileLoop(WhileLoopStatement statement) {
+    public void handleWhileLoop(@NotNull WhileLoopStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement child = convertOneStatement(statement.getChild());
         boolean whileFirst = statement.isWhileFirst();

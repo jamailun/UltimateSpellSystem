@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public final class RunAddOpe extends RuntimeBiOperators {
+public final class RunAddOpe extends RuntimeBiOperator {
 
     public RunAddOpe(RuntimeExpression left, RuntimeExpression right) {
         super(left, right);

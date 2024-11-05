@@ -13,6 +13,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOpera
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -93,12 +94,12 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleStop(StopStatement statement) {
+    public void handleStop(@NotNull StopStatement statement) {
         builder.append(indent()).append("stop");
     }
 
     @Override
-    public void handleSendMessage(SendMessageStatement statement) {
+    public void handleSendMessage(@NotNull SendMessageStatement statement) {
         builder.append(indent()).append("send to ");
         statement.getTarget().visit(this);
         builder.append(" message ");
@@ -106,7 +107,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleSendEffect(SendEffectStatement statement) {
+    public void handleSendEffect(@NotNull SendEffectStatement statement) {
         builder.append(indent()).append("send to ");
         statement.getTarget().visit(this);
         builder.append(" effect ");
@@ -120,7 +121,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleDefine(DefineStatement statement) {
+    public void handleDefine(@NotNull DefineStatement statement) {
         builder.append(indent())
                 .append("define %")
                 .append(statement.getVarName())
@@ -129,7 +130,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleRunLater(RunLaterStatement statement) {
+    public void handleRunLater(@NotNull RunLaterStatement statement) {
         builder.append(indent()).append("run after ");
         statement.getDuration().visit(this);
         builder.append(" : ");
@@ -137,7 +138,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleRepeatRun(RepeatStatement statement) {
+    public void handleRepeatRun(@NotNull RepeatStatement statement) {
         builder.append(indent()).append("run ");
         statement.getCount().visit(this);
         builder.append(" times");
@@ -152,7 +153,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleSummon(SummonStatement statement) {
+    public void handleSummon(@NotNull SummonStatement statement) {
         builder.append(indent()).append("summon ");
         statement.getEntityType().visit(this);
         statement.getSource().ifPresent(p -> {
@@ -169,7 +170,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleBlock(BlockStatement statement) {
+    public void handleBlock(@NotNull BlockStatement statement) {
         builder.append("{\n");
         right();
         for(StatementNode child : statement.getChildren()) {
@@ -181,13 +182,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleIncrement(IncrementStatement statement) {
+    public void handleIncrement(@NotNull IncrementStatement statement) {
         builder.append(statement.isPositive() ? "++" : "--")
                 .append("%").append(statement.getVarName());
     }
 
     @Override
-    public void handleTeleport(TeleportStatement statement) {
+    public void handleTeleport(@NotNull TeleportStatement statement) {
         builder.append("teleport ");
         statement.getEntity().visit(this);
         builder.append(" to ");
@@ -195,7 +196,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handlePlay(PlayStatement statement) {
+    public void handlePlay(@NotNull PlayStatement statement) {
         builder.append("PLAY ")
                 .append(statement.getType())
                 .append(" AT ");
@@ -205,7 +206,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void functionCall(FunctionCallStatement statement) {
+    public void functionCall(@NotNull FunctionCallStatement statement) {
         builder.append("CALL ")
                 .append(statement.getFunctionId())
                 .append(" (");
@@ -218,7 +219,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleIf(IfElseStatement statement) {
+    public void handleIf(@NotNull IfElseStatement statement) {
         builder.append(indent()).append("IF(");
         statement.getCondition().visit(this);
         builder.append("):");
@@ -237,7 +238,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleForLoop(ForLoopStatement statement) {
+    public void handleForLoop(@NotNull ForLoopStatement statement) {
         builder.append("FOR(");
         statement.getInitialization().visit(this);
         statement.getCondition().visit(this);
@@ -248,7 +249,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleForeachLoop(ForeachLoopStatement statement) {
+    public void handleForeachLoop(@NotNull ForeachLoopStatement statement) {
         builder.append("FOREACH(%")
                 .append(statement.getVariableName())
                 .append(" : ");
@@ -258,7 +259,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleWhileLoop(WhileLoopStatement statement) {
+    public void handleWhileLoop(@NotNull WhileLoopStatement statement) {
         if(statement.isWhileFirst()) {
             builder.append("WHILE(");
             statement.getCondition().visit(this);
@@ -275,38 +276,38 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleNullLiteral(NullExpression literal) {
+    public void handleNullLiteral(@NotNull NullExpression literal) {
         builder.append("NULL");
     }
 
     @Override
-    public void handleBooleanLiteral(BooleanExpression literal) {
+    public void handleBooleanLiteral(@NotNull BooleanExpression literal) {
         builder.append(literal.getRaw());
     }
 
     @Override
-    public void handleNumberLiteral(NumberExpression literal) {
+    public void handleNumberLiteral(@NotNull NumberExpression literal) {
         double num = literal.getRaw();
         builder.append(formatNumber.format(num));
     }
 
     @Override
-    public void handleStringLiteral(StringExpression literal) {
+    public void handleStringLiteral(@NotNull StringExpression literal) {
         builder.append("\"").append(literal.getRaw()).append("\"");
     }
 
     @Override
-    public void handleEntityTypeLiteral(EntityTypeExpression literal) {
+    public void handleEntityTypeLiteral(@NotNull EntityTypeExpression literal) {
         builder.append("EntityType.").append(literal.getRaw());
     }
 
     @Override
-    public void handleRuntimeLiteral(RuntimeLiteral literal) {
+    public void handleRuntimeLiteral(@NotNull RuntimeLiteral literal) {
         builder.append("'").append(literal.getRaw()).append("'");
     }
 
     @Override
-    public void handleDurationLiteral(DurationExpression literal) {
+    public void handleDurationLiteral(@NotNull DurationExpression literal) {
         Duration duration = literal.getRaw();
         builder.append(formatNumber.format(duration.amount()))
                 .append(" ")
@@ -314,12 +315,12 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleEffectLiteral(EffectTypeExpression literal) {
+    public void handleEffectLiteral(@NotNull EffectTypeExpression literal) {
         builder.append("EffectType.").append(literal.getRaw());
     }
 
     @Override
-    public void handleLocationLiteral(LocationLiteral literal) {
+    public void handleLocationLiteral(@NotNull LocationLiteral literal) {
         builder.append("Location(");
         literal.getWorld().visit(this); builder.append(", ");
         literal.getVectorX().visit(this); builder.append(", ");
@@ -335,7 +336,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleBiOperator(BiOperator operator) {
+    public void handleBiOperator(@NotNull BiOperator operator) {
         operator.getLeft().visit(this);
         String ope = switch (operator.getType()) {
             case ADD -> "+";
@@ -356,7 +357,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleMonoOperator(MonoOperator operator) {
+    public void handleMonoOperator(@NotNull MonoOperator operator) {
         String ope = operator.getType().name();
         builder.append(ope).append("(");
         operator.getChild().visit(this);
@@ -364,14 +365,14 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleParenthesis(ParenthesisExpression parenthesis) {
+    public void handleParenthesis(@NotNull ParenthesisExpression parenthesis) {
         builder.append("(");
         parenthesis.getExpression().visit(this);
         builder.append(")");
     }
 
     @Override
-    public void handleArrayGet(ArrayGetterExpression arrayGetter) {
+    public void handleArrayGet(@NotNull ArrayGetterExpression arrayGetter) {
         arrayGetter.getArray().visit(this);
         builder.append("[");
         arrayGetter.getIndex().visit(this);
@@ -379,7 +380,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handlePropertiesSet(PropertiesExpression expression) {
+    public void handlePropertiesSet(@NotNull PropertiesExpression expression) {
         builder.append("{{");
         if(expression.getExpressions().isEmpty()) {
             builder.append("}}");
@@ -401,7 +402,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleAllAround(AllEntitiesAroundExpression expression) {
+    public void handleAllAround(@NotNull AllEntitiesAroundExpression expression) {
         builder.append("<all ");
         expression.getEntityType().visit(this);
         builder.append(" within ");
@@ -413,14 +414,14 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handlePositionOf(PositionOfExpression expression) {
+    public void handlePositionOf(@NotNull PositionOfExpression expression) {
         builder.append("position of (");
         expression.getEntity().visit(this);
         builder.append(")");
     }
 
     @Override
-    public void handleCustomExpression(CustomExpression expression) {
+    public void handleCustomExpression(@NotNull CustomExpression expression) {
         builder.append("@CUSTOM(")
                 .append(expression.getLabel())
                 .append(")[");
@@ -433,14 +434,14 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleSizeOf(SizeOfExpression expression) {
+    public void handleSizeOf(@NotNull SizeOfExpression expression) {
         builder.append("sizeof(");
         expression.getChild().visit(this);
         builder.append(")");
     }
 
     @Override
-    public void handleArray(ArrayExpression expression) {
+    public void handleArray(@NotNull ArrayExpression expression) {
         builder.append("[");
         boolean first = true;
         for(ExpressionNode child : expression.getElements()) {
@@ -451,7 +452,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleVariable(VariableExpression expression) {
+    public void handleVariable(@NotNull VariableExpression expression) {
         builder.append("%").append(expression.getVariableName());
     }
 }

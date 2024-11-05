@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class AllAroundNode extends RuntimeExpression {
     }
 
     @Override
-    public List<? extends SpellEntity> evaluate(SpellRuntime runtime) {
+    public List<? extends SpellEntity> evaluate(@NotNull SpellRuntime runtime) {
         // Distance
         Double distance = runtime.safeEvaluate(this.distance, Double.class);
 

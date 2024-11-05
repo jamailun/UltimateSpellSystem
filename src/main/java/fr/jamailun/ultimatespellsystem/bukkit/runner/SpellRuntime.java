@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * The execution context of a spell.
  */
-public class SpellRuntime {
+public final class SpellRuntime {
 
     private final VariablesSet variables = new VariablesSet();
     @Getter private final LivingEntity caster;
@@ -35,7 +35,11 @@ public class SpellRuntime {
         this.stopped = stopped;
     }
 
-    public VariablesSet variables() {
+    /**
+     * A reference to the variables set.
+     * @return the final reference to the variables.
+     */
+    public @NotNull VariablesSet variables() {
         return variables;
     }
 

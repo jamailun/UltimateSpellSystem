@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 
-public final class RunMulDivOpe extends RuntimeBiOperators {
+public final class RunMulDivOpe extends RuntimeBiOperator {
 
     private final boolean isMultiplication;
     public RunMulDivOpe(RuntimeExpression left, RuntimeExpression right, boolean isMultiplication) {
