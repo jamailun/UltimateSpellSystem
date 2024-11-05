@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Enumeration of a possible types.
@@ -36,11 +38,21 @@ public enum TypePrimitive {
         this.clazz = clazz;
     }
 
-    public Type asType() {
+    /**
+     * Convert this enumeration element into a new Type instance.
+     * @return a new, non-null Type instance.
+     */
+    public @NotNull Type asType() {
         return new Type(this, false);
     }
 
-    public Type asType(boolean collection) {
+    /**
+     * Convert this enumeration element into a new Type instance, possibly a collection.
+     * @param collection if true, the returned Type will be a collection.
+     * @return a new, non-null Type instance.
+     */
+    @Contract("_ -> new")
+    public @NotNull Type asType(boolean collection) {
         return new Type(this, collection);
     }
 

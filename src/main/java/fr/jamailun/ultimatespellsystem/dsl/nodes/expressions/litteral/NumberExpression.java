@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class NumberExpression extends LiteralExpression<Double> {
 
@@ -26,7 +27,7 @@ public class NumberExpression extends LiteralExpression<Double> {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.NUMBER.asType();
     }
 
@@ -36,7 +37,7 @@ public class NumberExpression extends LiteralExpression<Double> {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleNumberLiteral(this);
     }
 }

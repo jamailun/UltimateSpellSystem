@@ -1,5 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,7 +34,8 @@ public record Duration(double amount, TimeUnit timeUnit) {
      * @param other the other duration.
      * @return a new instance of duration.
      */
-    public Duration add(Duration other) {
+    @Contract("_ -> new")
+    public @NotNull Duration add(Duration other) {
         if(other.timeUnit == timeUnit)
             return new Duration(amount + other.amount, timeUnit);
         return new Duration(toSeconds() + other.toSeconds(), TimeUnit.SECONDS);
@@ -42,7 +46,8 @@ public record Duration(double amount, TimeUnit timeUnit) {
      * @param other the other duration.
      * @return a new instance of duration.
      */
-    public Duration sub(Duration other) {
+    @Contract("_ -> new")
+    public @NotNull Duration sub(@NotNull Duration other) {
         return new Duration(Math.max(0, toSeconds() - other.toSeconds()), TimeUnit.SECONDS);
     }
 
@@ -66,7 +71,8 @@ public record Duration(double amount, TimeUnit timeUnit) {
      * For debug purposes, get the unit as a nice string.
      * @return a non-null string.
      */
-    public String niceUnit() {
+    @Contract(pure = true)
+    public @NotNull String niceUnit() {
         String s = amount > 1 ? "s" : "";
         return switch (timeUnit) {
             case NANOSECONDS -> "nanosecond" + s;

@@ -1,8 +1,14 @@
 package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.util.StringJoiner;
 
+/**
+ * A stream of {@link Character}.
+ */
 public class CharStream {
 
     private final char[] chars;
@@ -13,11 +19,12 @@ public class CharStream {
         this.chars = chars;
     }
 
-    public static CharStream from(String string) {
+    @Contract("_ -> new")
+    public static @NotNull CharStream from(String string) {
         return new CharStream((string + "\n").toCharArray());
     }
 
-    public static CharStream from(File file) {
+    public static @NotNull CharStream from(File file) {
         if(!file.exists())
             throw new RuntimeException("File " + file + " does not exist.");
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -62,13 +69,14 @@ public class CharStream {
         int column = 1;
         int line = 1;
 
-        public TokenPosition pos() {
+        @Contract(" -> new")
+        public @NotNull TokenPosition pos() {
             return new TokenPosition(line, column);
         }
 
     }
 
-    public TokenPosition pos() {
+    public @NotNull TokenPosition pos() {
         return position.pos();
     }
 

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
+import org.jetbrains.annotations.NotNull;
 
 public class LogicalOperator extends BiOperator {
 
@@ -26,7 +27,7 @@ public class LogicalOperator extends BiOperator {
     }
 
     @Override
-    public void validateTypes(Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, Type rightType) {
         // Do not allow collections
         if(leftType.isCollection() || rightType.isCollection()) {
             throw new TypeException(this, "A " + type + " cannot handle collections.");
@@ -48,12 +49,12 @@ public class LogicalOperator extends BiOperator {
     }
 
     @Override
-    public BiOpeType getType() {
+    public @NotNull BiOpeType getType() {
         return type;
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.BOOLEAN.asType();
     }
 

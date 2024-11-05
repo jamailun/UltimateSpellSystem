@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import org.jetbrains.annotations.NotNull;
 
 public class MathFunctionOperator extends MonoOperator {
 
@@ -21,7 +22,7 @@ public class MathFunctionOperator extends MonoOperator {
     }
 
     @Override
-    public void validateTypes(Type childType) {
+    public void validateTypes(@NotNull Type childType) {
         // No collection
         if(childType.isCollection()) {
             throw new TypeException(this, "A MathOperation("+type+") cannot handle collections.");
@@ -34,7 +35,7 @@ public class MathFunctionOperator extends MonoOperator {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.NUMBER.asType();
     }
 

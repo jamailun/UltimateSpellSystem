@@ -37,7 +37,7 @@ public abstract class CustomExpression extends ExpressionNode {
     }
 
     @Override
-    public final void visit(ExpressionVisitor visitor) {
+    public final void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleCustomExpression(this);
     }
 

@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class TeleportStatement extends StatementNode {
 
@@ -36,7 +37,7 @@ public class TeleportStatement extends StatementNode {
     }
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.handleTeleport(this);
     }
 

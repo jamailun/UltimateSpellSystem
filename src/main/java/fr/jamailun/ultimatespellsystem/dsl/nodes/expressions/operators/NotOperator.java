@@ -5,9 +5,13 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * A NOT Operator for a boolean child-expression.
+ */
 public class NotOperator extends MonoOperator {
-    public NotOperator(Token token, ExpressionNode expression) {
+    public NotOperator(@NotNull Token token, ExpressionNode expression) {
         super(token.pos(), expression);
     }
 
@@ -17,7 +21,7 @@ public class NotOperator extends MonoOperator {
     }
 
     @Override
-    public void validateTypes(Type childType) {
+    public void validateTypes(@NotNull Type childType) {
         // No collection
         if(childType.isCollection()) {
             throw new TypeException(this, "A NEGATION cannot handle collections.");
@@ -30,7 +34,7 @@ public class NotOperator extends MonoOperator {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.BOOLEAN.asType();
     }
 

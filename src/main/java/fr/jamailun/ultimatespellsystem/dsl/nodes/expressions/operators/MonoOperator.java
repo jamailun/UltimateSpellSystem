@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MonoOperator extends ExpressionNode {
 
@@ -18,7 +19,7 @@ public abstract class MonoOperator extends ExpressionNode {
     public abstract MonoOpeType getType();
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleMonoOperator(this);
     }
 

@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class RuntimeLiteral extends LiteralExpression<String> {
 
@@ -20,7 +21,7 @@ public class RuntimeLiteral extends LiteralExpression<String> {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.CUSTOM.asType();
     }
 
@@ -30,7 +31,7 @@ public class RuntimeLiteral extends LiteralExpression<String> {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleRuntimeLiteral(this);
     }
 }

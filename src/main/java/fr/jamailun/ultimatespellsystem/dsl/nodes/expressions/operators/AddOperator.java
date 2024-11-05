@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import org.jetbrains.annotations.NotNull;
 
 public class AddOperator extends BiOperator {
     public AddOperator(TokenPosition pos, ExpressionNode left, ExpressionNode right) {
@@ -12,12 +13,12 @@ public class AddOperator extends BiOperator {
     }
 
     @Override
-    public BiOpeType getType() {
+    public @NotNull BiOpeType getType() {
         return BiOpeType.ADD;
     }
 
     @Override
-    public void validateTypes(Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, Type rightType) {
         // 1) One of them is a String : always compatible
         if(leftType.is(TypePrimitive.STRING) || rightType.is(TypePrimitive.STRING)) {
             producedType = TypePrimitive.STRING.asType();

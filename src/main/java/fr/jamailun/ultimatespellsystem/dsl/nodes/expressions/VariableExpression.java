@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class VariableExpression extends ExpressionNode {
 
@@ -27,7 +28,7 @@ public class VariableExpression extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return runtimeType;
     }
 
@@ -45,7 +46,7 @@ public class VariableExpression extends ExpressionNode {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleVariable(this);
     }
 }

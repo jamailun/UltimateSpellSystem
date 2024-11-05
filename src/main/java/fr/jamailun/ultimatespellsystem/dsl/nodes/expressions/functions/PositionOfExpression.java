@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class PositionOfExpression extends ExpressionNode {
 
@@ -25,12 +26,12 @@ public class PositionOfExpression extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.LOCATION.asType(isCollection);
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handlePositionOf(this);
     }
 

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class SubOperator extends BiOperator {
     }
 
     @Override
-    public BiOpeType getType() {
+    public @NotNull BiOpeType getType() {
         return BiOpeType.SUB;
     }
 

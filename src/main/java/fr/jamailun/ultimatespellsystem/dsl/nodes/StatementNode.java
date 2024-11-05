@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A statement is an instruction.
@@ -16,14 +17,14 @@ public abstract class StatementNode extends Node {
      * Make this statement be visited.
      * @param visitor the visitor to use.
      */
-    public abstract void visit(StatementVisitor visitor);
+    public abstract void visit(@NotNull StatementVisitor visitor);
 
     /**
      * Read a new statement from the tokens stream.
      * @param tokens the stream of tokens.
      * @return a non-null statement.
      */
-    public static StatementNode parseNextStatement(TokenStream tokens) {
+    public static @NotNull StatementNode parseNextStatement(@NotNull TokenStream tokens) {
         Token token = tokens.next();
         return switch (token.getType()) {
             // Empty statement

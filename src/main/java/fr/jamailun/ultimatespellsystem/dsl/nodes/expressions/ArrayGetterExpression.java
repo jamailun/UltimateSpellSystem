@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class ArrayGetterExpression extends ExpressionNode {
 
@@ -20,7 +21,7 @@ public class ArrayGetterExpression extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return array.getExpressionType().asMonoElement();
     }
 
@@ -46,7 +47,7 @@ public class ArrayGetterExpression extends ExpressionNode {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleArrayGet(this);
     }
 

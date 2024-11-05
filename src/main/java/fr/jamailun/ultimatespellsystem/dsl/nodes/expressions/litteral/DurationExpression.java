@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class DurationExpression extends LiteralExpression<Duration> {
 
@@ -21,7 +22,7 @@ public class DurationExpression extends LiteralExpression<Duration> {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.DURATION.asType();
     }
 
@@ -31,7 +32,7 @@ public class DurationExpression extends LiteralExpression<Duration> {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleDurationLiteral(this);
     }
 

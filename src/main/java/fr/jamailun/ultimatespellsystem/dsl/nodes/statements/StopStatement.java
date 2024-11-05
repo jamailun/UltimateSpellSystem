@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class StopStatement extends StatementNode {
 
@@ -13,7 +14,7 @@ public class StopStatement extends StatementNode {
     public void validateTypes(TypesContext context) {}
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.handleStop(this);
     }
 

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Type validation only ! used to force values to be a boolean !
@@ -19,7 +20,7 @@ public class ConditionWrapperNodeExpression extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.BOOLEAN.asType();
     }
 
@@ -35,7 +36,7 @@ public class ConditionWrapperNodeExpression extends ExpressionNode {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         child.visit(visitor);
     }
 }

@@ -18,6 +18,8 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -30,17 +32,17 @@ public abstract class ExpressionNode extends Node {
 
     private final TokenPosition position;
 
-    protected ExpressionNode(TokenPosition position) {
+    protected ExpressionNode(@NotNull TokenPosition position) {
         this.position = position;
     }
 
-    public TokenPosition firstTokenPosition() {
+    public @NotNull TokenPosition firstTokenPosition() {
         return position;
     }
 
-    public abstract Type getExpressionType();
+    public abstract @NotNull Type getExpressionType();
 
-    public abstract void visit(ExpressionVisitor visitor);
+    public abstract void visit(@NotNull ExpressionVisitor visitor);
 
     public static ExpressionNode readNextExpression(TokenStream tokens) {
         return readNextExpression(tokens, false);
@@ -63,7 +65,7 @@ public abstract class ExpressionNode extends Node {
         return tryConvertLogicalExpression(withMath, tokens, logicFirst);
     }
 
-    private static ExpressionNode readNextExpressionBuffer(TokenStream tokens, boolean allowCustom) {
+    private static @NotNull ExpressionNode readNextExpressionBuffer(@NotNull TokenStream tokens, boolean allowCustom) {
         Token token = tokens.next();
         return switch (token.getType()) {
             // Mono-operators

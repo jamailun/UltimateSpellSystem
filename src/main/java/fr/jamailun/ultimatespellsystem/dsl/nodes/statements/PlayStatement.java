@@ -12,6 +12,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PlayStatement extends StatementNode {
@@ -50,7 +51,7 @@ public class PlayStatement extends StatementNode {
     }
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.handlePlay(this);
     }
 

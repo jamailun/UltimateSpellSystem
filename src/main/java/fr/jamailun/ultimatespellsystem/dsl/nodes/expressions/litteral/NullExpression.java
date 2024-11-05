@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class NullExpression extends LiteralExpression<Void> {
 
@@ -15,7 +16,7 @@ public class NullExpression extends LiteralExpression<Void> {
     public Void getRaw() {return null;}
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.NULL.asType();
     }
 
@@ -25,7 +26,7 @@ public class NullExpression extends LiteralExpression<Void> {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleNullLiteral(this);
     }
 }

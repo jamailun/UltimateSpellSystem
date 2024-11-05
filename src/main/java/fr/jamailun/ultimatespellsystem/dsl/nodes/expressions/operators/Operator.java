@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Operator extends ExpressionNode {
 
@@ -22,7 +23,7 @@ public abstract class Operator extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return producedType;
     }
 }

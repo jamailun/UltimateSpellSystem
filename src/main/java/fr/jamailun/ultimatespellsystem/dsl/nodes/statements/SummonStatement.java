@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class SummonStatement extends StatementNode {
     }
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.handleSummon(this);
     }
 

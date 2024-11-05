@@ -1,5 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents the type of an expression.
  * @param primitive the kind of type.
@@ -16,12 +19,14 @@ public record Type(TypePrimitive primitive, boolean isCollection) {
         return this.primitive == primitive;
     }
 
+    @Contract(pure = true)
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return primitive + (isCollection?"[]":"");
     }
 
-    public Type asMonoElement() {
+    @Contract(" -> new")
+    public @NotNull Type asMonoElement() {
         return new Type(primitive, false);
     }
 }

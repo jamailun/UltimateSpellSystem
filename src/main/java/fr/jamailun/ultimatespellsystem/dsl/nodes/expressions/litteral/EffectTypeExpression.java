@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
 
@@ -21,7 +22,7 @@ public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.EFFECT_TYPE.asType();
     }
 
@@ -31,7 +32,7 @@ public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleEffectLiteral(this);
     }
 

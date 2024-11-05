@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.events.EntitySummonedEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
@@ -28,11 +27,9 @@ public class SummonsManager {
     }
 
     private void recomputeAggro() {
-        UltimateSpellSystem.logDebug("Recompute aggro.");
         for(SummonAttributes summon : summonedEntities.values()) {
             if(summon.getEntity().getBukkitEntity().orElse(null) instanceof Mob mob && (mob.getTarget() == null || !mob.getTarget().isValid())) {
                 mob.setTarget(AggroListener.findAggro(summon));
-                UltimateSpellSystem.logDebug("new aggro = " + mob.getTarget());
             }
         }
     }

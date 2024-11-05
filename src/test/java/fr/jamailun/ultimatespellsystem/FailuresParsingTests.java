@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
-import fr.jamailun.ultimatespellsystem.dsl.errors.TreeValidationException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

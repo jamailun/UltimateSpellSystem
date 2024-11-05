@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class SendEffectStatement extends SendStatement {
     }
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.handleSendEffect(this);
     }
 

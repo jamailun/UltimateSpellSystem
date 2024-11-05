@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class FunctionCallStatement extends StatementNode {
     }
 
     @Override
-    public void visit(StatementVisitor visitor) {
+    public void visit(@NotNull StatementVisitor visitor) {
         visitor.functionCall(this);
     }
 

@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class LocationLiteral extends ExpressionNode {
@@ -36,12 +37,12 @@ public class LocationLiteral extends ExpressionNode {
     }
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return TypePrimitive.LOCATION.asType();
     }
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleLocationLiteral(this);
     }
 

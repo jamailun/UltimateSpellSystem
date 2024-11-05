@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class BiOperator extends Operator {
 
@@ -21,10 +22,10 @@ public abstract class BiOperator extends Operator {
         this.right = right;
     }
 
-    public abstract BiOpeType getType();
+    public abstract @NotNull BiOpeType getType();
 
     @Override
-    public Type getExpressionType() {
+    public @NotNull Type getExpressionType() {
         return producedType;
     }
 
@@ -44,7 +45,7 @@ public abstract class BiOperator extends Operator {
     protected abstract void validateTypes(Type leftType, Type rightType);
 
     @Override
-    public void visit(ExpressionVisitor visitor) {
+    public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleBiOperator(this);
     }
 
