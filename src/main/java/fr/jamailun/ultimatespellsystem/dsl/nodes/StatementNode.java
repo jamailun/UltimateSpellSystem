@@ -23,6 +23,7 @@ public abstract class StatementNode extends Node {
      * Read a new statement from the tokens stream.
      * @param tokens the stream of tokens.
      * @return a non-null statement.
+     * @throws fr.jamailun.ultimatespellsystem.dsl.errors.UssException if a problem occurs.
      */
     public static @NotNull StatementNode parseNextStatement(@NotNull TokenStream tokens) {
         Token token = tokens.next();

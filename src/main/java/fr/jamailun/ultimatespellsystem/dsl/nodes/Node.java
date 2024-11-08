@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public abstract class Node {
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
-    protected void assertExpressionType(ExpressionNode expression, CollectionFilter filter, TypePrimitive type, TypePrimitive... otherTypes) {
+    protected void assertExpressionType(@NotNull ExpressionNode expression, @NotNull CollectionFilter filter, @NotNull TypePrimitive type, TypePrimitive... otherTypes) {
         List<TypePrimitive> allowed = new ArrayList<>(List.of(otherTypes));
         allowed.add(type);
 
@@ -47,7 +48,7 @@ public abstract class Node {
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
-    protected void assertExpressionType(ExpressionNode expression, CollectionFilter filter, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
+    protected void assertExpressionType(@NotNull ExpressionNode expression, @NotNull CollectionFilter filter, @NotNull TypesContext context, @NotNull TypePrimitive type, TypePrimitive... otherTypes) {
         expression.validateTypes(context);
         assertExpressionType(expression, filter, type, otherTypes);
     }
@@ -59,7 +60,7 @@ public abstract class Node {
      * @param type the expected type.
      * @param otherTypes a variadic for other allowed types.
      */
-    protected void assertExpressionType(ExpressionNode expression, TypesContext context, TypePrimitive type, TypePrimitive... otherTypes) {
+    protected void assertExpressionType(@NotNull ExpressionNode expression, @NotNull TypesContext context, @NotNull TypePrimitive type, TypePrimitive... otherTypes) {
         assertExpressionType(expression, CollectionFilter.ANY, context, type, otherTypes);
     }
 

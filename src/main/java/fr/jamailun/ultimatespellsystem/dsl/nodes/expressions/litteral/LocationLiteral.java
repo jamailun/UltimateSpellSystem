@@ -12,6 +12,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A raw {@link org.bukkit.Location} literal.
+ */
 @Getter
 public class LocationLiteral extends ExpressionNode {
 

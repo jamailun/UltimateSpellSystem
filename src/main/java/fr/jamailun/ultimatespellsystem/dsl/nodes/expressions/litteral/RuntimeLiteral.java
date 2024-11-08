@@ -6,11 +6,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A literal, can be anything. Not really used...
+ */
 public class RuntimeLiteral extends LiteralExpression<String> {
 
     private final String value;
 
-    public RuntimeLiteral(Token token) {
+    public RuntimeLiteral(@NotNull Token token) {
         super(token.pos());
         this.value = token.getContentString();
     }

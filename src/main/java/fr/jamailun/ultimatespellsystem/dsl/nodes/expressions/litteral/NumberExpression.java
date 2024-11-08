@@ -7,11 +7,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A raw number literal.
+ */
 public class NumberExpression extends LiteralExpression<Double> {
 
     private final Double rawValue;
 
-    public NumberExpression(Token token) {
+    public NumberExpression(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentNumber();
     }

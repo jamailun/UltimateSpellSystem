@@ -7,11 +7,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A raw {@link Duration} literal.
+ */
 public class DurationExpression extends LiteralExpression<Duration> {
 
     private final Duration duration;
 
-    public DurationExpression(Token token) {
+    public DurationExpression(@NotNull Token token) {
         super(token.pos());
         this.duration = new Duration(token.getContentNumber(), token.getContentTimeUnit());
     }

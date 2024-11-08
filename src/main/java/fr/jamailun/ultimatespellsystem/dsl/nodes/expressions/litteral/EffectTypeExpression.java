@@ -7,6 +7,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A raw {@link org.bukkit.potion.PotionEffect} literal.
+ */
 public class EffectTypeExpression extends LiteralExpression<PotionEffect> {
 
     private final PotionEffect effect;

@@ -18,7 +18,6 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
@@ -40,15 +39,36 @@ public abstract class ExpressionNode extends Node {
         return position;
     }
 
+    /**
+     * Get the {@link Type} of this expression.
+     * @return a valid and non-null Type.
+     */
     public abstract @NotNull Type getExpressionType();
 
+    /**
+     * Make a Visitor visit this node.
+     * @param visitor the non-null visitor to call.
+     */
     public abstract void visit(@NotNull ExpressionVisitor visitor);
 
-    public static ExpressionNode readNextExpression(TokenStream tokens) {
+    /**
+     * Extract the next Expression-Node from a tokens-stream.
+     * @param tokens the tokens-stream to create the next expression with.
+     * @return a non-null expression.
+     * @throws fr.jamailun.ultimatespellsystem.dsl.errors.UssException if a problems occurs.
+     */
+    public static @NotNull ExpressionNode readNextExpression(@NotNull TokenStream tokens) {
         return readNextExpression(tokens, false);
     }
 
-    public static ExpressionNode readNextExpression(TokenStream tokens, boolean allowCustom) {
+    /**
+     * Extract the next Expression-Node from a tokens-stream.
+     * @param tokens the tokens-stream to create the next expression with.
+     * @param allowCustom if true, an unknown Identifier will be returned as a specific literal.
+     * @return a non-null expression.
+     * @throws fr.jamailun.ultimatespellsystem.dsl.errors.UssException if a problems occurs.
+     */
+    public static @NotNull ExpressionNode readNextExpression(@NotNull TokenStream tokens, boolean allowCustom) {
         return readNextExpression(tokens, allowCustom, new MathParsingQueue(false), true);
     }
 
@@ -134,7 +154,7 @@ public abstract class ExpressionNode extends Node {
     private final static List<TokenType> LOW_PRIORITY_OPERATORS = List.of(TokenType.OPE_ADD, TokenType.OPE_SUB);
     private final static List<TokenType> HIGH_PRIORITY_OPERATORS = List.of(TokenType.OPE_MUL, TokenType.OPE_DIV);
 
-    private static ExpressionNode tryConvertMathOperations(ExpressionNode expr, TokenStream tokens, MathParsingQueue stack) {
+    private static ExpressionNode tryConvertMathOperations(ExpressionNode expr, @NotNull TokenStream tokens, MathParsingQueue stack) {
         Token token = tokens.peek();
 
         // Low-priority : push to stack
@@ -161,7 +181,7 @@ public abstract class ExpressionNode extends Node {
         return stack.deStack(expr);
     }
 
-    private static ExpressionNode tryConvertLogicalExpression(ExpressionNode expr, TokenStream tokens, boolean firstLevel) {
+    private static @NotNull ExpressionNode tryConvertLogicalExpression(ExpressionNode expr, @NotNull TokenStream tokens, boolean firstLevel) {
         Token token = tokens.peek();
         return switch(token.getType()) {
             case OPE_OR, OPE_AND -> {

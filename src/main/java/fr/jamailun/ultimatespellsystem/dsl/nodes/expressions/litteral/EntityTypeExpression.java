@@ -6,6 +6,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A raw {@link org.bukkit.entity.EntityType} literal.
+ */
 public class EntityTypeExpression extends LiteralExpression<String> {
 
     private final String type;

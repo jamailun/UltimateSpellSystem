@@ -7,19 +7,19 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A literal for a boolean, such as "true" and "false".
+ * A raw boolean literal.
  */
 public class BooleanExpression extends LiteralExpression<Boolean> {
 
     private final boolean rawValue;
 
-    public BooleanExpression(Token token) {
+    public BooleanExpression(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentBoolean();
     }
 
     @Override
-    public Boolean getRaw() {
+    public @NotNull Boolean getRaw() {
         return rawValue;
     }
 

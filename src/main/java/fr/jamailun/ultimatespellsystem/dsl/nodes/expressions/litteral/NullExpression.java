@@ -6,9 +6,12 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The {@code NULL} representation.
+ */
 public class NullExpression extends LiteralExpression<Void> {
 
-    public NullExpression(TokenPosition pos) {
+    public NullExpression(@NotNull TokenPosition pos) {
         super(pos);
     }
 
