@@ -30,6 +30,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
 
     private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
+    private final static List<String> args_boolean = List.of("true", "false");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -157,13 +158,20 @@ public class UssCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 1) {
             String arg0 = args[0].toLowerCase();
-            return args_0.stream().filter(a -> a.startsWith(arg0)).toList();
+            return args_0.stream().filter(a -> a.contains(arg0)).toList();
         }
 
         if(args.length == 2) {
             String arg1 = args[1].toLowerCase();
             if(args_0_with_id.contains(args[0])) {
-                return spellIds().filter(s -> s.startsWith(arg1)).toList();
+                return spellIds().filter(s -> s.contains(arg1)).toList();
+            }
+        }
+
+        if(args.length == 3) {
+            if("bind".equalsIgnoreCase(args[0])) {
+                String arg2 = args[2].toLowerCase();
+                return args_boolean.stream().filter(s -> s.contains(arg2)).toList();
             }
         }
 
