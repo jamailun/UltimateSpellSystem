@@ -23,7 +23,7 @@ public final class EntityTypeProvider extends UssProvider<UssEntityType> {
     }
 
     @Override
-    protected void postRegister(String key, @NotNull UssEntityType type) {
+    protected void postRegister(@NotNull String key, @NotNull UssEntityType type) {
         EntityTypeRegistry.allow(key);
     }
 

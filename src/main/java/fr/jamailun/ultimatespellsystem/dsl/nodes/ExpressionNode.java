@@ -1,18 +1,17 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
+import fr.jamailun.ultimatespellsystem.dsl.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.SubOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
+import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
@@ -125,6 +124,15 @@ public abstract class ExpressionNode extends Node {
                     }
                 }
 
+                // Parenthesis ? maybe a function.
+                if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
+                    FunctionDefinition functionDefinition = FunctionDefinitionsRegistry.find(value);
+                    if(functionDefinition != null) {
+                        yield FunctionCallExpression.readNextFunctionCall(functionDefinition, tokens);
+                    }
+                    throw new UnknownFunctionException(token.pos(), value);
+                }
+
                 // Custom value : checked at runtime !
                 if(allowCustom) {
                     yield new RuntimeLiteral(token);
@@ -143,7 +151,6 @@ public abstract class ExpressionNode extends Node {
             // 'function'-expressions
             case ALL -> AllEntitiesAroundExpression.parseAllExpression(tokens);
             case POSITION -> PositionOfExpression.parsePositionOf(tokens);
-            case CALL -> CustomExpression.parseCustomExpressionCall(tokens);
             case SIZEOF -> SizeOfExpression.parseSizeOf(tokens);
 
             // Other

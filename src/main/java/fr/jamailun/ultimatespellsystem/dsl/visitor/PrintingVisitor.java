@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionCallExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
@@ -12,7 +13,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperato
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
-import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -37,7 +37,12 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         this.indentDelta = indent;
     }
 
-    public String visit(List<StatementNode> statements) {
+    /**
+     * Visit multiple statements.
+     * @param statements the non-null statements to visit.
+     * @return a non-null string to print.
+     */
+    public @NotNull String visit(@NotNull List<StatementNode> statements) {
         builder = new StringBuilder();
         builder.append("function __spell__(%caster) {\n");
 
@@ -52,23 +57,23 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         return builder.toString();
     }
 
-    public static void print(List<StatementNode> statements) {
+    public static void print(@NotNull List<StatementNode> statements) {
         print(statements, 2);
     }
 
-    public static void print(List<StatementNode> statements, int indent) {
+    public static void print(@NotNull List<StatementNode> statements, int indent) {
         System.out.println(toString(statements, indent));
     }
 
-    public static String toString(List<StatementNode> statements) {
+    public static @NotNull String toString(@NotNull List<StatementNode> statements) {
         return toString(statements, 2);
     }
 
-    public static String toString(List<StatementNode> statements, int indent) {
+    public static @NotNull String toString(@NotNull List<StatementNode> statements, int indent) {
         return new PrintingVisitor(indent).visit(statements);
     }
 
-    private String indent() {
+    private @NotNull String indent() {
         if(dirty) {
             indentBuffer = " ".repeat(currentIndent);
             dirty = false;
@@ -421,22 +426,22 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleCustomExpression(@NotNull CustomExpression expression) {
-        builder.append("@CUSTOM(")
-                .append(expression.getLabel())
-                .append(")[");
-        boolean first = true;
-        for(ExpressionNode arg : expression.getRuntimeArguments()) {
-            if(first) first = false; else builder.append(", ");
-            arg.visit(this);
-        }
-        builder.append("]");
-    }
-
-    @Override
     public void handleSizeOf(@NotNull SizeOfExpression expression) {
         builder.append("sizeof(");
         expression.getChild().visit(this);
+        builder.append(")");
+    }
+
+    @Override
+    public void handleFunction(@NotNull FunctionCallExpression expression) {
+        builder.append(":")
+                .append(expression.getFunction().id())
+                .append("(");
+        boolean first = true;
+        for(ExpressionNode arg : expression.getArguments()) {
+            if(first) first = false; else builder.append(", ");
+            arg.visit(this);
+        }
         builder.append(")");
     }
 

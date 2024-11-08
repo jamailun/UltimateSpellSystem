@@ -1,16 +1,19 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownFunctionException;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.JavaFunctionCallNode;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionCallExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
-import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
-import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpressionsRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.registries.RegistryException;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
@@ -58,23 +61,23 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleCustomExpression(@NotNull CustomExpression expression) {
-        // Find the executor of the custom function
-        CustomExpressionsRegistry.CustomExpressionProvider provider = CustomExpressionsRegistry.find(expression.getLabel());
-        if(provider == null)
-            throw new RegistryException(expression.firstTokenPosition(), expression.getLabel());
-
-        // Handle all arguments
-
-
-        //TODO
-        System.err.println("Un-handled custom expression.");
-    }
-
-    @Override
     public void handleSizeOf(@NotNull SizeOfExpression expression) {
         RuntimeExpression child = evaluate(expression.getChild());
         add(new SizeOfNode(child));
+    }
+
+    @Override
+    public void handleFunction(@NotNull FunctionCallExpression expression) {
+        // 1. Find the EXECUTION of the function definition
+        RunnableJavaFunction function = JavaFunctionProvider.instance().find(expression.getFunction().id());
+        if(function == null)
+            throw new UnknownFunctionException(expression.getFunction().id());
+        // 2. Map arguments
+        List<RuntimeExpression> arguments = expression.getArguments().stream()
+                .map(this::evaluate)
+                .toList();
+        // 3. Create node
+        add(new JavaFunctionCallNode(function, arguments));
     }
 
     @Override

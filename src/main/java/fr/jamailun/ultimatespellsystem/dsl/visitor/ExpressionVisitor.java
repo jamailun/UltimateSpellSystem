@@ -2,12 +2,12 @@ package fr.jamailun.ultimatespellsystem.dsl.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionCallExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
-import fr.jamailun.ultimatespellsystem.dsl.registries.CustomExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,7 +40,7 @@ public interface ExpressionVisitor {
     // Functions
     void handleAllAround(@NotNull AllEntitiesAroundExpression expression);
     void handlePositionOf(@NotNull PositionOfExpression expression);
-    void handleCustomExpression(@NotNull CustomExpression expression);
     void handleSizeOf(@NotNull SizeOfExpression expression);
+    void handleFunction(@NotNull FunctionCallExpression expression);
 
 }
