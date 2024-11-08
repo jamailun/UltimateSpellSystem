@@ -16,7 +16,7 @@ public final class EntityTypeProvider extends UssProvider<UssEntityType> {
         // Bukkit
         for(EntityType type : EntityTypeRegistry.DEFAULT_TYPES) {
             String name = EntityTypeRegistry.prepare(type.name());
-            instance().register(new UssEntityType(type), type.name());
+            instance().register(new UssEntityType(type), name);
         }
         // Custom
         instance().register(new UssEntityType(Orb.class), "orb");
