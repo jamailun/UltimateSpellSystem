@@ -22,7 +22,7 @@ public class AttackListener implements Listener {
     private final UssConfig config;
 
     @EventHandler(priority = EventPriority.HIGH)
-    void playerLeftClick(EntityDamageByEntityEvent event) {
+    void playerLeftClick(@NotNull EntityDamageByEntityEvent event) {
         if(event.getDamager() instanceof Mob mob) {
             handle(mob, mob.getEquipment().getItemInMainHand(), event);
         } else if(event.getDamager() instanceof Player player) {

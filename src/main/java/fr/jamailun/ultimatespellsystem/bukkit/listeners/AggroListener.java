@@ -3,9 +3,11 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
@@ -46,6 +48,17 @@ public class AggroListener implements Listener {
     }
 
     private static boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
+        // Ignore invulnerable entities
+        if(target instanceof LivingEntity living) {
+            if(living.isInvulnerable())
+                return false;
+        }
+        // Ignore players in CREATIVE and in SPECTATOR
+        if(target instanceof Player player) {
+            if(player.getGameMode() == GameMode.SPECTATOR || player.getGameMode() == GameMode.CREATIVE)
+                return false;
+        }
+
         UUID summonerUuid = summon.getSummoner().getUniqueId();
 
         // Test is caster

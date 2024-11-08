@@ -16,11 +16,11 @@ public final class ScopeProvider extends UssProvider<Predicate<Entity>> {
 
     static {
         // Custom scopes
-        instance().register(e -> e instanceof LivingEntity, "living", "living-entity", "living-entities");
+        instance().register(e -> e instanceof LivingEntity, "living", "living_entity", "living_entities", "all", "any");
         instance().register(e -> e instanceof Mob, "mob");
         instance().register(e -> e instanceof Monster, "monster");
         instance().register(e -> e instanceof Animals, "animal");
-        instance().register(e -> e instanceof Player, "player");
+        instance().register(e -> e instanceof Player, "player", "human");
         instance().register(e -> e instanceof Item, "item");
         instance().register(e -> UltimateSpellSystem.getSummonsManager().isASummonedEntity(e.getUniqueId()), "summon", "summoned");
     }

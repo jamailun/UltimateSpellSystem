@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class ItemBoundInteractListener implements Listener {
@@ -23,7 +24,7 @@ public class ItemBoundInteractListener implements Listener {
     private final UssConfig config;
 
     @EventHandler(priority = EventPriority.HIGH)
-    void playerInteracts(PlayerInteractEvent event) {
+    void playerInteracts(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if(!config.doesTriggerInteract(event.getAction(), player))
             return;
