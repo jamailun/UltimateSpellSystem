@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
@@ -28,7 +28,7 @@ public class SummonNode extends RuntimeStatement {
         LivingEntity caster = runtime.getCaster();
         Location loc = caster.getLocation();
         if(source != null) {
-            Object sourceValue = source.evaluate(runtime);
+            Object sourceValue = runtime.safeEvaluate(source, Object.class);
             if(sourceValue instanceof Location sourceLoc) {
                 loc = sourceLoc;
             } else if(sourceValue instanceof SpellEntity sourceEntity) {
@@ -38,7 +38,7 @@ public class SummonNode extends RuntimeStatement {
                     loc = sourceEntity.getLocation();
                 }
             } else {
-                throw new UnreachableRuntimeException("Unknown type for location: " + sourceValue);
+                throw new InvalidTypeException("teleport[loc]", "location or entity", sourceValue);
             }
         }
 
