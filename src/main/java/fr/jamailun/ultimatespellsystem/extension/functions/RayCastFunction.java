@@ -86,7 +86,7 @@ public class RayCastFunction extends RunnableJavaFunction {
         double range = runtime.safeEvaluate(arguments.get(2), Double.class);
 
         // Raytrace
-        RayTraceResult result = location.getWorld().rayTraceBlocks(location, direction, range, FluidCollisionMode.ALWAYS, true);
+        RayTraceResult result = location.getWorld().rayTraceBlocks(location, direction, range, FluidCollisionMode.NEVER, true);
         if(result == null)
             return null;
         return result.getHitPosition().toLocation(location.getWorld());
