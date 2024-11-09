@@ -42,9 +42,9 @@ public class ItemBoundInteractListener implements Listener {
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
-                def.castNotCancellable(player);
+                boolean success = def.castNotCancellable(player);
                 // Decrement item-count if needed.
-                if(player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(inHand)) {
+                if(success && player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(inHand)) {
                     player.getInventory().getItemInMainHand().setAmount(inHand.getAmount() - 1);
                 }
             }

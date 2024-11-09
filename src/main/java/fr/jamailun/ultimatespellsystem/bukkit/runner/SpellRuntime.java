@@ -93,4 +93,8 @@ public final class SpellRuntime {
         return new SpellRuntime(caster, variables, exitCode);
     }
 
+    public int getFinalExitCode() {
+        return exitCode == null ? 0 : exitCode;
+    }
+
 }

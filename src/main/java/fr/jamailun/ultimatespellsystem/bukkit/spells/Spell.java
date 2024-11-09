@@ -7,39 +7,49 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A spell is something that can be done by a caster.
+ */
 public abstract class Spell {
 
     private final String name;
     private boolean enabled = true;
 
-    public Spell(String name) {
+    public Spell(@NotNull String name) {
         this.name = name;
     }
 
     /**
      * Cast a spell, in a forceful way. An event will be emitted.
      * @param entity the play to cast the spell.
+     * @return {@code false} if the spell finished with an error.
      * @see EntityCastSpellEvent
      */
-    public final void castNotCancellable(@NotNull LivingEntity entity) {
+    public final boolean castNotCancellable(@NotNull LivingEntity entity) {
         Bukkit.getServer().getPluginManager().callEvent(new EntityCastSpellEvent(entity, this, false));
-        castSpell(entity);
+        return castSpell(entity);
     }
 
     /**
      * Cast a spell, in a cancellable way. An event will be emitted.
      * @param player the play to cast the spell.
+     * @return {@code false} if the spell finished with an error (or if the spell did not start at all).
      * @see EntityCastSpellEvent
      */
-    public final void cast(@NotNull Player player) {
+    public final boolean cast(@NotNull Player player) {
         EntityCastSpellEvent event = new EntityCastSpellEvent(player, this, true);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled())
-            castSpell(player);
+            return castSpell(player);
+        return false;
     }
 
-    protected abstract void castSpell(@NotNull LivingEntity player);
-
+    /**
+     * Cast the spell.
+     * @param player the caster.
+     * @return {@code true} if the spell cast properly. If {@code false}, then the spell has been dropped.
+     */
+    protected abstract boolean castSpell(@NotNull LivingEntity player);
 
     public final boolean isEnabled() {
         return enabled;
@@ -50,7 +60,11 @@ public abstract class Spell {
         UltimateSpellSystem.logInfo("Spell '" + name + "' has been " + (enabled?"enabled":"disabled") + ".");
     }
 
-    public final String getName() {
+    /**
+     * Get the name of the spell.
+     * @return a non-null string, unique for the registry.
+     */
+    public final @NotNull String getName() {
         return name;
     }
 

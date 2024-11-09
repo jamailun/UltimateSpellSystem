@@ -8,7 +8,6 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.builder.SpellBuilderVisitor;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,16 +15,29 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A spell definition is the common implementation for a {@link Spell}.
+ */
 public class SpellDefinition extends Spell {
 
     private final List<RuntimeStatement> steps;
 
-    public SpellDefinition(String name, List<RuntimeStatement> steps) {
+    /**
+     * Create a new spell definition.
+     * @param name the name of the spell.
+     * @param steps the steps to run.
+     */
+    public SpellDefinition(@NotNull String name, @NotNull List<RuntimeStatement> steps) {
         super(name);
         this.steps = steps;
     }
 
-    public static @Nullable SpellDefinition loadFile(File file) {
+    /**
+     * Load a {@link SpellDefinition} from a file.
+     * @param file the file to load.
+     * @return a new spell definition.
+     */
+    public static @Nullable SpellDefinition loadFile(@NotNull File file) {
         String name = file.getName()
                 .replace(" ", "-")
                 .toLowerCase()
@@ -40,7 +52,13 @@ public class SpellDefinition extends Spell {
         return loadFile(name, file);
     }
 
-    public static @Nullable SpellDefinition loadFile(String name, File file) {
+    /**
+     * Load a {@link SpellDefinition} from a file, but with a specific name.
+     * @param name the name to use.
+     * @param file the file to load.
+     * @return a new spell definition.
+     */
+    public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
             DslValidator.validateDsl(dsl);
@@ -56,7 +74,7 @@ public class SpellDefinition extends Spell {
     }
 
     @Override
-    protected void castSpell(@NotNull LivingEntity caster) {
+    protected boolean castSpell(@NotNull LivingEntity caster) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
         UltimateSpellSystem.logDebug(prefix + " Casted on " + caster);
@@ -70,6 +88,8 @@ public class SpellDefinition extends Spell {
                 break;
         }
 
-        UltimateSpellSystem.logDebug(prefix + "End of cast on " + caster);
+        boolean success = runtime.getFinalExitCode() == 0;
+        UltimateSpellSystem.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
+        return success;
     }
 }
