@@ -44,11 +44,13 @@ public class TeleportNode extends RuntimeStatement {
         entities.forEach(e -> teleport(e, location));
     }
 
-    private void teleport(Object object, Location location) {
+    private static void teleport(Object object, Location location) {
         if(object instanceof Entity entity) {
-            entity.teleport(location);
+            Location target = location.clone().setDirection(entity.getLocation().getDirection());
+            entity.teleport(target);
         } else if(object instanceof SpellEntity spellEntity) {
-            spellEntity.teleport(location);
+            Location target = location.clone().setDirection(spellEntity.getLocation().getDirection());
+            spellEntity.teleport(target);
         } else {
             throw new InvalidTypeException("teleporting entity", "entity", object);
         }
