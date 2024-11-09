@@ -17,16 +17,26 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @RequiredArgsConstructor
 public class ItemBoundInteractListener implements Listener {
 
     private final ItemBinder binder;
     private final UssConfig config;
 
+    private final Duration spamDuration = Duration.of(100, ChronoUnit.MILLIS);
+    private final Map<UUID, Instant> spamBlocker = new HashMap<>();
+
     @EventHandler(priority = EventPriority.HIGH)
     void playerInteracts(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if(!config.doesTriggerInteract(event.getAction(), player))
+        if(!config.doesTriggerInteract(event.getAction(), player) || !canDo(player.getUniqueId()))
             return;
 
         ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -51,6 +61,16 @@ public class ItemBoundInteractListener implements Listener {
             event.setUseInteractedBlock(config.isAfterTriggerUseBlock() ? Event.Result.DEFAULT : Event.Result.DENY);
             event.setUseItemInHand(config.isAfterTriggerUseItem() ? Event.Result.DEFAULT : Event.Result.DENY);
         });
+    }
+
+    private boolean canDo(@NotNull UUID uuid) {
+        Instant allowed = spamBlocker.get(uuid);
+        Instant now = Instant.now();
+        if(allowed == null || now.isAfter(allowed)) {
+            spamBlocker.put(uuid, now.plus(spamDuration));
+            return true;
+        }
+        return false;
     }
 
 }
