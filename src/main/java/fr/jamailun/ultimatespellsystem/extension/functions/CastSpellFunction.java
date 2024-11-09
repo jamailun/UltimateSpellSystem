@@ -24,7 +24,7 @@ public class CastSpellFunction extends RunnableJavaFunction {
     public CastSpellFunction() {
         super(
                 "cast",
-                // Returns a location
+                // Returns a boolean
                 TypePrimitive.BOOLEAN.asType(),
                 // Args :
                 // - caster : the caster
