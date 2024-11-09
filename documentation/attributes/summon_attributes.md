@@ -29,3 +29,27 @@ Newly created summons can have attributes
 - `aggro_range` : Number. Range of aggro lookup. _Default value: `7`._
 - `can_aggro_caster` : Boolean. If true, caster can be attacked. _Default value: `false`._
 - `can_aggro_summons` : Boolean. If true, caster's other summons can be attacked. _Default value: `false`._
+
+## Read custom attributes
+
+You can obtain informations about a summon entity, and then reading its attribute.
+
+```java
+import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public void checkSummonHasAttribute(UUID uuid) {
+    SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(uuid).orElse(null);
+    if(summon == null) return;
+
+    Double value = summon.tryGetAttribute("my_attribute", Double.class);
+    System.out.println("My attribute = " + value + ". Complete map = " + summon.getAttributes());
+}
+```
+
+## Create custom attribute
+
+Check the [corresponding documentation](/documentation/registries/how_to_register.md#register-a-custom-summon-attribute).

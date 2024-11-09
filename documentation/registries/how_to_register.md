@@ -66,9 +66,11 @@ _The syntax has not been improved, but it can be changed later on._
 Implement a [UssEntityType](/src/main/java/fr/jamailun/ultimatespellsystem/bukkit/entities/UssEntityType.java).
 Then, register it using [EntityTypeProvider#register](/src/main/java/fr/jamailun/ultimatespellsystem/bukkit/providers/EntityTypeProvider.java).
 
+This will be used when summoning a creature, for example.
+
 ## Register a custom scope
 
-Scopes are used to search entities (`all <SCOPE> around <ENTITY> ...`) and to define the aggroable entities of a summon.
+[Scopes](/documentation/scopes.md) are used to search entities (`all <SCOPE> around <ENTITY> ...`) and to define the aggroable entities of a summon.
 To provide a custom scope, simply use a "named" entity predicate.
 
 ### Example
@@ -109,7 +111,7 @@ public class CustomSummonPropertiesExtension extends SummonPropertiesProvider {
             entity.setVisualFire(bool);
         }, LivingEntity.class, Boolean.class);
         // then, we register it
-        SummonPropertiesProvider.instance().register(fireProperty);
+        SummonPropertiesProvider.instance().register(fireProperty, "is_fire", "fire");
     }
 }
 ```
