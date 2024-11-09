@@ -24,7 +24,7 @@ public class WhileLoopStatement extends StatementNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         TypesContext childContext = context.childContext();
 
         assertExpressionType(nodeCondition, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.BOOLEAN);

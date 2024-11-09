@@ -8,28 +8,22 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Define statement will set a variable to something.
+ */
+@Getter
+@RequiredArgsConstructor
 public class DefineStatement extends StatementNode {
 
     private final String varName;
     private final ExpressionNode expression;
 
-    public DefineStatement(String varName, ExpressionNode expression) {
-        this.varName = varName;
-        this.expression = expression;
-    }
-
-    public String getVarName() {
-        return varName;
-    }
-
-    public ExpressionNode getExpression() {
-        return expression;
-    }
-
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         expression.validateTypes(context);
         // Register variable
         context.registerVariable(varName, expression);
@@ -46,7 +40,7 @@ public class DefineStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = {TokenType.DEFINE})
-    public static DefineStatement parseNextDefine(TokenStream tokens) {
+    public static @NotNull DefineStatement parseNextDefine(@NotNull TokenStream tokens) {
         // %VAR_NAME
         Token varToken = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
         String varName = varToken.getContentString();

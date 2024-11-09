@@ -27,7 +27,7 @@ public class RepeatStatement extends BlockHolder {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         if(delay != null)
             assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         assertExpressionType(count, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);

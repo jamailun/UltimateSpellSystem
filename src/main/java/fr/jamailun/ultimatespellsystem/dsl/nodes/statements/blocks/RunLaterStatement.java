@@ -21,7 +21,7 @@ public class RunLaterStatement extends BlockHolder {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(duration, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
     }
 

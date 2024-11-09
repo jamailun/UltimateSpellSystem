@@ -38,7 +38,7 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         // Distance must be a number
         assertExpressionType(distance, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
 

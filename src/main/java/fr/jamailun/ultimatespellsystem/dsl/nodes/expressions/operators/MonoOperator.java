@@ -32,7 +32,7 @@ public abstract class MonoOperator extends ExpressionNode {
     }
 
     @Override
-    public final void validateTypes(TypesContext context) {
+    public final void validateTypes(@NotNull TypesContext context) {
         child.validateTypes(context);
 
        validateTypes(child.getExpressionType());

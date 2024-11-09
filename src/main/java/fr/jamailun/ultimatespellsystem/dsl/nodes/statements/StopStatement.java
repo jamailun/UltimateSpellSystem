@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class StopStatement extends StatementNode {
 
     @Override
-    public void validateTypes(TypesContext context) {}
+    public void validateTypes(@NotNull TypesContext context) {}
 
     @Override
     public void visit(@NotNull StatementVisitor visitor) {

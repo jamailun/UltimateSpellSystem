@@ -10,28 +10,19 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
+@RequiredArgsConstructor
 public class TeleportStatement extends StatementNode {
 
     private final ExpressionNode entity;
     private final ExpressionNode target;
 
-    public TeleportStatement(ExpressionNode entity, ExpressionNode target) {
-        this.entity = entity;
-        this.target = target;
-    }
-
-    public ExpressionNode getEntity() {
-        return entity;
-    }
-
-    public ExpressionNode getTarget() {
-        return target;
-    }
-
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(entity, context, TypePrimitive.ENTITY);
         assertExpressionType(target, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY, TypePrimitive.LOCATION);
     }
@@ -42,7 +33,7 @@ public class TeleportStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = TokenType.TELEPORT)
-    public static TeleportStatement parseTeleport(TokenStream tokens) {
+    public static @NotNull TeleportStatement parseTeleport(@NotNull TokenStream tokens) {
         ExpressionNode entity = ExpressionNode.readNextExpression(tokens);
         tokens.dropOrThrow(TokenType.TO);
         ExpressionNode target = ExpressionNode.readNextExpression(tokens);

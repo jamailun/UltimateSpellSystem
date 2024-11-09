@@ -37,7 +37,7 @@ public class PropertiesExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext contextParent) {
+    public void validateTypes(@NotNull TypesContext contextParent) {
         TypesContext context = contextParent.childContext();
         for(ExpressionNode expression : expressions.values())
             expression.validateTypes(context);

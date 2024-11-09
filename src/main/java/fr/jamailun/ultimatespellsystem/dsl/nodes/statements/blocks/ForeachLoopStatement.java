@@ -9,22 +9,23 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public class ForeachLoopStatement extends StatementNode {
 
     private final Token varName;
-    private final ExpressionNode source;
-    private final StatementNode child;
+    @Getter private final ExpressionNode source;
+    @Getter private final StatementNode child;
 
-    public ForeachLoopStatement(Token varName, ExpressionNode source, StatementNode child) {
-        this.varName = varName;
-        this.source = source;
-        this.child = child;
+    public String getVariableName() {
+        return varName.getContentString();
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         TypesContext childContext = context.childContext();
 
         // Source
@@ -46,7 +47,7 @@ public class ForeachLoopStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = TokenType.FOREACH) // FOREACH(<VARIABLE> : <SOURCE>) <CHILD>
-    public static ForeachLoopStatement parseForLoop(TokenStream tokens) {
+    public static @NotNull ForeachLoopStatement parseForLoop(@NotNull TokenStream tokens) {
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);
 
         Token varName = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
@@ -57,18 +58,6 @@ public class ForeachLoopStatement extends StatementNode {
         StatementNode child = StatementNode.parseNextStatement(tokens);
 
         return new ForeachLoopStatement(varName, source, child);
-    }
-
-    public ExpressionNode getSource() {
-        return source;
-    }
-
-    public String getVariableName() {
-        return varName.getContentString();
-    }
-
-    public StatementNode getChild() {
-        return child;
     }
 
     @Override

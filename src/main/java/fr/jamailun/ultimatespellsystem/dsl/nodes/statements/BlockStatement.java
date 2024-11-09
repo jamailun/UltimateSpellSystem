@@ -6,22 +6,22 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+@Getter
+@RequiredArgsConstructor
 public class BlockStatement extends StatementNode {
 
     protected final List<StatementNode> children;
 
-    public BlockStatement(List<StatementNode> children) {
-        this.children = children;
-    }
-
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         TypesContext contextChild = context.childContext();
         for(StatementNode child : children) {
             child.validateTypes(contextChild);
@@ -33,12 +33,8 @@ public class BlockStatement extends StatementNode {
         visitor.handleBlock(this);
     }
 
-    public List<StatementNode> getChildren() {
-        return children;
-    }
-
     @PreviousIndicator(expected = {TokenType.BRACES_OPEN})
-    public static BlockStatement parseNextBlock(TokenStream tokens) {
+    public static @NotNull BlockStatement parseNextBlock(@NotNull TokenStream tokens) {
         List<StatementNode> list = new ArrayList<>();
 
         while(tokens.hasMore()) {

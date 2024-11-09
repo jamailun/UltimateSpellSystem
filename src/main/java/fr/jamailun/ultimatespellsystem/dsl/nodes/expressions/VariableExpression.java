@@ -33,7 +33,7 @@ public class VariableExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         TypesContext.VariableDefinition var = context.findVariable(varName);
         if(var == null)
             throw new SyntaxException(firstTokenPosition(), "Undefined variable '" + varName + "'.");

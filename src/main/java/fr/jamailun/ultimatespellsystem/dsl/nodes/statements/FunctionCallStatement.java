@@ -7,23 +7,22 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@RequiredArgsConstructor
 public class FunctionCallStatement extends StatementNode {
 
     private final String functionId;
     private final List<ExpressionNode> arguments;
 
-    public FunctionCallStatement(String functionId, List<ExpressionNode> arguments) {
-        this.functionId = functionId;
-        this.arguments = arguments;
-    }
-
     @Override
-    public void validateTypes(TypesContext contextRaw) {
+    public void validateTypes(@NotNull TypesContext contextRaw) {
         TypesContext context = contextRaw.childContext();
         arguments.forEach(e -> e.validateTypes(context));
     }
@@ -34,7 +33,7 @@ public class FunctionCallStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = TokenType.CALL)
-    public static FunctionCallStatement parseFunctionCall(TokenStream tokens) {
+    public static @NotNull FunctionCallStatement parseFunctionCall(@NotNull TokenStream tokens) {
         tokens.assertNextIs(TokenType.VALUE_STRING, TokenType.IDENTIFIER);
         String functionId = tokens.next().getContentString();
         List<ExpressionNode> args = new ArrayList<>();
@@ -49,11 +48,4 @@ public class FunctionCallStatement extends StatementNode {
         return new FunctionCallStatement(functionId, args);
     }
 
-    public String getFunctionId() {
-        return functionId;
-    }
-
-    public List<ExpressionNode> getArguments() {
-        return arguments;
-    }
 }

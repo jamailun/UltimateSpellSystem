@@ -7,28 +7,19 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
+@RequiredArgsConstructor
 public class IncrementStatement extends StatementNode {
 
     private final String varName;
-    private final boolean isPositive;
-
-    public IncrementStatement(String varName, boolean isPositive) {
-        this.isPositive = isPositive;
-        this.varName = varName;
-    }
-
-    public String getVarName() {
-        return varName;
-    }
-
-    public boolean isPositive() {
-        return isPositive;
-    }
+    private final boolean positive;
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         // Nothing
     }
 
@@ -38,7 +29,7 @@ public class IncrementStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = {TokenType.INCREMENT, TokenType.DECREMENT})
-    public static IncrementStatement parseIncrementOrDecrement(TokenStream tokens, boolean increment) {
+    public static @NotNull IncrementStatement parseIncrementOrDecrement(@NotNull TokenStream tokens, boolean increment) {
         Token var = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
         tokens.dropOptional(TokenType.SEMI_COLON);
         return new IncrementStatement(var.getContentString(), increment);
@@ -46,6 +37,6 @@ public class IncrementStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return (isPositive?"++":"--") + "%" + varName;
+        return (positive ?"++":"--") + "%" + varName;
     }
 }

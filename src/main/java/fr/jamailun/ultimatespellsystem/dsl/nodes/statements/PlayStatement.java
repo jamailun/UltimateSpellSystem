@@ -12,28 +12,24 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
+@RequiredArgsConstructor
 public class PlayStatement extends StatementNode {
 
     private final Type type;
     private final ExpressionNode location, properties;
 
-    public PlayStatement(Type type, ExpressionNode location, ExpressionNode properties) {
-        this.type = type;
-        this.location = location;
-        this.properties = properties;
-    }
-
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(location, context, TypePrimitive.LOCATION, TypePrimitive.ENTITY);
         assertExpressionType(properties, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.PROPERTIES_SET);
     }
 
     @PreviousIndicator(expected = TokenType.PLAY) // PLAY PARTICLE/BLOCK
-    public static PlayStatement parsePlay(TokenStream tokens) {
+    public static @NotNull PlayStatement parsePlay(@NotNull TokenStream tokens) {
         Token next = tokens.next();
         Type type = switch(next.getType()) {
             case PARTICLE -> Type.PARTICLE;

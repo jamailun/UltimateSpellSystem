@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+/**
+ * Multiple tests for <b>invalid</b> USS files.
+ */
 public class FailuresParsingTests extends ParsingTest {
 
     @Test

@@ -30,7 +30,7 @@ public class ParenthesisExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         // Keep the same context.
         expression.validateTypes(context);
     }

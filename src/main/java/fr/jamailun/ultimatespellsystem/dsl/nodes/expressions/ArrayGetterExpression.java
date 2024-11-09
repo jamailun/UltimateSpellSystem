@@ -26,7 +26,7 @@ public class ArrayGetterExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         // Index must be a number
         assertExpressionType(index, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
 

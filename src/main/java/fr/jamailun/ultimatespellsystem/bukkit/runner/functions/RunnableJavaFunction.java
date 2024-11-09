@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionA
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -13,22 +14,17 @@ import java.util.List;
  * A runnable code declaration
  */
 @Getter
+@RequiredArgsConstructor
 public abstract class RunnableJavaFunction {
 
     private final String id;
     private final FunctionType type;
     private final List<FunctionArgument> arguments;
 
-    public RunnableJavaFunction(@NotNull String id, @NotNull FunctionType type, @NotNull List<FunctionArgument> arguments) {
-        this.id = id;
-        this.type = type;
-        this.arguments = arguments;
-    }
-
     /**
      * Compute the value, using the arguments.
-     * @param arguments
-     * @return
+     * @param arguments the arguments values returned by this runtime.
+     * @return the object returned by this expression.
      */
     public abstract Object compute(@NotNull List<Object> arguments, @NotNull SpellRuntime runtime);
 

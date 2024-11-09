@@ -30,7 +30,7 @@ public abstract class BiOperator extends Operator {
     }
 
     @Override
-    public final void validateTypes(TypesContext context) {
+    public final void validateTypes(@NotNull TypesContext context) {
         // Validate
         left.validateTypes(context);
         right.validateTypes(context);

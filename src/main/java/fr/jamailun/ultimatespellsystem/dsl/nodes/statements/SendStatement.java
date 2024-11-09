@@ -9,26 +9,23 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
+@Getter
+@RequiredArgsConstructor
 public abstract class SendStatement extends StatementNode {
 
     protected final ExpressionNode target;
 
-    public SendStatement(ExpressionNode target) {
-        this.target = target;
-    }
-
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(target, context, TypePrimitive.ENTITY);
     }
 
-    public ExpressionNode getTarget() {
-        return target;
-    }
-
     @PreviousIndicator(expected = {TokenType.SEND}) // SEND (to) TARGET <THING> (...)
-    public static StatementNode parseSendStatement(TokenStream tokens) {
+    public static @NotNull StatementNode parseSendStatement(@NotNull TokenStream tokens) {
         // Optional "to"
         tokens.dropOptional(TokenType.TO);
 

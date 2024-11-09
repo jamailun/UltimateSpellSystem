@@ -19,7 +19,7 @@ public abstract class Node {
      * Validates the TYPE of the handled elements. No logic test is done here.
      * @param context the typing context.
      */
-    public abstract void validateTypes(TypesContext context);
+    public abstract void validateTypes(@NotNull TypesContext context);
 
     /**
      * Assert an expression to be of a specific type.

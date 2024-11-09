@@ -8,18 +8,22 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.util.*;
 
+/**
+ * Test framework for parsing tests.
+ */
 abstract class ParsingTest {
 
     protected final File PARSINGS_FILE = new File("src/test/resources/parsing");
 
-    protected List<File> listTests(String subFolder) {
+    protected @NotNull List<File> listTests(@NotNull String subFolder) {
         File directory = new File(PARSINGS_FILE, subFolder);
-        Assertions.assertTrue(directory.exists() && directory.isDirectory());
+        Assertions.assertTrue(directory.exists() && directory.isDirectory(), "Directory '" + subFolder + "' does not exist.");
 
         File[] children = directory.listFiles();
         if(children == null) {
@@ -28,7 +32,7 @@ abstract class ParsingTest {
         return List.of(children);
     }
 
-    protected String toString(Exception e) {
+    protected @NotNull String toString(@NotNull Exception e) {
         return e.getClass().getSimpleName() + " : " + e.getMessage();
     }
 
@@ -38,11 +42,11 @@ abstract class ParsingTest {
     protected void addOk() {
         countOk++;
     }
-    protected void addFails(File test, String error) {
+    protected void addFails(@NotNull File test, @NotNull String error) {
         failures.put(test, error);
     }
 
-    protected void parseAndVerify(File file) throws UssException {
+    protected void parseAndVerify(@NotNull File file) throws UssException {
         System.out.println("\n\n ================[ " + file.getName() + "]================\n");
         // Tokenize
         TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));

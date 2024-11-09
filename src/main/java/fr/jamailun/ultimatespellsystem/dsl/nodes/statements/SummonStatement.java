@@ -7,28 +7,24 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class SummonStatement extends StatementNode {
 
-    private final ExpressionNode entityType;
-    private final ExpressionNode optSource; // nullable
-    private final Token optVarName; // nullable
-    private final ExpressionNode duration;
-    private final ExpressionNode optProperties; // nullable
-
-    public SummonStatement(ExpressionNode entityType, ExpressionNode optSource, Token varName, ExpressionNode duration, ExpressionNode properties) {
-        this.entityType = entityType;
-        this.optSource = optSource;
-        this.optVarName = varName;
-        this.duration = duration;
-        this.optProperties = properties;
-    }
+    @Getter private final @NotNull ExpressionNode entityType;
+    private final @Nullable ExpressionNode optSource; // nullable
+    private final @Nullable Token optVarName; // nullable
+    @Getter private final @NotNull ExpressionNode duration;
+    private final @Nullable ExpressionNode optProperties; // nullable
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(entityType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY_TYPE);
         assertExpressionType(duration,  CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         if(optProperties != null)
@@ -47,7 +43,7 @@ public class SummonStatement extends StatementNode {
 
     // SUMMON (ENTITY_TYPE) [AT (POSITION/ENTITY)] [[AS (VAR_NAME)]] FOR (DURATION) [WITH : (PROPS)]
     @PreviousIndicator(expected = {TokenType.SUMMON})
-    public static SummonStatement parseSummonStatement(TokenStream tokens) {
+    public static @NotNull SummonStatement parseSummonStatement(@NotNull TokenStream tokens) {
         //IRON_GOLEM as %ig for 10 seconds with:
         ExpressionNode entityType = ExpressionNode.readNextExpression(tokens);
 
@@ -86,16 +82,8 @@ public class SummonStatement extends StatementNode {
                 + "}";
     }
 
-    public ExpressionNode getEntityType() {
-        return entityType;
-    }
-
     public Optional<String> getVarName() {
         return optVarName == null ? Optional.empty() : Optional.of(optVarName.getContentString());
-    }
-
-    public ExpressionNode getDuration() {
-        return duration;
     }
 
     public Optional<ExpressionNode> getProperties() {

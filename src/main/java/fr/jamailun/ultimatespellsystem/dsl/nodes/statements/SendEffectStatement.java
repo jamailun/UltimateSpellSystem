@@ -26,7 +26,7 @@ public class SendEffectStatement extends SendStatement {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         super.validateTypes(context);
 
         assertExpressionType(effectType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.EFFECT_TYPE);
@@ -53,7 +53,7 @@ public class SendEffectStatement extends SendStatement {
     }
 
     @PreviousIndicator(expected = {TokenType.EFFECT})
-    public static SendEffectStatement parseSendEffect(ExpressionNode target, TokenStream tokens) {
+    public static @NotNull SendEffectStatement parseSendEffect(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         // Effect type
         ExpressionNode effectType = ExpressionNode.readNextExpression(tokens);
 

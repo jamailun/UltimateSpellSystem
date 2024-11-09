@@ -36,7 +36,7 @@ public class PositionOfExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(entityNode, context, TypePrimitive.ENTITY);
         isCollection = entityNode.getExpressionType().isCollection();
     }

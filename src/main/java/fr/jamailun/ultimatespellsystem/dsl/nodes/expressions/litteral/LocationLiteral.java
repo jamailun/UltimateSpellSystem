@@ -50,7 +50,7 @@ public class LocationLiteral extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(world, context, TypePrimitive.STRING);
         assertExpressionType(vectorX, context, TypePrimitive.NUMBER);
         assertExpressionType(vectorY, context, TypePrimitive.NUMBER);

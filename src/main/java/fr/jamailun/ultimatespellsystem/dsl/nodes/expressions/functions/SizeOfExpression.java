@@ -32,7 +32,7 @@ public class SizeOfExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext context) {
+    public void validateTypes(@NotNull TypesContext context) {
         // Always valid :)
     }
 

@@ -35,7 +35,7 @@ public class ArrayExpression extends ExpressionNode {
     }
 
     @Override
-    public void validateTypes(TypesContext contextParent) {
+    public void validateTypes(@NotNull TypesContext contextParent) {
         // avoid non-intentional propagation
         TypesContext context = contextParent.childContext();
 

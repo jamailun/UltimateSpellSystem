@@ -41,12 +41,9 @@ public class FunctionCallExpression extends ExpressionNode {
             ExpressionNode obtained = arguments.get(i);
             obtained.validateTypes(context);
 
-            if(expected.type().type() != obtained.getExpressionType().primitive()) {
-                throw new TypeException(obtained, "Invalid argument type '"+expected.debugName()+"', expected " + expected.type().type() + " but got " + obtained.getExpressionType());
-            }
-            if(!expected.type().collectionFilter().isValid(obtained.getExpressionType())) {
-                throw new TypeException(obtained, "Argument '" + expected.debugName() + "' has filter " + expected.type().collectionFilter() + ", but got " + obtained.getExpressionType());
-            }
+            FunctionType.TestResult result = expected.type().accepts(obtained.getExpressionType());
+            if(result.isError())
+                throw new TypeException(obtained, "Argument '" + expected.debugName() + "': " + result.getError());
         }
     }
 
