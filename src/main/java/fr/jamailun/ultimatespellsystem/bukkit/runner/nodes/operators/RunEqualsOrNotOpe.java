@@ -22,6 +22,9 @@ public final class RunEqualsOrNotOpe extends RuntimeBiOperator {
     }
 
     private boolean equals(Object left, Object right) {
+        if(left == null || right == null) {
+            return isEqual && (left == null) == (right == null);
+        }
         if(left instanceof Number l && right instanceof Number r) {
             UltimateSpellSystem.logDebug("Comparison (numbers). L="+l+"; R="+r);
             return l.doubleValue() == r.doubleValue();
