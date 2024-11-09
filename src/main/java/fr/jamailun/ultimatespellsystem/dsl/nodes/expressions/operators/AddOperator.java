@@ -24,6 +24,11 @@ public class AddOperator extends BiOperator {
             producedType = TypePrimitive.STRING.asType();
             return;
         }
+        // 1.b) Special case : Loc+number[]
+        if(leftType.is(TypePrimitive.LOCATION) || rightType.primitive() == TypePrimitive.NUMBER && rightType.isCollection()) {
+            producedType = TypePrimitive.LOCATION.asType();
+            return;
+        }
 
         // 2) Some types cannot be added at all.
         assertNotMathIncompatible(leftType);

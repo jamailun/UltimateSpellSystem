@@ -7,6 +7,7 @@ import org.bukkit.Location;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -48,6 +49,11 @@ public final class RunAddOpe extends RuntimeBiOperator {
         // Add Locations
         if(left instanceof Location ll && right instanceof Location rl) {
             return ll.clone().add(rl);
+        }
+        if(left instanceof Location ll && right instanceof List<?> list && list.size() >= 3) {
+            if(list.get(0) instanceof Double x && list.get(1) instanceof Double y && list.get(2) instanceof Double z) {
+                return ll.clone().add(x, y, z);
+            }
         }
         // Union Properties
         if(left instanceof Map<?,?> lm && right instanceof Map<?,?> rm) {
