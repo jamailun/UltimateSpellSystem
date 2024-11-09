@@ -42,7 +42,7 @@ public class PositionOfExpression extends ExpressionNode {
     }
 
     @PreviousIndicator(expected = TokenType.POSITION)
-    public static PositionOfExpression parsePositionOf(TokenStream tokens) {
+    public static @NotNull PositionOfExpression parsePositionOf(@NotNull TokenStream tokens) {
         TokenPosition pos = tokens.position();
         tokens.dropOrThrow(TokenType.OF);
         ExpressionNode entityNode = ExpressionNode.readNextExpression(tokens);
