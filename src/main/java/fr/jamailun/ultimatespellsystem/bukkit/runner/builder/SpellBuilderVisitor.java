@@ -48,7 +48,8 @@ public class SpellBuilderVisitor implements StatementVisitor {
 
     @Override
     public void handleStop(@NotNull StopStatement statement) {
-        add(new StopNode());
+        RuntimeExpression exitCode = convert(statement.getExitCodeNode());
+        add(new StopNode(exitCode));
     }
 
     @Override

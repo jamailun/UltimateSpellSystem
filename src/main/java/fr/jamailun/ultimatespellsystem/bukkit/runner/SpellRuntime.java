@@ -3,7 +3,9 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +20,7 @@ public final class SpellRuntime {
 
     private final VariablesSet variables = new VariablesSet();
     @Getter private final LivingEntity caster;
-    @Getter private boolean stopped = false;
+    private Integer exitCode;
 
     /**
      * Create a new context.
@@ -29,10 +31,14 @@ public final class SpellRuntime {
         variables.set("caster", new BukkitSpellEntity(caster));
     }
 
-    private SpellRuntime(@NotNull LivingEntity caster, VariablesSet variables, boolean stopped) {
+    private SpellRuntime(@NotNull LivingEntity caster, VariablesSet variables, @Nullable Integer exitCode) {
         this.caster = caster;
         this.variables.copy(variables);
-        this.stopped = stopped;
+        this.exitCode = exitCode;
+    }
+
+    public boolean isStopped() {
+        return exitCode != null;
     }
 
     /**
@@ -74,13 +80,17 @@ public final class SpellRuntime {
         return Collections.singletonList(singleton);
     }
 
-    public void stop() {
-        stopped = true;
+    /**
+     * Stop the current execution.
+     * @param exitCode the exit code to use.
+     */
+    public void stop(int exitCode) {
+        this.exitCode = exitCode;
     }
 
-    public SpellRuntime makeChild() {
-        return new SpellRuntime(caster, variables, stopped);
+    @Contract(" -> new")
+    public @NotNull SpellRuntime makeChild() {
+        return new SpellRuntime(caster, variables, exitCode);
     }
-
 
 }
