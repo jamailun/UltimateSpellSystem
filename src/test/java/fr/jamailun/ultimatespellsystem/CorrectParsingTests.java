@@ -35,7 +35,7 @@ public class CorrectParsingTests extends ParsingTest {
         // Register "custom_add"
         FunctionDefinition definition = new FunctionDefinition(
                 "custom_add",
-                FunctionType.accept(TypePrimitive.NUMBER),
+                TypePrimitive.NUMBER.asType(),
                 List.of(
                         new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "a", false),
                         new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "b", false)

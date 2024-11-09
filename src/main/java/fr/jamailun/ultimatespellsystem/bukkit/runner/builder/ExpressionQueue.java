@@ -7,10 +7,10 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunct
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.AllEntitiesAroundExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.AllEntitiesAroundExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionCallExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.PositionOfExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.SizeOfExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.PositionOfExpression;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;

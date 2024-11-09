@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
+import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,6 +39,7 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        ExtensionLoader.load();
         EntityTypeProvider.loadDefaults();
         UssKeys.initialize(this);
     }

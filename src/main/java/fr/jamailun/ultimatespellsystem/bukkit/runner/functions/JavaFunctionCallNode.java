@@ -18,10 +18,6 @@ public class JavaFunctionCallNode extends RuntimeExpression {
 
     @Override
     public Object evaluate(@NotNull SpellRuntime runtime) {
-        List<Object> objects = arguments.stream()
-                .map(o -> o.evaluate(runtime))
-                .toList();
-
-        return function.compute(objects, runtime);
+        return function.compute(arguments, runtime);
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
  * A function call statement.
  */
 @Getter
-public class FunctionCallExpression extends ExpressionNode {
+public final class FunctionCallExpression extends ExpressionNode {
 
     private final FunctionDefinition function;
     private final List<ExpressionNode> arguments;
@@ -54,7 +54,7 @@ public class FunctionCallExpression extends ExpressionNode {
 
     @Override
     public @NotNull Type getExpressionType() {
-        return function.returnedType().asType();
+        return function.returnedType();
     }
 
     @PreviousIndicator(expected = TokenType.BRACKET_OPEN)

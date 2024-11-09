@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions;
 
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @param returnedType the type returned by this function.
  * @param arguments the arguments.
  */
-public record FunctionDefinition(@NotNull String id, @NotNull FunctionType returnedType, @NotNull List<FunctionArgument> arguments) {
+public record FunctionDefinition(@NotNull String id, @NotNull Type returnedType, @NotNull List<FunctionArgument> arguments) {
 
     public int mandatoryArgumentsCount() {
         return (int) arguments.stream()
