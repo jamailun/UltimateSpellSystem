@@ -53,4 +53,8 @@ public final class VariablesSet {
         return Optional.empty();
     }
 
+    @Override
+    public @NotNull String toString() {
+        return "Vars" + objects;
+    }
 }

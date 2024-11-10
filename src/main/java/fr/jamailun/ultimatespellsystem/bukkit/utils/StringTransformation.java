@@ -5,6 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public final class StringTransformation {
 
     public static @NotNull String transformString(@NotNull String string, @NotNull SpellRuntime runtime) {
@@ -17,7 +19,8 @@ public final class StringTransformation {
 
     private static @NotNull String transformVariables(@NotNull String string, @NotNull SpellRuntime runtime) {
         for(String varName : runtime.variables().names()) {
-            string = string.replace("%" + varName, String.valueOf(runtime.variables().get(varName)));
+            String value = Objects.requireNonNullElse(String.valueOf(runtime.variables().get(varName)), "null");
+            string = string.replace("%" + varName, value);
         }
         return string;
     }
