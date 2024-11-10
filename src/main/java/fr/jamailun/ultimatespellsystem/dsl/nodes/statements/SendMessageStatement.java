@@ -31,7 +31,7 @@ public class SendMessageStatement extends SendStatement {
         visitor.handleSendMessage(this);
     }
 
-    @PreviousIndicator(expected = {TokenType.MESSAGE})
+    @PreviousIndicator(expected = {TokenType.SEND/* + MESSAGE */})
     public static @NotNull SendMessageStatement parseSendMessage(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         ExpressionNode message = ExpressionNode.readNextExpression(tokens);
 

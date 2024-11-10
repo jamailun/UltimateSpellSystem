@@ -28,15 +28,9 @@ public class PlayStatement extends StatementNode {
         assertExpressionType(properties, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.PROPERTIES_SET);
     }
 
-    @PreviousIndicator(expected = TokenType.PLAY) // PLAY PARTICLE/BLOCK
+    @PreviousIndicator(expected = TokenType.PLAY) // PLAY <BLOCK/PARTICLE/SOUND> AT <LOC> WITH: <DATA>;
     public static @NotNull PlayStatement parsePlay(@NotNull TokenStream tokens) {
-        Token next = tokens.next();
-        Type type = switch(next.getType()) {
-            case PARTICLE -> Type.PARTICLE;
-            case BLOCK -> Type.BLOCK;
-            case SOUND -> Type.SOUND;
-            default -> throw new SyntaxException(next, "Expected either 'PARTICLE' or 'BLOCK' after a 'PLAYER'.");
-        };
+        Type type = readType(tokens);
         tokens.dropOrThrow(TokenType.AT);
         ExpressionNode location = ExpressionNode.readNextExpression(tokens);
         tokens.dropOrThrow(TokenType.WITH);
@@ -44,6 +38,19 @@ public class PlayStatement extends StatementNode {
         ExpressionNode properties = ExpressionNode.readNextExpression(tokens);
         tokens.dropOptional(TokenType.SEMI_COLON);
         return new PlayStatement(type, location, properties);
+    }
+
+    private static @NotNull Type readType(@NotNull TokenStream tokens) {
+        Token next = tokens.next();
+        String nextValue = next.getContentString();
+        if(nextValue == null)
+            throw new SyntaxException(next, "Expected a token with a string value (STRING, IDENTIFIER)");
+        return switch(nextValue.toLowerCase()) {
+            case "block" -> Type.BLOCK;
+            case "particle" -> Type.PARTICLE;
+            case "sound" -> Type.SOUND;
+            default -> throw new SyntaxException(next, "Expected either 'block', 'particle' or 'sound' after a 'PLAY' statement.");
+        };
     }
 
     @Override

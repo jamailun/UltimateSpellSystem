@@ -1,9 +1,0 @@
-define %a = 2;
-
-if(%a == 1) {
-    send to %caster message "FIRST CHOICE";
-} else if(%a == 2) {
-    send to %caster message "SECOND CHOICE";
-} else {
-    send to %caster message "NO CHOICE !";
-}

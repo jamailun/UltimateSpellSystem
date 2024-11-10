@@ -1,0 +1,10 @@
+give EMERALD to %caster;
+give 2 EMERALD to %caster;
+
+give 3 STONE_AXE to %caster with: {{
+  name: "nice &6axe",
+  lore: [[
+    "line 1",
+    "line 2 !"
+  ]]
+}};

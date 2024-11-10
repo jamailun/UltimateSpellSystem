@@ -1,5 +1,0 @@
-define %msgs = [["a", "b", "c"]];
-
-send to %caster message %msgs;
-
-send to %caster message "1st is '" + %msgs[0] + "'";

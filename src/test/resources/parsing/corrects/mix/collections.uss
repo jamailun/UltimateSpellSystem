@@ -1,0 +1,8 @@
+define %msgs = [["a", "b", "c"]];
+send to %caster message %msgs;
+
+send to %caster message "1st is '" + %msgs[0] + "'";
+
+for(define %i = 0; %i < sizeof(%msgs); increment %i) {
+  send to %caster message "&e MSG[%i] = '%a" + %msgs[%i] + "&e'";
+}

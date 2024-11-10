@@ -1,6 +1,0 @@
-define %a = 1;
-define %b = 2;
-define %c = 3;
-define %d = 5;
-
-define %pp1 = %a - (%b + %c) * %d;     # (a+(b+c))

@@ -1,0 +1,10 @@
+# Exit normally
+stop;
+
+# Exit with code
+stop 1;
+stop 0;
+stop -5726879;
+stop 3.14;
+define %code = 90/8;
+stop %code;

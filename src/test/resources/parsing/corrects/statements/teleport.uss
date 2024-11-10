@@ -1,0 +1,4 @@
+teleport %caster to %caster;
+
+teleport all monsters within 50 around %caster to %caster + [[0,10,0]];
+# same as teleport (all monsters within 50) around %caster to (%caster + [[0,10,0]]);

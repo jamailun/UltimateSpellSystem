@@ -1,3 +1,0 @@
-for(define %i = 0; %i < 5; increment %i) {
-    send to %caster message "[" + %i + "]";
-}

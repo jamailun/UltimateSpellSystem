@@ -1,0 +1,13 @@
+define %i = 0;
+
+while(%i < 10) {
+    send to %caster message "&a+&f > i=%i";
+    increment %i;
+}
+
+do {
+    send to %caster message "&c-&f > i=%i";
+    decrement %i;
+} while(%i > 0);
+
+send to %caster message "done";

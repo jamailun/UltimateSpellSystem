@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -16,10 +17,10 @@ import java.util.Optional;
 public class RepeatStatement extends BlockHolder {
 
     private final ExpressionNode delay; // optional
-    private final ExpressionNode count;
-    private final ExpressionNode period;
+    @Getter private @NotNull final ExpressionNode count;
+    @Getter private @NotNull final ExpressionNode period;
 
-    public RepeatStatement(StatementNode child, ExpressionNode delay, ExpressionNode count, ExpressionNode period) {
+    public RepeatStatement(StatementNode child, ExpressionNode delay, @NotNull ExpressionNode count, @NotNull ExpressionNode period) {
         super(child);
         this.delay = delay;
         this.count = count;
@@ -34,16 +35,8 @@ public class RepeatStatement extends BlockHolder {
         assertExpressionType(period, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
     }
 
-    public ExpressionNode getPeriod() {
-        return period;
-    }
-
     public Optional<ExpressionNode> getDelay() {
         return Optional.ofNullable(delay);
-    }
-
-    public ExpressionNode getCount() {
-        return count;
     }
 
     // REPEAT [[AFTER (DURATION)]] (COUNT) TIMES EVERY (DURATION): {}

@@ -9,13 +9,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class IfElseStatement extends BlockHolder {
 
-    private final ExpressionNode condition;
+    @Getter private final ExpressionNode condition;
     private final StatementNode optElse;
 
     public IfElseStatement(ExpressionNode condition, StatementNode child, StatementNode elseStatement) {
@@ -29,10 +30,6 @@ public class IfElseStatement extends BlockHolder {
         assertExpressionType(condition, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.BOOLEAN);
     }
 
-    public ExpressionNode getCondition() {
-        return condition;
-    }
-
     public Optional<StatementNode> getElse() {
         return Optional.ofNullable(optElse);
     }
@@ -43,7 +40,7 @@ public class IfElseStatement extends BlockHolder {
     }
 
     @PreviousIndicator(expected = TokenType.IF)
-    public static IfElseStatement parseIfStatement(TokenStream tokens) {
+    public static @NotNull IfElseStatement parseIfStatement(@NotNull TokenStream tokens) {
         // Condition
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);
         ExpressionNode condition = ExpressionNode.readNextExpression(tokens);
@@ -64,6 +61,6 @@ public class IfElseStatement extends BlockHolder {
     @Override
     public String toString() {
         return "IF(" + condition +") : " + child
-                + (optElse==null ? "" : "\n " + optElse);
+                + (optElse==null ? "" : "\n  ELSE : " + optElse);
     }
 }

@@ -1,0 +1,7 @@
+define %a = null;
+if(%caster == %caster)
+    define %a = "a";
+else
+    define %a = "b";
+
+send to %caster message %a;

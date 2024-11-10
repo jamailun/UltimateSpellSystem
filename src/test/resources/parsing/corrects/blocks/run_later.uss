@@ -1,0 +1,9 @@
+send to %caster message "Timer: &a1 minute.";
+run after 1 minute: {
+    send to %caster message "Timer is over.";
+}
+
+define %delay = 3sec;
+run after %delay: {
+    send to %caster message "post 3 secs.";
+}

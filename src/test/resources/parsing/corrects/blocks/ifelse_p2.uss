@@ -1,0 +1,20 @@
+define %a = 2;
+define %even = null;
+
+if(%a == 0) {
+  define %even = true;
+} else if(%a == 1) {
+  define %even = false;
+} else if(%a == 2) {
+  define %even = true;
+} else if(%a == 3) {
+  define %even = false;
+} else if(%a == 4) {
+  define %even = true;
+} else if(%a == 5) {
+  define %even = false;
+} else {
+  send to %caster message "trop duuur !";
+  stop;
+}
+send to %caster message "even ? %even";

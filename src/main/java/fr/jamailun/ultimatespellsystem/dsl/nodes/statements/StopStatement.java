@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
@@ -19,7 +21,10 @@ public class StopStatement extends StatementNode {
     private final @Nullable ExpressionNode exitCodeNode;
 
     @Override
-    public void validateTypes(@NotNull TypesContext context) {}
+    public void validateTypes(@NotNull TypesContext context) {
+        if(exitCodeNode != null)
+            assertExpressionType(exitCodeNode, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
+    }
 
     @Override
     public void visit(@NotNull StatementVisitor visitor) {
@@ -39,6 +44,6 @@ public class StopStatement extends StatementNode {
 
     @Override
     public String toString() {
-        return "STOP()";
+        return "STOP" + (exitCodeNode==null?"":"(" + exitCodeNode + ")");
     }
 }

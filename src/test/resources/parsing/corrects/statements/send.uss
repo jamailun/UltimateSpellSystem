@@ -1,0 +1,17 @@
+# --- Message
+
+send to %caster message "Simple message";
+
+define %msg = "&cRed message !";
+send to %caster message %msg;
+
+send to %caster message [["message 1", "message 2", "message 3"]];
+
+# --- Effect
+
+send to %caster effect LEVITATION 2 for 3 seconds;
+send to %caster effect POISON for 4 seconds;
+
+define %dur = 1 minute;
+define %pow = 2 + 2;
+send to %caster effect "strength" %pow for %dur;

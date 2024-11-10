@@ -260,7 +260,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append("\n");
 
         statement.getElse().ifPresent(e -> {
-            builder.append(indent()).append("ELSE:");
+            builder.append(indent()).append("ELSE : ");
             right();
             e.visit(this);
             left();

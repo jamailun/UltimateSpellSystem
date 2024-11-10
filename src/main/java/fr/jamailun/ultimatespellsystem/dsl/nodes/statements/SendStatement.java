@@ -34,9 +34,12 @@ public abstract class SendStatement extends StatementNode {
 
         // Type of send
         Token token = tokens.next();
-        return switch (token.getType()) {
-            case MESSAGE -> SendMessageStatement.parseSendMessage(target, tokens);
-            case EFFECT -> SendEffectStatement.parseSendEffect(target, tokens);
+        String type = token.getContentString();
+        if(type == null)
+            throw new SyntaxException(token, "Invalid SEND type. Expected a string-value container.");
+        return switch (type.toLowerCase()) {
+            case "message" -> SendMessageStatement.parseSendMessage(target, tokens);
+            case "effect" -> SendEffectStatement.parseSendEffect(target, tokens);
             default -> throw new SyntaxException(token, "Expected SEND type (message, effect).");
         };
     }
