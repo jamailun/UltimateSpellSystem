@@ -62,12 +62,12 @@ public abstract class CustomEntity implements SpellEntity {
     protected abstract void tickEntity(int ticks);
 
     @Override
-    public UUID getUniqueId() {
+    public @NotNull UUID getUniqueId() {
         return uuid;
     }
 
     @Override
-    public Optional<Entity> getBukkitEntity() {
+    public @NotNull Optional<Entity> getBukkitEntity() {
         return Optional.empty();
     }
 

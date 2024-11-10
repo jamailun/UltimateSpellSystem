@@ -211,6 +211,25 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleGive(@NotNull GiveStatement statement) {
+        builder.append("GIVE");
+        if(statement.getOptAmount() != null) {
+            builder.append(" ");
+            statement.getOptAmount().visit(this);
+        }
+        if(statement.getOptType() != null) {
+            builder.append(" ");
+            statement.getOptType().visit(this);
+        }
+        builder.append(" TO ");
+        statement.getTarget().visit(this);
+        if(statement.getOptProperties() != null) {
+            builder.append(" WITH: ");
+            statement.getOptProperties().visit(this);
+        }
+    }
+
+    @Override
     public void functionCall(@NotNull FunctionCallStatement statement) {
         builder.append("CALL ")
                 .append(statement.getFunctionId())

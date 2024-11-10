@@ -19,12 +19,12 @@ public class BukkitSpellEntity implements SpellEntity{
     }
 
     @Override
-    public UUID getUniqueId() {
+    public @NotNull UUID getUniqueId() {
         return entity.getUniqueId();
     }
 
     @Override
-    public Optional<Entity> getBukkitEntity() {
+    public @NotNull Optional<Entity> getBukkitEntity() {
         return Optional.of(entity);
     }
 

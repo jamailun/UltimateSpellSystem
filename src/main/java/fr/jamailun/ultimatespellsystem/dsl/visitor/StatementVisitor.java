@@ -20,6 +20,8 @@ public interface StatementVisitor {
     void handleIncrement(@NotNull IncrementStatement statement);
     void handleTeleport(@NotNull TeleportStatement statement);
     void handlePlay(@NotNull PlayStatement statement);
+    void handleGive(@NotNull GiveStatement statement);
+
     void functionCall(@NotNull FunctionCallStatement statement);
 
     void handleIf(@NotNull IfElseStatement statement);

@@ -38,7 +38,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         currentQueue = statementsAccumulator;
     }
 
-    public static List<RuntimeStatement> build(List<StatementNode> dsl) {
+    public static @NotNull List<RuntimeStatement> build(@NotNull List<StatementNode> dsl) {
         SpellBuilderVisitor visitor = new SpellBuilderVisitor();
         for(StatementNode statement : dsl) {
             statement.visit(visitor);
@@ -139,6 +139,15 @@ public class SpellBuilderVisitor implements StatementVisitor {
             case SOUND -> new PlaySoundNode(location, properties);
         };
         add(node);
+    }
+
+    @Override
+    public void handleGive(@NotNull GiveStatement statement) {
+        RuntimeExpression target = convert(statement.getTarget());
+        RuntimeExpression amount = convert(statement.getOptAmount());
+        RuntimeExpression type = convert(statement.getOptType());
+        RuntimeExpression properties = convert(statement.getOptProperties());
+        add(new GiveNode(target, amount, type, properties));
     }
 
     @Override

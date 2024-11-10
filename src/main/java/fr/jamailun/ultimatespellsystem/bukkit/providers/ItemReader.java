@@ -44,7 +44,19 @@ public final class ItemReader {
         }
 
         // Read data
-        int amount = read(data, "amount", Integer.class, 1);
+        int amount = read(data, "amount", Double.class, 1d).intValue();
+        return readFromMap(material, amount, data, runtime);
+    }
+
+    /**
+     * Read an item from a data-map, with some elements already set.
+     * @param material the material of the item.
+     * @param amount the amount to use.
+     * @param data the data-map to use.
+     * @param runtime the context to use.
+     * @return a non-null item. The material will be {@code AIR} if a problem occurred.
+     */
+    public static @NotNull ItemStack readFromMap(@NotNull Material material, int amount, @NotNull Map<String, Object> data, @NotNull SpellRuntime runtime) {
         int damage = read(data, "damage", Integer.class, 0);
         String name = read(data, "type", String.class, null);
         List<?> lore = read(data, "lore", List.class, null);

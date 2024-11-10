@@ -47,6 +47,9 @@ public abstract class StatementNode extends Node {
             case SUMMON -> SummonStatement.parseSummonStatement(tokens);
             case TELEPORT -> TeleportStatement.parseTeleport(tokens);
             case PLAY -> PlayStatement.parsePlay(tokens);
+            case GIVE -> GiveStatement.parseNextGiveStatement(tokens);
+
+            // FIXME
             case CALL -> FunctionCallStatement.parseFunctionCall(tokens);
 
             // Control-Flow
@@ -57,7 +60,11 @@ public abstract class StatementNode extends Node {
             case WHILE -> WhileLoopStatement.parseWhileLoop(tokens, true);
             case DO -> WhileLoopStatement.parseWhileLoop(tokens, false);
 
-            default -> throw new SyntaxException(token, "Unexpected token to begin a statement.");
+            default -> {
+                ExpressionNode expressionNode = ExpressionNode.readNextExpression(tokens, true);
+
+            }
+            //throw new SyntaxException(token, "Unexpected token to begin a statement.");
         };
     }
 

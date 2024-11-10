@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -11,9 +12,10 @@ import java.util.UUID;
 
 public interface SpellEntity {
 
-    UUID getUniqueId();
+    @NotNull UUID getUniqueId();
 
-    Optional<Entity> getBukkitEntity();
+    @Contract(pure = true)
+    @NotNull Optional<Entity> getBukkitEntity();
 
     default boolean isBukkit() {
         return getBukkitEntity().isPresent();
