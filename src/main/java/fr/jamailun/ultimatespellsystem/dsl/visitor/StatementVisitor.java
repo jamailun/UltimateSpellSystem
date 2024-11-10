@@ -21,6 +21,7 @@ public interface StatementVisitor {
     void handleTeleport(@NotNull TeleportStatement statement);
     void handlePlay(@NotNull PlayStatement statement);
     void handleGive(@NotNull GiveStatement statement);
+    void handleSimpleExpression(@NotNull SimpleExpressionStatement statement);
 
     void functionCall(@NotNull FunctionCallStatement statement);
 

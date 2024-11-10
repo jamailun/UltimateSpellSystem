@@ -62,7 +62,7 @@ public abstract class StatementNode extends Node {
 
             default -> {
                 ExpressionNode expressionNode = ExpressionNode.readNextExpression(tokens, true);
-
+                yield new SimpleExpressionStatement(expressionNode);
             }
             //throw new SyntaxException(token, "Unexpected token to begin a statement.");
         };

@@ -230,6 +230,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {
+        builder.append("{");
+        statement.getChild().visit(this);
+        builder.append("}");
+    }
+
+    @Override
     public void functionCall(@NotNull FunctionCallStatement statement) {
         builder.append("CALL ")
                 .append(statement.getFunctionId())

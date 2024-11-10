@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks.*;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.ExpressionWrapperNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.DefineNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlayBlockNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play.PlayNode;
@@ -148,6 +149,12 @@ public class SpellBuilderVisitor implements StatementVisitor {
         RuntimeExpression type = convert(statement.getOptType());
         RuntimeExpression properties = convert(statement.getOptProperties());
         add(new GiveNode(target, amount, type, properties));
+    }
+
+    @Override
+    public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {
+        RuntimeExpression child = convert(statement.getChild());
+        add(new ExpressionWrapperNode(child));
     }
 
     @Override
