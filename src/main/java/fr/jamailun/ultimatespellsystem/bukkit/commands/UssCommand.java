@@ -28,7 +28,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         cmd.setExecutor(this);
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check");
+    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
     private final static List<String> args_boolean = List.of("true", "false");
 
@@ -46,6 +46,12 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             UltimateSpellSystem.reloadConfigContent();
             spells().reloadSpells();
             return success(sender, "Successfully reloaded configuration and " + spells().spellIds().size() + " spells.");
+        }
+
+        // PURGE
+        if("purge".equals(arg0)) {
+            int summons = UltimateSpellSystem.getSummonsManager().purgeAll();
+            return success(sender, "Purged summons : §e" + summons + "§f.");
         }
 
         // LIST
