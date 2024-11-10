@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.functions.CastSpellFunction;
 import fr.jamailun.ultimatespellsystem.extension.functions.RayCastFunction;

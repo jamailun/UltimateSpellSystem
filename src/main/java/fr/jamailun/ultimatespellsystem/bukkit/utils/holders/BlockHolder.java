@@ -1,12 +1,13 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class BlockHolder {
      * @param values the map of attributes. Expected keys: {type, volume, pitch}
      * @return null if an error occurred.
      */
-    public static BlockHolder build(String context, Map<?, ?> values) {
+    public static @Nullable BlockHolder build(@NotNull String context, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {

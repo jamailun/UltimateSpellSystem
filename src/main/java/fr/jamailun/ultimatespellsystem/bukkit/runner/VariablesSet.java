@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;

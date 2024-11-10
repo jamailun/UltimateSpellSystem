@@ -1,8 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.commands;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.bind.ItemBindException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
+import fr.jamailun.ultimatespellsystem.api.bukkit.spells.SpellsManager;
+import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -10,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.BindException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
 
         // RELOAD
         if("reload".equals(arg0)) {
-            UltimateSpellSystem.reloadConfigContent();
+            UltimateSpellSystem.reloadConfiguration();
             spells().reloadSpells();
             return success(sender, "Successfully reloaded configuration and " + spells().spellIds().size() + " spells.");
         }
@@ -125,7 +126,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
             ItemStack item = p.getInventory().getItemInMainHand();
             try {
                 UltimateSpellSystem.getItemBinder().bind(item, spell, destroy);
-            } catch(BindException e) {
+            } catch(ItemBindException e) {
                 return error(sender, e.getMessage());
             }
             return success(sender, "Item bound successfully.");
@@ -194,17 +195,17 @@ public class UssCommand implements CommandExecutor, TabCompleter {
 
 
     protected boolean error(CommandSender sender, String message) {
-        sender.sendMessage(UltimateSpellSystem.PREFIX + "§4ERROR | §c" + message);
+        sender.sendMessage(UssMain.PREFIX + "§4ERROR | §c" + message);
         return true;
     }
 
     protected boolean info(CommandSender sender, String message) {
-        sender.sendMessage(UltimateSpellSystem.PREFIX + "§3INFO | §7" + message);
+        sender.sendMessage(UssMain.PREFIX + "§3INFO | §7" + message);
         return true;
     }
 
     protected boolean success(CommandSender sender, String message) {
-        sender.sendMessage(UltimateSpellSystem.PREFIX + "§aSUCCESS | §f" + message);
+        sender.sendMessage(UssMain.PREFIX + "§aSUCCESS | §f" + message);
         return true;
     }
 

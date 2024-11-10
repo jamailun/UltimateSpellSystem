@@ -1,16 +1,19 @@
 package fr.jamailun.ultimatespellsystem.bukkit;
 
-import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
+import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManager;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AttackListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.EntityDeathListener;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManager;
+import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,16 +25,14 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.List;
 
-public final class UltimateSpellSystem extends JavaPlugin {
+/**
+ * The {@link JavaPlugin} of USS, and {@link UltimateSpellSystemPlugin} implementation.
+ */
+public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlugin {
 
-    private static UltimateSpellSystem instance;
-    public static UltimateSpellSystem instance() {
-        return instance;
-    }
-
-    private SpellsManager spellsManager;
-    private SummonsManager summonsManager;
-    private ItemBinder itemBinder;
+    @Getter private SpellsManagerImpl spellsManager;
+    @Getter private SummonsManagerImpl summonsManager;
+    @Getter private ItemBinderImpl itemBinder;
 
     private final UssConfig config = new UssConfig();
 
@@ -39,6 +40,8 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        UltimateSpellSystem.setPlugin(this);
+
         ExtensionLoader.load();
         EntityTypeProvider.loadDefaults();
         UssKeys.initialize(this);
@@ -46,17 +49,16 @@ public final class UltimateSpellSystem extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
         saveDefaultConfig();
 
         // Config
-        reloadConfigContent();
+        reloadConfiguration();
         saveConfig();
 
         // Managers
-        itemBinder = new ItemBinder();
-        spellsManager = new SpellsManager(new File(getDataFolder(), "spells"));
-        summonsManager = new SummonsManager(config);
+        itemBinder = new ItemBinderImpl();
+        spellsManager = new SpellsManagerImpl(new File(getDataFolder(), "spells"));
+        summonsManager = new SummonsManagerImpl(config);
 
         // Commands
         new UssCommand();
@@ -70,9 +72,9 @@ public final class UltimateSpellSystem extends JavaPlugin {
         logInfo("Plugin loaded.");
     }
 
-    public static void reloadConfigContent() {
-        instance().config.reload(instance.getConfig());
-
+    @Override
+    public void reloadConfiguration() {
+        config.reload(getConfig());
         logDebug("Debug mode enabled.");
     }
 
@@ -82,34 +84,37 @@ public final class UltimateSpellSystem extends JavaPlugin {
         logInfo("Plugin disabled.");
     }
 
-    public static void logDebug(String message) {
-        if(instance().config.isDebug())
+    @Override
+    public void logDebug(@NotNull String message) {
+        if(config.isDebug())
             Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
     }
-    public static void logInfo(String message) {
+
+    @Override
+    public void logInfo(@NotNull String message) {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§3INFO  | §f" + message);
     }
-    public static void logWarning(String message) {
+
+    @Override
+    public void logWarning(@NotNull String message) {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN  | §e" + message);
     }
-    public static void logError(String message) {
+
+    @Override
+    public void logError(@NotNull String message) {
         Bukkit.getConsoleSender().sendMessage(PREFIX + "§4ERROR | §c" + message);
     }
 
-    public static @NotNull SpellsManager getSpellsManager() {
-        return instance.spellsManager;
-    }
-    public static @NotNull SummonsManager getSummonsManager() {
-        return instance.summonsManager;
-    }
-
-    public static @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks) {
+    @Override
+    public @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks) {
         BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
-        task.runTaskLater(instance, ticks);
+        task.runTaskLater(this, ticks);
         return task;
     }
-    public static void runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period) {
-        new BukkitRunnable() {
+
+    @Override
+    public @NotNull BukkitRunnable runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period) {
+        BukkitRunnable br = new BukkitRunnable() {
             private int count = 0;
             @Override
             public void run() {
@@ -118,17 +123,16 @@ public final class UltimateSpellSystem extends JavaPlugin {
                 if(count == amount)
                     cancel();
             }
-        }.runTaskTimer(instance, delay, period);
+        };
+        br.runTaskTimer(this, delay, period);
+        return br;
     }
 
-    public static @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
+    @Override
+    public @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
         BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
-        task.runTaskTimer(instance, delay, period);
+        task.runTaskTimer(this, delay, period);
         return task;
-    }
-
-    public static @NotNull ItemBinder getItemBinder() {
-        return instance.itemBinder;
     }
 
     @Override

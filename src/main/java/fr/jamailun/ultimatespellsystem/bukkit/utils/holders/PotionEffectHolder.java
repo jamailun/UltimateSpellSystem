@@ -1,10 +1,13 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.SendEffectNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -16,7 +19,7 @@ public class PotionEffectHolder {
 
     private final PotionEffect builtEffect;
 
-    public PotionEffectHolder(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, Duration duration, int power) {
+    public PotionEffectHolder(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, @NotNull Duration duration, int power) {
         builtEffect = new PotionEffect(SendEffectNode.convertEffect(effect), (int) duration.toTicks(), power - 1);
         UltimateSpellSystem.logDebug("New orb-effect : (" + builtEffect + ")");
     }
@@ -27,7 +30,7 @@ public class PotionEffectHolder {
      * @param values the map of attributes. Expected keys: {type, duration, power}
      * @return null if an error occurred.
      */
-    public static PotionEffectHolder build(String context, Map<?, ?> values) {
+    public static @Nullable PotionEffectHolder build(String context, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect;
@@ -68,7 +71,7 @@ public class PotionEffectHolder {
      * Apply the potion effects to a collection of entities.
      * @param entities a non-null collection.
      */
-    public void apply(Collection<LivingEntity> entities) {
+    public void apply(@NotNull Collection<LivingEntity> entities) {
         entities.forEach(e -> e.addPotionEffect(builtEffect));
     }
 

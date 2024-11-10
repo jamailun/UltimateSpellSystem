@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;

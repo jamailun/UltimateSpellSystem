@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;

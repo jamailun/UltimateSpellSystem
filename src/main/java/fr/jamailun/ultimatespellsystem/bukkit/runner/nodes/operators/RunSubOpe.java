@@ -1,10 +1,12 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -42,8 +44,9 @@ public final class RunSubOpe extends RuntimeBiOperator {
         throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
 
+    @Contract(pure = true)
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return leftExpression + " - " + rightExpression;
     }
 

@@ -1,27 +1,21 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public class WhileLoopNode extends RuntimeStatement {
-
-    private final RuntimeExpression condition;
-    private final RuntimeStatement child;
-    private final boolean whileFirst;
-
 
     //TODO make the safeguard configurable !
     private final static int MAX_ITERATIONS = 4096;
 
-
-    public WhileLoopNode(RuntimeExpression condition, RuntimeStatement child, boolean whileFirst) {
-        this.condition = condition;
-        this.child = child;
-        this.whileFirst = whileFirst;
-    }
+    private final RuntimeExpression condition;
+    private final RuntimeStatement child;
+    private final boolean whileFirst;
 
     @Override
     public void run(@NotNull SpellRuntime runtimeParent) {
@@ -45,7 +39,9 @@ public class WhileLoopNode extends RuntimeStatement {
 
     }
 
-
+    /**
+     * Internal run representation.
+     */
     private class RunInstance {
         int iterationCount = 0;
         final SpellRuntime runtime;

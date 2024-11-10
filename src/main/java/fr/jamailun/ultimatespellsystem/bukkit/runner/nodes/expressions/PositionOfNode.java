@@ -1,10 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

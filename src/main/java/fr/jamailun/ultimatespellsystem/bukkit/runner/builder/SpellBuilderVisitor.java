@@ -157,7 +157,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         add(new ExpressionWrapperNode(child));
     }
 
-    @Override
+    /*@Override
     public void functionCall(@NotNull FunctionCallStatement statement) {
         String functionId = statement.getFunctionId();
         //XXX Improve that !
@@ -166,7 +166,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
                 .map(this::convert)
                 .toList();
         add(new FunctionCallNode(functionId, list));
-    }
+    }*/
 
     @Override
     public void handleIf(@NotNull IfElseStatement statement) {

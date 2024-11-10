@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils;
 
-import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
 import org.bukkit.Location;

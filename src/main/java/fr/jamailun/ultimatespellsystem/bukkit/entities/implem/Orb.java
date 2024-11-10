@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities.implem;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.CustomEntity;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.holders.ParticleHolder;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.holders.PotionEffectHolder;
 import org.bukkit.entity.LivingEntity;
@@ -20,7 +20,7 @@ public class Orb extends CustomEntity {
 
 
     private final static String CTX = "ORB.attributes.";
-    public Orb(SummonAttributes attributes) {
+    public Orb(SummonAttributesImpl attributes) {
         super(attributes);
 
         // Radius && auto-apply

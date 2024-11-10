@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.spells;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * A spell definition is the common implementation for a {@link Spell}.
+ * A spell definition is the common implementation for a {@link fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell}.
  */
-public class SpellDefinition extends Spell {
+public class SpellDefinition extends AbstractSpell {
 
     private final List<RuntimeStatement> steps;
 

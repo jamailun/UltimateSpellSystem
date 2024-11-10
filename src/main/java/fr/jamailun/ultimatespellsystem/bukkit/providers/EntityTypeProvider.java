@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.bukkit.entities.implem.Orb;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;

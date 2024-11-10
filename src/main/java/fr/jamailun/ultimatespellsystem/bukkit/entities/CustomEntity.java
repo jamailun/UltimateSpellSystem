@@ -1,7 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.entities;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
+import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -15,6 +18,7 @@ import java.util.UUID;
 /**
  * A Custom Entity is an implementation of {@link SpellEntity} for non-bukkit ones.
  */
+@Getter
 public abstract class CustomEntity implements SpellEntity {
 
     protected final UUID uuid = UUID.randomUUID();
@@ -22,18 +26,16 @@ public abstract class CustomEntity implements SpellEntity {
     protected final SummonAttributes attributes;
     private final BukkitRunnable runnable;
 
-    protected Vector velocity = new Vector();
+    @Setter protected @NotNull Vector velocity = new Vector();
     private boolean valid = true;
-    private final boolean debug;
 
     /**
-     * Create a new custom entity. All entities are summons, so summonattributes are required.
+     * Create a new custom entity. All entities are summons, so {@link SummonAttributes} are required.
      * @param attributes the attributes the custom entity is from.
      */
-    public CustomEntity(SummonAttributes attributes) {
+    public CustomEntity(@NotNull SummonAttributes attributes) {
         this.attributes = attributes;
         this.location = attributes.getLocation().clone();
-        debug = attributes.tryGetAttribute("_debug", Boolean.class, false);
 
         int ticksPeriod = Math.max(1, attributes.tryGetAttribute("_clock", Double.class, 5d).intValue());
         runnable = UltimateSpellSystem.runTaskRepeat(() -> tick(ticksPeriod), 0, ticksPeriod);
@@ -46,7 +48,6 @@ public abstract class CustomEntity implements SpellEntity {
     public final void tick(int ticksPeriod) {
         if(!isValid())
             return;
-        if(debug) UltimateSpellSystem.logDebug(uuid + " - " + location);
 
         // Movement
         this.location.add(velocity.clone().multiply( (double)ticksPeriod/20d));
@@ -72,11 +73,6 @@ public abstract class CustomEntity implements SpellEntity {
     }
 
     @Override
-    public @NotNull Location getLocation() {
-        return location;
-    }
-
-    @Override
     public @NotNull Location getEyeLocation() {
         return location;
     }
@@ -99,18 +95,5 @@ public abstract class CustomEntity implements SpellEntity {
         if( ! runnable.isCancelled()) {
             runnable.cancel();
         }
-    }
-
-    @Override
-    public boolean isValid() {
-        return valid;
-    }
-
-    public @NotNull Vector getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(@NotNull Vector velocity) {
-        this.velocity = velocity;
     }
 }

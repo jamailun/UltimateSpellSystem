@@ -1,8 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class ParticleHolder {
     private final double radius, speed;
     private final int count;
 
-    public ParticleHolder(Particle type, double radius, double speed, int count) {
+    public ParticleHolder(@NotNull Particle type, double radius, double speed, int count) {
         this.type = type;
         this.radius = radius;
         this.speed = speed;
@@ -30,7 +32,7 @@ public class ParticleHolder {
      * @param values the map of attributes. Expected keys: {type, duration, power}
      * @return null if an error occurred.
      */
-    public static ParticleHolder build(String context, double radius, Map<?, ?> values) {
+    public static @Nullable ParticleHolder build(String context, double radius, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
@@ -75,7 +77,7 @@ public class ParticleHolder {
      * Apply the particle-effect to a location.
      * @param location the non-ull location to use.
      */
-    public void apply(Location location) {
+    public void apply(@NotNull Location location) {
         location.getWorld().spawnParticle(
                 type, location, count,
                 radius, radius, radius,

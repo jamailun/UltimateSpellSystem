@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,10 +23,10 @@ public class AggroListener implements Listener {
 
     @EventHandler
     void aggroChanged(@NotNull EntityTargetLivingEntityEvent event) {
-        Optional<SummonAttributes> attrOpt = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
+        Optional<SummonAttributesImpl> attrOpt = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
         if(attrOpt.isEmpty())
             return;
-        SummonAttributes summon = attrOpt.get();
+        SummonAttributesImpl summon = attrOpt.get();
 
         // has target ?
         if(event.getTarget() == null) {
@@ -47,7 +47,7 @@ public class AggroListener implements Listener {
         }
     }
 
-    private static boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
+    private static boolean canAggro(@NotNull SummonAttributesImpl summon, @NotNull Entity target) {
         // Ignore invulnerable entities
         if(target instanceof LivingEntity living) {
             if(living.isInvulnerable())
@@ -79,7 +79,7 @@ public class AggroListener implements Listener {
      * @param summon the summon to check.
      * @return {@code null} if no suitable target has been found.
      */
-    public static @Nullable LivingEntity findAggro(@NotNull SummonAttributes summon) {
+    public static @Nullable LivingEntity findAggro(@NotNull SummonAttributesImpl summon) {
         Object scope = summon.getAttribute("aggro_scope");
         if(scope == null) return null;
 

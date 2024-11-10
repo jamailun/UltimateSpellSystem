@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.registries;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

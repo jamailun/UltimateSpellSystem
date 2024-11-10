@@ -5,22 +5,19 @@ import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
+import lombok.AllArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@AllArgsConstructor
 public class TeleportNode extends RuntimeStatement {
 
     private final RuntimeExpression entity;
     private final RuntimeExpression target;
-
-    public TeleportNode(RuntimeExpression entity, RuntimeExpression target) {
-        this.entity = entity;
-        this.target = target;
-    }
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {

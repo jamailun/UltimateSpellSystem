@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;

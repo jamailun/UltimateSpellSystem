@@ -1,12 +1,12 @@
 package fr.jamailun.ultimatespellsystem.extension.functions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;

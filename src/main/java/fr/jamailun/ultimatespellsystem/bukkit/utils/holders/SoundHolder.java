@@ -1,8 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -14,7 +16,7 @@ public class SoundHolder {
     private final Sound type;
     private final float volume, pitch;
 
-    public SoundHolder(Sound type, float volume, float pitch) {
+    public SoundHolder(@NotNull Sound type, float volume, float pitch) {
         this.type = type;
         this.volume = volume;
         this.pitch = pitch;
@@ -27,7 +29,7 @@ public class SoundHolder {
      * @param values the map of attributes. Expected keys: {type, volume, pitch}
      * @return null if an error occurred.
      */
-    public static SoundHolder build(String context, Map<?, ?> values) {
+    public static @Nullable SoundHolder build(String context, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {

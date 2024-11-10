@@ -1,10 +1,10 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.UssEntityType;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
@@ -44,7 +44,7 @@ public class SummonNode extends RuntimeStatement {
 
         // Summon
         SpellEntity entity = UltimateSpellSystem.getSummonsManager().summon(
-                new SummonAttributes(caster, loc, entityType, getProperties(optProperty, runtime), duration),
+                new SummonAttributesImpl(caster, loc, entityType, getProperties(optProperty, runtime), duration),
                 runtime
         );
 
@@ -56,7 +56,7 @@ public class SummonNode extends RuntimeStatement {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "SummonNode{"+(optProperty==null?"":optProperty+":= ")+type+", for "+duration+" at "+source+"}";
     }
 }

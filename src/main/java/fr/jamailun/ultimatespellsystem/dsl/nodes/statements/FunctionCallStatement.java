@@ -29,7 +29,7 @@ public class FunctionCallStatement extends StatementNode {
 
     @Override
     public void visit(@NotNull StatementVisitor visitor) {
-        visitor.functionCall(this);
+      //  visitor.functionCall(this);
     }
 
     @PreviousIndicator(expected = TokenType.CALL)

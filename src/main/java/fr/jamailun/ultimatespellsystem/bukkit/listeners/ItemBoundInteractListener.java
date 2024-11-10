@@ -1,9 +1,9 @@
 package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinder;
-import fr.jamailun.ultimatespellsystem.bukkit.events.BoundSpellCastEvent;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.Spell;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
+import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinderImpl;
+import fr.jamailun.ultimatespellsystem.api.bukkit.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ItemBoundInteractListener implements Listener {
 
-    private final ItemBinder binder;
+    private final ItemBinderImpl binder;
     private final UssConfig config;
 
     private final Duration spamDuration = Duration.of(100, ChronoUnit.MILLIS);

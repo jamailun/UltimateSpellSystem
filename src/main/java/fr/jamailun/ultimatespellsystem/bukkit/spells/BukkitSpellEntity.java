@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.spells;
 
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BukkitSpellEntity implements SpellEntity{
+public class BukkitSpellEntity implements SpellEntity {
 
     private final Entity entity;
 

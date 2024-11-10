@@ -35,15 +35,14 @@ Newly created summons can have attributes
 You can obtain informations about a summon entity, and then reading its attribute.
 
 ```java
-import fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public void checkSummonHasAttribute(UUID uuid) {
-    SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(uuid).orElse(null);
-    if(summon == null) return;
+    SummonAttributesImpl summon = UssMain.getSummonsManager().find(uuid).orElse(null);
+    if (summon == null) return;
 
     Double value = summon.tryGetAttribute("my_attribute", Double.class);
     System.out.println("My attribute = " + value + ". Complete map = " + summon.getAttributes());

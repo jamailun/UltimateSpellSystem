@@ -236,7 +236,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append("}");
     }
 
-    @Override
+    /*@Override
     public void functionCall(@NotNull FunctionCallStatement statement) {
         builder.append("CALL ")
                 .append(statement.getFunctionId())
@@ -247,7 +247,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             arg.visit(this);
         }
         builder.append(")");
-    }
+    }*/
 
     @Override
     public void handleIf(@NotNull IfElseStatement statement) {
