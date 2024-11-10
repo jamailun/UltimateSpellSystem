@@ -23,4 +23,4 @@ tick:
   # Aggro tick config
   aggro:
     # Every x seconds, compute aggro for summons that do not have any target.
-    summmons: 5
+    summons: 5

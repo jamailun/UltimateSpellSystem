@@ -37,7 +37,7 @@ public class UssConfig extends AbstractObservable<UssConfig> {
         afterTriggerUseItem = config.getBoolean("after-trigger.use-item", true);
         afterTriggerUseBlock = config.getBoolean("after-trigger.use-block", true);
 
-        checkSummonsAggroEverySeconds = config.getDouble("tick.aggro.summmons", 5d);
+        checkSummonsAggroEverySeconds = config.getDouble("tick.aggro.summons", 5d);
 
         callObservers(this);
     }
