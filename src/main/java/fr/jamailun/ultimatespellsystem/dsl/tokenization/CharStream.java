@@ -19,12 +19,23 @@ public class CharStream {
         this.chars = chars;
     }
 
+    /**
+     * Create a new character stream from a string.
+     * @param string the string to use.
+     * @return a new CharStream.
+     */
     @Contract("_ -> new")
-    public static @NotNull CharStream from(String string) {
+    public static @NotNull CharStream from(@NotNull String string) {
         return new CharStream((string + "\n").toCharArray());
     }
 
-    public static @NotNull CharStream from(File file) {
+    /**
+     * Create a new character stream from a file.
+     * @param file the file to use.
+     * @return a new CharStream.
+     */
+    @Contract("_ -> new")
+    public static @NotNull CharStream from(@NotNull File file) {
         if(!file.exists())
             throw new RuntimeException("File " + file + " does not exist.");
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -41,10 +52,18 @@ public class CharStream {
         }
     }
 
+    /**
+     * Peek the next character.
+     * @return the character on current index.
+     */
     public char peek() {
         return chars[index];
     }
 
+    /**
+     * Get the current character, and move the index.
+     * @return the character on current index.
+     */
     public char next() {
         char c = chars[index ++];
         position.column++;
@@ -55,12 +74,19 @@ public class CharStream {
         return c;
     }
 
+    /**
+     * Drop the current character, by simply moving the index.
+     */
     public void drop() {
         if(!hasMore())
             throw new RuntimeException("No more data.");
         index++;
     }
 
+    /**
+     * Test if more character are remaining.
+     * @return {@code true} if more characters are remaining.
+     */
     public boolean hasMore() {
         return index < chars.length - 1;
     }
@@ -73,9 +99,12 @@ public class CharStream {
         public @NotNull TokenPosition pos() {
             return new TokenPosition(line, column);
         }
-
     }
 
+    /**
+     * Get the current position of the token.
+     * @return the current position.
+     */
     public @NotNull TokenPosition pos() {
         return position.pos();
     }

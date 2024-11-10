@@ -1,5 +1,8 @@
 package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
+/**
+ * Type of token.
+ */
 public enum TokenType {
 
     // == MONO-CHAR OPERATORS
