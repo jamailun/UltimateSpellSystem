@@ -67,6 +67,12 @@ public class TokenStream {
         return false;
     }
 
+    public void back() {
+        if(index == 0)
+            throw new RuntimeException("Index is 0, cannot go back.");
+        index--;
+    }
+
     public boolean hasMore() {
         return index < tokens.size();
     }

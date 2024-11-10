@@ -37,9 +37,18 @@ public class GiveStatement extends StatementNode {
         if(optAmount != null)
             assertExpressionType(optAmount, context, TypePrimitive.NUMBER);
         if(optType != null)
-            assertExpressionType(optType, context, TypePrimitive.MATERIAL, TypePrimitive.STRING);
+            assertExpressionType(optType, context, TypePrimitive.MATERIAL, TypePrimitive.STRING, TypePrimitive.CUSTOM);
         if(optProperties != null)
             assertExpressionType(optProperties, context, TypePrimitive.PROPERTIES_SET);
+    }
+
+    @Override
+    public String toString() {
+        return "GIVE{"
+                + (getOptAmount()==null?"":getOptAmount()+" ")
+                + (getOptType()==null?"":getOptType()+" ")
+                + "TO " + getTarget()
+                + (getOptProperties()==null?"":" WITH: " + getOptProperties())+"}";
     }
 
     @PreviousIndicator(expected = TokenType.GIVE) // GIVE [[<AMOUNT>] <TYPE>] TO <TARGET> [WITH: <PROPERTIES>]
@@ -73,6 +82,8 @@ public class GiveStatement extends StatementNode {
         } else {
             properties = null;
         }
+
+        tokens.dropOptional(TokenType.SEMI_COLON);
 
         // create
         return new GiveStatement(target, amount, type, properties);

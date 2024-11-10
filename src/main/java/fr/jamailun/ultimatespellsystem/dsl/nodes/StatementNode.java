@@ -61,6 +61,7 @@ public abstract class StatementNode extends Node {
             case DO -> WhileLoopStatement.parseWhileLoop(tokens, false);
 
             default -> {
+                tokens.back();
                 ExpressionNode expressionNode = ExpressionNode.readNextExpression(tokens, true);
                 yield new SimpleExpressionStatement(expressionNode);
             }
