@@ -3,8 +3,6 @@ package fr.jamailun.ultimatespellsystem.bukkit.commands;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bukkit.bind.ItemBindException;
 import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
-import fr.jamailun.ultimatespellsystem.api.bukkit.spells.SpellsManager;
-import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -17,16 +15,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class UssCommand implements CommandExecutor, TabCompleter {
+public class UssCommand extends AbstractCommand {
 
     public UssCommand() {
-        PluginCommand cmd = Bukkit.getPluginCommand("uss");
-        if(cmd == null) {
-            UltimateSpellSystem.logError("Could not oad command 'uss'");
-            return;
-        }
-        cmd.setTabCompleter(this);
-        cmd.setExecutor(this);
+        super("uss");
     }
 
     private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge");
@@ -185,32 +177,8 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         return Collections.emptyList();
     }
 
-    private Stream<String> spellIds() {
+    private @NotNull Stream<String> spellIds() {
         return spells().spellIds().stream();
-    }
-
-    private SpellsManager spells() {
-        return UltimateSpellSystem.getSpellsManager();
-    }
-
-
-    protected boolean error(CommandSender sender, String message) {
-        sender.sendMessage(UssMain.PREFIX + "§4ERROR | §c" + message);
-        return true;
-    }
-
-    protected boolean info(CommandSender sender, String message) {
-        sender.sendMessage(UssMain.PREFIX + "§3INFO | §7" + message);
-        return true;
-    }
-
-    protected boolean success(CommandSender sender, String message) {
-        sender.sendMessage(UssMain.PREFIX + "§aSUCCESS | §f" + message);
-        return true;
-    }
-
-    private String print(Spell spell) {
-        return (spell.isEnabled() ? "§a" : "§c") + spell.getName();
     }
 
 }
