@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
+import fr.jamailun.ultimatespellsystem.bukkit.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManagerImpl;
@@ -33,6 +34,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private SpellsManagerImpl spellsManager;
     @Getter private SummonsManagerImpl summonsManager;
     @Getter private ItemBinderImpl itemBinder;
+    @Getter private AnimationsManagerImpl animationsManager;
 
     private final UssConfig config = new UssConfig();
 
@@ -81,6 +83,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public void onDisable() {
         summonsManager.purgeAll();
+        animationsManager.purge();
         logInfo("Plugin disabled.");
     }
 

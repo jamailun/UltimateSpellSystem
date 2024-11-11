@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api;
 
+import fr.jamailun.ultimatespellsystem.api.bukkit.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.bukkit.spells.SpellsManager;
@@ -74,6 +75,14 @@ public final class UltimateSpellSystem {
      */
     public static @NotNull ItemBinder getItemBinder() {
         return plugin.getItemBinder();
+    }
+
+    /**
+     * Get the animations manager singleton instance.
+     * @return the non-null reference.
+     */
+    public static @NotNull AnimationsManager getAnimationsManager() {
+        return plugin.getAnimationsManager();
     }
 
     //TODO move to internal level

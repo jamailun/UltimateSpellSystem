@@ -23,4 +23,9 @@ public interface AnimationsManager {
      */
     void play(@NotNull Animation animation, @Nullable Runnable callback);
 
+    /**
+     * Stop and purge all currently-played {@link Animation}.
+     */
+    void purge();
+
 }

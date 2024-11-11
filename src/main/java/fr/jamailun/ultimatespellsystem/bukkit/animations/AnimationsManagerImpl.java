@@ -54,4 +54,9 @@ public final class AnimationsManagerImpl implements AnimationsManager {
         }
     }
 
+    @Override
+    public void purge() {
+        animations.values().forEach(Runnable::run);
+        animations.clear();
+    }
 }

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api;
 
+import fr.jamailun.ultimatespellsystem.api.bukkit.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bukkit.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.bukkit.spells.SpellsManager;
@@ -21,6 +22,8 @@ public interface UltimateSpellSystemPlugin {
     @NotNull SummonsManager getSummonsManager();
 
     @NotNull ItemBinder getItemBinder();
+
+    @NotNull AnimationsManager getAnimationsManager();
 
     @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks);
 

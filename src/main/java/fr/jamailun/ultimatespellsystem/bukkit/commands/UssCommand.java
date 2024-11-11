@@ -43,6 +43,7 @@ public class UssCommand extends AbstractCommand {
 
         // PURGE
         if("purge".equals(arg0)) {
+            UltimateSpellSystem.getAnimationsManager().purge();
             int summons = UltimateSpellSystem.getSummonsManager().purgeAll();
             return success(sender, "Purged summons : §e" + summons + "§f.");
         }
