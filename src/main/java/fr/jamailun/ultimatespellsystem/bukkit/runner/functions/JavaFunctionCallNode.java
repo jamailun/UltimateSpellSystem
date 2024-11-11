@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.functions;
 
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 

@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.JavaFunctionCallNode;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;

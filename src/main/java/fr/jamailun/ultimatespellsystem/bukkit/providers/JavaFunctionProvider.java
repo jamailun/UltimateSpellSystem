@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.runner.functions;
+package fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions;
 
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;

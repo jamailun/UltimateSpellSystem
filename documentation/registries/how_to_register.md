@@ -19,7 +19,7 @@ The signature would be `(int, int) -> int`. So the function definition implement
 
 ```java
 import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
@@ -30,20 +30,20 @@ public class RandBoundFunction extends RunnableJavaFunction {
 
     private RandBoundFunction() {
         super(
-            // Id of the function
-            "rand_in_bounds",
-            // Returned type
-            TypePrimitive.NUMBER.asType(),
-            // Expects two arguments: 'min' and 'max'. Both are not-optional.
-            List.of(
-                new FunctionArgument(FunctionType.acceptOnlyMono(TypePrimitive.NUMBER), "min", false),
-                new FunctionArgument(FunctionType.acceptOnlyMono(TypePrimitive.NUMBER), "max", false)
-            )
+                // Id of the function
+                "rand_in_bounds",
+                // Returned type
+                TypePrimitive.NUMBER.asType(),
+                // Expects two arguments: 'min' and 'max'. Both are not-optional.
+                List.of(
+                        new FunctionArgument(FunctionType.acceptOnlyMono(TypePrimitive.NUMBER), "min", false),
+                        new FunctionArgument(FunctionType.acceptOnlyMono(TypePrimitive.NUMBER), "max", false)
+                )
         );
     }
 
     @Override
-    public Double compute(@NotNull List < RuntimeExpression > arguments, @NotNull SpellRuntime runtime){
+    public Double compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
         // because of the DSL declaration, we know arguments 1 and 2 exist and are numbers.
         double min = runtime.safeEvaluate(arguments.get(0), Double.class);
         double max = runtime.safeEvaluate(arguments.get(1), Double.class);
@@ -51,7 +51,7 @@ public class RandBoundFunction extends RunnableJavaFunction {
         // return random number
         return new Random().nextDouble(max - min) + min;
     }
-    
+
     // And here, how's to register it
     public static void registerElement() {
         JavaFunctionProvider.instance().register(new RandBoundFunction(), "rand_in_bounds");

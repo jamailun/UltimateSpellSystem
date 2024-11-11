@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnreachableRuntimeException;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import lombok.RequiredArgsConstructor;

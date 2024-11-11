@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.runner;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.VariablesSet;
-import fr.jamailun.ultimatespellsystem.bukkit.spells.BukkitSpellEntity;
+import fr.jamailun.ultimatespellsystem.bukkit.entities.BukkitSpellEntity;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;

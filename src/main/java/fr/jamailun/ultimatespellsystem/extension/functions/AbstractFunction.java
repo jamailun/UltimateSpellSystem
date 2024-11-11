@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import org.bukkit.Location;
