@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public final class SpellsManagerImpl implements SpellsManager {
 
-    private final Map<String, SpellFunction> functions = new HashMap<>();
     private final Map<String, Spell> spells = new HashMap<>();
     private final File spellsFolder;
 
@@ -78,15 +77,6 @@ public final class SpellsManagerImpl implements SpellsManager {
     @Override
     public @Nullable Spell getSpell(@NotNull String name) {
         return spells.get(name);
-    }
-
-    public void registerFunction(@NotNull String id, @NotNull SpellFunction function) {
-        functions.put(id, function);
-        UltimateSpellSystem.logDebug("Registered spell-function '" + id + "'.");
-    }
-
-    public @Nullable SpellFunction getFunction(@NotNull String id) {
-        return functions.get(id);
     }
 
 }
