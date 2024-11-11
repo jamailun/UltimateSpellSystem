@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.play;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.holders.ParticleHolder;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;

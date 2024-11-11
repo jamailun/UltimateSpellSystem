@@ -1,8 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownWorldException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownWorldException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

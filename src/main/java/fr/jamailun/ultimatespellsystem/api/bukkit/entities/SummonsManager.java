@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.bukkit.entities;
 
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

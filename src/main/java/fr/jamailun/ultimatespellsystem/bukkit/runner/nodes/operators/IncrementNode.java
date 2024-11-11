@@ -1,8 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnreachableRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 public class IncrementNode extends RuntimeStatement {

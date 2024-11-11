@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.UssKeys;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.StringTransformation;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

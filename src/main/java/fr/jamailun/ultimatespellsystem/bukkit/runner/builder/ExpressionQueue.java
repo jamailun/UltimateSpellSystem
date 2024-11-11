@@ -1,7 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnknownFunctionException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownFunctionException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.JavaFunctionCallNode;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators.*;
@@ -15,7 +16,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions.*;
 import org.jetbrains.annotations.NotNull;
 

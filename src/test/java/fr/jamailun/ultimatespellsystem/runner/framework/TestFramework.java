@@ -3,14 +3,13 @@ package fr.jamailun.ultimatespellsystem.runner.framework;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
 import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntimeImpl;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public abstract class TestFramework {
     }
 
     protected boolean cast(@NotNull List<RuntimeStatement> statements) {
-        SpellRuntime runtime = new SpellRuntime(caster);
+        SpellRuntime runtime = new SpellRuntimeImpl(caster);
 
         for(RuntimeStatement statement : statements) {
             statement.run(runtime);

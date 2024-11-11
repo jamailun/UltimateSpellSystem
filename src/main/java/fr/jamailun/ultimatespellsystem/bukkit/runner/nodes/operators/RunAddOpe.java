@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 

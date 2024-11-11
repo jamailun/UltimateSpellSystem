@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.entities;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.bukkit.events.EntitySummonedEvent;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.Clock;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;

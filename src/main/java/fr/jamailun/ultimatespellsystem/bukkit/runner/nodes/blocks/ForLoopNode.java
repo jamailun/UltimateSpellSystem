@@ -1,9 +1,9 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.blocks;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import org.jetbrains.annotations.NotNull;
 
 public class ForLoopNode extends RuntimeStatement {

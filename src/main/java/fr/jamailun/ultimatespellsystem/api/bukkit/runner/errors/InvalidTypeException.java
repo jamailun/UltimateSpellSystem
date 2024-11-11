@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.runner.errors;
+package fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors;
 
 public class InvalidTypeException extends UssRuntimeException {
 

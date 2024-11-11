@@ -1,11 +1,12 @@
 package fr.jamailun.ultimatespellsystem.bukkit.spells;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntimeImpl;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.builder.SpellBuilderVisitor;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -79,7 +80,7 @@ public class SpellDefinition extends AbstractSpell {
 
         UltimateSpellSystem.logDebug(prefix + " Casted on " + caster);
 
-        SpellRuntime runtime = new SpellRuntime(caster);
+        SpellRuntime runtime = new SpellRuntimeImpl(caster);
         for(RuntimeStatement statement : steps) {
             UltimateSpellSystem.logDebug(prefix + "Running " + statement.toString());
             statement.run(runtime);

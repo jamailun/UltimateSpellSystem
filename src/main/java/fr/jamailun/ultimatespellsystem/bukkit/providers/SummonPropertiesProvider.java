@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.StringTransformation;
 import org.apache.logging.log4j.util.TriConsumer;

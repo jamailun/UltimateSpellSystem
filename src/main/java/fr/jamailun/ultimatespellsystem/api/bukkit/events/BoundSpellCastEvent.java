@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.bukkit.events;
 
 import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnreachableRuntimeException;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;

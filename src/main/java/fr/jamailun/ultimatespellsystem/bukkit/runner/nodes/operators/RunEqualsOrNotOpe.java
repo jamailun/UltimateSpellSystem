@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

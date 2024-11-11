@@ -1,15 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.UnreachableRuntimeException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
-import org.bukkit.Location;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnreachableRuntimeException;
 import org.jetbrains.annotations.NotNull;
-
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Not-operator

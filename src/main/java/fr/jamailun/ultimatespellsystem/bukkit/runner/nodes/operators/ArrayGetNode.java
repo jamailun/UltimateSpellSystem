@@ -1,8 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.errors.OutOfBoundException;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.OutOfBoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 

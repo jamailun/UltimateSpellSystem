@@ -1,9 +1,9 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

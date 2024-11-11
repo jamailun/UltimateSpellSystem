@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.extension.functions;
 
-import fr.jamailun.ultimatespellsystem.bukkit.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.bukkit.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
+import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
