@@ -27,9 +27,9 @@ public class DefineNode extends RuntimeStatement {
         if(clazz == null)
             throw new RuntimeException("Cannot run a null-typed expression : " + runtime);
 
-        Object value = runtime.safeEvaluateAcceptsList(expression, clazz);
+        //Object value = runtime.safeEvaluateAcceptsList(expression, clazz);
 
-        runtime.variables().set(varName, value);
+        runtime.variables().set(varName, expression.evaluate(runtime));
     }
 
     @Override
