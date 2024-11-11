@@ -5,7 +5,6 @@ import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownFunctionException;
-import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * A ray-cast to find a hit block.
  */
-public class CastSpellFunction extends RunnableJavaFunction {
+public class CastSpellFunction extends AbstractFunction {
 
     public CastSpellFunction() {
         super(

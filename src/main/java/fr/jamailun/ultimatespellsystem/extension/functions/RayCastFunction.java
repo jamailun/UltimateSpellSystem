@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.api.bukkit.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * A ray-cast to find a hit block.
  */
-public class RayCastFunction extends RunnableJavaFunction {
+public class RayCastFunction extends AbstractFunction {
 
     public RayCastFunction() {
         super(
@@ -50,15 +49,7 @@ public class RayCastFunction extends RunnableJavaFunction {
     @Override
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
         // Location source
-        Location location;
-        Object locationRaw = arguments.get(0).evaluate(runtime);
-        if(locationRaw instanceof Location loc) {
-            location = loc;
-        } else if(locationRaw instanceof SpellEntity entity) {
-            location = entity.getEyeLocation();
-        } else {
-            throw new InvalidTypeException("call:raycast[0]", "location or entity", locationRaw);
-        }
+        Location location = toLocation("raycast:location", arguments.get(0), runtime);
 
         // Direction
         Vector direction;
