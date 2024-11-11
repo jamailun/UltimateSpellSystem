@@ -106,7 +106,7 @@ public class UssCommand implements CommandExecutor, TabCompleter {
         }
 
         // DISABLE && ENABLE
-        if("disabled".equals(arg0)) {
+        if("disable".equals(arg0)) {
             spell.setEnabled(false);
             return success(sender, "Successfully disabled " + id + ".");
         }

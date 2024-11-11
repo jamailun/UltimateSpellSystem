@@ -1,6 +1,6 @@
 name: UltimateSpellSystem
 version: '${project.version}'
-main: fr.jamailun.ultimatespellsystem.bukkit.UltimateSpellSystem
+main: fr.jamailun.ultimatespellsystem.bukkit.UssMain
 api-version: '1.20'
 author: jamailun
 prefix: USS

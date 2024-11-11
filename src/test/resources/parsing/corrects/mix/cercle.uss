@@ -1,0 +1,12 @@
+define %pos = position of %caster;
+
+define %pos = %pos + [[0,-1,0]];
+for(define %x = -5; %x <= 5; increment %x) {
+  for(define %z = -5; %z <= 5; increment %z) {
+    define %temp = %pos + [[%x, 0, %z]];
+    play block at %pos with: {{
+      type: MAGMA_BLOCK,
+      duration: 3 secs
+    }}
+  }
+}

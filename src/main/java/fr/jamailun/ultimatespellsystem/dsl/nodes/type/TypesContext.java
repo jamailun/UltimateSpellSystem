@@ -19,6 +19,7 @@ public class TypesContext {
     public static class VariableDefinition {
         Type type;
         ExpressionNode nodeReference;
+        private boolean validated = false;
 
         VariableDefinition(Type type) {
             this.type = type;
@@ -30,7 +31,10 @@ public class TypesContext {
         public Type computeType(TypesContext context) {
             if(type != null)
                 return type;
-            nodeReference.validateTypes(context);
+            if(!validated) {
+                validated = true;
+                nodeReference.validateTypes(context);
+            }
             return nodeReference.getExpressionType();
         }
 
