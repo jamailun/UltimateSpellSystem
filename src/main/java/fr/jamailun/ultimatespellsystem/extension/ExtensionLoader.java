@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.extension;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.functions.CastSpellFunction;
+import fr.jamailun.ultimatespellsystem.extension.functions.DistanceFunction;
 import fr.jamailun.ultimatespellsystem.extension.functions.RayCastFunction;
 
 /**
@@ -25,6 +26,7 @@ public final class ExtensionLoader {
 
         JavaFunctionProvider.instance().register(new RayCastFunction(), "raycast", "raycast_block");
         JavaFunctionProvider.instance().register(new CastSpellFunction(), "cast");
+        JavaFunctionProvider.instance().register(new DistanceFunction(), "distance", "dist");
 
         UltimateSpellSystem.logInfo("Loaded extension.");
     }
