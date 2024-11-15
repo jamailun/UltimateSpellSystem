@@ -32,7 +32,7 @@ public class SummonStatement extends StatementNode {
 
         // Register varName
         if(optVarName != null) {
-            context.registerVariable(optVarName.getContentString(), optVarName.pos(), TypePrimitive.ENTITY_TYPE.asType());
+            context.registerVariable(optVarName.getContentString(), optVarName.pos(), TypePrimitive.ENTITY.asType());
         }
     }
 
