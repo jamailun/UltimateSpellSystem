@@ -66,14 +66,14 @@ public class SummonsManagerImpl implements SummonsManager {
 
     @Override
     public @Nullable UUID getUuidOfSummoner(@NotNull UUID uuid) {
-        return find(uuid)
+        return Optional.ofNullable(find(uuid))
                 .map(a -> a.getSummoner().getUniqueId())
                 .orElse(null);
     }
 
     @Override
-    public @NotNull Optional<SummonAttributesImpl> find(@NotNull UUID uuid) {
-        return Optional.ofNullable(summonedEntities.get(uuid));
+    public @Nullable SummonAttributesImpl find(@NotNull UUID uuid) {
+        return summonedEntities.get(uuid);
     }
 
     public void refreshConfig(@NotNull UssConfig config) {

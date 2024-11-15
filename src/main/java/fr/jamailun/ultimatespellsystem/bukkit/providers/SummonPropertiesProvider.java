@@ -26,6 +26,27 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
     }
 
     /**
+     * Boolean. If true, the mob can drop equipment. Default: false.
+     */
+    public static final String ATTRIBUTE_MOB_CAN_DROP = "drop";
+    /**
+     * Boolean. If true, the mob can attack its own master. Default: false.
+     */
+    public static final String ATTRIBUTE_MOB_CAN_AGGRO_MASTER = "can_aggro_caster";
+    /**
+     * Boolean. If true, the mob can attack its master's other summons. Default: false.
+     */
+    public static final String ATTRIBUTE_MOB_CAN_AGGRO_SUMMONS = "can_aggro_summons";
+    /**
+     * Scope. The kind of entities the summon can aggro. Default = none.
+     */
+    public static final String ATTRIBUTE_MOB_AGGRO_SCOPE = "aggro_scope";
+    /**
+     * Double. The range at which the summon an aggro an entity. Default = 7.
+     */
+    public static final String ATTRIBUTE_MOB_AGGRO_RANGE = "aggro_range";
+
+    /**
      * Consumer interface.
      */
     public interface SummonProperty extends TriConsumer<SpellEntity, Object, SpellRuntime> {}

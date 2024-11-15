@@ -44,7 +44,7 @@ public interface SummonsManager {
      * @param uuid the UUID of the entity to look for.
      * @return an empty Optional if no summoned entity has the requested UUID.
      */
-    @NotNull Optional<SummonAttributesImpl> find(@NotNull UUID uuid);
+    @Nullable SummonAttributesImpl find(@NotNull UUID uuid);
 
     /**
      * Purge all summons.

@@ -1,7 +1,8 @@
 package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonAttributesImpl;
+import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -16,17 +17,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 public class AggroListener implements Listener {
 
     @EventHandler
     void aggroChanged(@NotNull EntityTargetLivingEntityEvent event) {
-        Optional<SummonAttributesImpl> attrOpt = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
-        if(attrOpt.isEmpty())
-            return;
-        SummonAttributesImpl summon = attrOpt.get();
+        SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
+        if(summon == null) return;
 
         // has target ?
         if(event.getTarget() == null) {
@@ -47,7 +45,7 @@ public class AggroListener implements Listener {
         }
     }
 
-    private static boolean canAggro(@NotNull SummonAttributesImpl summon, @NotNull Entity target) {
+    private static boolean canAggro(@NotNull SummonAttributes summon, @NotNull Entity target) {
         // Ignore invulnerable entities
         if(target instanceof LivingEntity living) {
             if(living.isInvulnerable())
@@ -63,12 +61,12 @@ public class AggroListener implements Listener {
 
         // Test is caster
         if(Objects.equals(summonerUuid, target.getUniqueId())) {
-            return summon.tryGetAttribute("can_aggro_caster", Boolean.class, false);
+            return summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_AGGRO_MASTER, Boolean.class, false);
         }
 
         // Test is a summon of the same caster
         if(Objects.equals(summonerUuid, UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()))) {
-            return summon.tryGetAttribute("can_aggro_summons", Boolean.class, false);
+            return summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_AGGRO_SUMMONS, Boolean.class, false);
         }
 
         return true;
@@ -79,12 +77,12 @@ public class AggroListener implements Listener {
      * @param summon the summon to check.
      * @return {@code null} if no suitable target has been found.
      */
-    public static @Nullable LivingEntity findAggro(@NotNull SummonAttributesImpl summon) {
-        Object scope = summon.getAttribute("aggro_scope");
+    public static @Nullable LivingEntity findAggro(@NotNull SummonAttributes summon) {
+        Object scope = summon.getAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_AGGRO_SCOPE);
         if(scope == null) return null;
 
         Location location = summon.getEntity().getLocation();
-        double range = summon.tryGetAttribute("aggro_range", Double.class, 7d);
+        double range = summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_AGGRO_RANGE, Double.class, 7d);
         return EntitiesFinder.findEntitiesAround(scope, location, range)
                 .stream()
                 // Remove itself
