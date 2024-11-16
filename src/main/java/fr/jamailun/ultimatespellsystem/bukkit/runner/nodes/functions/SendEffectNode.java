@@ -50,16 +50,16 @@ public class SendEffectNode extends RuntimeStatement {
     public static PotionEffectType convertEffect(PotionEffect effect) {
         return switch (effect) {
             case SPEED -> PotionEffectType.SPEED;
-            case SLOW -> PotionEffectType.SLOW;
-            case HASTE -> PotionEffectType.FAST_DIGGING;
-            case FATIGUE -> PotionEffectType.SLOW_DIGGING;
-            case STRENGTH -> PotionEffectType.INCREASE_DAMAGE;
-            case INSTANT_HEALTH -> PotionEffectType.HEAL;
-            case INSTANT_DAMAGE -> PotionEffectType.HARM;
-            case JUMP_BOOST -> PotionEffectType.JUMP;
-            case NAUSEA -> PotionEffectType.CONFUSION;
+            case SLOW -> PotionEffectType.SLOWNESS;
+            case HASTE -> PotionEffectType.HASTE;
+            case FATIGUE -> PotionEffectType.MINING_FATIGUE;
+            case STRENGTH -> PotionEffectType.STRENGTH;
+            case INSTANT_HEALTH -> PotionEffectType.INSTANT_HEALTH;
+            case INSTANT_DAMAGE -> PotionEffectType.INSTANT_DAMAGE;
+            case JUMP_BOOST -> PotionEffectType.JUMP_BOOST;
+            case NAUSEA -> PotionEffectType.NAUSEA;
             case REGENERATION -> PotionEffectType.REGENERATION;
-            case RESISTANCE -> PotionEffectType.DAMAGE_RESISTANCE;
+            case RESISTANCE -> PotionEffectType.RESISTANCE;
             case FIRE_RESISTANCE -> PotionEffectType.FIRE_RESISTANCE;
             case WATER_BREATHING -> PotionEffectType.WATER_BREATHING;
             case INVISIBILITY -> PotionEffectType.INVISIBILITY;
