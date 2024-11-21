@@ -39,7 +39,9 @@ public final class EntitiesFinder {
 
     public static @NotNull List<Entity> findEntitiesAround(@NotNull Object scope, @NotNull Location around, double distance) {
         Predicate<Entity> scopePredicate = findScope(scope);
-        return new ArrayList<>(around.getWorld().getNearbyEntities(around, distance, distance, distance, scopePredicate));
+        return around.getWorld().getNearbyEntities(around, distance, distance, distance, scopePredicate).stream()
+                .filter(e -> e.getLocation().distance(around) <= distance)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }

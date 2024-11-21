@@ -8,7 +8,6 @@ import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -37,6 +36,7 @@ public class ParticleHolder {
      * @param values the map of attributes. Expected keys: {type, duration, power}
      * @return null if an error occurred.
      */
+    @SuppressWarnings("unchecked")
     public static @Nullable ParticleHolder build(String context, double radius, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
@@ -82,7 +82,7 @@ public class ParticleHolder {
             if(raw instanceof String string) {
                 shaper = ParticleShapeProvider.instance().find(string);
                 if(shaper == null) UltimateSpellSystem.logWarning("Unknown particle shape: '" + string + "'.");
-                else shaperInstance = new ShaperInstance(shaper, Collections.emptyMap());
+                else shaperInstance = new ShaperInstance(shaper, (Map<String, Object>) values);
             } else if(raw instanceof Map<?,?> map) {
                 Object rawType = map.get("type");
                 if(rawType instanceof String shapeType) {

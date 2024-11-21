@@ -27,7 +27,7 @@ public class AllAroundNode extends RuntimeExpression {
         // Source
         Object source = this.source.evaluate(runtime);
         if(source instanceof List<?> list && list.size() == 1) {
-            source = list.get(0);
+            source = list.getFirst();
         }
 
         Location location;
