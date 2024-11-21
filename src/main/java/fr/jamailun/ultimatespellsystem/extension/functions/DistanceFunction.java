@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * A ray-cast to find a hit block.
+ * A simple distance function.
  */
 public class DistanceFunction extends AbstractFunction {
 
     public DistanceFunction() {
         super(
                 "distance",
-                // Returns a location
+                // Returns a numeric value
                 TypePrimitive.NUMBER.asType(),
                 // Args :
                 // - a : location A

@@ -1,0 +1,8 @@
+define %pos = position of %caster;
+play particle at %pos with: {{
+  type: FIRE,
+  shape: {{
+    type: "circle",
+    radius: 6.5
+  }}
+}}

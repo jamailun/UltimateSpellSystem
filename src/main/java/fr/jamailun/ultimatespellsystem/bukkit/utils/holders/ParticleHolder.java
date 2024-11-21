@@ -1,11 +1,14 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.bukkit.utils.ParticleShaper;
+import fr.jamailun.ultimatespellsystem.bukkit.providers.ParticleShapeProvider;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -13,15 +16,17 @@ import java.util.Map;
  */
 public class ParticleHolder {
 
+    private @Nullable final ShaperInstance shaper;
     private final Particle type;
     private final double radius, speed;
     private final int count;
 
-    public ParticleHolder(@NotNull Particle type, double radius, double speed, int count) {
+    public ParticleHolder(@NotNull Particle type, double radius, double speed, int count, @Nullable ShaperInstance shaper) {
         this.type = type;
         this.radius = radius;
         this.speed = speed;
         this.count = count;
+        this.shaper = shaper;
         UltimateSpellSystem.logDebug("New orb-particle : (" + this +")");
     }
 
@@ -69,8 +74,29 @@ public class ParticleHolder {
             count = di.intValue();
         }
 
+        // Shape ?
+        ShaperInstance shaperInstance = null;
+        if(values.containsKey("shape")) {
+            ParticleShaper shaper;
+            Object raw = values.get("shape");
+            if(raw instanceof String string) {
+                shaper = ParticleShapeProvider.instance().find(string);
+                if(shaper == null) UltimateSpellSystem.logWarning("Unknown particle shape: '" + string + "'.");
+                else shaperInstance = new ShaperInstance(shaper, Collections.emptyMap());
+            } else if(raw instanceof Map<?,?> map) {
+                Object rawType = map.get("type");
+                if(rawType instanceof String shapeType) {
+                    shaper = ParticleShapeProvider.instance().find(shapeType);
+                    if(shaper == null) UltimateSpellSystem.logWarning("Unknown particle shape: '" + shapeType + "'.");
+                    else shaperInstance = new ShaperInstance(shaper, (Map<String, Object>) map);
+                } else {
+                    UltimateSpellSystem.logError("Particle shape missing the 'type' entry.");
+                }
+            }
+        }
+
         // Create
-        return new ParticleHolder(particle, radius, speed, count);
+        return new ParticleHolder(particle, radius, speed, count, shaperInstance);
     }
 
     /**
@@ -78,11 +104,21 @@ public class ParticleHolder {
      * @param location the non-ull location to use.
      */
     public void apply(@NotNull Location location) {
-        location.getWorld().spawnParticle(
-                type, location, count,
-                radius, radius, radius,
-                speed
-        );
+        if(shaper == null) {
+            location.getWorld().spawnParticle(
+                    type, location, count,
+                    radius, radius, radius,
+                    speed
+            );
+        } else {
+            shaper.run(type, location);
+        }
+    }
+
+    public record ShaperInstance(@NotNull ParticleShaper shaper, @NotNull Map<String, Object> data) {
+        void run(@NotNull Particle particle, @NotNull Location location) {
+            shaper.apply(particle, location, data);
+        }
     }
 
 }
