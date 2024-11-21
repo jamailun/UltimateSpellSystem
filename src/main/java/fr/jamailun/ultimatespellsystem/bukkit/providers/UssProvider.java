@@ -43,9 +43,7 @@ public abstract class UssProvider<T> {
         postRegister(pn, newElement);
 
         for(String v : nameVariants) {
-            String pv = prepare(v);
-            data.put(pv, newElement);
-            postRegister(pv, newElement);
+            register(newElement, v);
         }
     }
 
