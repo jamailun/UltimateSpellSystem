@@ -20,4 +20,12 @@ public interface ParticleShaper {
      */
     void apply(@NotNull Particle particle, @NotNull Location location, @NotNull @Unmodifiable Map<String, Object> data);
 
+    default double getNumeric(@NotNull @Unmodifiable Map<String, Object> data, @NotNull String key, double defaultValue) {
+        Object raw = data.get(key);
+        if(raw instanceof Number number) {
+            return number.doubleValue();
+        }
+        return defaultValue;
+    }
+
 }

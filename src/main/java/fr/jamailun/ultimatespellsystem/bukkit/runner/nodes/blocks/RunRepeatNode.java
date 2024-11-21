@@ -29,7 +29,14 @@ public class RunRepeatNode extends RuntimeStatement {
         long delayTicks = delay == null ? 0 : delay.toTicks();
 
         UltimateSpellSystem.runTaskRepeat(
-                () -> child.run(runtime),
+                () -> {
+                    try {
+                        child.run(runtime);
+                    } catch (Throwable t) {
+                        UltimateSpellSystem.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run : " + t.getMessage());
+                        t.printStackTrace();
+                    }
+                },
                 count,
                 delayTicks,
                 period.toTicks()

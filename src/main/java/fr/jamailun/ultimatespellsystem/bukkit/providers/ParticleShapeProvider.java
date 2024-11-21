@@ -25,8 +25,8 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
     public static class CircleParticleShaper implements ParticleShaper {
         @Override
         public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
-            double radius = (double) data.getOrDefault("radius", 5);
-            double delta = (double) data.getOrDefault("delta", .15);
+            double radius = getNumeric(data, "radius", 5d);
+            double delta = getNumeric(data, "delta", .15d);
             ParticlesHelper.playCircleXZ(
                     center.getWorld().getPlayers(),
                     center,
@@ -41,9 +41,9 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
     public static class SphereParticleShaper implements ParticleShaper {
         @Override
         public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
-            double radius = (double) data.getOrDefault("radius", 5);
-            double delta = (double) data.getOrDefault("delta", .5);
-            double phi = (double) data.getOrDefault("phi", .1);
+            double radius = getNumeric(data, "radius", 5d);
+            double delta = getNumeric(data, "delta", .5d);
+            double phi = getNumeric(data, "phi", .1d);
             ParticlesHelper.playSphere(
                     center.getWorld().getPlayers(),
                     center,
