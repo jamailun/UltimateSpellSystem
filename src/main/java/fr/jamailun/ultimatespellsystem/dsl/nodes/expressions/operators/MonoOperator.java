@@ -7,7 +7,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 @Getter
@@ -55,6 +57,11 @@ public abstract class MonoOperator extends ExpressionNode {
         public final Function<Number, Number> function;
         MonoOpeType(Function<Number, Number> function) {
             this.function = function;
+        }
+        public static @Nullable MonoOpeType find(@NotNull String value) {
+            return Arrays.stream(values())
+                    .filter(v -> v.name().equalsIgnoreCase(value))
+                    .findAny().orElse(null);
         }
     }
 

@@ -8,9 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.PositionOfE
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.SizeOfExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.NotOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.SubOperator;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
@@ -129,6 +127,13 @@ public abstract class ExpressionNode extends Node {
 
                 // Parenthesis ? maybe a function.
                 if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
+                    MonoOperator.MonoOpeType monoOpeType = MonoOperator.MonoOpeType.find(value.toUpperCase());
+                    if(monoOpeType != null) {
+                        ExpressionNode child = ExpressionNode.readNextExpression(tokens, true);
+                        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+                        yield new MathFunctionOperator(token.pos(), child, monoOpeType);
+                    }
+
                     FunctionDefinition functionDefinition = FunctionDefinitionsRegistry.find(value);
                     if(functionDefinition != null) {
                         yield FunctionCallExpression.readNextFunctionCall(functionDefinition, tokens);
