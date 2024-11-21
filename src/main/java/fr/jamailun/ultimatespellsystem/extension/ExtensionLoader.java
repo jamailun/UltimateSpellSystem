@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.functions.CastSpellFunction;
 import fr.jamailun.ultimatespellsystem.extension.functions.DistanceFunction;
+import fr.jamailun.ultimatespellsystem.extension.functions.IsValidFunction;
 import fr.jamailun.ultimatespellsystem.extension.functions.RayCastFunction;
 import fr.jamailun.ultimatespellsystem.extension.scopes.EntityTypesScopes;
 
@@ -29,6 +30,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().register(new RayCastFunction(), "raycast", "raycast_block");
         JavaFunctionProvider.instance().register(new CastSpellFunction(), "cast");
         JavaFunctionProvider.instance().register(new DistanceFunction(), "distance", "dist");
+        JavaFunctionProvider.instance().register(new IsValidFunction(), "is_valid");
 
         // Others
         EntityTypesScopes.register();
