@@ -26,7 +26,6 @@ public class ParticleHolder {
         this.speed = speed;
         this.count = count;
         this.shaper = shaper;
-        UltimateSpellSystem.logDebug("New orb-particle : (" + this +")");
     }
 
     /**

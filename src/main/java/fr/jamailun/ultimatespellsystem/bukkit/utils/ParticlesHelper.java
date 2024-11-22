@@ -21,7 +21,14 @@ public final class ParticlesHelper {
     }
 
     public static void playSphere(@NotNull Collection<? extends Player> targets, @NotNull Location center, double radius, double delta, double deltaPhi, @NotNull Particle particle) {
-        for(double phi = 0; phi <= Math.PI; phi += deltaPhi) {
+        playSphere(targets, center, radius, delta, deltaPhi, particle, 0, Math.PI);
+    }
+    public static void playHalfSphere(@NotNull Collection<? extends Player> targets, @NotNull Location center, double radius, double delta, double deltaPhi, @NotNull Particle particle) {
+        playSphere(targets, center, radius, delta, deltaPhi, particle, Math.PI / 2, Math.PI);
+    }
+
+    public static void playSphere(@NotNull Collection<? extends Player> targets, @NotNull Location center, double radius, double delta, double deltaPhi, @NotNull Particle particle, double phiStart, double phiEnd) {
+        for(double phi = phiStart; phi <= phiEnd; phi += deltaPhi) {
             double dY = (2 * phi * radius / Math.PI) - radius;
             Location centerXZ = center.clone().add(0, dY, 0);
             double r = Math.sin(phi) * radius;

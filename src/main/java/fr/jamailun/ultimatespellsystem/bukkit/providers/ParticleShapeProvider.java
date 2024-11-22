@@ -20,6 +20,7 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
     static {
         INSTANCE.register(new SphereParticleShaper(), "sphere");
         INSTANCE.register(new CircleParticleShaper(), "circle");
+        INSTANCE.register(new HalfSphereParticleShaper(), "half_sphere");
     }
 
     public static class CircleParticleShaper implements ParticleShaper {
@@ -45,6 +46,24 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
             double delta = getNumeric(data, "delta", .5d);
             double phi = getNumeric(data, "phi", .1d);
             ParticlesHelper.playSphere(
+                    center.getWorld().getPlayers(),
+                    center,
+                    radius,
+                    delta,
+                    phi,
+                    particle
+            );
+
+        }
+    }
+
+    public static class HalfSphereParticleShaper implements ParticleShaper {
+        @Override
+        public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
+            double radius = getNumeric(data, "radius", 5d);
+            double delta = getNumeric(data, "delta", .5d);
+            double phi = getNumeric(data, "phi", .1d);
+            ParticlesHelper.playHalfSphere(
                     center.getWorld().getPlayers(),
                     center,
                     radius,

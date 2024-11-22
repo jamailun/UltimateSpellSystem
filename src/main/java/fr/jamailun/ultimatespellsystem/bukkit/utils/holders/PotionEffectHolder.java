@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.bukkit.UssMain;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.functions.SendEffectNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.entity.LivingEntity;
@@ -21,7 +20,6 @@ public class PotionEffectHolder {
 
     public PotionEffectHolder(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, @NotNull Duration duration, int power) {
         builtEffect = new PotionEffect(SendEffectNode.convertEffect(effect), (int) duration.toTicks(), power - 1);
-        UltimateSpellSystem.logDebug("New orb-effect : (" + builtEffect + ")");
     }
 
     /**
