@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.UssEntityType;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.EntityTypeExpression;

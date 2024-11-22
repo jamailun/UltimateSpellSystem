@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bukkit.utils.ParticleShaper;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.ParticleShapeProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.ParticleShapeProvider;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;

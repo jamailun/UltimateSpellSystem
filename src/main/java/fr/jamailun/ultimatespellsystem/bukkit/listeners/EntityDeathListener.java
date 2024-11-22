@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.bukkit.UssKeys;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.SummonPropertiesProvider;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;

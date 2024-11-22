@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.commands.UssCommand;
@@ -9,7 +10,6 @@ import fr.jamailun.ultimatespellsystem.bukkit.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.AttackListener;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.EntityDeathListener;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.listeners.ItemBoundInteractListener;
 import fr.jamailun.ultimatespellsystem.bukkit.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.UssConfig;
@@ -44,8 +44,8 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     public void onLoad() {
         UltimateSpellSystem.setPlugin(this);
 
+        EntityTypeProvider.initialize();
         ExtensionLoader.load();
-        EntityTypeProvider.loadDefaults();
         UssKeys.initialize(this);
     }
 

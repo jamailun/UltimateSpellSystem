@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.bukkit.providers;
+package fr.jamailun.ultimatespellsystem.api.bukkit.providers;
 
 import fr.jamailun.ultimatespellsystem.api.bukkit.utils.ParticleShaper;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.ParticlesHelper;
@@ -9,11 +9,18 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Map;
 
-public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
+/**
+ * A provider for {@link ParticleShaper}, used by particle emissions and animations.
+ */
+public final class ParticleShapeProvider extends UssProvider<ParticleShaper> {
 
     private static final ParticleShapeProvider INSTANCE = new ParticleShapeProvider();
 
-    public static ParticleShapeProvider instance() {
+    /**
+     * Get the non-null instance.
+     * @return the instance.
+     */
+    public static @NotNull ParticleShapeProvider instance() {
         return INSTANCE;
     }
 
@@ -23,6 +30,9 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
         INSTANCE.register(new HalfSphereParticleShaper(), "half_sphere");
     }
 
+    /**
+     * A shape to emit particle on a X/Z circle.
+     */
     public static class CircleParticleShaper implements ParticleShaper {
         @Override
         public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
@@ -35,10 +45,12 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
                     delta,
                     particle
             );
-
         }
     }
 
+    /**
+     * A shape to emit particle to a full sphere surface.
+     */
     public static class SphereParticleShaper implements ParticleShaper {
         @Override
         public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
@@ -53,10 +65,12 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
                     phi,
                     particle
             );
-
         }
     }
 
+    /**
+     * A shape to emit particles to a half sphere (the top part)
+     */
     public static class HalfSphereParticleShaper implements ParticleShaper {
         @Override
         public void apply(@NotNull Particle particle, @NotNull Location center, @NotNull @Unmodifiable Map<String, Object> data) {
@@ -71,7 +85,6 @@ public class ParticleShapeProvider extends UssProvider<ParticleShaper> {
                     phi,
                     particle
             );
-
         }
     }
 

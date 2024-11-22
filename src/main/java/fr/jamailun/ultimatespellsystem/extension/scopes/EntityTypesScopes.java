@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension.scopes;
 
-import fr.jamailun.ultimatespellsystem.bukkit.providers.ScopeProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.ScopeProvider;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;

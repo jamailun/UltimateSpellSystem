@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.bukkit.runner.builder;
 
-import fr.jamailun.ultimatespellsystem.bukkit.providers.JavaFunctionProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.bukkit.runner.functions.JavaFunctionCallNode;

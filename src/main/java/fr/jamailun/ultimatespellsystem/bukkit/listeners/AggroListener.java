@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.bukkit.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonAttributes;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.bukkit.utils.EntitiesFinder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

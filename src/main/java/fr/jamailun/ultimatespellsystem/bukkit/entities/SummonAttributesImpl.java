@@ -5,7 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.bukkit.providers.SummonPropertiesProvider;
+import fr.jamailun.ultimatespellsystem.api.bukkit.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
