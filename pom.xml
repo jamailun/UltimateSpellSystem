@@ -4,14 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.jamailun</groupId>
-    <artifactId>UltimateSpellSystem</artifactId>
+    <groupId>fr.jamailun.paper</groupId>
+    <artifactId>UltimateSpellSystem-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>UltimateSpellSystem</name>
+    <name>Ultimate Spell System</name>
+    <description>Spells in Minecraft with a custom DSL.</description>
+
+    <modules>
+        <module>dsl</module>
+        <module>api</module>
+        <module>plugin</module>
+    </modules>
 
     <properties>
+        <!-- Java & Maven -->
         <java.version>21</java.version>
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,9 +29,9 @@
         <paper.version>1.21.1-R0.1-SNAPSHOT</paper.version>
         <lombok.version>1.18.30</lombok.version>
 
+        <!-- Tests -->
         <junit.version>5.10.2</junit.version>
         <mockito.version>5.14.2</mockito.version>
-        <powermock.version>2.0.2</powermock.version>
     </properties>
 
     <build>
@@ -37,26 +45,7 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <repositories>
@@ -71,6 +60,7 @@
     </repositories>
 
     <dependencies>
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -78,6 +68,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -99,7 +90,5 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 </project>

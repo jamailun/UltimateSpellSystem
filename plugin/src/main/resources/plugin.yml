@@ -1,0 +1,20 @@
+name: UltimateSpellSystem
+version: '${project.version}'
+main: fr.jamailun.ultimatespellsystem.bukkit.UssMain
+api-version: '1.21'
+author: jamailun
+prefix: USS
+description: The Ultimate Spells System runtime.
+
+commands:
+  uss:
+    description: All UltimateSpellsSystem commands.
+    permission: uss.admin
+
+permissions:
+  uss.*:
+    default: op
+    children:
+      - uss.admin
+  uss.admin:
+    default: op

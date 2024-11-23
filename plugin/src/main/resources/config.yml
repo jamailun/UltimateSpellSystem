@@ -1,0 +1,26 @@
+# Should the plugin print with DEBUG level.
+debug: true
+
+# Trigger configuration for bound-items
+trigger:
+  left-click:
+    air: false
+    block: false
+  right-click:
+    air: true
+    block: true
+  attack: false
+  ignore:
+    sprint: false
+    sneak: true
+
+after-trigger:
+  use-item: true
+  use-block: false
+
+# Clock configurations, in second. '-1' disable clocks.
+tick:
+  # Aggro tick config
+  aggro:
+    # Every x seconds, compute aggro for summons that do not have any target.
+    summons: 5

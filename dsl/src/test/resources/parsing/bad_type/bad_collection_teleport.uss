@@ -1,0 +1,4 @@
+
+define %coll = all entities within 10 around %caster;
+
+teleport %caster to %coll;

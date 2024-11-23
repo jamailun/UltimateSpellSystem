@@ -1,3 +1,0 @@
-# Unknown subtype of send'.
-
-send to %caster I_DONT_EXIST "I'm a failure";
