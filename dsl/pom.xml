@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>UltimateSpellSystem-dsl</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${parent.version}</version>
 
     <parent>
         <groupId>fr.jamailun.paper</groupId>
