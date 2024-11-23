@@ -59,7 +59,14 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
 
     private SummonPropertiesProvider() {
         // Statistics attributes
-        register(createAttributeSetter(Attribute.GENERIC_MAX_HEALTH), "health", "max_health");
+        register(createForLivingEntity((entity, value, run) -> {
+            if (value instanceof Double number) {
+                Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
+                entity.setHealth(number);
+            } else {
+                UltimateSpellSystem.logWarning("Invalid type for MAX_HEALTH: " + value);
+            }
+        }), "health", "max_health");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR_TOUGHNESS), "toughness", "armor_toughness");
