@@ -57,6 +57,11 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <!-- Dev platform -->
+        <repository>
+            <id>gitea</id>
+            <url>https://git.patte-de-coin.fr/api/packages/jamailun/maven</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -91,4 +96,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>gitea</id>
+            <url>https://git.patte-de-coin.fr/api/packages/jamailun/maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>gitea</id>
+            <url>https://git.patte-de-coin.fr/api/packages/jamailun/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
