@@ -1,13 +1,17 @@
 package fr.jamailun.ultimatespellsystem.dsl;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
+import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.util.List;
@@ -49,6 +53,14 @@ public class CorrectParsingTests extends ParsingTest {
 
         // Parse
         testFolder("corrects_with_custom");
+    }
+
+    @Test
+    void correctWithExtension() {
+        try (MockedStatic<UltimateSpellSystem> uss = Mockito.mockStatic(UltimateSpellSystem.class)) {
+            ExtensionLoader.load();
+            testFolder("corrects/extension");
+        }
     }
 
     private void testFolder(@NotNull String folder) {

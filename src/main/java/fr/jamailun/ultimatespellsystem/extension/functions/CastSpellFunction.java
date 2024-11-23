@@ -5,11 +5,9 @@ import fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.bukkit.runner.errors.UnknownFunctionException;
-import fr.jamailun.ultimatespellsystem.api.bukkit.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +41,8 @@ public class CastSpellFunction extends AbstractFunction {
 
     @Override
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        SpellEntity entity = runtime.safeEvaluate(arguments.get(0), SpellEntity.class);
+        LivingEntity entity = toLivingEntity("cast(entity)", arguments.getFirst(), runtime);
+        if(entity == null) return false;
         String spellId = runtime.safeEvaluate(arguments.get(1), String.class);
 
         Spell spell = UltimateSpellSystem.getSpellsManager().getSpell(spellId);
@@ -51,10 +50,6 @@ public class CastSpellFunction extends AbstractFunction {
             throw new UnknownFunctionException("Unknown spell ID: '" + spellId + "'.");
         }
 
-        Entity bukkitEntity = entity.getBukkitEntity().orElse(null);
-        if(bukkitEntity instanceof LivingEntity living) {
-            return spell.castNotCancellable(living);
-        }
-        return false;
+        return spell.castNotCancellable(entity);
     }
 }
