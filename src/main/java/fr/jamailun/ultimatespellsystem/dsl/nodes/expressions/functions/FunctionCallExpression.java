@@ -83,4 +83,9 @@ public final class FunctionCallExpression extends ExpressionNode {
         // Create and return node
         return new FunctionCallExpression(position, functionDefinition, arguments);
     }
+
+    @Override
+    public @NotNull String toString() {
+        return "F-call{"+function.id()+" (" + arguments + ")}";
+    }
 }

@@ -136,7 +136,9 @@ public abstract class ExpressionNode extends Node {
 
                     FunctionDefinition functionDefinition = FunctionDefinitionsRegistry.find(value);
                     if(functionDefinition != null) {
-                        yield FunctionCallExpression.readNextFunctionCall(functionDefinition, tokens);
+                        FunctionCallExpression exp = FunctionCallExpression.readNextFunctionCall(functionDefinition, tokens);
+                        tokens.dropOptional(TokenType.SEMI_COLON);
+                        yield exp;
                     }
                     throw new UnknownFunctionException(token.pos(), value);
                 }
