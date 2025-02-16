@@ -20,12 +20,14 @@ public abstract class TestFramework {
 
     @BeforeAll
     static void initAll() {
-        UltimateSpellSystemPlugin fakePlugin = Mockito.mock(UssMain.class);
-        Mockito.doNothing().when(fakePlugin).logDebug(Mockito.anyString());
-        Mockito.doNothing().when(fakePlugin).logInfo(Mockito.anyString());
-        Mockito.doNothing().when(fakePlugin).logWarning(Mockito.anyString());
-        Mockito.doNothing().when(fakePlugin).logError(Mockito.anyString());
-        UltimateSpellSystem.setPlugin(fakePlugin);
+            UltimateSpellSystemPlugin fakePlugin = Mockito.mock(UssMain.class);
+            Mockito.doNothing().when(fakePlugin).logDebug(Mockito.anyString());
+            Mockito.doNothing().when(fakePlugin).logInfo(Mockito.anyString());
+            Mockito.doNothing().when(fakePlugin).logWarning(Mockito.anyString());
+            Mockito.doNothing().when(fakePlugin).logError(Mockito.anyString());
+        try {
+            UltimateSpellSystem.setPlugin(fakePlugin);
+        } catch(IllegalStateException ignored) {}
     }
 
     @BeforeEach

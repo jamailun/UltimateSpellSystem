@@ -77,7 +77,9 @@ public final class FunctionCallExpression extends ExpressionNode {
         tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
 
         // Assert obtained arguments count is expected
-        if(arguments.size() != functionDefinition.arguments().size())
+        if(arguments.size() < functionDefinition.mandatoryArgumentsCount())
+            throw new SyntaxException(position, "Invalid arguments count. Expected " + functionDefinition.arguments().size() + " mandatory, got " + arguments.size());
+        if(arguments.size() > functionDefinition.arguments().size())
             throw new SyntaxException(position, "Invalid arguments count. Expected " + functionDefinition.arguments().size() + ", got " + arguments.size());
 
         // Create and return node

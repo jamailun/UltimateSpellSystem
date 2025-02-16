@@ -32,6 +32,8 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().register(new DistanceFunction(), "distance", "dist");
         JavaFunctionProvider.instance().register(new IsValidFunction(), "is_valid");
         JavaFunctionProvider.instance().register(new SetFireFunction(), "set_fire");
+        JavaFunctionProvider.instance().register(new StrikeFunction(), "strike");
+        JavaFunctionProvider.instance().register(new DamageFunction(), "damage_entity");
 
         // Others
         Scopes.register();

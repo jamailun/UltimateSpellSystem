@@ -1,0 +1,5 @@
+# No author
+damage_entity(%caster, 5);
+
+# With author
+damage_entity(%caster, 5, %caster);
