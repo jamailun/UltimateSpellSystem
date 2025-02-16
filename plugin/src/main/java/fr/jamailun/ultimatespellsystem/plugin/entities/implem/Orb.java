@@ -1,31 +1,55 @@
 package fr.jamailun.ultimatespellsystem.plugin.entities.implem;
 
 import fr.jamailun.ultimatespellsystem.api.entities.CustomEntity;
-import fr.jamailun.ultimatespellsystem.plugin.entities.SummonAttributesImpl;
+import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.ParticleHolder;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.PotionEffectHolder;
+import fr.jamailun.ultimatespellsystem.plugin.utils.holders.SoundHolder;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * A flying orb. Pass through walls.
+ */
 public class Orb extends CustomEntity {
 
+    // Configuration
     private final double radius;
     private final List<ParticleHolder> particles = new ArrayList<>();
     private final List<PotionEffectHolder> effects = new ArrayList<>();
     private boolean hasEffects = false;
-    private final boolean autoApply;
+    private final boolean applySelf;
+    private final int fireTicks;
+    private final double damages;
+    private SoundHolder hitSound;
 
+    // Runtime
+    private final Set<UUID> receivedEffects = new HashSet<>();
 
     private final static String CTX = "ORB.attributes.";
-    public Orb(SummonAttributesImpl attributes) {
+    public Orb(SummonAttributes attributes) {
         super(attributes);
 
         // Radius && auto-apply
         radius = attributes.tryGetAttribute("radius", Double.class, 0.4d);
-        autoApply = attributes.tryGetAttribute("autoApply", Boolean.class, false);
+        applySelf = attributes.tryGetAttribute("apply_self", Boolean.class, false);
+
+        // Sound (launch)
+        Map<?,?> spawnSoundMap = attributes.tryGetAttribute("sound", Map.class);
+        SoundHolder spawnSound = null;
+        if(spawnSoundMap != null)
+            spawnSound = SoundHolder.build("orb.sound", spawnSoundMap);
+
+        // Sound (hit)
+        Map<?,?> hitSoundMap = attributes.tryGetAttribute("hit_sound", Map.class);
+        if(hitSoundMap != null) {
+            hitSound = SoundHolder.build("orb.hit_sound", hitSoundMap);
+        }
+        if(hitSound == null) hitSound = SoundHolder.NONE;
 
         // Particles (MONO)
         Map<?,?> particleMap = attributes.tryGetAttribute("particle", Map.class);
@@ -64,6 +88,12 @@ public class Orb extends CustomEntity {
             }
         }
 
+        // Fire + damages
+        fireTicks = attributes.tryGetAttribute("fire", Double.class, 0d).intValue();
+        damages = attributes.tryGetAttribute("damages", Double.class, 0d);
+        if(fireTicks > 0 || damages > 0)
+            hasEffects = true;
+
         // Velocity
         double speed = attributes.tryGetAttribute("velocity", Double.class, 0d);
         if(speed != 0) {
@@ -71,6 +101,10 @@ public class Orb extends CustomEntity {
             Vector velocity = dir.normalize().multiply(speed);
             setVelocity(velocity);
         }
+
+        // Spawn effect
+        if(spawnSound != null)
+            spawnSound.apply(attributes.getLocation());
     }
 
     @Override
@@ -80,14 +114,36 @@ public class Orb extends CustomEntity {
 
         // Effects
         if(hasEffects) {
-            Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius);
-            if(!autoApply)
-                nearby.removeIf(le -> le.getUniqueId().equals(attributes.getSummoner().getUniqueId()));
-            effects.forEach(o -> o.apply(nearby));
+            Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius, le -> !receivedEffects.contains(le.getUniqueId()));
+            if(!nearby.isEmpty())
+                applyEffects(nearby);
         }
+    }
 
+    private void applyEffects(@NotNull Collection<LivingEntity> nearby) {
+        for(LivingEntity other : nearby) {
+            // Ignore owner ?
+            if(!applySelf && other.getUniqueId().equals(attributes.getSummoner().getUniqueId()))
+                continue;
+            // Register UUID, ignore entity if already exists.
+            if(!receivedEffects.add(other.getUniqueId()))
+                continue;
+
+            // Potion effects
+            effects.forEach(o -> o.apply(other));
+            // Fire + Damages
+            if(fireTicks > 0)
+                nearby.forEach(e -> e.setFireTicks(e.getFireTicks() + fireTicks));
+            if(damages > 0)
+                nearby.forEach(e -> e.damage(damages, getAttributes().getSummoner()));
+
+            // Hit effect
+            hitSound.apply(other.getLocation());
+        }
     }
 
     @Override
-    public void addPotionEffect(PotionEffect effect) {}
+    public void addPotionEffect(PotionEffect effect) {
+        // This orb cannot receive potion effect.
+    }
 }

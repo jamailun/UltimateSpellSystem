@@ -16,6 +16,17 @@ public class SoundHolder {
     private final Sound type;
     private final float volume, pitch;
 
+    /**
+     * An empty sound holder.
+     */
+    public static final SoundHolder NONE = new SoundHolder();
+
+    private SoundHolder() {
+        type = null;
+        volume = 0;
+        pitch = 1;
+    }
+
     public SoundHolder(@NotNull Sound type, float volume, float pitch) {
         this.type = type;
         this.volume = volume;
@@ -75,6 +86,8 @@ public class SoundHolder {
      * @param location the non-ull location to use.
      */
     public void apply(Location location) {
+        if(type == null)
+            return;
         location.getWorld().playSound(location, type, volume, pitch);
     }
 

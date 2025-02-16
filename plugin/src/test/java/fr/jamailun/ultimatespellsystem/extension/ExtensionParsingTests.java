@@ -22,6 +22,11 @@ public class ExtensionParsingTests extends ParsingTest {
         testFolder("various");
     }
 
+    @Test
+    void testEntityTypes() {
+        testFolder("entities");
+    }
+
     private void testFolder(@NotNull String folder) {
         for(File file : listTests(folder)) {
             try {

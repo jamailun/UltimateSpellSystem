@@ -73,4 +73,12 @@ public class PotionEffectHolder {
         entities.forEach(e -> e.addPotionEffect(builtEffect));
     }
 
+    /**
+     * Apply the potion effects to a single entity.
+     * @param entity a non-null entity.
+     */
+    public void apply(@NotNull LivingEntity entity) {
+        entity.addPotionEffect(builtEffect);
+    }
+
 }

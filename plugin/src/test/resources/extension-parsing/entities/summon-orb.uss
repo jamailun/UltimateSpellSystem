@@ -1,0 +1,3 @@
+summon Orb at %caster for 10s with: {{
+    radius: 0.1
+}};
