@@ -24,11 +24,16 @@ public final class Scopes {
     private static final List<EntityType> SPIDER_TYPES = List.of(
             EntityType.SPIDER, EntityType.CAVE_SPIDER
     );
+    private static final List<EntityType> PILLAGER_TYPES = List.of(
+            EntityType.ILLUSIONER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.EVOKER,
+            EntityType.RAVAGER, EntityType.VEX, EntityType.WITCH
+    );
 
     public static void register() {
         ScopeProvider.instance().register(e -> UNDEAD_TYPES.contains(e.getType()), "undead", "undead_monster", "undeads_monster");
         ScopeProvider.instance().register(e -> ENDER_TYPES.contains(e.getType()), "end", "end_monster");
         ScopeProvider.instance().register(e -> SPIDER_TYPES.contains(e.getType()), "spider", "spider_monster", "arthropod", "arthropod_monsters", "arthropods_monsters");
+        ScopeProvider.instance().register(e -> PILLAGER_TYPES.contains(e.getType()), "illager", "pillagers");
     }
 
 }
