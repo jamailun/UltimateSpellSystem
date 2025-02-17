@@ -1,0 +1,10 @@
+define %freq = 50ms;
+define %total = 100ms;
+define %count = %total / %freq;
+
+repeat %count times every %freq : {
+    send to %caster message "foo";
+    define %foo = (position of %caster) - (position of %caster);
+};
+    send to %caster message "foo";
+    define %foo = (position of %caster) - (position of %caster);

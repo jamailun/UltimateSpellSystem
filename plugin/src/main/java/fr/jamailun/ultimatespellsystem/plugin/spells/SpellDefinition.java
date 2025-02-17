@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.spells;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -17,19 +18,22 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * A spell definition is the common implementation for a {@link fr.jamailun.ultimatespellsystem.api.bukkit.spells.Spell}.
+ * A spell definition is the common implementation for a {@link fr.jamailun.ultimatespellsystem.api.spells.Spell}.
  */
 public class SpellDefinition extends AbstractSpell {
 
+    private final File file;
     private final List<RuntimeStatement> steps;
 
     /**
      * Create a new spell definition.
+     * @param file the source file.
      * @param name the name of the spell.
      * @param steps the steps to run.
      */
-    public SpellDefinition(@NotNull String name, @NotNull List<RuntimeStatement> steps) {
+    public SpellDefinition(@NotNull File file, @NotNull String name, @NotNull List<RuntimeStatement> steps) {
         super(name);
+        this.file = file;
         this.steps = steps;
     }
 
@@ -64,13 +68,26 @@ public class SpellDefinition extends AbstractSpell {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
             DslValidator.validateDsl(dsl);
             List<RuntimeStatement> steps = SpellBuilderVisitor.build(dsl);
-            return new SpellDefinition(name, steps);
+            return new SpellDefinition(file, name, steps);
         } catch(Exception e) {
             UltimateSpellSystem.logError("In "+file+" : " + e.getMessage());
             for(StackTraceElement se : e.getStackTrace()) {
                 UltimateSpellSystem.logDebug("  §c" + se.toString());
             }
             return null;
+        }
+    }
+
+    public static @NotNull String debugFile(@NotNull File file) {
+        if(!file.exists())
+            return "file["+file+"] doesn't exist.";
+        try {
+            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
+            DslValidator.validateDsl(dsl);
+            return PrintingVisitor.toString(dsl);
+        } catch(Exception e) {
+            UltimateSpellSystem.logError("In "+file+" : " + e.getMessage());
+            return "";
         }
     }
 
@@ -92,5 +109,10 @@ public class SpellDefinition extends AbstractSpell {
         boolean success = runtime.getFinalExitCode() == 0;
         UltimateSpellSystem.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
         return success;
+    }
+
+    @Override
+    public @NotNull String getDebugString() {
+        return debugFile(file);
     }
 }

@@ -48,4 +48,9 @@ public class PositionOfExpression extends ExpressionNode {
         ExpressionNode entityNode = ExpressionNode.readNextExpression(tokens);
         return new PositionOfExpression(pos, entityNode);
     }
+
+    @Override
+    public String toString() {
+        return "position_of(" + entityNode + ")";
+    }
 }

@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class IfElseStatement extends BlockHolder {
     @Getter private final ExpressionNode condition;
     private final StatementNode optElse;
 
-    public IfElseStatement(ExpressionNode condition, StatementNode child, StatementNode elseStatement) {
+    public IfElseStatement(@NotNull ExpressionNode condition, @NotNull StatementNode child, @Nullable StatementNode elseStatement) {
         super(child);
         this.condition = condition;
         this.optElse = elseStatement;
@@ -28,6 +29,9 @@ public class IfElseStatement extends BlockHolder {
     @Override
     public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(condition, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.BOOLEAN);
+        child.validateTypes(context.childContext());
+        if(optElse != null)
+            optElse.validateTypes(context);
     }
 
     public Optional<StatementNode> getElse() {

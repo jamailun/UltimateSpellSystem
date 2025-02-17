@@ -27,7 +27,7 @@ public interface Spell {
     boolean cast(@NotNull Player player);
 
     /**
-     * Test if this spell has been enabled, i.e. is castable.
+     * Test if this spell has been enabled, i.e. is <i>castable</i>.
      * @return true if the spell can be cast.
      */
     boolean isEnabled();
@@ -43,5 +43,7 @@ public interface Spell {
      * @return a non-null string, unique for the registry.
      */
     @NotNull String getName();
+
+    @NotNull String getDebugString();
 
 }

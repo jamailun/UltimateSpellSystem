@@ -19,20 +19,19 @@ public class SubOperator extends BiOperator {
         return BiOpeType.SUB;
     }
 
-    private final static List<TypePrimitive> ALLOWED = List.of(TypePrimitive.NUMBER, TypePrimitive.DURATION);
+    private final static List<TypePrimitive> ALLOWED = List.of(TypePrimitive.NUMBER, TypePrimitive.DURATION, TypePrimitive.LOCATION);
 
     @Override
-    public void validateTypes(Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
         // No collections !
         if(leftType.isCollection() || rightType.isCollection()) {
             throw new TypeException(this, "A NEGATION cannot handle collections.");
         }
 
         if(!ALLOWED.contains(leftType.primitive()))
-            throw new TypeException(this, "SUB cannot handle " + leftType);
+            throw new TypeException(this, "SUB cannot handle L=" + leftType);
         if(!ALLOWED.contains(rightType.primitive()))
-            throw new TypeException(this, "SUB cannot handle " + rightType);
-
+            throw new TypeException(this, "SUB cannot handle R=" + rightType);
 
         // Otherwise same type : always compatible
         if(leftType.primitive() == rightType.primitive()) {

@@ -73,6 +73,11 @@ public class SpellBuilderVisitor implements StatementVisitor {
     public void handleDefine(@NotNull DefineStatement statement) {
         String varName = statement.getVarName();
         RuntimeExpression value = convert(statement.getExpression());
+        if(statement.getExpression().getExpressionType() == null) {
+            System.err.println("handle.define > " + value);
+            System.err.println("handle.define >> " + statement.getExpression() + " || " + statement.getExpression().getClass());
+            System.err.println("handle.define >> " + statement.getExpression().getExpressionType());
+        }
         add(new DefineNode(varName, value, statement.getExpression().getExpressionType()));
     }
 

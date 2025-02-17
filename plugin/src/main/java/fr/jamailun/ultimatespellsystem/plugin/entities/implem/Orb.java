@@ -2,9 +2,11 @@ package fr.jamailun.ultimatespellsystem.plugin.entities.implem;
 
 import fr.jamailun.ultimatespellsystem.api.entities.CustomEntity;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.ParticleHolder;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.PotionEffectHolder;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.SoundHolder;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
@@ -97,7 +99,12 @@ public class Orb extends CustomEntity {
         // Velocity
         double speed = attributes.tryGetAttribute("velocity", Double.class, 0d);
         if(speed != 0) {
-            Vector dir = attributes.getSummoner().getLocation().getDirection().clone();
+            Vector dir;
+            if(attributes.hasAttribute("direction")) {
+                dir = extractDirection(attributes.getAttribute("direction"));
+            } else {
+                dir = attributes.getSummoner().getLocation().getDirection().clone();
+            }
             Vector velocity = dir.normalize().multiply(speed);
             setVelocity(velocity);
         }
@@ -145,5 +152,33 @@ public class Orb extends CustomEntity {
     @Override
     public void addPotionEffect(PotionEffect effect) {
         // This orb cannot receive potion effect.
+    }
+
+    private static Vector extractDirection(Object raw) {
+        if(raw instanceof Location loc) {
+            return loc.toVector();
+        }
+
+        if(raw instanceof Vector vec) {
+            return vec.clone();
+        }
+
+        if(raw instanceof List<?> list) {
+            double dx = 0, dy = 0, dz = 0;
+            int i = 0;
+            for(; i < Math.min(3, list.size()); i++) {
+                if(!(list.get(i) instanceof Number num))
+                    throw new InvalidTypeException("orb.attributes.direction", "direction.list["+i+"]", list.get(i));
+                if(i == 0) dx = num.doubleValue();
+                if(i == 1) dy = num.doubleValue();
+                if(i == 2) dz = num.doubleValue();
+            }
+            if(i < 1) dx = 0;
+            if(i < 2) dy = dx;
+            if(i < 3) dz = dy;
+            return new Vector(dx, dy, dz);
+        }
+
+        throw new InvalidTypeException("orb.attributes.direction", "direction(location/vector/list)", raw);
     }
 }

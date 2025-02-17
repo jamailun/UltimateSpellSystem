@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * @param primitive the kind of type.
  * @param isCollection if true, this is a collection of primitives.
  */
-public record Type(TypePrimitive primitive, boolean isCollection) {
+public record Type(@NotNull TypePrimitive primitive, boolean isCollection) {
 
     /**
      * Check if this type is of a primitive.

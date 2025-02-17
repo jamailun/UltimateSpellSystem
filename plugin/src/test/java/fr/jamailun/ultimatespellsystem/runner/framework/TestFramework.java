@@ -6,6 +6,8 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.UssMain;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +19,7 @@ import java.util.List;
 public abstract class TestFramework {
 
     protected Player caster;
+    protected World world;
 
     @BeforeAll
     static void initAll() {
@@ -32,7 +35,14 @@ public abstract class TestFramework {
 
     @BeforeEach
     void initMockBukkit() {
+        world = Mockito.mock(World.class);
+
         caster = Mockito.mock(Player.class);
+        Mockito.when(caster.getLocation()).thenReturn(new Location(world, 12, 12, 12));
+        Mockito.when(caster.getWorld()).thenReturn(world);
+        Mockito.when(caster.getEyeHeight()).thenReturn(1d);
+        Mockito.when(caster.getEyeLocation()).thenReturn(new Location(world, 12, 13, 12));
+        Mockito.when(caster.getWalkSpeed()).thenReturn(1f);
     }
 
     protected boolean cast(@NotNull RuntimeStatement... statements) {

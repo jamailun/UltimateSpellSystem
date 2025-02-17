@@ -15,7 +15,7 @@ public class RunLaterStatement extends BlockHolder {
 
     private final ExpressionNode duration;
 
-    public RunLaterStatement(StatementNode child, ExpressionNode duration) {
+    public RunLaterStatement(@NotNull StatementNode child, @NotNull ExpressionNode duration) {
         super(child);
         this.duration = duration;
     }
@@ -23,9 +23,10 @@ public class RunLaterStatement extends BlockHolder {
     @Override
     public void validateTypes(@NotNull TypesContext context) {
         assertExpressionType(duration, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
+        child.validateTypes(context.childContext());
     }
 
-    public ExpressionNode getDuration() {
+    public @NotNull ExpressionNode getDuration() {
         return duration;
     }
 

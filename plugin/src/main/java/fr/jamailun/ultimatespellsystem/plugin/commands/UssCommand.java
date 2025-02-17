@@ -21,7 +21,7 @@ public class UssCommand extends AbstractCommand {
         super("uss");
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge");
+    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
     private final static List<String> args_boolean = List.of("true", "false");
 
@@ -106,6 +106,11 @@ public class UssCommand extends AbstractCommand {
         if("enable".equals(arg0)) {
             spell.setEnabled(true);
             return success(sender, "Successfully enabled " + id + ".");
+        }
+        if("debug".equals(arg0)) {
+            String debug = spell.getDebugString();
+            UltimateSpellSystem.logInfo("Debug spell [" + spell.getName() + "] : " + debug);
+            return info(sender, "SPELL["+spell.getName()+"]=" + debug);
         }
 
         if("bind".equals(arg0)) {

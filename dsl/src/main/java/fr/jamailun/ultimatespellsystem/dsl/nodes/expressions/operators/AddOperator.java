@@ -18,7 +18,7 @@ public class AddOperator extends BiOperator {
     }
 
     @Override
-    public void validateTypes(@NotNull Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
         // 1) One of them is a String : always compatible
         if(leftType.is(TypePrimitive.STRING) || rightType.is(TypePrimitive.STRING)) {
             producedType = TypePrimitive.STRING.asType();

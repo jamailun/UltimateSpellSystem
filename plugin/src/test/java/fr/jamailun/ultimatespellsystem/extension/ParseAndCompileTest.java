@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
+import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -7,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
 import fr.jamailun.ultimatespellsystem.runner.framework.TestFramework;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +20,7 @@ import java.util.stream.Stream;
 /**
  * Test framework for parsing tests.
  */
-abstract class ParsingTest extends TestFramework {
+abstract class ParseAndCompileTest extends TestFramework {
 
     protected final File PARSINGS_FILE = new File("src/test/resources/extension-parsing");
 
@@ -50,7 +52,7 @@ abstract class ParsingTest extends TestFramework {
         failures.put(test, error);
     }
 
-    protected void parseAndVerify(@NotNull File file) throws UssException {
+    protected List<RuntimeStatement> parseAndVerify(@NotNull File file) throws UssException {
         System.out.println("\n\n ================[ " + file.getName() + "]================\n");
         // Tokenize
         TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));
@@ -67,6 +69,7 @@ abstract class ParsingTest extends TestFramework {
             node.validateTypes(context);
             System.out.println("> " + node);
         }
+        return SpellBuilderVisitor.build(nodes);
     }
 
     public static final String RESET = "\033[0m";  // Text Reset

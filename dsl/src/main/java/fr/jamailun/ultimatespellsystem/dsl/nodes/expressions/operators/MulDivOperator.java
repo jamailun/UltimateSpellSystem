@@ -26,7 +26,7 @@ public class MulDivOperator extends BiOperator {
     }
 
     @Override
-    public void validateTypes(Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
         // 1) Do not allow collections
         if(leftType.isCollection() || rightType.isCollection()) {
             throw new TypeException(this, "A "+type+" cannot handle collections.");

@@ -1,0 +1,4 @@
+# Substract positions
+define %foo = (position of %caster) - (position of %caster);
+# type is ok ?
+send to %caster message "a = %foo"

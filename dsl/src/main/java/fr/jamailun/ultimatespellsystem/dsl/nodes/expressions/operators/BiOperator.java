@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class BiOperator extends Operator {
 
-    protected Type producedType;
+    protected Type producedType = TypePrimitive.NULL.asType();
 
     protected final ExpressionNode left;
     protected final ExpressionNode right;
@@ -42,7 +43,7 @@ public abstract class BiOperator extends Operator {
         validateTypes(leftType, rightType);
     }
 
-    protected abstract void validateTypes(Type leftType, Type rightType);
+    protected abstract void validateTypes(@NotNull Type leftType, @NotNull Type rightType);
 
     @Override
     public void visit(@NotNull ExpressionVisitor visitor) {
@@ -63,11 +64,11 @@ public abstract class BiOperator extends Operator {
         };
     }
 
-    public ExpressionNode getLeft() {
+    public @NotNull ExpressionNode getLeft() {
         return left;
     }
 
-    public ExpressionNode getRight() {
+    public @NotNull ExpressionNode getRight() {
         return right;
     }
 

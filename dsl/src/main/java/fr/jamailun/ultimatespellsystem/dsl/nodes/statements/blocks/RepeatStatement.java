@@ -33,6 +33,8 @@ public class RepeatStatement extends BlockHolder {
             assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         assertExpressionType(count, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
         assertExpressionType(period, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
+
+        child.validateTypes(context.childContext());
     }
 
     public Optional<ExpressionNode> getDelay() {

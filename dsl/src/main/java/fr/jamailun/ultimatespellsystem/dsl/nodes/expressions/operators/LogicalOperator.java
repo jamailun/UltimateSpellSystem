@@ -27,7 +27,7 @@ public class LogicalOperator extends BiOperator {
     }
 
     @Override
-    public void validateTypes(@NotNull Type leftType, Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
         // Do not allow collections
         if(leftType.isCollection() || rightType.isCollection()) {
             throw new TypeException(this, "A " + type + " cannot handle collections.");

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>UltimateSpellSystem-api</artifactId>
-    <version>${parent.version}</version>
+    <version>${project.parent.version}</version>
 
     <parent>
         <groupId>fr.jamailun.paper</groupId>
@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>${version}</version>
+            <version>${project.parent.version}</version>
             <artifactId>UltimateSpellSystem-dsl</artifactId>
             <scope>compile</scope>
         </dependency>

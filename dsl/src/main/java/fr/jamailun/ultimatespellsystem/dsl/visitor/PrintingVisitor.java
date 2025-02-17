@@ -270,7 +270,8 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     @Override
     public void handleForLoop(@NotNull ForLoopStatement statement) {
-        builder.append("FOR(");
+        builder.append(indent())
+            .append("FOR(");
         statement.getInitialization().visit(this);
         statement.getCondition().visit(this);
         builder.append(";");
@@ -281,7 +282,8 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     @Override
     public void handleForeachLoop(@NotNull ForeachLoopStatement statement) {
-        builder.append("FOREACH(%")
+        builder.append(indent())
+                .append("FOREACH(%")
                 .append(statement.getVariableName())
                 .append(" : ");
         statement.getSource().visit(this);

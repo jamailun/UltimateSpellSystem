@@ -26,7 +26,6 @@ public class ConditionWrapperNodeExpression extends ExpressionNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        System.out.println("Validating " + child);
         assertExpressionType(child, context, TypePrimitive.BOOLEAN);
     }
 
