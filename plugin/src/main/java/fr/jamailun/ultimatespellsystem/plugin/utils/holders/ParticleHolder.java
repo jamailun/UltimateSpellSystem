@@ -62,6 +62,16 @@ public class ParticleHolder {
             speed = ds;
         }
 
+        // Radius
+        if(values.containsKey("radius")) {
+            Object raw = values.get("radius");
+            if(!(raw instanceof Double ds)) {
+                UltimateSpellSystem.logError("(" + context + ") Invalid particle radius : '" + raw + "'.");
+                return null;
+            }
+            radius = ds;
+        }
+
         // Count
         int count = 1;
         if(values.containsKey("count")) {
