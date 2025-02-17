@@ -28,6 +28,7 @@ public class Orb extends CustomEntity {
     private final int fireTicks;
     private final double damages;
     private SoundHolder hitSound;
+    private final int maxCollisionsEntity;
 
     // Runtime
     private final Set<UUID> receivedEffects = new HashSet<>();
@@ -95,6 +96,7 @@ public class Orb extends CustomEntity {
         damages = attributes.tryGetAttribute("damages", Double.class, 0d);
         if(fireTicks > 0 || damages > 0)
             hasEffects = true;
+        maxCollisionsEntity = attributes.tryGetAttribute("max_collisions", Double.class, 0d).intValue();
 
         // Velocity
         double speed = attributes.tryGetAttribute("velocity", Double.class, 0d);
@@ -122,8 +124,12 @@ public class Orb extends CustomEntity {
         // Effects
         if(hasEffects) {
             Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius, le -> !receivedEffects.contains(le.getUniqueId()));
-            if(!nearby.isEmpty())
+            if(!nearby.isEmpty()) {
                 applyEffects(nearby);
+                if(maxCollisionsEntity > 0 && receivedEffects.size() >= maxCollisionsEntity) {
+                    remove();
+                }
+            }
         }
     }
 
