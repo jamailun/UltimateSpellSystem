@@ -1,0 +1,34 @@
+# Large demi-sphere of light, setting undeads to fire and buffing humans.
+
+# -- config
+define %duration_num = 80;
+define %radius = 10;
+define %effect_dur = 2 seconds;
+
+# -- computed
+define %center = position of %caster;
+define %l1 = %radius;
+define %l2 = %radius * 0.66;
+define %l3 = %radius * 0.33;
+
+# -- Spell
+repeat %duration_num times every 750 ms: {
+  # Particle
+  play PARTICLE at %center with: {{ type: FLAME, shape: {{type: half_sphere, radius: %l1, delta: 0.21}} }};
+  play PARTICLE at %center with: {{ type: FLAME, shape: {{type: circle, radius: %l2, delta: 0.13}} }};
+  play PARTICLE at %center with: {{ type: FLAME, shape: {{type: circle, radius: %l3, delta: 0.16}} }};
+
+  # Targets
+  define %monsters = all undeads within %radius around %center;
+  define %everything = all livings within %radius around %center;
+  define %players = all players within %radius around %center;
+
+  # Effects
+  send to %monsters effect SLOW for %effect_dur;
+  send to %monsters effect WEAKNESS for %effect_dur;
+  send to %monsters effect GLOWING for 20 secs;
+  send to %everything effect REGENERATION 2 for %effect_dur;
+  send to %players effect FIRE_RESISTANCE for 20 secs;
+  send to %players effect strength for 2 secs;
+  foreach(%un : %monsters) set_fire(%un, 80);
+}

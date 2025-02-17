@@ -1,0 +1,31 @@
+# Summon a zombie at the looked-location.
+# - Cannot be too far away,
+# - Zombie will not attack other summons nor the caster, but will attack any other living form.
+
+define %pos = raycast(%caster, %caster, 7);
+if(%pos == null) {
+  send to %caster message "&cToo far away !";
+  stop 1;
+}
+
+summon ZOMBIE at %pos for 2 minutes with: {{
+  # General
+  health: 15,
+  attack: 5,
+  name: "&c"Nice" zombie &e(%caster)",
+
+  # Aggro
+  aggro_scope: living,
+  aggro_range: 10,
+  aggro_summons: false,
+
+  # Equipment
+  hand: {{
+    type: IRON_SWORD,
+    lore: [["I cannot be dropped !"]],
+    droppable: false
+  }},
+  helmet: {{
+    type: skeleton_skull
+  }}
+}};

@@ -1,0 +1,33 @@
+# Launch the player in the airs, and strike all undeads around, damaging them and setting them to fire.
+
+# -- config
+define %wait_dur = 3 seconds;
+define %effect_delay = 2500 ms;
+define %radius = 20;
+define %damages = 25;
+
+# -- spell
+
+# No enemy around ? Cancel.
+define %monsters = all undeads within %radius around %caster;
+if(sizeof(%monsters) == 0) {
+  send to %caster message "&4Aucun mort-vivant aux alentours.";
+  stop 1;
+}
+
+# Player FOV + flight + resistance
+send to %caster effect SPEED 5 for %wait_dur;
+send to %caster effect LEVITATION for %wait_dur;
+send to %caster effect RESISTANCE 3 for %wait_dur;
+
+# Effect
+run after %effect_delay: {
+  send to %caster message "&9The divine punishment stroke &a" + sizeof(%monsters) + "&9 undeads.";
+
+  # summon lightning
+  foreach(%un : %monsters) {
+    strike(%un);
+    damage_entity(%un, %damages, %caster);
+    set_fire(%un, 80);
+  }
+}

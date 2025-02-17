@@ -1,0 +1,32 @@
+# If the player is safe, teleport him after a small delay.
+
+# -- config
+define %delay = 2 seconds;
+define %output = @("world", 100.5, 69, -200.5);
+
+# If monsters around, cancel
+if(sizeof(all monsters within 5 around %caster) != 0) {
+  send to %caster message "&4Téléportation impossible: &cDes monstres sont trop proches de toi.";
+  stop;
+}
+
+# Intro
+send to %caster message "&bTéléportation vers le &2Spawn&b...";
+play sound at %caster with: {{
+  type: BLOCK_BEACON_ACTIVATE,
+  pitch: 0.8
+}};
+
+
+# Effect
+send to %caster effect slowness 10 for %delay;
+send to %caster effect resistance 10 for %delay;
+
+# Teleport after 5 seconds
+run after %delay: {
+  teleport %caster to %output;
+  play sound at %caster with: {{
+    type: ITEM_CHORUS_FRUIT_TELEPORT
+  }};
+  send to %caster effect NAUSEA for 5 seconds;
+}

@@ -1,0 +1,70 @@
+# For a specified duration, every 2 seconds send a small non-piercing laser all monsters around.
+# The laser damage and slows.
+# The caster will be debuffed for a duration, and a circle of light surrounds him for the duration of the spell.
+
+# -- config
+define %height = 2.2;
+define %duration = 10s;
+define %freq = 2s;
+define %range = 12;
+define %effect_k = 15;
+
+# -- spell
+define %count = %duration / %freq;
+define %spawn = (position of %caster) + [[0, %height, 0]];
+
+# Meanwhile : circle around player
+repeat (%count * %effect_k) times every (%freq / %effect_k): {
+  play particle at ((position of %caster)+[[0,0.5,0]]) with: {{
+    type: "ELECTRIC_SPARK",
+    radius: 0.02,
+    shape: {{
+      type: "circle",
+      radius: 0.8
+    }}
+  }};
+};
+
+# fatigue
+send to %caster effect FATIGUE 2 for 15s;
+
+# Repeat N times
+repeat %count times every %freq: {
+  # Summon orb to enemy
+  define %enemies = all monsters within %range around %caster;
+  foreach(%enemy : %enemies) {
+    define %dir = (position of %enemy) - (position of %caster);
+    # direction for each
+    summon orb at %caster as %o for 1s with: {{
+      radius: 0.2,
+      damages: 5,
+      fire: 50,
+      particle: {{
+        type: "ELECTRIC_SPARK",
+        speed: 0,
+        radius: 0,
+        count: 1
+      }},
+      effect: {{
+        type: "SLOWNESS",
+        duration: 5s,
+        power: 3
+      }},
+      velocity: 10,
+      direction: %dir,
+      max_collisions: 1,
+      _clock: 2
+    }};
+  }
+  if(sizeof(%enemies) > 0) {
+    play sound at %caster with: {{
+      type: "PARTICLE_SOUL_ESCAPE", pitch: 1.5, volume: 2
+    }};
+  } else {
+    play sound at %caster with: {{
+      type: "BLOCK_DISPENSER_FAIL",
+      volume: 0.7,
+      pitch: 1.5
+    }};
+  }
+}

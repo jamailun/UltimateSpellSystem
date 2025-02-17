@@ -1,0 +1,29 @@
+# Summon a zombie at the looked-location.
+# - Cannot be too far away,
+# - Zombie will not attack anything, even its creator !
+
+define  %looked_pos = raycast(%caster, %caster, 7);
+if( %looked_pos == null) {
+  send to %caster message "&cToo far away !";
+  stop 1;
+}
+
+summon ZOMBIE at  %looked_pos for 2 minutes with: {{
+  # General
+  health: 30,
+  attack: 8,
+  name: "&cRogue zombie &e(%caster)",
+
+  # Aggro
+  aggro_scope: living,
+  aggro_range: 15,
+  can_aggro_summons: true,
+  can_aggro_caster: true,
+
+  # Equipment
+  hand: {{ type: GOLDEN_SWORD }},
+  helmet: {{ type: skeleton_skull }},
+  chest: {{ type: LEATHER_CHESTPLATE }},
+  legs: {{ type: LEATHER_LEGGINGS }},
+  feet: {{ type: IRON_BOOTS }},
+}};

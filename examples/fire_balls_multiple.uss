@@ -1,0 +1,6 @@
+# Cast 'fire_ball' multiple times !
+
+repeat 5 times every 2500 ms: {
+    cast(%caster, "fire_ball");
+    send to %caster message "&cFire !";
+}
