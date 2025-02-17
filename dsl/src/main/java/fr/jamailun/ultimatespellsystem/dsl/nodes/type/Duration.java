@@ -51,6 +51,21 @@ public record Duration(double amount, TimeUnit timeUnit) {
         return new Duration(Math.max(0, toSeconds() - other.toSeconds()), TimeUnit.SECONDS);
     }
 
+    @Contract("_ -> new")
+    public @NotNull Duration mul(double lambda) {
+        return new Duration(toSeconds() * lambda, TimeUnit.SECONDS);
+    }
+
+    @Contract("_ -> new")
+    public @NotNull Duration div(double lambda) {
+        return new Duration(toSeconds() / lambda, TimeUnit.SECONDS);
+    }
+
+    public double div(@NotNull Duration duration) {
+        return toSeconds() / duration.toSeconds();
+    }
+
+
     /**
      * Convert the duration to a raw milliseconds-count.
      * @return an amount of milliseconds.

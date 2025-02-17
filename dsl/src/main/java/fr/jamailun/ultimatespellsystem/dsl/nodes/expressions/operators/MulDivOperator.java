@@ -32,7 +32,13 @@ public class MulDivOperator extends BiOperator {
             throw new TypeException(this, "A "+type+" cannot handle collections.");
         }
 
-        // 2) Only allow number on the right.
+        // 2.a) Allow duration/duration
+        if(leftType.is(TypePrimitive.DURATION) && rightType.is(TypePrimitive.DURATION)) {
+            producedType = TypePrimitive.NUMBER.asType();
+            return;
+        }
+
+        // 2.b) Only allow number on the right.
         if(! rightType.is(TypePrimitive.NUMBER)) {
             throw new TypeException(this, "Right expression is of type " + rightType + " : must be a number for "+type+" operand.");
         }
