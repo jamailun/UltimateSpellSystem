@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,8 +18,11 @@ import java.util.stream.Stream;
 
 public class UssCommand extends AbstractCommand {
 
-    public UssCommand() {
+    private final JavaPlugin plugin;
+
+    public UssCommand(@NotNull JavaPlugin plugin) {
         super("uss");
+        this.plugin = plugin;
     }
 
     private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
@@ -45,6 +49,7 @@ public class UssCommand extends AbstractCommand {
         if("purge".equals(arg0)) {
             UltimateSpellSystem.getAnimationsManager().purge();
             int summons = UltimateSpellSystem.getSummonsManager().purgeAll();
+            Bukkit.getScheduler().cancelTasks(plugin);
             return success(sender, "Purged summons : §e" + summons + "§f.");
         }
 

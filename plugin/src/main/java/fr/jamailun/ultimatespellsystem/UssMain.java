@@ -63,7 +63,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         animationsManager.start();
 
         // Commands
-        new UssCommand();
+        new UssCommand(this);
 
         // Listeners
         Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
