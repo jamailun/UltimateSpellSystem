@@ -69,7 +69,7 @@ public final class ItemReader {
      */
     public @NotNull ItemStack readFromMap(@NotNull Material material, int amount, @NotNull Map<String, Object> data, @NotNull SpellRuntime runtime) {
         int damage = read(data, "damage", Integer.class, 0);
-        String name = read(data, "type", String.class, null);
+        String name = read(data, "name", String.class, null);
         List<?> lore = read(data, "lore", List.class, null);
         boolean unbreakable = read(data, "unbreakable", Boolean.class, false);
 
