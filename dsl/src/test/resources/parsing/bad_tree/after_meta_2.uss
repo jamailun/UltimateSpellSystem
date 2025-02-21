@@ -1,0 +1,5 @@
+@meta_flag
+{
+  send to %caster message "foo";
+}
+@meta_flag

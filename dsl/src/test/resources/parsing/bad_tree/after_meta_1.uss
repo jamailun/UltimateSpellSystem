@@ -1,0 +1,5 @@
+@meta_flag
+if(1==1){
+  @meta_flag
+  send to %caster message "foo";
+}

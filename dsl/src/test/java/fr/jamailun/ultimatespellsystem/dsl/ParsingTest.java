@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
@@ -65,6 +66,7 @@ abstract class ParsingTest {
             node.validateTypes(context);
             System.out.println("> " + node);
         }
+        DslValidator.validateTree(nodes);
     }
 
     public static final String RESET = "\033[0m";  // Text Reset
