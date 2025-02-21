@@ -236,18 +236,18 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append("}");
     }
 
-    /*@Override
-    public void functionCall(@NotNull FunctionCallStatement statement) {
-        builder.append("CALL ")
-                .append(statement.getFunctionId())
-                .append(" (");
+    @Override
+    public void handleMetadata(@NotNull MetadataStatement statement) {
+        builder.append(indent()).append("@").append(statement.getName());
+        boolean big = statement.getParams().size() > 1;
+        if(big) builder.append("(");
         boolean first = true;
-        for(ExpressionNode arg : statement.getArguments()) {
+        for(ExpressionNode node : statement.getParams()) {
             if(first) first = false; else builder.append(", ");
-            arg.visit(this);
+            node.visit(this);
         }
-        builder.append(")");
-    }*/
+        if(big) builder.append(")");
+    }
 
     @Override
     public void handleIf(@NotNull IfElseStatement statement) {

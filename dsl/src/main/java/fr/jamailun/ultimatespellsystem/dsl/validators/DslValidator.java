@@ -12,15 +12,34 @@ import java.util.List;
 public final class DslValidator {
     private DslValidator() {}
 
+    /**
+     * Validate an AST.
+     * @param nodes the AST to validate.
+     */
     public static void validateDsl(@NotNull List<StatementNode> nodes) {
         validateType(nodes);
-        //XXX more validations
+        validateTree(nodes);
     }
 
+    /**
+     * Validate and propagate types.
+     * @param nodes the nodes to handle.
+     */
     public static void validateType(@NotNull List<StatementNode> nodes) {
         TypesContext context = new TypesContext();
         for (StatementNode node : nodes) {
             node.validateTypes(context);
+        }
+    }
+
+    /**
+     * Validate the tree structure.
+     * @param nodes the nodes to handle.
+     */
+    public static void validateTree(@NotNull List<StatementNode> nodes) {
+        StructureValidationVisitor visitor = new StructureValidationVisitor();
+        for(StatementNode node : nodes) {
+            node.visit(visitor);
         }
     }
 }

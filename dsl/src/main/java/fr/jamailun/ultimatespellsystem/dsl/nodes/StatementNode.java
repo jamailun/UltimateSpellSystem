@@ -31,6 +31,9 @@ public abstract class StatementNode extends Node {
             // Empty statement
             case SEMI_COLON -> parseNextStatement(tokens);
 
+            // Metadata
+            case CHAR_AT -> MetadataStatement.parseMetadata(tokens);
+
             // Blocks
             case BRACES_OPEN -> BlockStatement.parseNextBlock(tokens);
             case RUN -> RunLaterStatement.parseRunLater(tokens);

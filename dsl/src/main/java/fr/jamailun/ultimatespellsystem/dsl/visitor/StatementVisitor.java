@@ -22,8 +22,7 @@ public interface StatementVisitor {
     void handlePlay(@NotNull PlayStatement statement);
     void handleGive(@NotNull GiveStatement statement);
     void handleSimpleExpression(@NotNull SimpleExpressionStatement statement);
-
-    //void functionCall(@NotNull FunctionCallStatement statement);
+    void handleMetadata(@NotNull MetadataStatement statement);
 
     void handleIf(@NotNull IfElseStatement statement);
     void handleForLoop(@NotNull ForLoopStatement statement);
