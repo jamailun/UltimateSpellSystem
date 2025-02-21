@@ -18,11 +18,10 @@ import java.util.stream.Collectors;
 /**
  * Implementation of Spell Runtime.
  */
-public final class SpellRuntimeImpl implements SpellRuntime {
+@Getter
+public final class SpellRuntimeImpl extends AbstractSpellRuntime {
 
-    private final VariablesSet variables = new VariablesSetImpl();
-    @Getter private final LivingEntity caster;
-    private Integer exitCode;
+    private final LivingEntity caster;
 
     /**
      * Create a new context.
@@ -40,62 +39,8 @@ public final class SpellRuntimeImpl implements SpellRuntime {
     }
 
     @Override
-    public boolean isStopped() {
-        return exitCode != null;
-    }
-
-    @Override
-    public @NotNull VariablesSet variables() {
-        return variables;
-    }
-
-    @Override
-    public <T> T safeEvaluate(RuntimeExpression expression, Class<T> clazz) {
-        if(expression == null)
-            return null;
-        Object value = expression.evaluate(this);
-        if(value instanceof List<?> list && list.size() == 1) {
-            return clazz.cast(list.get(0));
-        }
-        return clazz.cast(value);
-    }
-
-    @Override
-    public <T> List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz) {
-        if(expression == null)
-            return null;
-        Object value = expression.evaluate(this);
-        if(value instanceof Collection<?> c) {
-            return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
-        }
-        return null;
-    }
-
-    @Override
-    public <T> List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz) {
-        if(expression == null)
-            return Collections.emptyList();
-        Object value = expression.evaluate(this);
-        if(value instanceof Collection<?> c) {
-            return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
-        }
-        T singleton = clazz.cast(value);
-        return Collections.singletonList(singleton);
-    }
-
-    @Override
-    public void stop(int exitCode) {
-        this.exitCode = exitCode;
-    }
-
-    @Override
     public @NotNull SpellRuntime makeChild() {
         return new SpellRuntimeImpl(caster, variables, exitCode);
-    }
-
-    @Override
-    public int getFinalExitCode() {
-        return exitCode == null ? 0 : exitCode;
     }
 
 }

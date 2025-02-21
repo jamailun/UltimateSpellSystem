@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractSpell implements Spell {
 
-    private final String name;
+    protected String name;
     private boolean enabled = true;
 
     public AbstractSpell(@NotNull String name) {

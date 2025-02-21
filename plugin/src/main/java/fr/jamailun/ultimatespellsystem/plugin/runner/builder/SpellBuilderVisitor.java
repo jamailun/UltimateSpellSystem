@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.DefineNode;
@@ -73,11 +74,6 @@ public class SpellBuilderVisitor implements StatementVisitor {
     public void handleDefine(@NotNull DefineStatement statement) {
         String varName = statement.getVarName();
         RuntimeExpression value = convert(statement.getExpression());
-        if(statement.getExpression().getExpressionType() == null) {
-            System.err.println("handle.define > " + value);
-            System.err.println("handle.define >> " + statement.getExpression() + " || " + statement.getExpression().getClass());
-            System.err.println("handle.define >> " + statement.getExpression().getExpressionType());
-        }
         add(new DefineNode(varName, value, statement.getExpression().getExpressionType()));
     }
 
@@ -162,16 +158,14 @@ public class SpellBuilderVisitor implements StatementVisitor {
         add(new ExpressionWrapperNode(child));
     }
 
-    /*@Override
-    public void functionCall(@NotNull FunctionCallStatement statement) {
-        String functionId = statement.getFunctionId();
-        //XXX Improve that !
-        List<RuntimeExpression> list = statement.getArguments()
-                .stream()
+    @Override
+    public void handleMetadata(@NotNull MetadataStatement statement) {
+        String name = statement.getName();
+        List<RuntimeExpression> params = statement.getParams().stream()
                 .map(this::convert)
                 .toList();
-        add(new FunctionCallNode(functionId, list));
-    }*/
+        add(new MetadataNode(name, params));
+    }
 
     @Override
     public void handleIf(@NotNull IfElseStatement statement) {

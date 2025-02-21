@@ -3,19 +3,20 @@ package fr.jamailun.ultimatespellsystem.plugin.spells;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * A spell definition is the common implementation for a {@link fr.jamailun.ultimatespellsystem.api.spells.Spell}.
@@ -23,7 +24,8 @@ import java.util.UUID;
 public class SpellDefinition extends AbstractSpell {
 
     private final File file;
-    private final List<RuntimeStatement> steps;
+    private final List<RuntimeStatement> steps = new ArrayList<>();
+    private final MultivaluedMap<String, MetadataNode> metadata = new MultivaluedMap<>();
 
     /**
      * Create a new spell definition.
@@ -34,7 +36,18 @@ public class SpellDefinition extends AbstractSpell {
     public SpellDefinition(@NotNull File file, @NotNull String name, @NotNull List<RuntimeStatement> steps) {
         super(name);
         this.file = file;
-        this.steps = steps;
+        // Metadata are already sorted (thanks to AST validation)
+        for(RuntimeStatement statement : steps) {
+            if(statement instanceof MetadataNode meta) {
+                metadata.put(meta.getName(), meta);
+            } else {
+                this.steps.add(statement);
+            }
+        }
+        // meta reading
+        if(metadata.containsKey("name")) {
+            super.name = metadata.getFirst("name").getFirst(String.class);
+        }
     }
 
     /**
