@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.spells;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.spells.SpellMetadata;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
@@ -127,5 +128,10 @@ public class SpellDefinition extends AbstractSpell {
     @Override
     public @NotNull String getDebugString() {
         return debugFile(file);
+    }
+
+    @Override
+    public @NotNull MultivaluedMap<String, SpellMetadata> getMetadata() {
+        return metadata.map(SpellMetadata.class::cast);
     }
 }

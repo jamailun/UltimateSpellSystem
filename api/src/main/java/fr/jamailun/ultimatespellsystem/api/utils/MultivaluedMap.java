@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.utils;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class MultivaluedMap<K, V> {
 
@@ -39,6 +40,14 @@ public class MultivaluedMap<K, V> {
 
     public void remove(K key) {
         map.remove(key);
+    }
+
+    public <R> MultivaluedMap<K, R> map(Function<V, R> mapper) {
+        MultivaluedMap<K, R> output = new MultivaluedMap<>();
+        for(Map.Entry<K, List<V>> entry : map.entrySet()) {
+            output.putAll(entry.getKey(), entry.getValue().stream().map(mapper).toList());
+        }
+        return output;
     }
 
 }

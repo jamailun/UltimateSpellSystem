@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.spells;
 
 import fr.jamailun.ultimatespellsystem.api.events.EntityCastSpellEvent;
+import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,13 @@ public interface Spell {
      * @return a non-null string, unique for the registry.
      */
     @NotNull String getName();
+
+    /**
+     * Get the spell meta-datas.
+     * @return a multi-evaluated map of metadata.
+     */
+    @NotNull MultivaluedMap<String, SpellMetadata> getMetadata();
+
 
     @NotNull String getDebugString();
 

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.runner;
 
+import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
