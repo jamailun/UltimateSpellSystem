@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.commands;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindException;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -49,6 +50,7 @@ public class UssCommand extends AbstractCommand {
         if("purge".equals(arg0)) {
             UltimateSpellSystem.getAnimationsManager().purge();
             int summons = UltimateSpellSystem.getSummonsManager().purgeAll();
+            SendAttributeNode.purge();
             Bukkit.getScheduler().cancelTasks(plugin);
             return success(sender, "Purged summons : §e" + summons + "§f.");
         }

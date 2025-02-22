@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class SendMessageStatement extends SendStatement {
 
-    protected final ExpressionNode message;
+    private final ExpressionNode message;
 
     public SendMessageStatement(@NotNull ExpressionNode target, @NotNull ExpressionNode message) {
         super(target);

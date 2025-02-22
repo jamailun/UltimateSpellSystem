@@ -126,6 +126,23 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleSendAttribute(@NotNull SendAttributeStatement statement) {
+        builder.append(indent()).append("send to ");
+        statement.getTarget().visit(this);
+        builder.append(" attribute ");
+        statement.getNumericValue().visit(this);
+        builder.append(" ");
+        statement.getAttributeType().visit(this);
+        statement.getAttributeMode().ifPresent(e -> {
+            builder.append(" (");
+            e.visit(this);
+            builder.append(")");
+        });
+        builder.append(" for ");
+        statement.getDuration().visit(this);
+    }
+
+    @Override
     public void handleDefine(@NotNull DefineStatement statement) {
         builder.append(indent())
                 .append("define %")

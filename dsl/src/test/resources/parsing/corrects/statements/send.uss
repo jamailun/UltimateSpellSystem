@@ -15,3 +15,8 @@ send to %caster effect POISON for 4 seconds;
 define %dur = 1 minute;
 define %pow = 2 + 2;
 send to %caster effect "strength" %pow for %dur;
+
+# --- Attributes
+
+send to %caster attribute 2 ARMOR for 5 s;
+send to %caster attribute %pow "MAX_HEALTH" ADD_NUMBER for %dur;

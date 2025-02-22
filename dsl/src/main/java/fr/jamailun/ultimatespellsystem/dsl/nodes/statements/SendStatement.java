@@ -40,6 +40,7 @@ public abstract class SendStatement extends StatementNode {
         return switch (type.toLowerCase()) {
             case "message" -> SendMessageStatement.parseSendMessage(target, tokens);
             case "effect" -> SendEffectStatement.parseSendEffect(target, tokens);
+            case "attribute", "attributes" -> SendAttributeStatement.parseAttributeEffect(target, tokens);
             default -> throw new SyntaxException(token, "Expected SEND type (message, effect).");
         };
     }

@@ -71,6 +71,17 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
+    public void handleSendAttribute(@NotNull SendAttributeStatement statement) {
+        RuntimeExpression target = convert(statement.getTarget());
+        RuntimeExpression value = convert(statement.getNumericValue());
+        RuntimeExpression type = convert(statement.getAttributeType());
+        RuntimeExpression mode = convert(statement.getAttributeMode().orElse(null));
+        RuntimeExpression duration = convert(statement.getDuration());
+        add(new SendAttributeNode(target, value, type, mode, duration));
+
+    }
+
+    @Override
     public void handleDefine(@NotNull DefineStatement statement) {
         String varName = statement.getVarName();
         RuntimeExpression value = convert(statement.getExpression());

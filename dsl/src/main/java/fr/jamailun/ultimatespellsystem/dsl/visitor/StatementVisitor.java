@@ -12,6 +12,7 @@ public interface StatementVisitor {
     void handleStop(@NotNull StopStatement statement);
     void handleSendMessage(@NotNull SendMessageStatement statement);
     void handleSendEffect(@NotNull SendEffectStatement statement);
+    void handleSendAttribute(@NotNull SendAttributeStatement statement);
     void handleDefine(@NotNull DefineStatement statement);
     void handleRunLater(@NotNull RunLaterStatement statement);
     void handleRepeatRun(@NotNull RepeatStatement statement);

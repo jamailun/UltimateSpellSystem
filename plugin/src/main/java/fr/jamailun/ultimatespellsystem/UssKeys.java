@@ -3,7 +3,10 @@ package fr.jamailun.ultimatespellsystem;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 /**
  * Exposes keys.
@@ -25,10 +28,17 @@ public final class UssKeys {
      */
     private static @Getter NamespacedKey notDroppableKey;
 
-   static void initialize(@NotNull Plugin plugin) {
-       bindKey = new NamespacedKey(plugin, "spell");
-       bindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
-       notDroppableKey = new NamespacedKey(plugin, "not-droppable");
-   }
+    private static Plugin plugin;
+    static void initialize(@NotNull Plugin plugin) {
+        UssKeys.plugin = plugin;
+        bindKey = new NamespacedKey(plugin, "spell");
+        bindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
+        notDroppableKey = new NamespacedKey(plugin, "not-droppable");
+    }
+
+    @Contract("-> new")
+    public static @NotNull NamespacedKey random() {
+       return new NamespacedKey(plugin, UUID.randomUUID().toString());
+    }
 
 }

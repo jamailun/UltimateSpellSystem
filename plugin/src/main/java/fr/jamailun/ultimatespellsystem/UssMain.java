@@ -6,10 +6,8 @@ import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
-import fr.jamailun.ultimatespellsystem.plugin.listeners.AggroListener;
-import fr.jamailun.ultimatespellsystem.plugin.listeners.AttackListener;
-import fr.jamailun.ultimatespellsystem.plugin.listeners.EntityDeathListener;
-import fr.jamailun.ultimatespellsystem.plugin.listeners.ItemBoundInteractListener;
+import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
@@ -70,6 +68,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder, config), this);
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerLeaveListener(), this);
 
         logInfo("Plugin loaded.");
     }
@@ -84,6 +83,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     public void onDisable() {
         summonsManager.purgeAll();
         animationsManager.purge();
+        SendAttributeNode.purge();
         logInfo("Plugin disabled.");
     }
 

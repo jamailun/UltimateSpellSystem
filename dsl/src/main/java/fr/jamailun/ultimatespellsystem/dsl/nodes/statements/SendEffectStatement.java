@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public class SendEffectStatement extends SendStatement {
 
-    @Getter protected final ExpressionNode effectType;
-    @Getter protected final ExpressionNode effectDuration;
-    protected final ExpressionNode effectPower; // nullable !
+    @Getter private final ExpressionNode effectType;
+    @Getter private final ExpressionNode effectDuration;
+    private final ExpressionNode effectPower; // nullable !
 
     public SendEffectStatement(ExpressionNode target, ExpressionNode effectType, ExpressionNode effectDuration, ExpressionNode effectPower) {
         super(target);
