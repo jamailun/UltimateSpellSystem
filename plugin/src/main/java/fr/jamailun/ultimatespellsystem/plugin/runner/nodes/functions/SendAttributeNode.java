@@ -119,7 +119,7 @@ public class SendAttributeNode extends RuntimeStatement {
         if(modeRef == null) {
             ope = AttributeModifier.Operation.ADD_NUMBER;
         } else {
-            String opeName = runtime.safeEvaluate(numericValue, String.class);
+            String opeName = runtime.safeEvaluate(modeRef, String.class);
             ope = AttributeModifier.Operation.valueOf(opeName.toUpperCase());
         }
 
