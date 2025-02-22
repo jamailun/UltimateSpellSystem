@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttribu
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
+import fr.jamailun.ultimatespellsystem.plugin.utils.bstats.Metrics;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -69,6 +70,9 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+
+        // bStat
+        new Metrics(this, 24891);
 
         logInfo("Plugin loaded.");
     }
