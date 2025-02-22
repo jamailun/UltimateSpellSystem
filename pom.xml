@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.jamailun.paper</groupId>
-    <artifactId>UltimateSpellSystem</artifactId>
-    <version>1.0.0</version>
+    <artifactId>ultimate-spell-system</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Ultimate Spell System</name>
@@ -100,8 +100,8 @@
 
     <distributionManagement>
         <repository>
-            <id>gitea</id>
-            <url>https://git.patte-de-coin.fr/api/packages/jamailun/maven</url>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/jamailun/UltimateSpellSystem</url>
         </repository>
         <snapshotRepository>
             <id>gitea</id>

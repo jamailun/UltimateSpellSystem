@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>UltimateSpellSystem-api</artifactId>
+    <artifactId>ultimate-spell-system-api</artifactId>
     <version>${project.parent.version}</version>
 
     <parent>
         <groupId>fr.jamailun.paper</groupId>
-        <artifactId>UltimateSpellSystem</artifactId>
-        <version>1.0.0</version>
+        <artifactId>ultimate-spell-system</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
             <version>${project.parent.version}</version>
-            <artifactId>UltimateSpellSystem-dsl</artifactId>
+            <artifactId>ultimate-spell-system-dsl</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>
