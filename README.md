@@ -2,11 +2,11 @@
 
 Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language).
 
-# Author
+## Author
 
 Made by [jamailun](https://github.com/jamailun).
 
-# Basics
+## Basics
 
 All files in `/plugins/UltimateSpellSystem/spells/.` will be considered as spell.
 
@@ -25,14 +25,14 @@ if(%enemies_around > 2) {
 }
 ```
 
-See the [full specifications](/documentation/README.md) for more details.
+See the [full specifications](/documentation/README.md) for more details, or the [wiki](https://github.com/jamailun/UltimateSpellSystem/wiki/Spell-syntax).
+I've also put a handful of [examples](/examples).
 
 # API
-
-//TODO
 
 You can code your own plugin to interact with USS.
 
 You can provides custom attributes for summoned entities.
-
 You can listen to specific events.
+
+Check the [documentation](/documentation/registries).

@@ -1,0 +1,30 @@
+# A splendid looking spell, rooting enemies around you.
+
+# -- config
+define %duration = 7s;  # Duration of the spell
+define %freq = 200ms;   # Frequency of the update
+define %radius = 6;     # Radius of action
+define %eff_dur = 2s;   # Debuff duration on enemies
+
+# -- spell
+repeat (%duration/%freq) times every %freq: {
+  # "tick" effect : purple circle and a small sound
+  play particle at %caster with: {{
+    type: "WITCH",
+    shape: {{type:circle,radius:%radius}}
+  }};
+  play sound at %caster with:{{type:ENTITY_FROG_HIT}};
+
+  # For all monsters around: effect & effects
+  define %mobs = all monsters within %radius around %caster;
+  foreach(%mob : %mobs) {
+    # circle
+    play particle at ((position of %mob) + [[0,0.5,0]]) with: {{
+      type: WAX_ON,
+      shape: {{type:circle,radius:0.75}}
+    }};
+    # effect for a duration
+    send to %mob effect SLOWNESS 5 for %eff_dur;
+    send to %mob effect WEAKNESS 2 for %eff_dur;
+  }
+};

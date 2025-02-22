@@ -1,0 +1,27 @@
+# Become a small giant !
+
+# -- config
+define %dur = 30s;
+define %freq = 0.5s;
+
+# -- boost
+send to %caster attribute 0.5 SCALE for %dur;
+send to %caster attribute 5 ATTACK_DAMAGE for %dur;
+send to %caster attribute -0.25 MOVEMENT_SPEED "MULTIPLY_SCALAR_1" for %dur;
+send to %caster attribute 20 ARMOR for %dur;
+send to %caster attribute 6 MAX_HEALTH for %dur;
+send to %caster attribute 0.75 KNOCKBACK_RESISTANCE "MULTIPLY_SCALAR_1" for %dur;
+send to %caster attribute 10 SAFE_FALL_DISTANCE for %dur;
+play sound at %caster with: {{type: ENTITY_WITHER_AMBIENT}};
+send to %caster effect REGENERATION 2 for %dur;
+
+# -- after
+run after %dur : {
+  play sound at %caster with: {{type: ENTITY_BREEZE_DEATH}}
+  play particle at %caster with: {{type: WHITE_SMOKE, speed: 0.7, count: 50, radius: 0.7}};
+}
+
+# -- particles
+repeat (%dur/%freq) times every %freq: {
+  play particle at %caster with: {{type: LAVA, count: 5, radius: 0.05}};
+}
