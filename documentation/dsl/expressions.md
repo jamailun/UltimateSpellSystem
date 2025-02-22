@@ -19,7 +19,8 @@ As with [statements](statements.md), the content is evaluated at runtime.
     - `SOURCE` is either an **Entity** or a **Location**.
     - If the keyword `including` at the end, the source will also be included in the list (**if** the source is an Entity).
     - RETURNS a **Collection** of **Entity**.
-
+    > Example: `define %monsters = all monsters within %distance around %caster;`
+    > Example: `define %everyone = all entities within 30 around %caster including;`
 
 - `position of <SOURCE>` : return the location of an entity.
     - `SOURCE` the **Entity** to get the **Location** of. Accepts collections.
