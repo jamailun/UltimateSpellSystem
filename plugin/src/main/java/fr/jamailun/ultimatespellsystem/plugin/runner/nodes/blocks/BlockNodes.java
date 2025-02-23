@@ -17,9 +17,10 @@ public class BlockNodes extends RuntimeStatement {
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {
+        SpellRuntime childRuntime = runtime.makeChild();
         for(RuntimeStatement child : children) {
-            child.run(runtime);
-            if(runtime.isStopped())
+            child.run(childRuntime);
+            if(childRuntime.isStopped())
                 return;
         }
     }
