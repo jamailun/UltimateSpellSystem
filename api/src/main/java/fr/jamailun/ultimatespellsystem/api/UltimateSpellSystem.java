@@ -22,6 +22,13 @@ public final class UltimateSpellSystem {
     }
 
     /**
+     * Test if the plugin loaded properly.
+     */
+    public static boolean isValid() {
+        return plugin != null;
+    }
+
+    /**
      * Log a DEBUG message. Will only be sent if debug mode is enabled in the configuration.
      * @param message the message to print.
      */
