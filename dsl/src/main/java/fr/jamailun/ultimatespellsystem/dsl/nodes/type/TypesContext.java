@@ -46,7 +46,7 @@ public class TypesContext {
      * Create a new context, and register the '%caster' variable.
      */
     public TypesContext() {
-        variables.put("caster", new VariableDefinition(TypePrimitive.ENTITY.asType()));
+        promiseVariable("caster", TypePrimitive.ENTITY.asType());
     }
 
     /**
@@ -59,6 +59,15 @@ public class TypesContext {
             throw new SyntaxException(variable.firstTokenPosition(), "Cannot override variable '%" + varName + "'.");
         }
         variables.put(varName, new VariableDefinition(variable));
+    }
+
+    /**
+     * Guarantee a variable will be set by a runtime implementation.
+     * @param name the name of the variable.
+     * @param type the type of the variable.
+     */
+    public void promiseVariable(String name, Type type) {
+        variables.put(name, new VariableDefinition(type));
     }
 
     public void registerVariable(String varName, TokenPosition position, Type type) {

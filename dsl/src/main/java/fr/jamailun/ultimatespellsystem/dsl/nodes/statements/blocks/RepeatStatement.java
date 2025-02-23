@@ -14,7 +14,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+/**
+ * Statement of a {@code repeat <N> times}.
+ */
 public class RepeatStatement extends BlockHolder {
+
+    /**
+     * Name of the variable set by this statement.
+     */
+    public static final String INDEX_VARIABLE = "_repeat_index";
 
     private final ExpressionNode delay; // optional
     @Getter private @NotNull final ExpressionNode count;
@@ -29,12 +37,15 @@ public class RepeatStatement extends BlockHolder {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        if(delay != null)
-            assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
-        assertExpressionType(count, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
-        assertExpressionType(period, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
+        TypesContext childContext = context.childContext();
+        childContext.promiseVariable(INDEX_VARIABLE, TypePrimitive.NUMBER.asType());
 
-        child.validateTypes(context.childContext());
+        if(delay != null)
+            assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.DURATION);
+        assertExpressionType(count, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.NUMBER);
+        assertExpressionType(period, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.DURATION);
+
+        child.validateTypes(childContext.childContext());
     }
 
     public Optional<ExpressionNode> getDelay() {

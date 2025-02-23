@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
@@ -29,12 +30,18 @@ public class RunRepeatNode extends RuntimeStatement {
         long delayTicks = delay == null ? 0 : delay.toTicks();
 
         UltimateSpellSystem.runTaskRepeat(
-                () -> {
-                    try {
-                        child.run(runtime);
-                    } catch (Throwable t) {
-                        UltimateSpellSystem.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run : " + t.getMessage());
-                        t.printStackTrace();
+                new Runnable() {
+                    private int count = 0;
+                    @Override
+                    public void run() {
+                        runtime.variables().set(RepeatStatement.INDEX_VARIABLE, count);
+                        try {
+                            child.run(runtime);
+                        } catch (Throwable t) {
+                            UltimateSpellSystem.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run : " + t.getMessage());
+                            t.printStackTrace();
+                        }
+                        count++;
                     }
                 },
                 count,
