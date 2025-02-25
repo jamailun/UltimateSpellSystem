@@ -9,7 +9,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.SizeOfExpre
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
@@ -106,10 +105,6 @@ public abstract class ExpressionNode extends Node {
             case NULL -> new NullExpression(token.pos());
             case IDENTIFIER -> {
                 String value = token.getContentString();
-                // Potion effect ?
-                PotionEffect effect = PotionEffect.find(value);
-                if(effect != null)
-                    yield new EffectTypeExpression(token.pos(), effect);
 
                 // EntityType ?
                 if(EntityTypeRegistry.isAllowed(value)) {

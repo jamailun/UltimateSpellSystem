@@ -129,11 +129,6 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleEffectLiteral(@NotNull EffectTypeExpression literal) {
-        add(new RawLiteral<>(literal));
-    }
-
-    @Override
     public void handleLocationLiteral(@NotNull LocationLiteral literal) {
         RuntimeExpression world = evaluate(literal.getWorld());
         RuntimeExpression x = evaluate(literal.getVectorX());

@@ -37,7 +37,7 @@ public class GiveStatement extends StatementNode {
         if(optAmount != null)
             assertExpressionType(optAmount, context, TypePrimitive.NUMBER);
         if(optType != null)
-            assertExpressionType(optType, context, TypePrimitive.MATERIAL, TypePrimitive.STRING, TypePrimitive.CUSTOM);
+            assertExpressionType(optType, context, TypePrimitive.STRING, TypePrimitive.CUSTOM);
         if(optProperties != null)
             assertExpressionType(optProperties, context, TypePrimitive.PROPERTIES_SET);
     }

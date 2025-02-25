@@ -1,10 +1,13 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidEnumValueException;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendEffectNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,8 +21,11 @@ public class PotionEffectHolder {
 
     private final PotionEffect builtEffect;
 
-    public PotionEffectHolder(fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect, @NotNull Duration duration, int power) {
-        builtEffect = new PotionEffect(SendEffectNode.convertEffect(effect), (int) duration.toTicks(), power - 1);
+    public PotionEffectHolder(@NotNull String effectRaw, @NotNull Duration duration, int power) {
+        PotionEffectType type = SendEffectNode.convertEffect(effectRaw);
+        if(type == null)
+            throw new InvalidEnumValueException(PotionEffectType.class, effectRaw);
+        builtEffect = new PotionEffect(type, (int) duration.toTicks(), power - 1);
     }
 
     /**
@@ -31,18 +37,8 @@ public class PotionEffectHolder {
     public static @Nullable PotionEffectHolder build(String context, @NotNull Map<?, ?> values) {
         // Type
         Object typeRaw = values.get("type");
-        fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect effect;
-        if(typeRaw instanceof fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect pe) {
-            effect = pe;
-        } else if(typeRaw instanceof String type) {
-            effect = fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect.find(type);
-            if(effect == null) {
-                UltimateSpellSystem.logError("(" + context + ") Unknown effect-type : '" + type + "'.");
-                return null;
-            }
-        } else {
-            UltimateSpellSystem.logError("(" + context + ") Invalid effect type : '" + typeRaw + "'.");
-            return null;
+        if(!(typeRaw instanceof String effect)) {
+            throw new InvalidTypeException("building potion-effect-holder (effect type)", "String", typeRaw);
         }
 
         // Duration

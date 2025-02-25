@@ -16,7 +16,7 @@ public abstract class Operator extends ExpressionNode {
 
     protected void assertNotMathIncompatible(Type a) {
         switch (a.primitive()) {
-            case NULL, BOOLEAN, MATERIAL, EFFECT_TYPE, ENTITY_TYPE, ENTITY, STRING
+            case NULL, BOOLEAN, ENTITY_TYPE, ENTITY, STRING
                     -> throw new TypeException(this, "has type " + getExpressionType() + ". Type incompatible with a math operator.");
             default -> {/* Nothing*/}
         }

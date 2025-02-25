@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +18,6 @@ public enum TypePrimitive {
     DURATION(Duration.class),
     ENTITY(SpellEntity.class),
     ENTITY_TYPE(String.class),
-    MATERIAL(Material.class),
-    EFFECT_TYPE(PotionEffect.class),
     LOCATION(Location.class),
 
     // Specials

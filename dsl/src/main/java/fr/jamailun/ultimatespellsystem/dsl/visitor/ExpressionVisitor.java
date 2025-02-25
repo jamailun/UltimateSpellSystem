@@ -23,7 +23,6 @@ public interface ExpressionVisitor {
     void handleEntityTypeLiteral(@NotNull EntityTypeExpression literal);
     void handleRuntimeLiteral(@NotNull RuntimeLiteral literal);
     void handleDurationLiteral(@NotNull DurationExpression literal);
-    void handleEffectLiteral(@NotNull EffectTypeExpression literal);
     void handleLocationLiteral(@NotNull LocationLiteral literal);
 
     // Operators-ish

@@ -365,11 +365,6 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleEffectLiteral(@NotNull EffectTypeExpression literal) {
-        builder.append("EffectType.").append(literal.getRaw());
-    }
-
-    @Override
     public void handleLocationLiteral(@NotNull LocationLiteral literal) {
         builder.append("Location(");
         literal.getWorld().visit(this); builder.append(", ");

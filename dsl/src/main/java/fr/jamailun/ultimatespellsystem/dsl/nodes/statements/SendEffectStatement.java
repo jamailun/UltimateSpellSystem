@@ -1,10 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.EffectTypeExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.StringExpression;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.PotionEffect;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
@@ -33,7 +30,7 @@ public class SendEffectStatement extends SendStatement {
     public void validateTypes(@NotNull TypesContext context) {
         super.validateTypes(context);
 
-        assertExpressionType(effectType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.EFFECT_TYPE, TypePrimitive.STRING);
+        assertExpressionType(effectType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.STRING, TypePrimitive.CUSTOM);
         assertExpressionType(effectDuration, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.DURATION);
         if(effectPower != null)
             assertExpressionType(effectPower, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
@@ -51,19 +48,14 @@ public class SendEffectStatement extends SendStatement {
     @PreviousIndicator(expected = {TokenType.SEND/* + EFFECT */})
     public static @NotNull SendEffectStatement parseSendEffect(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         // Effect type
-        ExpressionNode effectType = ExpressionNode.readNextExpression(tokens);
-        // But if string, remap to PotionEffect
-        //FIXME this is dirty ! I should move the effect-type interpretation into the RUN part !
-        if(effectType instanceof StringExpression strExpr) {
-            effectType = new EffectTypeExpression(strExpr.firstTokenPosition(), PotionEffect.find(strExpr.getRaw()));
-        }
+        ExpressionNode effectType = ExpressionNode.readNextExpression(tokens, true);
 
         // If FOR just after : no power.
-        ExpressionNode effectPower = null;
+        ExpressionNode effectPower;
         if( ! tokens.dropOptional(TokenType.FOR)) {
             effectPower = ExpressionNode.readNextExpression(tokens);
             tokens.dropOrThrow(TokenType.FOR);
-        }
+        } else effectPower = null;
 
         // Duration
         ExpressionNode effectDuration = ExpressionNode.readNextExpression(tokens);
