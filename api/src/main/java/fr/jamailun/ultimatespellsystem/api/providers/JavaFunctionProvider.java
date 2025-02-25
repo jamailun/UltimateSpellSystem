@@ -15,6 +15,15 @@ public final class JavaFunctionProvider extends UssProvider<RunnableJavaFunction
         return INSTANCE;
     }
 
+    /**
+     * A way to register a function, without having to repeat the function ID.
+     * @param newFunction the non-null fonction to register.
+     * @param nameVariants optional array of alternatives to the name.
+     */
+    public void registerFunction(@NotNull RunnableJavaFunction newFunction, String @NotNull ... nameVariants) {
+        super.register(newFunction, newFunction.getId(), nameVariants);
+    }
+
     @Override
     protected void postRegister(@NotNull String key, @NotNull RunnableJavaFunction function) {
         // Also register to the DSL.

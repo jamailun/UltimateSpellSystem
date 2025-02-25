@@ -27,13 +27,13 @@ public final class ExtensionLoader {
         UltimateSpellSystem.logInfo("Loading extension.");
 
         // Functions
-        JavaFunctionProvider.instance().register(new RayCastFunction(), "raycast", "raycast_block");
-        JavaFunctionProvider.instance().register(new CastSpellFunction(), "cast");
-        JavaFunctionProvider.instance().register(new DistanceFunction(), "distance", "dist");
-        JavaFunctionProvider.instance().register(new IsValidFunction(), "is_valid");
-        JavaFunctionProvider.instance().register(new SetFireFunction(), "set_fire");
-        JavaFunctionProvider.instance().register(new StrikeFunction(), "strike");
-        JavaFunctionProvider.instance().register(new DamageFunction(), "damage_entity");
+        JavaFunctionProvider.instance().registerFunction(new RayCastFunction(), "raycast_block");
+        JavaFunctionProvider.instance().registerFunction(new CastSpellFunction());
+        JavaFunctionProvider.instance().registerFunction(new DistanceFunction(), "dist");
+        JavaFunctionProvider.instance().registerFunction(new IsValidFunction());
+        JavaFunctionProvider.instance().registerFunction(new SetFireFunction());
+        JavaFunctionProvider.instance().registerFunction(new StrikeFunction());
+        JavaFunctionProvider.instance().registerFunction(new DamageFunction());
 
         // Others
         Scopes.register();
