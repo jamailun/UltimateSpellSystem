@@ -14,7 +14,6 @@ public final class RunNotOpe extends RuntimeMonoOperator {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected @NotNull Object evaluate(@NotNull Object value) {
         // Anyone of them is a String
         if(value instanceof Boolean b) {

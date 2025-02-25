@@ -23,11 +23,11 @@ public abstract class RuntimeBiOperator extends RuntimeExpression {
     public final @NotNull Object evaluate(@NotNull SpellRuntime runtime) {
         Object left = leftExpression.evaluate(runtime);
         if(left instanceof List<?> listLeft && listLeft.size() == 1)
-            left = listLeft.get(0);
+            left = listLeft.getFirst();
 
         Object right = rightExpression.evaluate(runtime);
         if(right instanceof List<?> listRight && listRight.size() == 1)
-            right = listRight.get(0);
+            right = listRight.getFirst();
 
         return evaluate(left, right);
     }

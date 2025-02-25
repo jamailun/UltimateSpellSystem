@@ -137,17 +137,15 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      *           or even {@link java.util.List} and {@link Map}. If the provided element is <b>not</b> of this class, the {@code base} will not be executed.
      */
     public static <T extends Entity, V> @NotNull SummonProperty createForEntity(@NotNull TriConsumer<T, V, SpellRuntime> base, @NotNull Class<T> clazz, @NotNull Class<V> classValue) {
-        return (spellEntity, value, run) -> {
-            spellEntity.getBukkitEntity().ifPresent(be -> {
-                if(clazz.isInstance(be)) {
-                    if(classValue.isInstance(value)) {
-                        base.accept(clazz.cast(be), classValue.cast(value), run);
-                    } else {
-                        UltimateSpellSystem.logWarning("Invalid type for '"+value+"', expected " + classValue + "(" + value.getClass() + ")");
-                    }
+        return (spellEntity, value, run) -> spellEntity.getBukkitEntity().ifPresent(be -> {
+            if(clazz.isInstance(be)) {
+                if(classValue.isInstance(value)) {
+                    base.accept(clazz.cast(be), classValue.cast(value), run);
+                } else {
+                    UltimateSpellSystem.logWarning("Invalid type for '"+value+"', expected " + classValue + "(" + value.getClass() + ")");
                 }
-            });
-        };
+            }
+        });
     }
 
     public static @NotNull SummonProperty createEquipment(@NotNull EquipmentSlot slot) {

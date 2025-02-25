@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
@@ -8,12 +7,6 @@ import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Implementation of Spell Runtime.

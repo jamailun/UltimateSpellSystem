@@ -19,7 +19,7 @@ public abstract class RuntimeMonoOperator extends RuntimeExpression {
     public final @NotNull Object evaluate(@NotNull SpellRuntime runtime) {
         Object value = child.evaluate(runtime);
         if(child instanceof List<?> list && list.size() == 1)
-            value = list.get(0);
+            value = list.getFirst();
         return evaluate( value);
     }
 

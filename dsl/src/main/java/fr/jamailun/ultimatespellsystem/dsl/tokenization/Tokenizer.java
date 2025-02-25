@@ -148,7 +148,7 @@ public class Tokenizer {
                     // Replace number by duration
                     double number = last().getContentNumber();
                     TimeUnit unit = TIME_UNITS.get(word);
-                    tokens.remove(tokens.size() - 1);
+                    tokens.removeLast();
                     tokens.add(Token.fromDuration(number, unit, position));
                     continue;
                 }
@@ -274,7 +274,7 @@ public class Tokenizer {
     }
 
     private Token last() {
-        return tokens.get(tokens.size() - 1);
+        return tokens.getLast();
     }
 
 }

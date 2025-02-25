@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**

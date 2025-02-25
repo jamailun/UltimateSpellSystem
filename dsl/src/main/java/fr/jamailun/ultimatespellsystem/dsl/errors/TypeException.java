@@ -1,10 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.errors;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.VariableExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 
 public class TypeException extends UssException {

@@ -35,16 +35,14 @@ public class PositionOfNode extends RuntimeExpression {
     }
 
     private static @Nullable Location getLocation(@Nullable Object object) {
-        if(object == null) return null;
+        return switch (object) {
+            case null -> null;
+            case Entity entity -> entity.getLocation();
+            case SpellEntity spellEntity -> spellEntity.getLocation();
+            case Location loc -> loc.clone();
+            default -> throw new InvalidTypeException("position-of:entity", "entity", object);
+        };
 
-        if(object instanceof Entity entity) {
-            return entity.getLocation();
-        } else if(object instanceof SpellEntity spellEntity) {
-            return spellEntity.getLocation();
-        } else if(object instanceof Location loc) {
-            return loc.clone();
-        }
-        throw new InvalidTypeException("position-of:entity", "entity", object);
     }
 
     @Override

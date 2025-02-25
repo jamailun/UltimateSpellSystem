@@ -37,7 +37,7 @@ public class FunctionType {
      * @return a non-null, new Type instance.
      */
     public @NotNull Type asType() {
-        return primitives.get(0).asType(collectionFilter == CollectionFilter.LIST);
+        return primitives.getFirst().asType(collectionFilter == CollectionFilter.LIST);
     }
 
     public @NotNull TestResult accepts(@NotNull Type type) {

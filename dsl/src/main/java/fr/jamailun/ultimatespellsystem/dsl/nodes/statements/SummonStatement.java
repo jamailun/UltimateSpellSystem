@@ -58,7 +58,7 @@ public class SummonStatement extends StatementNode {
             varName = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
         }
 
-        tokens.dropOrThrow(TokenType.FOR);;
+        tokens.dropOrThrow(TokenType.FOR);
         ExpressionNode duration = ExpressionNode.readNextExpression(tokens);
 
         ExpressionNode optProperties = null;

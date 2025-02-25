@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
 
+import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
@@ -25,7 +26,7 @@ public class ArrayExpression extends ExpressionNode {
     @Override
     public @NotNull Type getExpressionType() {
         if(typePrimitive == null)
-            return null;
+            throw new TypeException(this, "Type of primitive has not been set.");
         return typePrimitive.asType(true);
     }
 

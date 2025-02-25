@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.DefineNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayBlockNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayParticleNode;

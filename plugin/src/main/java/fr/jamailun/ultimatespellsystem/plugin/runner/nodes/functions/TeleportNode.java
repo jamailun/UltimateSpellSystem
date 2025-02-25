@@ -26,7 +26,7 @@ public class TeleportNode extends RuntimeStatement {
         // Target (mono)
         Object target = this.target.evaluate(runtime);
         if(target instanceof List<?> list && list.size() == 1) {
-            target = list.get(0);
+            target = list.getFirst();
         }
 
         Location location;

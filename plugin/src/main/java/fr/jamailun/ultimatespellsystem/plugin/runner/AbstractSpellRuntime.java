@@ -35,7 +35,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
             return null;
         Object value = expression.evaluate(this);
         if(value instanceof List<?> list && list.size() == 1) {
-            return clazz.cast(list.get(0));
+            return clazz.cast(list.getFirst());
         }
         return clazz.cast(value);
     }
