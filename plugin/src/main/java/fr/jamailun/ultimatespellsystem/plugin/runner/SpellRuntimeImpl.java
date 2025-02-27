@@ -6,7 +6,6 @@ import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Implementation of Spell Runtime.
@@ -21,14 +20,15 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
      * @param caster the caster to declare.
      */
     public SpellRuntimeImpl(@NotNull LivingEntity caster) {
+        super(new ExitCode());
         this.caster = caster;
         variables.set("caster", new BukkitSpellEntity(caster));
     }
 
-    private SpellRuntimeImpl(@NotNull LivingEntity caster, VariablesSet variables, @Nullable Integer exitCode) {
+    private SpellRuntimeImpl(@NotNull LivingEntity caster, VariablesSet variables, @NotNull ExitCode exitCode) {
+        super(exitCode);
         this.caster = caster;
         this.variables.copy(variables);
-        this.exitCode = exitCode;
     }
 
     @Override

@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,11 +18,15 @@ import java.util.stream.Collectors;
 public abstract class AbstractSpellRuntime implements SpellRuntime {
 
     protected final VariablesSet variables = new VariablesSetImpl();
-    protected Integer exitCode;
+    protected final ExitCode exitCode;
+
+    AbstractSpellRuntime(@NotNull ExitCode exitCode) {
+        this.exitCode = exitCode;
+    }
 
     @Override
     public boolean isStopped() {
-        return exitCode != null;
+        return exitCode.isSet();
     }
 
     @Override
@@ -65,12 +70,24 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
 
     @Override
     public void stop(int exitCode) {
-        this.exitCode = exitCode;
+        this.exitCode.set(exitCode);
     }
 
     @Override
     public int getFinalExitCode() {
-        return exitCode == null ? 0 : exitCode;
+        return exitCode.getCode();
+    }
+
+    @Getter
+    public static class ExitCode {
+        private int code = 0;
+        private boolean set = false;
+        public void set(int value) {
+            if(!set) {
+                set = true;
+                code = value;
+            }
+        }
     }
 
 }
