@@ -8,9 +8,15 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * A global manager to access spells.
@@ -32,18 +38,19 @@ public final class SpellsManagerImpl implements SpellsManager {
 
     @Override
     public void reloadSpells() {
+        UltimateSpellSystem.logInfo("Reloading spells.");
         spells.clear();
-        UltimateSpellSystem.logDebug("Reloading spells.");
 
-        File[] children = spellsFolder.listFiles();
-        if(children == null) {
-            UltimateSpellSystem.logError("Could not list files of " + spellsFolder + ".");
+        try(Stream<Path> fileStream = Files.walk(Paths.get(spellsFolder.getAbsolutePath()))) {
+            fileStream.filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .filter(f -> !(f.getName().endsWith(".off") || f.getName().endsWith(".disabled")))
+                    .map(SpellDefinition::loadFile)
+                    .filter(Objects::nonNull)
+                    .forEach(spell -> spells.put(spell.getName(), spell));
+        } catch(IOException e) {
+            UltimateSpellSystem.logError("Could not list files of " + spellsFolder + ": " + e.getMessage());
             return;
-        }
-        for(File child : children) {
-            Spell definition = SpellDefinition.loadFile(child);
-            if(definition != null)
-                spells.put(definition.getName(), definition);
         }
 
         UltimateSpellSystem.logInfo("Loaded " + spells.size() + " spells.");
@@ -51,8 +58,8 @@ public final class SpellsManagerImpl implements SpellsManager {
 
     @Override
     public boolean registerSpell(@NotNull Spell spell) {
-        if(spell == null || spell.getName() == null || spell.getName().isBlank() || spell.getName().isEmpty()) {
-            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell + " : null spell or null/empty name.");
+        if(spell.getName().isBlank() || spell.getName().isEmpty()) {
+            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell + " : empty name.");
             return false;
         }
         if(spells.containsKey(spell.getName())) {
