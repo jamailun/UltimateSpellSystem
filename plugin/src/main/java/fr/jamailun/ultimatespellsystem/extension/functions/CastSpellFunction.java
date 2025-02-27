@@ -50,6 +50,7 @@ public class CastSpellFunction extends AbstractFunction {
             throw new UnknownFunctionException("Unknown spell ID: '" + spellId + "'.");
         }
 
-        return spell.castNotCancellable(entity);
+        SpellRuntime newRuntime = runtime.makeChildNewCaster(entity);
+        return spell.castNotCancellable(entity, newRuntime);
     }
 }

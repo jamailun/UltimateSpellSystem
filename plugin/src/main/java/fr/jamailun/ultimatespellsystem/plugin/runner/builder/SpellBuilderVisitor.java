@@ -171,10 +171,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
     @Override
     public void handleMetadata(@NotNull MetadataStatement statement) {
         String name = statement.getName();
-        List<RuntimeExpression> params = statement.getParams().stream()
-                .map(this::convert)
-                .toList();
-        add(new MetadataNode(name, params));
+        add(new MetadataNode(name, statement.getParams()));
     }
 
     @Override

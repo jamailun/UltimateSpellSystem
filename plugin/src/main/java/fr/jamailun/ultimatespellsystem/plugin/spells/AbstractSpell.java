@@ -1,12 +1,17 @@
 package fr.jamailun.ultimatespellsystem.plugin.spells;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.EntityCastSpellEvent;
+import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * A spell is something that can be done by a caster.
@@ -21,9 +26,9 @@ public abstract class AbstractSpell implements Spell {
     }
 
     @Override
-    public final boolean castNotCancellable(@NotNull LivingEntity entity) {
+    public final boolean castNotCancellable(@NotNull LivingEntity entity, @Nullable SpellRuntime runtime) {
         Bukkit.getServer().getPluginManager().callEvent(new EntityCastSpellEvent(entity, this, false));
-        return castSpell(entity);
+        return castSpell(entity, Objects.requireNonNullElse(runtime, new SpellRuntimeImpl(entity)));
     }
 
     @Override
@@ -31,16 +36,17 @@ public abstract class AbstractSpell implements Spell {
         EntityCastSpellEvent event = new EntityCastSpellEvent(player, this, true);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled())
-            return castSpell(player);
+            return castSpell(player, new SpellRuntimeImpl(player));
         return false;
     }
 
     /**
      * Cast the spell.
      * @param player the caster.
+     * @param runtime the runtime to use.
      * @return {@code true} if the spell cast properly. If {@code false}, then the spell has been dropped.
      */
-    protected abstract boolean castSpell(@NotNull LivingEntity player);
+    protected abstract boolean castSpell(@NotNull LivingEntity player, @NotNull SpellRuntime runtime);
 
     @Override
     public final boolean isEnabled() {

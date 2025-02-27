@@ -1,10 +1,12 @@
 package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
+import lombok.Getter;
+
 import java.util.concurrent.TimeUnit;
 
 public class Token {
 
-    private final TokenType type;
+    @Getter private final TokenType type;
     private final TokenPosition position;
 
     private Double contentNumber;
@@ -44,10 +46,6 @@ public class Token {
         token.contentNumber = number;
         token.contentTimeUnit = tu;
         return token;
-    }
-
-    public TokenType getType() {
-        return type;
     }
 
     public boolean getContentBoolean() {

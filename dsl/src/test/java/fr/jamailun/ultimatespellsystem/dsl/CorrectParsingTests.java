@@ -33,6 +33,10 @@ public class CorrectParsingTests extends ParsingTest {
     void correctMix() {
         testFolder("corrects/mix");
     }
+    @Test
+    void correctMetadata() {
+        testFolder("corrects/metadata");
+    }
 
     @Test
     void correctWithCustom() {

@@ -1,10 +1,12 @@
 package fr.jamailun.ultimatespellsystem.api.spells;
 
 import fr.jamailun.ultimatespellsystem.api.events.EntityCastSpellEvent;
+import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A spell is something that can be done by a caster.
@@ -17,7 +19,18 @@ public interface Spell {
      * @return {@code false} if the spell finished with an error.
      * @see EntityCastSpellEvent
      */
-    boolean castNotCancellable(@NotNull LivingEntity caster);
+    default boolean castNotCancellable(@NotNull LivingEntity caster) {
+        return castNotCancellable(caster, null);
+    }
+
+    /**
+     * Cast a spell, in a forceful way, with a specific runtime. An event will be emitted.
+     * @param caster the living-entity to cast the spell.
+     * @param runtime the runtime to use.
+     * @return {@code false} if the spell finished with an error.
+     * @see EntityCastSpellEvent
+     */
+    boolean castNotCancellable(@NotNull LivingEntity caster, @Nullable SpellRuntime runtime);
 
     /**
      * Cast a spell, in a cancellable way. An event will be emitted.

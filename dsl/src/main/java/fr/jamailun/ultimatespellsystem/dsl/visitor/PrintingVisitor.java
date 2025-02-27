@@ -259,9 +259,9 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         boolean big = statement.getParams().size() > 1;
         if(big) builder.append("(");
         boolean first = true;
-        for(ExpressionNode node : statement.getParams()) {
+        for(Object node : statement.getParams()) {
             if(first) first = false; else builder.append(", ");
-            node.visit(this);
+            builder.append(node);
         }
         if(big) builder.append(")");
     }

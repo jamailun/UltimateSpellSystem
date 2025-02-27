@@ -43,6 +43,14 @@ public interface SpellRuntime {
     @NotNull SpellRuntime makeChild();
 
     /**
+     * Create a child instance of this runtime, but with a different caster.
+     * @param newCaster the new caster to use.
+     * @return a new instance with a copy of other variables.
+     */
+    @Contract("_ -> new")
+    @NotNull SpellRuntime makeChildNewCaster(@NotNull LivingEntity newCaster);
+
+    /**
      * Get the final exit code.
      * @return {@code zero} if it's a success (or not stopped). Any other value means an error occurred.
      * @see #isStopped()

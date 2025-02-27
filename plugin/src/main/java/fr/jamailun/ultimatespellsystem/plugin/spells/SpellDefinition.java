@@ -6,7 +6,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellMetadata;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
-import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
@@ -106,12 +105,11 @@ public class SpellDefinition extends AbstractSpell {
     }
 
     @Override
-    protected boolean castSpell(@NotNull LivingEntity caster) {
+    protected boolean castSpell(@NotNull LivingEntity caster, @NotNull SpellRuntime runtime) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
         UltimateSpellSystem.logDebug(prefix + " Casted on " + caster);
 
-        SpellRuntime runtime = new SpellRuntimeImpl(caster);
         for(RuntimeStatement statement : steps) {
             UltimateSpellSystem.logDebug(prefix + "Running " + statement.toString());
             statement.run(runtime);

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl;
 
+import fr.jamailun.ultimatespellsystem.dsl.metadata.rules.DefaultMetadataRules;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,11 @@ import java.util.List;
  */
 public final class UltimateSpellSystemDSL {
     private UltimateSpellSystemDSL() {}
+
+    // Load the default metadata rules on class load.
+    static {
+        DefaultMetadataRules.initialize();
+    }
 
     /**
      * Parse a stream of tokens.

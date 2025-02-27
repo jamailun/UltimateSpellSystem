@@ -1,15 +1,14 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes;
 
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellMetadata;
-import fr.jamailun.ultimatespellsystem.plugin.runner.MetaRuntime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Node for {@link SpellMetadata}.
@@ -19,7 +18,7 @@ import java.util.List;
 public class MetadataNode extends RuntimeStatement implements SpellMetadata {
 
     private final String name;
-    private final List<RuntimeExpression> params;
+    private final List<Object> params;
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {}
@@ -37,14 +36,14 @@ public class MetadataNode extends RuntimeStatement implements SpellMetadata {
     @Override
     public <T> T get(int index, Class<T> clazz) {
         if(index < 0 || params.size() <= index) return null;
-        RuntimeExpression param = params.get(index);
-        return MetaRuntime.getInstance().safeEvaluate(param, clazz);
+        return clazz.cast(params.get(index));
     }
 
     @Override
     public <T> List<T> get(Class<T> clazz) {
         return params.stream()
-                .map(e -> MetaRuntime.getInstance().safeEvaluate(e, clazz))
+                .map(clazz::cast)
+                .filter(Objects::nonNull)
                 .toList();
     }
 

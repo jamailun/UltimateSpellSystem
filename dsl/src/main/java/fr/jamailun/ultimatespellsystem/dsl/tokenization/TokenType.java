@@ -112,4 +112,13 @@ public enum TokenType {
         return new Token(this, position);
     }
 
+    public boolean isRawValue() {
+        return  this == IDENTIFIER ||
+                this == VALUE_STRING ||
+                this == VALUE_NUMBER ||
+                this == VALUE_DURATION ||
+                this == TRUE ||
+                this == FALSE;
+    }
+
 }

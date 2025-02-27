@@ -33,7 +33,12 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
 
     @Override
     public @NotNull SpellRuntime makeChild() {
-        return new SpellRuntimeImpl(caster, variables, exitCode);
+        return makeChildNewCaster(caster);
+    }
+
+    @Override
+    public @NotNull SpellRuntime makeChildNewCaster(@NotNull LivingEntity newCaster) {
+        return new SpellRuntimeImpl(newCaster, variables, exitCode);
     }
 
 }
