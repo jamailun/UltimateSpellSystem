@@ -1,0 +1,7 @@
+define %a = 1;
+define %b = null;
+
+if(%b == null)
+    define %b = 2;
+
+define %c = %a + %b;

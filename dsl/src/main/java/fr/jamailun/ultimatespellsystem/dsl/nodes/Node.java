@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes;
 import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

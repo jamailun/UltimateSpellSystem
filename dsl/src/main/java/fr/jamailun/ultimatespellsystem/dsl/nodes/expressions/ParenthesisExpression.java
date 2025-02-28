@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;

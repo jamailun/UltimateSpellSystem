@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.validators;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.metadata;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.MetadataStatement;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import org.jetbrains.annotations.NotNull;
 
 /**

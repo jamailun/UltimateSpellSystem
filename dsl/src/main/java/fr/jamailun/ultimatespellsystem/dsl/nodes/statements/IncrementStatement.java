@@ -5,7 +5,8 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.VariableDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
@@ -22,10 +23,10 @@ public class IncrementStatement extends StatementNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        TypesContext.VariableDefinition variableDefinition = context.findVariable(varName);
+        VariableDefinition variableDefinition = context.findVariable(varName);
         if(variableDefinition == null)
             throw new SyntaxException(tokenPosition, "Unknown variable to " + (positive?"increment":"decrement") + " : '" + varName + "'.");
-        Type type = variableDefinition.computeType(context);
+        Type type = variableDefinition.getType(context);
         if(type.primitive() != TypePrimitive.NUMBER)
             throw new TypeException(tokenPosition, "For " + (positive?"increment":"decrement") + " %"+varName+", expected NUMBER. Got type " + type + ".");
     }

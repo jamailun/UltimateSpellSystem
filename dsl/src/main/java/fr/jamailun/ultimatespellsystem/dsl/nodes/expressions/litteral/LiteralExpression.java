@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral;
 
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 

@@ -3,7 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions;
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.VariableDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class VariableExpression extends ExpressionNode {
      * The reference will be obtained during type validation.
      * @param token the token of the variable itself.
      */
-    public VariableExpression(Token token) {
+    public VariableExpression(@NotNull Token token) {
         super(token.pos());
         this.varName = token.getContentString();
     }
@@ -34,10 +35,11 @@ public class VariableExpression extends ExpressionNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        TypesContext.VariableDefinition var = context.findVariable(varName);
+        System.out.println("-- validate " + varName);
+        VariableDefinition var = context.findVariable(varName);
         if(var == null)
             throw new SyntaxException(firstTokenPosition(), "Undefined variable '" + varName + "'.");
-        runtimeType = var.computeType(context);
+        runtimeType = var.getType(context);
     }
 
     @Override

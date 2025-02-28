@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.MetadataRuleFailureException;
 import fr.jamailun.ultimatespellsystem.dsl.metadata.MetadataRule;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.MetadataStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import org.jetbrains.annotations.NotNull;
 
 /**

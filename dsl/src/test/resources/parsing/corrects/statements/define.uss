@@ -1,12 +1,12 @@
 # Some declarations
-define %a = "a";
+define %as_str = "a";
 define %b = 1;
 define %a = 1 + 21 / 3;
 define %cc = %a - (%a + %b);
 
 # Broken-lines : code still valid
 define
-    %a
+    %z
    =  6
  / 2
  ;
