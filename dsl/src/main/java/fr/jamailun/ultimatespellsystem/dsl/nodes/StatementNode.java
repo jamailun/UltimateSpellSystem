@@ -58,9 +58,6 @@ public abstract class StatementNode extends Node {
             case PLAY -> PlayStatement.parsePlay(tokens);
             case GIVE -> GiveStatement.parseNextGiveStatement(tokens);
 
-            // FIXME
-            case CALL -> FunctionCallStatement.parseFunctionCall(tokens);
-
             // Control-Flow
             case IF -> IfElseStatement.parseIfStatement(tokens);
             case ELSE -> throw new SyntaxException(token, "An ELSE must follow an IF (or the IF's child statement).");

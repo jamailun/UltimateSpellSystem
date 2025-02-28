@@ -1,0 +1,6 @@
+%a = 1;
+%a = null;
+%a = 1
+
+send to %caster message "a = " + %a;
+

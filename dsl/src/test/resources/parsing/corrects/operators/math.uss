@@ -1,1 +1,3 @@
 define %c = cos(3.14);
+define %s = cos(3.14);
+define %t = tan(3.14);

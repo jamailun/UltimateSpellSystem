@@ -1,0 +1,5 @@
+%a = "1" + 1;
+%a = 1 + "1";
+
+%dur = 2 minutes * 2;
+%n = 2 minutes / 2 minutes;

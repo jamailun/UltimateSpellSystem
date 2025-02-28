@@ -11,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class VariableReference {
 
-    abstract @NotNull String getName();
-
     public abstract @NotNull Type getType(@NotNull TypesContext context);
 
     abstract @NotNull TypeException exception(@NotNull String message);
@@ -45,7 +43,6 @@ public abstract class VariableReference {
         private boolean computed = false;
 
         public @NotNull Type getType(@NotNull TypesContext context) {
-            System.out.println("get type of var %" + name);
             if(!computed) {
                 computed = true;
                 node.validateTypes(context);

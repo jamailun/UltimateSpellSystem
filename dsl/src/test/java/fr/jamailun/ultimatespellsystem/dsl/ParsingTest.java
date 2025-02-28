@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
@@ -67,6 +68,9 @@ abstract class ParsingTest {
             System.out.println("> " + node);
         }
         DslValidator.validateTree(nodes);
+
+        // The visitor works as expected.
+        PrintingVisitor.print(nodes);
     }
 
     public static final String RESET = "\033[0m";  // Text Reset

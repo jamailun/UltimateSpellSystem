@@ -27,8 +27,6 @@ public class DefineStatement extends StatementNode {
         expression.validateTypes(context);
         // Register variable
         context.registerVariable(varName, expression);
-        //
-        System.out.println("VALAIDATE TYPE DEFINE !!  (" + varName + ")");
     }
 
     @Override

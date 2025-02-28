@@ -18,7 +18,6 @@ public class VariableDefinition {
     private transient Type computedType;
 
     public void register(@NotNull VariableReference reference) {
-        System.out.println("register variable reference : <" + name + "> " + reference);
         references.add(reference);
         computedType = null;
     }

@@ -35,7 +35,6 @@ public class VariableExpression extends ExpressionNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        System.out.println("-- validate " + varName);
         VariableDefinition var = context.findVariable(varName);
         if(var == null)
             throw new SyntaxException(firstTokenPosition(), "Undefined variable '" + varName + "'.");
