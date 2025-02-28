@@ -43,9 +43,15 @@ public abstract class StatementNode extends Node {
             case INCREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, true);
             case DECREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, false);
 
+            // Variable set
+            case DEFINE -> DefineStatement.parseNextDefine(tokens);
+            case VALUE_VARIABLE -> {
+                tokens.back();
+                yield DefineStatement.parseNextDefine(tokens);
+            }
+
             // Statements
             case SEND -> SendStatement.parseSendStatement(tokens);
-            case DEFINE -> DefineStatement.parseNextDefine(tokens);
             case STOP -> StopStatement.parseStop(tokens);
             case SUMMON -> SummonStatement.parseSummonStatement(tokens);
             case TELEPORT -> TeleportStatement.parseTeleport(tokens);
