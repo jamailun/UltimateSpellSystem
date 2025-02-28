@@ -44,16 +44,10 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
      */
     public @NotNull String visit(@NotNull List<StatementNode> statements) {
         builder = new StringBuilder();
-        builder.append("function __spell__(%caster) {\n");
-
-        right();
         for(StatementNode statement : statements) {
             statement.visit(this);
             eol();
         }
-        left();
-
-        builder.append("}");
         return builder.toString();
     }
 

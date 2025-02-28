@@ -1,9 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl;
 
-import fr.jamailun.ultimatespellsystem.dsl.errors.ParsingException;
-import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
-import fr.jamailun.ultimatespellsystem.dsl.errors.TreeValidationException;
-import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
+import fr.jamailun.ultimatespellsystem.dsl.errors.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +29,11 @@ public class FailuresParsingTests extends ParsingTest {
     @Test
     void badTreeValidation() {
         badParsing("bad_tree", TreeValidationException.class);
+    }
+
+    @Test
+    void badMix() {
+        badParsing("bad_mix", UssException.class);
     }
 
     private <T extends Exception> void badParsing(@NotNull String folder, @NotNull Class<T> clazz) {

@@ -1,0 +1,1 @@
+define %a = i_dont_exist("toto");
