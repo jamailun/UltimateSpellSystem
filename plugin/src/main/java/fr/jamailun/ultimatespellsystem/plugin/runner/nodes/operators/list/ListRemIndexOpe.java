@@ -20,9 +20,9 @@ public class ListRemIndexOpe extends RuntimeBiOperator {
     protected Object evaluate(Object left, Object right) {
         if(!(left instanceof List<?> list))
             throw new UnreachableRuntimeException("Cannot have a left non-list: " + left);
-        if(!(right instanceof Integer index))
+        if(!(right instanceof Number index))
             throw new UnreachableRuntimeException("Cannot have a right non-number: " + right);
-        list.remove(index);
+        list.remove(index.intValue());
         return list;
     }
 

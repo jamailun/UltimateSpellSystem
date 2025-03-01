@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class ArrayNode extends RuntimeExpression {
 
@@ -22,5 +23,12 @@ public class ArrayNode extends RuntimeExpression {
             list.add(elem.evaluate(runtime));
         }
         return list;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner(", ");
+        elements.forEach(e -> sj.add(elements.toString()));
+        return "[["+sj+"]]";
     }
 }

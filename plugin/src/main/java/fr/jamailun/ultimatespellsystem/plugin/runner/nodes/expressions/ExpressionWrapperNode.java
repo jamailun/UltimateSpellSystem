@@ -18,4 +18,9 @@ public class ExpressionWrapperNode extends RuntimeStatement {
     public void run(@NotNull SpellRuntime runtime) {
         expression.evaluate(runtime);
     }
+
+    @Override
+    public String toString() {
+        return "{" + expression + "}";
+    }
 }
