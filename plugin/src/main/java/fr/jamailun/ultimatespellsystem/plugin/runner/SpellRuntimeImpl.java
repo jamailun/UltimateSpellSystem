@@ -1,8 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
-import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
@@ -26,10 +24,9 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
         variables.set("caster", new BukkitSpellEntity(caster));
     }
 
-    private SpellRuntimeImpl(@NotNull LivingEntity caster, VariablesSet variables, @NotNull ExitCode exitCode) {
-        super(exitCode);
-        this.caster = caster;
-        this.variables.copy(variables);
+    private SpellRuntimeImpl(@NotNull SpellRuntimeImpl parent) {
+        super(parent);
+        this.caster = parent.caster;
     }
 
     @Override
@@ -39,7 +36,7 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
 
     @Override
     public @NotNull SpellRuntime makeChildNewCaster(@NotNull LivingEntity newCaster) {
-        return new SpellRuntimeImpl(newCaster, variables, exitCode);
+        return new SpellRuntimeImpl(this);
     }
 
 }

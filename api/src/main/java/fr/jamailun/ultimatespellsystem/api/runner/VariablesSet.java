@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.runner;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -23,13 +24,15 @@ public interface VariablesSet {
      * @param key the variable key.
      * @return the content of the variable, or {@code null} if not defined.
      */
-    Object get(@NotNull String key);
+    @Nullable Object get(@NotNull String key);
 
     /**
-     * Copy this variables set.
-     * @param parent the variables set to clone into this one.
+     * Create an inherited variable set.
+     * @return a new instance. Mutating existing vars of the instance will mutate {@code this} instance.
+     * But creating new variables will not.
      */
-    void copy(@NotNull VariablesSet parent);
+    @Contract(" -> new")
+    @NotNull VariablesSet inherit();
 
     /**
      * Set (or unset) a variable.

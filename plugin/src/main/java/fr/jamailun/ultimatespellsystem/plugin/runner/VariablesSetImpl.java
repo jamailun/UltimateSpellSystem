@@ -15,31 +15,43 @@ import java.util.Map;
  */
 public final class VariablesSetImpl implements VariablesSet {
 
-    private final Map<String, Object> objects = new HashMap<>();
+    private final Map<String, VarEntry> variables = new HashMap<>();
 
     @Override
     public @NotNull @Unmodifiable List<String> names() {
-        return List.copyOf(objects.keySet());
+        return List.copyOf(variables.keySet());
     }
 
     @Override
-    public Object get(@NotNull String key) {
-        return objects.get(key);
+    public @Nullable Object get(@NotNull String key) {
+        if(variables.containsKey(key)) {
+            return variables.get(key).content;
+        }
+        return null;
     }
 
     @Override
-    public void copy(@NotNull VariablesSet parent) {
-        parent.names().forEach(n -> objects.put(n, parent.get(n)));
+    public @NotNull VariablesSetImpl inherit() {
+        VariablesSetImpl output = new VariablesSetImpl();
+        // We propagate REFERENCES to our objects.
+        // This allows inner blocks to mutate variables.
+        output.variables.putAll(variables);
+        return output;
     }
 
     @Override
     public void set(@NotNull String key, @Nullable Object value) {
-        objects.put(key, value);
+        variables.putIfAbsent(key, new VarEntry());
+        variables.get(key).content = value;
         UltimateSpellSystem.logDebug("§e[Vars] §7%"+key+" <-- " + value);
     }
 
     @Override
     public @NotNull String toString() {
-        return "Vars" + objects;
+        return "Vars" + variables;
+    }
+
+    private static class VarEntry {
+        private Object content;
     }
 }

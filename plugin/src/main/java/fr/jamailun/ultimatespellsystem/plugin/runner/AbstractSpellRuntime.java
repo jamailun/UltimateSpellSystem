@@ -15,14 +15,22 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractSpellRuntime implements SpellRuntime {
 
-    protected final VariablesSet variables = new VariablesSetImpl();
+    protected final VariablesSet variables;
     protected final ExitCode exitCode;
 
-    private boolean flagBreak = false;
-    private boolean flagContinue = false;
+    protected boolean flagBreak = false;
+    protected boolean flagContinue = false;
+
+    AbstractSpellRuntime(@NotNull AbstractSpellRuntime parent) {
+        exitCode = parent.exitCode;
+        variables = parent.variables.inherit();
+        flagContinue = parent.flagContinue;
+        flagBreak = parent.flagBreak;
+    }
 
     AbstractSpellRuntime(@NotNull ExitCode exitCode) {
         this.exitCode = exitCode;
+        variables = new VariablesSetImpl();
     }
 
     @Override
