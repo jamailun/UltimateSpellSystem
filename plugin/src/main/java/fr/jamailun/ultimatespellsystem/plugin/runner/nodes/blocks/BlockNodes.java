@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +21,15 @@ public class BlockNodes extends RuntimeStatement {
         SpellRuntime childRuntime = runtime.makeChild();
         for(RuntimeStatement child : children) {
             child.run(childRuntime);
-            if(childRuntime.isStopped())
+            FlowState flow = childRuntime.getFlowState();
+
+            if(flow.isNotRunning()) {
+                if(flow == FlowState.BROKEN) {
+                    runtime.statementBreak(); // propagate to parent !
+                }
                 return;
+            }
+
         }
     }
 

@@ -320,6 +320,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleBreakContinue(@NotNull BreakContinueStatement statement) {
+        builder.append(statement.isContinue() ? "CONTINUE" : "BREAK");
+    }
+
+    @Override
     public void handleNullLiteral(@NotNull NullExpression literal) {
         builder.append("NULL");
     }

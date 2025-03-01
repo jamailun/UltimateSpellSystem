@@ -65,6 +65,8 @@ public abstract class StatementNode extends Node {
             case FOREACH -> ForeachLoopStatement.parseForLoop(tokens);
             case WHILE -> WhileLoopStatement.parseWhileLoop(tokens, true);
             case DO -> WhileLoopStatement.parseWhileLoop(tokens, false);
+            case BREAK -> BreakContinueStatement.parseNextBreakContinue(tokens, false);
+            case CONTINUE -> BreakContinueStatement.parseNextBreakContinue(tokens, true);
 
             default -> {
                 tokens.back();

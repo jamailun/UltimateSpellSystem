@@ -33,7 +33,7 @@ public class ForLoopNode extends RuntimeStatement {
 
         while(run.conditionValid()) {
             run.applyIteration();
-            if(runtime.isStopped())
+            if(runtime.getFlowState().isNotRunning())
                 return;
         }
     }

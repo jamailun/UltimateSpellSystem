@@ -1,0 +1,5 @@
+for(define %i = 0; %i < 5; increment %i) {
+    send to %caster message "[%i]";
+    if(%i > 3)
+        break;
+}

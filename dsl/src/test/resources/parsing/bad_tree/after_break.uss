@@ -1,0 +1,6 @@
+for(%i = 1; %i < 3; increment %i) {
+    if(%i == 2) {
+        break;
+        send to %caster message "oops";
+    }
+}

@@ -26,13 +26,13 @@ public class WhileLoopNode extends RuntimeStatement {
         if(whileFirst) {
             while(run.conditionValid()) {
                 run.applyIteration();
-                if(runtime.isStopped())
+                if(runtime.getFlowState().isNotRunning())
                     return;
             }
         } else {
             do {
                 run.applyIteration();
-                if(runtime.isStopped())
+                if(runtime.getFlowState().isNotRunning())
                     return;
             } while(run.conditionValid());
         }

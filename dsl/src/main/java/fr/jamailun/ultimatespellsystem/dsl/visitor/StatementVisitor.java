@@ -29,4 +29,5 @@ public interface StatementVisitor {
     void handleForLoop(@NotNull ForLoopStatement statement);
     void handleForeachLoop(@NotNull ForeachLoopStatement statement);
     void handleWhileLoop(@NotNull WhileLoopStatement statement);
+    void handleBreakContinue(@NotNull BreakContinueStatement statement);
 }

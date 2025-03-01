@@ -36,6 +36,18 @@ public interface SpellRuntime {
     void stop(int exitCode);
 
     /**
+     * Break the flow.
+     */
+    void statementBreak();
+
+    /**
+     * Break and continue the flow.
+     */
+    void statementContinue();
+
+    @NotNull FlowState getFlowState();
+
+    /**
      * Create a child of this runtime.
      * @return a new instance of a runtime, with the same context.
      */

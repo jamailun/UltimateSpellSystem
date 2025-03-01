@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;

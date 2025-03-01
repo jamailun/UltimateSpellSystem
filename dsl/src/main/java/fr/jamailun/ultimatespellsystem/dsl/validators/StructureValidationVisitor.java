@@ -11,12 +11,14 @@ import org.jetbrains.annotations.NotNull;
 public class StructureValidationVisitor implements StatementVisitor {
     private StructureValidationVisitor parent;
     private boolean stopMet = false;
+    private boolean breakMet = false;
     private boolean metadataAllowed = true;
 
     public StructureValidationVisitor child() {
         StructureValidationVisitor clone = new StructureValidationVisitor();
         clone.metadataAllowed = metadataAllowed;
         clone.stopMet = stopMet;
+        clone.breakMet = breakMet;
         clone.parent = this;
         return clone;
     }
@@ -36,6 +38,11 @@ public class StructureValidationVisitor implements StatementVisitor {
         handleMono();
         stopMet = true;
     }
+    @Override
+    public void handleBreakContinue(@NotNull BreakContinueStatement statement) {
+        handleMono();
+        breakMet = true;
+    }
 
     @Override
     public void handleBlock(@NotNull BlockStatement statement) {
@@ -52,6 +59,9 @@ public class StructureValidationVisitor implements StatementVisitor {
         metadataAllowed = false;
         if(stopMet) {
             throw new TreeValidationException(TokenPosition.unknown(), "Cannot have a statement after a STOP.");
+        }
+        if(breakMet) {
+            throw new TreeValidationException(TokenPosition.unknown(), "Cannot have a statement in the block after a BREAK or a CONTINUE.");
         }
     }
 

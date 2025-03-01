@@ -208,6 +208,11 @@ public class SpellBuilderVisitor implements StatementVisitor {
         add(new WhileLoopNode(condition, child, whileFirst));
     }
 
+    @Override
+    public void handleBreakContinue(@NotNull BreakContinueStatement statement) {
+        add(new BreakContinueNode(statement.isContinue()));
+    }
+
     private RuntimeExpression convert(ExpressionNode expression) {
         if(expression == null)
             return null;

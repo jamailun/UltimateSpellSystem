@@ -59,6 +59,8 @@ public enum TokenType {
     FOR(true),
     WHILE(true),
     DO(true),
+    BREAK(true),
+    CONTINUE(true),
 
     DEFINE(true),
     SEND(true),
@@ -81,7 +83,6 @@ public enum TokenType {
     TELEPORT(true),
     FOREACH(true),
     PLAY(true),
-    CALL(true),
     SIZEOF(true),
     GIVE(true),
 

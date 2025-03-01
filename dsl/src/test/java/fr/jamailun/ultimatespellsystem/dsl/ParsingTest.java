@@ -90,7 +90,7 @@ abstract class ParsingTest {
         }
         System.out.println("\n" + WHITE_BOLD + "=====================================================" + RESET + "\n");
 
-        Assertions.assertTrue(failures.isEmpty());
+        Assertions.assertTrue(failures.isEmpty(), "Failures were met.");
     }
 
 }

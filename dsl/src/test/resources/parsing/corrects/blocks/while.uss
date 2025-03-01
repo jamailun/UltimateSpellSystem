@@ -3,6 +3,8 @@ define %i = 0;
 while(%i < 10) {
     send to %caster message "&a+&f > i=%i";
     increment %i;
+    if(%i > 100)
+        continue;
 }
 
 do {

@@ -1,15 +1,13 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +17,9 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
 
     protected final VariablesSet variables = new VariablesSetImpl();
     protected final ExitCode exitCode;
+
+    private boolean flagBreak = false;
+    private boolean flagContinue = false;
 
     AbstractSpellRuntime(@NotNull ExitCode exitCode) {
         this.exitCode = exitCode;
@@ -88,6 +89,25 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
                 code = value;
             }
         }
+    }
+
+    @Override
+    public void statementBreak() {
+        flagBreak = true;
+    }
+
+    @Override
+    public void statementContinue() {
+        flagBreak = true;
+        flagContinue = true;
+    }
+
+    @Override
+    public @NotNull FlowState getFlowState() {
+        if(isStopped()) return FlowState.STOPPED;
+        if(flagContinue) return FlowState.BROKEN_CONTINUE;
+        if(flagBreak) return FlowState.BROKEN;
+        return FlowState.RUNNING;
     }
 
 }
