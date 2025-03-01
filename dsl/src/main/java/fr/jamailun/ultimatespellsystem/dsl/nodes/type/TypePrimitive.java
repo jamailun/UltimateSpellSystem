@@ -23,7 +23,7 @@ public enum TypePrimitive {
 
     // Specials
     PROPERTIES_SET,
-    CUSTOM,
+    CUSTOM(String.class),
     NULL;
 
     public final Class<?> clazz;

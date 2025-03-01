@@ -49,6 +49,7 @@ public class Tokenizer {
         OPERATORS_BI.put(":+", TokenType.LIST_ADD);
         OPERATORS_BI.put(":?", TokenType.LIST_CONTAINS);
         OPERATORS_BI.put(":-", TokenType.LIST_REM);
+        OPERATORS_BI.put(":/", TokenType.LIST_REM_INDEX);
 
         // words
         Arrays.stream(TokenType.values())
