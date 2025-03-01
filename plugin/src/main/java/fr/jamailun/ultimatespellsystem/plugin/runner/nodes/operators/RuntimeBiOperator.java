@@ -4,8 +4,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * A bi-operator for the runtime.
  */
@@ -22,12 +20,12 @@ public abstract class RuntimeBiOperator extends RuntimeExpression {
     @Override
     public final @NotNull Object evaluate(@NotNull SpellRuntime runtime) {
         Object left = leftExpression.evaluate(runtime);
-        if(left instanceof List<?> listLeft && listLeft.size() == 1)
-            left = listLeft.getFirst();
+//        if(left instanceof List<?> listLeft && listLeft.size() == 1)
+//            left = listLeft.getFirst();
 
         Object right = rightExpression.evaluate(runtime);
-        if(right instanceof List<?> listRight && listRight.size() == 1)
-            right = listRight.getFirst();
+//        if(right instanceof List<?> listRight && listRight.size() == 1)
+//            right = listRight.getFirst();
 
         return evaluate(left, right);
     }
