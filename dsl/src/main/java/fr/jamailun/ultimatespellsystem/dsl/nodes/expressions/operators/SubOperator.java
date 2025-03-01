@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +23,7 @@ public class SubOperator extends BiOperator {
     private final static List<TypePrimitive> ALLOWED = List.of(TypePrimitive.NUMBER, TypePrimitive.DURATION, TypePrimitive.LOCATION);
 
     @Override
-    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType, @NotNull TypesContext context) {
         // No collections !
         if(leftType.isCollection() || rightType.isCollection()) {
             throw new TypeException(this, "A NEGATION cannot handle collections.");

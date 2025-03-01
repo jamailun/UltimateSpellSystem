@@ -4,7 +4,6 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -16,9 +15,8 @@ public abstract class VariableReference {
     abstract @NotNull TypeException exception(@NotNull String message);
 
     @Getter
-    @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-    static class Constant extends VariableReference {
-        private final String name;
+    @RequiredArgsConstructor
+    public static class Constant extends VariableReference {
         private final Type type;
         private final TokenPosition position;
         public @NotNull Type getType(@NotNull TypesContext context) {
@@ -34,10 +32,9 @@ public abstract class VariableReference {
         }
     }
 
-    @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-    static class Dynamic extends VariableReference {
+    @RequiredArgsConstructor
+    public static class Dynamic extends VariableReference {
 
-        @Getter private final String name;
         private final ExpressionNode node;
 
         private boolean computed = false;

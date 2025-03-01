@@ -40,12 +40,20 @@ public class DefineStatement extends StatementNode {
     }
 
     @PreviousIndicator(expected = {TokenType.DEFINE})
-    public static @NotNull DefineStatement parseNextDefine(@NotNull TokenStream tokens) {
+    public static @NotNull StatementNode parseNextDefine(@NotNull TokenStream tokens) {
         // %VAR_NAME
         Token varToken = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);
         String varName = varToken.getContentString();
 
         // =
+        if(tokens.dropOptional(TokenType.LIST_ADD, TokenType.LIST_REM, TokenType.LIST_REM_INDEX, TokenType.LIST_CONTAINS)) {
+            // Wait, this is not a define statement: it's a list-ope !
+            tokens.back();
+            tokens.back();
+            StatementNode statement = new SimpleExpressionStatement( ExpressionNode.readNextExpression(tokens) );
+            tokens.dropOptional(TokenType.SEMI_COLON);
+            return statement;
+        }
         tokens.dropOrThrow(TokenType.EQUAL);
 
         ExpressionNode expression = ExpressionNode.readNextExpression(tokens);

@@ -17,7 +17,7 @@ public abstract class BiOperator extends Operator {
     protected final ExpressionNode left;
     protected final ExpressionNode right;
 
-    protected BiOperator(TokenPosition position, ExpressionNode left, ExpressionNode right) {
+    protected BiOperator(@NotNull TokenPosition position, @NotNull ExpressionNode left, @NotNull ExpressionNode right) {
         super(position);
         this.left = left;
         this.right = right;
@@ -40,17 +40,17 @@ public abstract class BiOperator extends Operator {
         Type leftType = left.getExpressionType();
         Type rightType = right.getExpressionType();
 
-        validateTypes(leftType, rightType);
+        validateTypes(leftType, rightType, context);
     }
 
-    protected abstract void validateTypes(@NotNull Type leftType, @NotNull Type rightType);
+    protected abstract void validateTypes(@NotNull Type leftType, @NotNull Type rightType, @NotNull TypesContext context);
 
     @Override
     public void visit(@NotNull ExpressionVisitor visitor) {
         visitor.handleBiOperator(this);
     }
 
-    public static BiOperator parseBiOperator(ExpressionNode left, Token operand, ExpressionNode right) {
+    public static @NotNull BiOperator parseBiOperator(@NotNull ExpressionNode left, @NotNull Token operand, @NotNull ExpressionNode right) {
         TokenPosition pos = operand.pos();
         return switch (operand.getType()) {
             case OPE_ADD -> new AddOperator(pos, left, right);
@@ -60,6 +60,7 @@ public abstract class BiOperator extends Operator {
                     COMP_GE, COMP_GT,
                     COMP_LE, COMP_LT,
                     OPE_AND, OPE_OR -> new LogicalOperator(operand, left, right);
+            case LIST_ADD, LIST_REM, LIST_REM_INDEX, LIST_CONTAINS -> new ListOperator(operand, left, right);
             default -> throw new SyntaxException(operand, "Unknown Bi-operator.");
         };
     }
@@ -91,7 +92,14 @@ public abstract class BiOperator extends Operator {
         LESSER,
 
         AND,
-        OR
+        OR,
+
+        // List
+
+        LIST_ADD,
+        LIST_REM,
+        LIST_REM_INDEX,
+        LIST_CONTAINS
     }
 
 }

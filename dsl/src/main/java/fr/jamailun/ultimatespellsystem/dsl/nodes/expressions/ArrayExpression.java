@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class ArrayExpression extends ExpressionNode {
 
+    @Getter
     private final List<ExpressionNode> elements;
     private TypePrimitive typePrimitive;
 
@@ -26,7 +28,7 @@ public class ArrayExpression extends ExpressionNode {
     @Override
     public @NotNull Type getExpressionType() {
         if(typePrimitive == null)
-            throw new TypeException(this, "Type of primitive has not been set.");
+            throw new TypeException(firstTokenPosition(), "Type of primitive has not been set.");
         return typePrimitive.asType(true);
     }
 
@@ -50,6 +52,8 @@ public class ArrayExpression extends ExpressionNode {
                 assertExpressionType(node, CollectionFilter.MONO_ELEMENT, typePrimitive);
             }
         }
+        if(typePrimitive == null)
+            typePrimitive = TypePrimitive.NULL;
     }
 
     @PreviousIndicator(expected = TokenType.ARRAY_OPEN)
@@ -74,10 +78,7 @@ public class ArrayExpression extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "ARRAY("+getExpressionType()+")[" + elements + "]";
+        return "ARRAY("+(typePrimitive==null?"? type":typePrimitive.asType())+")[" + elements + "]";
     }
 
-    public List<ExpressionNode> getElements() {
-        return elements;
-    }
 }

@@ -196,14 +196,14 @@ public abstract class ExpressionNode extends Node {
     private static @NotNull ExpressionNode tryConvertLogicalExpression(ExpressionNode expr, @NotNull TokenStream tokens, boolean firstLevel) {
         Token token = tokens.peek();
         return switch(token.getType()) {
-            case OPE_OR, OPE_AND -> {
+            case OPE_OR, OPE_AND, LIST_ADD, LIST_REM, LIST_REM_INDEX -> {
                 if(!firstLevel)
                     yield expr;
                 tokens.drop();
                 ExpressionNode right = readNextExpression(tokens, false, new MathParsingQueue(false), true);
                 yield BiOperator.parseBiOperator(expr, token, right);
             }
-            case COMP_NE, COMP_EQ, COMP_GT, COMP_LT, COMP_LE, COMP_GE -> {
+            case COMP_NE, COMP_EQ, COMP_GT, COMP_LT, COMP_LE, COMP_GE, LIST_CONTAINS -> {
                 tokens.drop();
                 ExpressionNode right = readNextExpression(tokens, false, new MathParsingQueue(false), false);
                 BiOperator newFormed = BiOperator.parseBiOperator(expr, token, right);

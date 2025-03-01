@@ -46,6 +46,11 @@ public enum TokenType {
     OPE_AND, // '&&'
     OPE_OR,  // '||'
 
+    LIST_ADD, // :+
+    LIST_REM, // :-
+    LIST_REM_INDEX, // :/
+    LIST_CONTAINS, // :?
+
     // == KEYWORDS
 
     STOP(true),

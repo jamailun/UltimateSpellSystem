@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
@@ -33,10 +34,12 @@ public class SizeOfExpression extends ExpressionNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        // Always valid :)
+        child.validateTypes(context);
+        // Should we only accept lists?
     }
 
-    public static SizeOfExpression parseSizeOf(TokenStream tokens) {
+    @PreviousIndicator(expected = TokenType.SIZEOF)
+    public static @NotNull SizeOfExpression parseSizeOf(@NotNull TokenStream tokens) {
         TokenPosition position = tokens.position();
         boolean parenthesis = tokens.dropOptional(TokenType.BRACKET_OPEN);
 

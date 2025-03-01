@@ -29,4 +29,8 @@ public record Type(@NotNull TypePrimitive primitive, boolean isCollection) {
     public @NotNull Type asMonoElement() {
         return new Type(primitive, false);
     }
+    @Contract(" -> new")
+    public @NotNull Type asCollection() {
+        return new Type(primitive, true);
+    }
 }

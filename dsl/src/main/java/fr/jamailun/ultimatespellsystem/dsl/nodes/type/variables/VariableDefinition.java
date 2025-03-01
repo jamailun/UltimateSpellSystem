@@ -28,13 +28,14 @@ public class VariableDefinition {
         // We need ot compute the type
         for(VariableReference reference : references) {
             Type type = reference.getType(context);
-            if(type.is(TypePrimitive.NULL)) {
+            if(type.is(TypePrimitive.NULL) && !type.isCollection()) {
                 // Nothing here
                 continue;
             }
             if(computedType == null) {
                 computedType = type;
-            } else if( ! computedType.equals(type)) {
+            // We CAN overload a variable that as NULL.
+            } else if(!computedType.is(TypePrimitive.NULL) && ! computedType.equals(type)) {
                 throw reference.exception("Cannot change type of an already defined variable (%"+name+"). Previous type: " + computedType + ", new type: " + type + ".");
             }
         }

@@ -141,7 +141,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append(indent())
                 .append("define %")
                 .append(statement.getVarName())
-                .append(" as: ");
+                .append(" = ");
         statement.getExpression().visit(this);
     }
 
@@ -390,6 +390,10 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             case LESSER -> "<";
             case AND -> "and";
             case OR -> "or";
+            case LIST_ADD -> "append";
+            case LIST_REM -> "remove";
+            case LIST_CONTAINS -> "contains";
+            case LIST_REM_INDEX -> "remove_idx";
         };
         builder.append(" ").append(ope).append(" ");
         operator.getRight().visit(this);

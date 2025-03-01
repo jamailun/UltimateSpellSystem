@@ -37,7 +37,7 @@ public class TypesContext {
         }
 
         vars.putIfAbsent(varName, new VariableDefinition(varName));
-        vars.get(varName).register(new VariableReference.Dynamic(varName, variable));
+        vars.get(varName).register(new VariableReference.Dynamic(variable));
         vars.get(varName).getType(this);
     }
 
@@ -48,7 +48,7 @@ public class TypesContext {
      */
     public void promiseVariable(@NotNull String name, @NotNull Type type) {
         vars.putIfAbsent(name, new VariableDefinition(name));
-        vars.get(name).register(new VariableReference.Constant(name, type, TokenPosition.unknown()));
+        vars.get(name).register(new VariableReference.Constant(type, TokenPosition.unknown()));
     }
 
     /**
@@ -63,7 +63,7 @@ public class TypesContext {
         }
 
         vars.putIfAbsent(varName, new VariableDefinition(varName));
-        vars.get(varName).register(new VariableReference.Constant(varName, type, position));
+        vars.get(varName).register(new VariableReference.Constant(type, position));
     }
 
     /**

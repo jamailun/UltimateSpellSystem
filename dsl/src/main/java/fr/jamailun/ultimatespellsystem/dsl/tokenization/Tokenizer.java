@@ -46,6 +46,10 @@ public class Tokenizer {
         OPERATORS_BI.put("[[", TokenType.ARRAY_OPEN);
         OPERATORS_BI.put("]]", TokenType.ARRAY_CLOSE);
 
+        OPERATORS_BI.put(":+", TokenType.LIST_ADD);
+        OPERATORS_BI.put(":?", TokenType.LIST_CONTAINS);
+        OPERATORS_BI.put(":-", TokenType.LIST_REM);
+
         // words
         Arrays.stream(TokenType.values())
                         .filter(t -> t.letters)

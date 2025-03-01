@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,7 @@ public class AddOperator extends BiOperator {
     }
 
     @Override
-    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType) {
+    public void validateTypes(@NotNull Type leftType, @NotNull Type rightType, @NotNull TypesContext context) {
         // 1) One of them is a String : always compatible
         if(leftType.is(TypePrimitive.STRING) || rightType.is(TypePrimitive.STRING)) {
             producedType = TypePrimitive.STRING.asType();
