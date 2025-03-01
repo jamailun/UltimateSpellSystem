@@ -1,0 +1,7 @@
+%val = 0;
+
+for(%i = 0; %i < 5; increment %i) {
+    increment %val;
+}
+
+ASSERT_TRUE(%val == 5, "%val = " + %val + ", should be 5.");

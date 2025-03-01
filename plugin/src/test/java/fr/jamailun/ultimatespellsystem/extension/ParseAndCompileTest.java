@@ -89,7 +89,8 @@ abstract class ParseAndCompileTest extends TestFramework {
         }
         System.out.println("\n" + WHITE_BOLD + "=====================================================" + RESET + "\n");
 
-        Assertions.assertTrue(failures.isEmpty(), "Test failure were found.");
+        if(!failures.isEmpty())
+            System.exit(42);
     }
 
 }

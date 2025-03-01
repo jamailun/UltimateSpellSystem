@@ -7,6 +7,9 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.UssMain;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
+import fr.jamailun.ultimatespellsystem.runner.framework.functions.AssertNotCalledFunction;
+import fr.jamailun.ultimatespellsystem.runner.framework.functions.AssertTrueFunction;
+import fr.jamailun.ultimatespellsystem.runner.framework.functions.PrintFunction;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -33,6 +36,7 @@ public abstract class TestFramework {
             UltimateSpellSystem.setPlugin(fakePlugin);
 
             JavaFunctionProvider.instance().registerFunction(new AssertTrueFunction());
+            JavaFunctionProvider.instance().registerFunction(new AssertNotCalledFunction());
             JavaFunctionProvider.instance().registerFunction(new PrintFunction());
         } catch(IllegalStateException ignored) {}
     }

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.runner.framework;
+package fr.jamailun.ultimatespellsystem.runner.framework.functions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;

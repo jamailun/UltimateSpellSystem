@@ -34,6 +34,11 @@ public class ExtensionParsingTests extends ParseAndCompileTest {
         testFolder("entities", false);
     }
 
+    @Test
+    void testLoops() {
+        testFolder("loops", true);
+    }
+
     private void testFolder(@NotNull String folder, boolean run) {
         for(File file : listTests(folder)) {
             try {
