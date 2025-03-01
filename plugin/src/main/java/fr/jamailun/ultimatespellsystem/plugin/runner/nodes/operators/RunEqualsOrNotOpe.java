@@ -18,14 +18,13 @@ public final class RunEqualsOrNotOpe extends RuntimeBiOperator {
 
     @Override
     protected Boolean evaluate(Object left, Object right) {
-        if(isEqual)
-            return equals(left, right);
-        return ! equals(left, right);
+        boolean areEqual = equals(left, right);
+        return isEqual == areEqual;
     }
 
     private boolean equals(Object left, Object right) {
         if(left == null || right == null) {
-            return isEqual && (left == null) == (right == null);
+            return (left == null) == (right == null);
         }
         if(left instanceof Number l && right instanceof Number r) {
             UltimateSpellSystem.logDebug("Comparison (numbers). L="+l+"; R="+r);

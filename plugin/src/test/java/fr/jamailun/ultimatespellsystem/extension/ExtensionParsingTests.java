@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
+import fr.jamailun.ultimatespellsystem.runner.framework.AssertException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,9 @@ public class ExtensionParsingTests extends ParseAndCompileTest {
                 addOk();
             } catch (UssException e) {
                 e.printStackTrace();
+                addFails(file, toString(e));
+            } catch (AssertException e) {
+                System.err.println("Assertion exception ! " + e.getMessage());
                 addFails(file, toString(e));
             } catch (Exception e) {
                 System.err.println("Unexpected error.");

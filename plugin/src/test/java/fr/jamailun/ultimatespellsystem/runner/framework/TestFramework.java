@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import java.util.List;
+import java.util.UUID;
 
 public abstract class TestFramework {
 
@@ -51,6 +52,9 @@ public abstract class TestFramework {
         Mockito.when(caster.getEyeHeight()).thenReturn(1d);
         Mockito.when(caster.getEyeLocation()).thenReturn(new Location(world, 12, 13, 12));
         Mockito.when(caster.getWalkSpeed()).thenReturn(1f);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(caster.getUniqueId()).thenReturn(uuid);
+        Mockito.when(caster.getName()).thenReturn("MockedPlayer");
     }
 
     protected boolean cast(@NotNull RuntimeStatement... statements) {

@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
@@ -30,14 +31,12 @@ public class AllAroundNode extends RuntimeExpression {
             source = list.getFirst();
         }
 
-        Location location;
-        if(source instanceof SpellEntity entity) {
-            location = entity.getLocation();
-        } else if(source instanceof Location loc) {
-            location = loc;
-        } else {
-            throw new UnreachableRuntimeException("Invalid source type : " + source);
-        }
+        Location location = switch (source) {
+            case null -> throw new InvalidTypeException("all-around::source", "entity/location", "NULL");
+            case SpellEntity entity -> entity.getLocation();
+            case Location loc -> loc;
+            default -> throw new UnreachableRuntimeException("Invalid source type : " + source);
+        };
 
         // Scope
         Object scope = this.scope.evaluate(runtime);

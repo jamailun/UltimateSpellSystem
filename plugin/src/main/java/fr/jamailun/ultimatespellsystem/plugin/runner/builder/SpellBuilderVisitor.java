@@ -241,11 +241,9 @@ public class SpellBuilderVisitor implements StatementVisitor {
     private void pushQueue() {
         accumulatorsStack.push(currentQueue);
         currentQueue = new ArrayList<>();
-        //System.out.println("PUSH-Queue ! curr="+currentQueue+", QQ="+ accumulatorsStack);
     }
 
     private void popQueue() {
         currentQueue = accumulatorsStack.pop();
-        //System.out.println("POP-Queue ! curr="+currentQueue+", QQ="+ accumulatorsStack);
     }
 }

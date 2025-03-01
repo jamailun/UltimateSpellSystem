@@ -1,0 +1,11 @@
+%a = %caster;
+PRINT("A(1) = " + %a);
+
+ASSERT_TRUE(!(%a == null), "'!(==)' does not work with null.");
+ASSERT_TRUE(%a != null, "'!=' does not work with null.");
+
+%a = null;
+PRINT("A(2) = " + %a);
+
+ASSERT_TRUE(%a == null, "'==' does not work with null.");
+ASSERT_TRUE((%a == null) == !(%a != null), "Invert equal operators should give the same result.");
