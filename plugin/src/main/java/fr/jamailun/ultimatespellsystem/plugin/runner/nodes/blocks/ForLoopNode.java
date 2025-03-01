@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -12,12 +13,10 @@ public class ForLoopNode extends RuntimeStatement {
     private final RuntimeStatement initializer, iteration;
     private final RuntimeStatement child;
 
-
     //TODO make the safeguard configurable !
     private final static int MAX_ITERATIONS = 4096;
 
-
-    public ForLoopNode( RuntimeStatement initializer, RuntimeExpression condition, RuntimeStatement iteration, RuntimeStatement child) {
+    public ForLoopNode(@NotNull RuntimeStatement initializer, @NotNull RuntimeExpression condition, @NotNull RuntimeStatement iteration, @NotNull RuntimeStatement child) {
         this.initializer = initializer;
         this.condition = condition;
         this.iteration = iteration;
@@ -33,11 +32,17 @@ public class ForLoopNode extends RuntimeStatement {
 
         while(run.conditionValid()) {
             run.applyIteration();
-            if(runtime.getFlowState().isNotRunning())
-                return;
+
+            // Flow management
+            FlowState flow = runtime.getFlowState();
+            if(flow.isNotRunning()) {
+                if(flow == FlowState.BROKEN_CONTINUE)
+                    runtime.statementContinue();
+                else
+                    return;
+            }
         }
     }
-
 
     private class RunInstance {
         int iterationCount = 0;

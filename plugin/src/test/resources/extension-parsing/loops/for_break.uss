@@ -1,11 +1,11 @@
 for(%i = 0; %i < 5; increment %i) {
     if(%i >= 0)
         break;
-    ASSERT_NOT_CALLED("Break should work.");
+    ASSERT_NOT_CALLED("FOR::Break should work.");
 }
 
 for(%i = 0; %i < 5; increment %i) {
     if(%i >= 0)
         continue;
-    ASSERT_NOT_CALLED("Break should work.");
+    ASSERT_NOT_CALLED("FOR::Continue should work.");
 }

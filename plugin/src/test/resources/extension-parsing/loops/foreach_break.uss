@@ -1,0 +1,13 @@
+%list = [["a", "b"]];
+
+foreach(%e : %list) {
+    if(true)
+        break;
+    ASSERT_NOT_CALLED("FOREACH::Break should work.");
+}
+
+foreach(%e : %list) {
+    if(true)
+        continue;
+    ASSERT_NOT_CALLED("FOREACH::Continue should work.");
+}

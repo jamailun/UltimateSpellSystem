@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -25,18 +26,29 @@ public class WhileLoopNode extends RuntimeStatement {
 
         if(whileFirst) {
             while(run.conditionValid()) {
-                run.applyIteration();
-                if(runtime.getFlowState().isNotRunning())
+                if(iterate(run, runtime))
                     return;
             }
         } else {
             do {
-                run.applyIteration();
-                if(runtime.getFlowState().isNotRunning())
+                if(iterate(run, runtime))
                     return;
             } while(run.conditionValid());
         }
 
+    }
+
+    private boolean iterate(@NotNull RunInstance run, @NotNull SpellRuntime runtime) {
+        run.applyIteration();
+        // Flow management
+        FlowState flow = runtime.getFlowState();
+        if(flow.isNotRunning()) {
+            if(flow == FlowState.BROKEN_CONTINUE)
+                runtime.statementContinue();
+            else
+                return true;
+        }
+        return false;
     }
 
     /**

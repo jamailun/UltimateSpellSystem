@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -28,8 +29,15 @@ public class ForeachLoopNode extends RuntimeStatement {
         for(Object object : list) {
             runtime.variables().set(varName, object);
             child.run(runtime);
-            if(runtime.isStopped())
-                return;
+
+            // Flow management
+            FlowState flow = runtime.getFlowState();
+            if(flow.isNotRunning()) {
+                if(flow == FlowState.BROKEN_CONTINUE)
+                    runtime.statementContinue();
+                else
+                    return;
+            }
         }
     }
 

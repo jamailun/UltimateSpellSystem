@@ -111,6 +111,14 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     }
 
     @Override
+    public void acceptContinue() {
+        if(flagContinue) {
+            flagBreak = false;
+            flagContinue = false;
+        }
+    }
+
+    @Override
     public @NotNull FlowState getFlowState() {
         if(isStopped()) return FlowState.STOPPED;
         if(flagContinue) return FlowState.BROKEN_CONTINUE;

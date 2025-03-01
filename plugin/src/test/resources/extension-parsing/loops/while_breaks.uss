@@ -1,0 +1,14 @@
+%i = 0;
+while(%i < 5) {
+    increment %i;
+    if(%i >= 0)
+        break;
+    ASSERT_NOT_CALLED("WHILE::Break should work.");
+}
+
+do {
+    decrement %i;
+    if(%i >= 0)
+        continue;
+    ASSERT_NOT_CALLED("WHILE::Continue should work.");
+} while(%i > 0);

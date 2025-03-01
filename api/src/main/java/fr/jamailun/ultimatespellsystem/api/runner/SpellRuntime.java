@@ -45,6 +45,15 @@ public interface SpellRuntime {
      */
     void statementContinue();
 
+    /**
+     * Reset the 'continue' flag and resume the flow.
+     */
+    void acceptContinue();
+
+    /**
+     * Get the state of the control flow.
+     * @return a state.
+     */
     @NotNull FlowState getFlowState();
 
     /**

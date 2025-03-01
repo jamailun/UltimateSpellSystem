@@ -24,8 +24,11 @@ public class BlockNodes extends RuntimeStatement {
             FlowState flow = childRuntime.getFlowState();
 
             if(flow.isNotRunning()) {
+                // Propagate break to parent.
                 if(flow == FlowState.BROKEN) {
-                    runtime.statementBreak(); // propagate to parent !
+                    runtime.statementBreak();
+                }else if(flow == FlowState.BROKEN_CONTINUE) {
+                    runtime.statementContinue();
                 }
                 return;
             }
