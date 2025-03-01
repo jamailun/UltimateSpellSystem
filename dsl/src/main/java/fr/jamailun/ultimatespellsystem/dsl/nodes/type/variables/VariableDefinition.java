@@ -32,7 +32,7 @@ public class VariableDefinition {
                 // Nothing here
                 continue;
             }
-            if(computedType == null) {
+            if(computedType == null || computedType.is(TypePrimitive.NULL)) {
                 computedType = type;
             // We CAN overload a variable that as NULL.
             } else if(!computedType.is(TypePrimitive.NULL) && ! computedType.equals(type)) {

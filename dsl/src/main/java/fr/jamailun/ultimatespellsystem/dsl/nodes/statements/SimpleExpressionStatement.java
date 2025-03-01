@@ -24,7 +24,7 @@ public class SimpleExpressionStatement extends StatementNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        // Nothing to do.
+        child.validateTypes(context);
     }
 
     @Override

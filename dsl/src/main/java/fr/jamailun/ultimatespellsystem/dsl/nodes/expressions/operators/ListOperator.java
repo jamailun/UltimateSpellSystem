@@ -42,12 +42,11 @@ public class ListOperator extends BiOperator {
             throw new TypeException(firstTokenPosition(), "A list operator (" + opeType + ") can ONLY be applied on a LIST for the left operand. Left is " + leftType);
 
         // We can, eventually, help to figure-out what variable
-        if(left.getExpressionType().is(TypePrimitive.NULL) && opeType != BiOpeType.LIST_REM_INDEX) {
-            if(left instanceof VariableExpression varExpr) {
-                VariableDefinition var = context.findVariable(varExpr.getVariableName());
-                if(var != null) {
-                    var.register(new VariableReference.Constant(rightType.asCollection(), firstTokenPosition()));
-                }
+        if(opeType != BiOpeType.LIST_REM_INDEX) {
+            if(left.getExpressionType().is(TypePrimitive.NULL)) {
+                helpCompleteVariable(rightType, context);
+            } else if(leftType.primitive() != rightType.primitive()) {
+                throw new TypeException(firstTokenPosition(), "Cannot have heterogeneous lists. List is " + leftType + ", right operand is " + rightType);
             }
         }
 
@@ -60,6 +59,15 @@ public class ListOperator extends BiOperator {
             producedType = TypePrimitive.BOOLEAN.asType();
         } else {
             producedType = leftType;
+        }
+    }
+
+    private void helpCompleteVariable(Type rightType, TypesContext context) {
+        if(left instanceof VariableExpression varExpr) {
+            VariableDefinition var = context.findVariable(varExpr.getVariableName());
+            if(var != null) {
+                var.register(new VariableReference.Constant(rightType.asCollection(), firstTokenPosition()));
+            }
         }
     }
 
