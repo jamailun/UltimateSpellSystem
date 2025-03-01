@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.runner.framework;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
+import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.UssMain;
@@ -23,13 +24,16 @@ public abstract class TestFramework {
 
     @BeforeAll
     static void initAll() {
-            UltimateSpellSystemPlugin fakePlugin = Mockito.mock(UssMain.class);
-            Mockito.doNothing().when(fakePlugin).logDebug(Mockito.anyString());
-            Mockito.doNothing().when(fakePlugin).logInfo(Mockito.anyString());
-            Mockito.doNothing().when(fakePlugin).logWarning(Mockito.anyString());
-            Mockito.doNothing().when(fakePlugin).logError(Mockito.anyString());
+        UltimateSpellSystemPlugin fakePlugin = Mockito.mock(UssMain.class);
+        Mockito.doNothing().when(fakePlugin).logDebug(Mockito.anyString());
+        Mockito.doNothing().when(fakePlugin).logInfo(Mockito.anyString());
+        Mockito.doNothing().when(fakePlugin).logWarning(Mockito.anyString());
+        Mockito.doNothing().when(fakePlugin).logError(Mockito.anyString());
         try {
             UltimateSpellSystem.setPlugin(fakePlugin);
+
+            JavaFunctionProvider.instance().registerFunction(new AssertTrueFunction());
+            JavaFunctionProvider.instance().registerFunction(new PrintFunction());
         } catch(IllegalStateException ignored) {}
     }
 

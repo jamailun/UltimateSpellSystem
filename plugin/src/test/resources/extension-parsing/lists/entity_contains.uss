@@ -1,0 +1,3 @@
+%list = [[]];
+%list :+ %caster;
+ASSERT_TRUE(%list :? %caster, "List " + %list + " should contain " + %caster);

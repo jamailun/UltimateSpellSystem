@@ -1,0 +1,21 @@
+%list = [["d"]];
+define %s = "[0]" + " " + %list
+PRINT(%s);
+ASSERT_TRUE(sizeof(%list) == 1, "List = " + %list + ", expected size = 1.");
+
+(%list :+ "a") :+ "b";
+PRINT("[1] " + %list);
+
+ASSERT_TRUE(sizeof(%list) == 3, "List = " + %list + ", expected size = 3.");
+
+ASSERT_TRUE(%list :? "a", "List " + %list + " was supposed to contains 'a'.");
+ASSERT_TRUE(!(%list :? "z"), "List " + %list + " was not supposed to contains 'z'.");
+
+%list :- "b";
+PRINT("[2] " + %list);
+ASSERT_TRUE(sizeof(%list) == 2, "List = " + %list + ", expected size = 2.");
+
+%list :/ 1;
+PRINT("[3] " + %list);
+ASSERT_TRUE(sizeof(%list) == 1, "List = " + %list + ", expected size = 1.");
+ASSERT_TRUE(!(%list :? "a"), "List " + %list + " was not supposed to contains 'a'.");

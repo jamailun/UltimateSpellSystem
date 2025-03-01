@@ -15,13 +15,18 @@ import java.util.List;
 public class ExtensionParsingTests extends ParseAndCompileTest {
 
     @BeforeAll
-    static void before() {
+    static void beforeAll() {
         ExtensionLoader.load();
     }
 
     @Test
     void testVariousFunctions() {
         testFolder("various", true);
+    }
+
+    @Test
+    void testLists() {
+        testFolder("lists", true);
     }
 
     @Test

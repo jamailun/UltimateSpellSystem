@@ -8,6 +8,8 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
  * A node that can define a variable to the runtime.
  */
@@ -20,14 +22,18 @@ public class DefineNode extends RuntimeStatement {
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {
-        if(type.is(TypePrimitive.NULL))
+        if(type.is(TypePrimitive.NULL)) {
+            if(type.isCollection()) {
+                runtime.variables().set(varName, new ArrayList<>());
+            } else {
+                runtime.variables().set(varName, null);
+            }
             return;
+        }
 
         Class<?> clazz = type.primitive().clazz;
         if(clazz == null)
             throw new RuntimeException("Cannot run a null-typed expression : " + runtime);
-
-        //Object value = runtime.safeEvaluateAcceptsList(expression, clazz);
 
         runtime.variables().set(varName, expression.evaluate(runtime));
     }
