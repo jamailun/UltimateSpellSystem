@@ -34,12 +34,8 @@ public final class VariablesSetImpl implements VariablesSet {
 
     @Override
     public void set(@NotNull String key, @Nullable Object value) {
-        if(value == null) {
-            objects.remove(key);
-            return;
-        }
         objects.put(key, value);
-        UltimateSpellSystem.logDebug("§e[Vars] §7["+key+"] <-- " + value);
+        UltimateSpellSystem.logDebug("§e[Vars] §7%"+key+" <-- " + value);
     }
 
     @Override
