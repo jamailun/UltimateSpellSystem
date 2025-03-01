@@ -36,7 +36,7 @@ public final class FunctionCallExpression extends ExpressionNode {
         List<FunctionArgument> listArgs = function.arguments();
 
         // Then validate arguments types
-        for(int i = 0; i < listArgs.size(); i++) {
+        for(int i = 0; i < arguments.size(); i++) {
             FunctionArgument expected = listArgs.get(i);
             ExpressionNode obtained = arguments.get(i);
             obtained.validateTypes(context);

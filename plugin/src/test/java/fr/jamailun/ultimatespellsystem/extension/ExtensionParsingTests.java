@@ -39,6 +39,10 @@ public class ExtensionParsingTests extends ParseAndCompileTest {
             } catch (UssException e) {
                 e.printStackTrace();
                 addFails(file, toString(e));
+            } catch (Exception e) {
+                System.err.println("Unexpected error.");
+                e.printStackTrace();
+                addFails(file, toString(e));
             }
         }
         printResults();
