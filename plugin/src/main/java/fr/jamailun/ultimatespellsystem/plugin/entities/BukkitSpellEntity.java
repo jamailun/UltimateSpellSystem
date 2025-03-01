@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.entities;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -9,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -64,6 +66,23 @@ public class BukkitSpellEntity implements SpellEntity {
         if(entity instanceof LivingEntity living) {
             living.addPotionEffect(effect);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null) return false;
+        if(this == other) return true;
+        UUID otherUuid = switch (other) {
+            case Entity otherEn -> otherEn.getUniqueId();
+            case SpellEntity otherSe -> otherSe.getUniqueId();
+            default -> throw new InvalidTypeException("compare SpellEntity", "entity", other);
+        };
+        return Objects.equals(otherUuid, getUniqueId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getUniqueId().hashCode();
     }
 
     @Override
