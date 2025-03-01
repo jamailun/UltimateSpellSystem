@@ -66,8 +66,8 @@ abstract class ParseAndCompileTest extends TestFramework {
         // validate
         TypesContext context = new TypesContext();
         for (StatementNode node : nodes) {
-            node.validateTypes(context);
             System.out.println("> " + node);
+            node.validateTypes(context);
         }
         return SpellBuilderVisitor.build(nodes);
     }

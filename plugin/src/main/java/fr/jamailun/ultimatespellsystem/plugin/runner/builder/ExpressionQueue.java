@@ -17,6 +17,10 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperato
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ArrayGetNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListAddRemOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListContainsOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListRemIndexOpe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -159,6 +163,10 @@ public class ExpressionQueue implements ExpressionVisitor {
             case LESSER -> new RunCompOpe(left, right, false, false);
             case AND ->  new RunAndOrOpe(left, right, true);
             case OR -> new RunAndOrOpe(left, right, false);
+            case LIST_ADD -> new ListAddRemOpe(left, right, true);
+            case LIST_REM -> new ListAddRemOpe(left, right, false);
+            case LIST_CONTAINS -> new ListContainsOpe(left, right);
+            case LIST_REM_INDEX -> new ListRemIndexOpe(left, right);
         });
     }
 
