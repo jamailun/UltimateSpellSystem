@@ -32,6 +32,10 @@ I've also put a handful of [examples](/examples).
 
 You can code your own plugin to interact with USS.
 
+# Questions ?
+
+For now, just creabt an issue on the repo !
+
 You can provides custom attributes for summoned entities.
 You can listen to specific events.
 
