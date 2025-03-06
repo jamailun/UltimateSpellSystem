@@ -8,9 +8,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,6 +69,9 @@ public class SummonAttributesImpl implements SummonAttributes {
             Entity raw = summonLocation.getWorld().spawnEntity(summonLocation, summonEntityType.getBukkit(), false);
             if(raw instanceof Projectile projectile) {
                 projectile.setShooter(runtime.getCaster());
+                if(projectile instanceof Arrow arrow) {
+                    arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+                }
             }
             entity = new BukkitSpellEntity(raw);
         } else {

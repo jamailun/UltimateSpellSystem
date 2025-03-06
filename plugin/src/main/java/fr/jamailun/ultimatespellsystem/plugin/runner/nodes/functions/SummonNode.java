@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,25 +27,7 @@ public class SummonNode extends RuntimeStatement {
         UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
         LivingEntity caster = runtime.getCaster();
-
-        // Find the location to summon.
-        Location location;
-        if(source != null) {
-            Object sourceValue = runtime.safeEvaluate(source, Object.class);
-            if(sourceValue instanceof Location sourceLoc) {
-                location = sourceLoc;
-            } else if(sourceValue instanceof SpellEntity sourceEntity) {
-                if(entityType.isProjectileLike()) {
-                    location = sourceEntity.getEyeLocation();
-                } else {
-                    location = sourceEntity.getLocation();
-                }
-            } else {
-                throw new InvalidTypeException("teleport[loc]", "location or entity", sourceValue);
-            }
-        } else {
-            location = caster.getLocation();
-        }
+        Location location = getSource(runtime, caster, entityType);
 
         // Summon
         SpellEntity entity = UltimateSpellSystem.getSummonsManager().summon(
@@ -57,6 +40,18 @@ public class SummonNode extends RuntimeStatement {
         if(optVariableName != null) {
             runtime.variables().set(optVariableName, entity);
         }
+    }
+
+    private @NotNull Location getSource(@NotNull SpellRuntime runtime, @NotNull Entity caster, @NotNull UssEntityType type) {
+        if(source == null)
+            return caster.getLocation();
+
+        Object sourceValue = runtime.safeEvaluate(source, Object.class);
+        return switch(sourceValue) {
+            case Location sourceLoc -> sourceLoc;
+            case SpellEntity sourceEntity -> type.isProjectileLike() ? sourceEntity.getEyeLocation() : sourceEntity.getLocation();
+            default -> throw new InvalidTypeException("teleport.location", "location or entity", sourceValue);
+        };
     }
 
     @Override

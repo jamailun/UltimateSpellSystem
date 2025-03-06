@@ -10,27 +10,28 @@ Entities expect some attributes to be defined.
 
 All summoned entities share some attributes.
 
-| Attribute | Type | Description | Default |
-|:---------:|:----:|:-----------:|:-------:|
-| `name` | `String` | A custom value for the nametag of the entity. | *None* |
-| `name_visible` | `Boolean` | If true, the custom-name will be always visible. | `false` |
-| | | | |
-| `health` | `Number` | If set, will overwrite the `GENERIC_MAX_HEALTH` attribute. | *None* |
-| `attack` | `Number` | If set, will overwrite the `GENERIC_ATTACK_DAMAGE` attribute. | *None* |
-| `armor` | `Number` | If set, will overwrite the `GENERIC_ARMOR` attribute. | *None* |
-| `toughness` | `Number` | If set, will overwrite the `GENERIC_ARMOR_TOUGHNESS` attribute. | *None* |
-| `speed` | `Number` | If set, will overwrite the `GENERIC_MOVEMENT_SPEED` attribute. | *None* |
-| `knockback_resistance` | `Number` | If set, will overwrite the `GENERIC_KNOCKBACK_RESISTANCE` attribute. | *None* |
-| `knockback` | `Number` | If set, will overwrite the `GENERIC_ATTACK_KNOCKBACK` attribute. | *None* |
-| | | | |
-| `baby` | `Boolean` | If set (and if the entity is Ageable) will set the type of mob to adult or baby. | *None* |
-| | | | |
-| `head` | [Item](#item) | Set the item in the `HEAD` armor slot. | *None* |
-| `chest` | [Item](#item) | Set the item in the `CHEST` armor slot. | *None* |
-| `legs` | [Item](#item) | Set the item in the `LEGS` armor slot. | *None* |
-| `feet` | [Item](#item) | Set the item in the `FEET` armor slot. | *None* |
-| `hand` | [Item](#item) | Set the item in the `HAND` armor slot. | *None* |
-| `off_hand` | [Item](#item) | Set the item in the `OFF_HAND` armor slot. | *None* |
+|       Attribute        |     Type      |                                     Description                                      | Default |
+|:----------------------:|:-------------:|:------------------------------------------------------------------------------------:|:-------:|
+|         `name`         |   `String`    |                    A custom value for the nametag of the entity.                     | *None*  |
+|     `name_visible`     |   `Boolean`   |                   If true, the custom-name will be always visible.                   | `false` |
+|                        |               |                                                                                      |         |
+|        `health`        |   `Number`    |              If set, will overwrite the `GENERIC_MAX_HEALTH` attribute.              | *None*  |
+|    `attack_damage`     |   `Number`    |            If set, will overwrite the `GENERIC_ATTACK_DAMAGE` attribute.             | *None*  |
+|  `projectile_damage`   |   `Number`    | Raw amount of damage to inflict on hit targets. Only works with `Pojectile` objects. | *None*  |
+|        `armor`         |   `Number`    |                If set, will overwrite the `GENERIC_ARMOR` attribute.                 | *None*  |
+|      `toughness`       |   `Number`    |           If set, will overwrite the `GENERIC_ARMOR_TOUGHNESS` attribute.            | *None*  |
+|        `speed`         |   `Number`    |            If set, will overwrite the `GENERIC_MOVEMENT_SPEED` attribute.            | *None*  |
+| `knockback_resistance` |   `Number`    |         If set, will overwrite the `GENERIC_KNOCKBACK_RESISTANCE` attribute.         | *None*  |
+|      `knockback`       |   `Number`    |           If set, will overwrite the `GENERIC_ATTACK_KNOCKBACK` attribute.           | *None*  |
+|                        |               |                                                                                      |         |
+|         `baby`         |   `Boolean`   |   If set (and if the entity is Ageable) will set the type of mob to adult or baby.   | *None*  |
+|                        |               |                                                                                      |         |
+|         `head`         | [Item](#item) |                        Set the item in the `HEAD` armor slot.                        | *None*  |
+|        `chest`         | [Item](#item) |                       Set the item in the `CHEST` armor slot.                        | *None*  |
+|         `legs`         | [Item](#item) |                        Set the item in the `LEGS` armor slot.                        | *None*  |
+|         `feet`         | [Item](#item) |                        Set the item in the `FEET` armor slot.                        | *None*  |
+|         `hand`         | [Item](#item) |                        Set the item in the `HAND` armor slot.                        | *None*  |
+|       `off_hand`       | [Item](#item) |                      Set the item in the `OFF_HAND` armor slot.                      | *None*  |
 
 ### Specific entities-attributes
 
@@ -38,23 +39,23 @@ All summoned entities share some attributes.
 
 The orb represents a virtual entity, applying effects in a certain radius. It can move in a linear path.
 
-| Attribute | Type | Description | Default |
-|:---------:|:----:|:-----------:|:-------:|
-| `radius` | `Number` | Spherical radius to apply effect to. | `0.4` |
-| `apply_self` | `Boolean` | If true, the effects can trigger on the owner. | `false` |
-| `sound` | [Sound-Holder](#sound-holder) | Sound to make on spawn. | *None** |
-| `sound_hit` | [Sound-Holder](#sound-holder) | Sound to make on hit. | *None** |
-| `particle` | [Particle-Holder](#sound-holder) | Particles to generate at each clock tick. | *None** |
-| `particles` | `Array[`[Particle-Holder](#sound-holder)`]` | Multiple particles to generate at each clock tick. | *None** |
-| `effect` | [PotionEffect-Holder](#potion-effect-holder) | Potion-Effects to apply on hit targets. | *None** |
-| `effects` | `Array[`[PotionEffect-Holder](#potion-effect-holder)`]` | Array of Potion-Effects to apply on hit targets. | *None** |
-| `fire` | `Number` | Amount of ticks to set the hit targets on fire. | `0` |
-| `damages` | `Number` | Raw amount of damage to inflict on hit targets. | `0` |
-| `max_collisions` | `Number` | Amount of entity-collision before self destroy. If zero or negative, will pierce any number of targets. | `0` |
-| `max_blocks_hit` | `Number` | Maximum amount of blocks to hit. Any collision greater than this will destroy the orb. Negative value disable hit count. | `-1` ||
-| `velocity` | `Number` | Linear velocity of the orb, in blocs/seconds. | `0` |
-| `direction` | `Vector` *(\*)* | Direction to move to. Will be normalized to be applied to the velocity each clock tick. | *Direction of the caster* |
-| `_clock` | `Number` | Frequency of the clock, in server-ticks (20/s). Beware, as changing this may impact server performances. | `5` |
+|      Attribute      |                          Type                           |                                                       Description                                                        |          Default          |
+|:-------------------:|:-------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|:-------------------------:|
+|      `radius`       |                        `Number`                         |                                           Spherical radius to apply effect to.                                           |           `0.4`           |
+|    `apply_self`     |                        `Boolean`                        |                                      If true, the effects can trigger on the owner.                                      |          `false`          |
+|       `sound`       |              [Sound-Holder](#sound-holder)              |                                                 Sound to make on spawn.                                                  |          *None**          |
+|     `sound_hit`     |              [Sound-Holder](#sound-holder)              |                                                  Sound to make on hit.                                                   |          *None**          |
+|     `particle`      |            [Particle-Holder](#sound-holder)             |                                        Particles to generate at each clock tick.                                         |          *None**          |
+|     `particles`     |       `Array[`[Particle-Holder](#sound-holder)`]`       |                                    Multiple particles to generate at each clock tick.                                    |          *None**          |
+|      `effect`       |      [PotionEffect-Holder](#potion-effect-holder)       |                                         Potion-Effects to apply on hit targets.                                          |          *None**          |
+|      `effects`      | `Array[`[PotionEffect-Holder](#potion-effect-holder)`]` |                                     Array of Potion-Effects to apply on hit targets.                                     |          *None**          |
+|       `fire`        |                        `Number`                         |                                     Amount of ticks to set the hit targets on fire.                                      |            `0`            |
+|      `damages`      |                        `Number`                         |                                     Raw amount of damage to inflict on hit targets.                                      |            `0`            |
+|  `max_collisions`   |                        `Number`                         |         Amount of entity-collision before self destroy. If zero or negative, will pierce any number of targets.          |            `0`            |
+|  `max_blocks_hit`   |                        `Number`                         | Maximum amount of blocks to hit. Any collision greater than this will destroy the orb. Negative value disable hit count. |           `-1`            ||
+|     `velocity`      |                        `Number`                         |                                      Linear velocity of the orb, in blocs/seconds.                                       |            `0`            |
+|     `direction`     |                     `Vector` *(\*)*                     |                 Direction to move to. Will be normalized to be applied to the velocity each clock tick.                  | *Direction of the caster* |
+|      `_clock`       |                        `Number`                         |         Frequency of the clock, in server-ticks (20/s). Beware, as changing this may impact server performances.         |            `5`            |
 
 **Note:** The direction may also be derived from a `Location` type (*ex*: `(position of %entity) - (position of %caster)`), or a list of Number (*ex*: `[[0.5, 0, 1]]`).
 
