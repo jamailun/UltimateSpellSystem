@@ -34,7 +34,7 @@ public class ItemBoundInteractListener implements Listener {
     private final Map<UUID, Instant> spamBlocker = new HashMap<>();
 
     @EventHandler(priority = EventPriority.HIGH)
-    void playerInteracts(@NotNull PlayerInteractEvent event) {
+    void onPlayerInteracts(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if(!config.doesTriggerInteract(event.getAction(), player) || !canDo(player.getUniqueId()))
             return;
@@ -48,19 +48,29 @@ public class ItemBoundInteractListener implements Listener {
                 UltimateSpellSystem.logError("Player " + player.getName() + " used item " + inHand + ". Unknown spell-id: '"+id+"'.");
                 return;
             }
-            BoundSpellCastEvent cast = new BoundSpellCastEvent(player, def, inHand, BoundSpellCastEvent.Action.convert(event.getAction()));
-            Bukkit.getPluginManager().callEvent(cast);
-            if( ! cast.isCancelled()) {
-                // Not cancellable after that !
-                boolean success = def.castNotCancellable(player);
-                // Decrement item-count if needed.
-                if(success && player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(inHand)) {
-                    player.getInventory().getItemInMainHand().setAmount(inHand.getAmount() - 1);
-                }
-            }
-            event.setUseInteractedBlock(config.isAfterTriggerUseBlock() ? Event.Result.DEFAULT : Event.Result.DENY);
-            event.setUseItemInHand(config.isAfterTriggerUseItem() ? Event.Result.DEFAULT : Event.Result.DENY);
+            cast(player, def, inHand, event);
         });
+    }
+
+    private void cast( @NotNull Player player,  @NotNull Spell spell,  @NotNull ItemStack item, @NotNull PlayerInteractEvent event) {
+        // Send event
+        BoundSpellCastEvent cast = new BoundSpellCastEvent(player, spell, item, BoundSpellCastEvent.Action.convert(event.getAction()));
+        Bukkit.getPluginManager().callEvent(cast);
+
+        // Always negate world effect
+        event.setUseInteractedBlock(config.isAfterTriggerUseBlock() ? Event.Result.DEFAULT : Event.Result.DENY);
+        event.setUseItemInHand(config.isAfterTriggerUseItem() ? Event.Result.DEFAULT : Event.Result.DENY);
+
+        // If cancelled, do nothing
+        if(cast.isCancelled())
+            return;
+
+        // Not cancellable after that !
+        boolean success = spell.castNotCancellable(player);
+        // Decrement item-count if needed.
+        if(success && player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(item)) {
+            player.getInventory().getItemInMainHand().setAmount(item.getAmount() - 1);
+        }
     }
 
     private boolean canDo(@NotNull UUID uuid) {

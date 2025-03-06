@@ -148,6 +148,11 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         });
     }
 
+    /**
+     * Create an equipment setter.
+     * @param slot the slot to set.
+     * @return a new summon property.
+     */
     public static @NotNull SummonProperty createEquipment(@NotNull EquipmentSlot slot) {
         return createForEntity((entity,mapRaw,run) -> {
             ItemStack item = ItemReader.instance().readFromMap(mapRaw, run, "slot " + slot);

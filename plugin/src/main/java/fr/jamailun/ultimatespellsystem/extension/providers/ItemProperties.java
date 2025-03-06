@@ -5,6 +5,9 @@ import fr.jamailun.ultimatespellsystem.api.providers.ItemReader;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Add custom Item properties.
+ */
 public final class ItemProperties implements ItemReader.ItemProperty {
     private ItemProperties() {}
 

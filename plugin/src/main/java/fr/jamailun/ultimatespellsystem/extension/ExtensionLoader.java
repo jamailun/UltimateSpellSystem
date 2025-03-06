@@ -3,10 +3,7 @@ package fr.jamailun.ultimatespellsystem.extension;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
-import fr.jamailun.ultimatespellsystem.extension.providers.EntityTypes;
-import fr.jamailun.ultimatespellsystem.extension.providers.ItemProperties;
-import fr.jamailun.ultimatespellsystem.extension.providers.ParticleShapes;
-import fr.jamailun.ultimatespellsystem.extension.providers.Scopes;
+import fr.jamailun.ultimatespellsystem.extension.providers.*;
 
 /**
  * Extension loader.
@@ -36,6 +33,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new DamageFunction());
 
         // Others
+        EntityAttributes.register();
         Scopes.register();
         ParticleShapes.register();
         ItemProperties.register();

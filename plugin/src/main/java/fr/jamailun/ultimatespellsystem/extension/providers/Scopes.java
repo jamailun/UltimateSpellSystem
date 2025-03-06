@@ -5,6 +5,9 @@ import org.bukkit.entity.EntityType;
 
 import java.util.List;
 
+/**
+ * Register custom scopes.
+ */
 public final class Scopes {
     private Scopes() {}
 

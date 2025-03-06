@@ -28,12 +28,18 @@ public final class UssKeys {
      */
     private static @Getter NamespacedKey notDroppableKey;
 
+    /**
+     * Set to a DOUBLE. Custom amount of damages for a projectile.
+     */
+    private static @Getter NamespacedKey projectileDamagesKey;
+
     private static Plugin plugin;
     static void initialize(@NotNull Plugin plugin) {
         UssKeys.plugin = plugin;
         bindKey = new NamespacedKey(plugin, "spell");
         bindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
         notDroppableKey = new NamespacedKey(plugin, "not-droppable");
+        projectileDamagesKey = new NamespacedKey(plugin, "projectile-damage");
     }
 
     @Contract("-> new")
