@@ -34,7 +34,7 @@ public class SummonNode extends RuntimeStatement {
             if(sourceValue instanceof Location sourceLoc) {
                 location = sourceLoc;
             } else if(sourceValue instanceof SpellEntity sourceEntity) {
-                if(entityType.doesPreferEyesLocation()) {
+                if(entityType.isProjectileLike()) {
                     location = sourceEntity.getEyeLocation();
                 } else {
                     location = sourceEntity.getLocation();

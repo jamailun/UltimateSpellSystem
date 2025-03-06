@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 /**
- * A flying orb. Pass through walls.
+ * A flying orb. Can ass through walls, apply effects or damage entities, display particles, do sounds, ...
  */
 public class Orb extends CustomEntity {
 
@@ -38,7 +38,8 @@ public class Orb extends CustomEntity {
     private final Set<Point> traversedBlocks = new HashSet<>();
 
     private final static String CTX = "ORB.attributes.";
-    public Orb(SummonAttributes attributes) {
+
+    public Orb(@NotNull SummonAttributes attributes) {
         super(attributes);
         // Radius && auto-apply
         radius = attributes.tryGetAttribute("radius", Double.class, 0.4d);

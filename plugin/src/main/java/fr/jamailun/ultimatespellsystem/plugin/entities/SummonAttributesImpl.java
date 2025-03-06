@@ -78,10 +78,11 @@ public class SummonAttributesImpl implements SummonAttributes {
         }
 
         // Apply properties
+        SummonPropertiesProvider.Context context = new SummonPropertiesProvider.Context(runtime, this);
         for(String key : attributes.keySet()) {
             SummonPropertiesProvider.instance()
                     .findOptional(key)
-                    .ifPresent(p -> p.accept(entity, attributes.get(key), runtime));
+                    .ifPresent(p -> p.accept(entity, attributes.get(key), context));
         }
 
         // Start the death timer

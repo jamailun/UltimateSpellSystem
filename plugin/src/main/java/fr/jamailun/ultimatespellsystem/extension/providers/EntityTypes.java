@@ -18,11 +18,14 @@ public final class EntityTypes {
         // Bukkit (only already allowed)
         for(EntityType type : EntityType.values()) {
             if(EntityTypeRegistry.isAllowed(type.name())) {
-                EntityTypeProvider.instance().register(new UssEntityType(type), EntityTypeRegistry.prepare(type.name()));
+                EntityTypeProvider.instance().register(UssEntityType.ofBukkit(type), EntityTypeRegistry.prepare(type.name()));
             }
         }
         // Custom
-        EntityTypeProvider.instance().register(new UssEntityType(Orb.class), "orb");
+        EntityTypeProvider.instance().register(
+                UssEntityType.ofCustom(Orb.class, Orb::new, true),
+                "orb"
+        );
     }
 
 }

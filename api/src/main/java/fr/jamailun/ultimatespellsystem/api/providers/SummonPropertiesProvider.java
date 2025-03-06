@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.providers;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.utils.StringTransformation;
@@ -51,10 +52,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      */
     public static final String ATTRIBUTE_MOB_AGGRO_RANGE = "aggro_range";
 
+    public record Context(SpellRuntime runtime, SummonAttributes attributes) {}
+
     /**
      * Consumer interface.
      */
-    public interface SummonProperty extends TriConsumer<SpellEntity, Object, SpellRuntime> {}
+    public interface SummonProperty extends TriConsumer<SpellEntity, Object, Context> {}
 
     private SummonPropertiesProvider() {
         // Statistics attributes
@@ -77,7 +80,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         register(createForEntity((age,baby,r) -> {if(baby) age.setBaby(); else age.setAdult();}, Ageable.class, Boolean.class), "baby", "is_baby");
 
         // Custom name
-        register(createForEntity((entity,name,r) -> entity.customName(StringTransformation.parse(StringTransformation.transformString(name, r))), Entity.class, String.class), "name", "custom_name");
+        register(createForEntity((entity,name,c) -> entity.customName(StringTransformation.parse(StringTransformation.transformString(name, c.runtime()))), Entity.class, String.class), "name", "custom_name");
         register(createForEntity((entity,visible,r) -> entity.setCustomNameVisible(visible), Entity.class, Boolean.class), "name_visible", "custom_name_visible");
 
         // Equipment
@@ -97,7 +100,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      * @return a summon property, accepting a {@link LivingEntity} as target and a {@link Double} as a value.
      */
     public static @NotNull SummonProperty createAttributeSetter(@NotNull Attribute attribute) {
-        return createForLivingEntity((entity, value, run) -> {
+        return createForLivingEntity((entity, value, ctx) -> {
             if (value instanceof Double number) {
                 Objects.requireNonNull(entity.getAttribute(attribute)).setBaseValue(number);
             } else {
@@ -108,21 +111,21 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
 
     /**
      * Create a summon-property, using a filter on the entity class: it must be a {@link LivingEntity}.
-     * @param base a base consumer. Accepts a living-entity and a value, alongside the runtime.
+     * @param base a base consumer. Accepts a living-entity and a value, alongside the context (containing the runtime).
      * @return a summon property than will trigger the base consumer only when the runtime execution provide valid types for the entity.
      */
-    public static @NotNull SummonProperty createForLivingEntity(@NotNull TriConsumer<LivingEntity, Object, SpellRuntime> base) {
+    public static @NotNull SummonProperty createForLivingEntity(@NotNull TriConsumer<LivingEntity, Object, Context> base) {
         return createForEntity(base, LivingEntity.class);
     }
 
     /**
      * Create a summon-property, using a filter on the entity class.
-     * @param base a base consumer. Takes the generic entity and value, alongside the runtime.
+     * @param base a base consumer. Takes the generic entity and value, alongside the context (containing the runtime).
      * @param clazz the class to provide for the entity. If the provided entity is <b>not</b> of this class, the {@code base} will not be executed.
      * @return a summon property than will trigger the base consumer only when the runtime execution provide valid types for the generics.
      * @param <T> the generic type of the entity. If the provided element is <b>not</b> of this class, the {@code base} will not be executed.
      */
-    public static <T extends Entity> @NotNull SummonProperty createForEntity(@NotNull TriConsumer<T, Object, SpellRuntime> base, @NotNull Class<T> clazz) {
+    public static <T extends Entity> @NotNull SummonProperty createForEntity(@NotNull TriConsumer<T, Object, Context> base, @NotNull Class<T> clazz) {
         return createForEntity(base, clazz, Object.class);
     }
 
@@ -136,11 +139,11 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      * @param <V> the generic type of the value. Can be anything, but cannot really differ from classic {@link String}, {@link Double} or {@link Number},
      *           or even {@link java.util.List} and {@link Map}. If the provided element is <b>not</b> of this class, the {@code base} will not be executed.
      */
-    public static <T extends Entity, V> @NotNull SummonProperty createForEntity(@NotNull TriConsumer<T, V, SpellRuntime> base, @NotNull Class<T> clazz, @NotNull Class<V> classValue) {
-        return (spellEntity, value, run) -> spellEntity.getBukkitEntity().ifPresent(be -> {
+    public static <T extends Entity, V> @NotNull SummonProperty createForEntity(@NotNull TriConsumer<T, V, Context> base, @NotNull Class<T> clazz, @NotNull Class<V> classValue) {
+        return (spellEntity, value, ctx) -> spellEntity.getBukkitEntity().ifPresent(be -> {
             if(clazz.isInstance(be)) {
                 if(classValue.isInstance(value)) {
-                    base.accept(clazz.cast(be), classValue.cast(value), run);
+                    base.accept(clazz.cast(be), classValue.cast(value), ctx);
                 } else {
                     UltimateSpellSystem.logWarning("Invalid type for '"+value+"', expected " + classValue + "(" + value.getClass() + ")");
                 }
@@ -154,8 +157,8 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      * @return a new summon property.
      */
     public static @NotNull SummonProperty createEquipment(@NotNull EquipmentSlot slot) {
-        return createForEntity((entity,mapRaw,run) -> {
-            ItemStack item = ItemReader.instance().readFromMap(mapRaw, run, "slot " + slot);
+        return createForEntity((entity,mapRaw,ctx) -> {
+            ItemStack item = ItemReader.instance().readFromMap(mapRaw, ctx.runtime(), "slot " + slot);
             if(entity.getEquipment() != null)
                 entity.getEquipment().setItem(slot, item);
         }, LivingEntity.class, Map.class);
