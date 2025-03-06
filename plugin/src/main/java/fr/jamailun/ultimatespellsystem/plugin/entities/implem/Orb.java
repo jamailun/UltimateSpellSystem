@@ -70,7 +70,7 @@ public class Orb extends CustomEntity {
         particles.addAll(attributes.parseMap("particle", (map, key) -> ParticleHolder.build(CTX + key, radius, map)));
 
         // Effects
-        effects.addAll(attributes.parseMap("particle", (map,key) -> PotionEffectHolder.build(CTX+key, map)));
+        effects.addAll(attributes.parseMap("effect", (map,key) -> PotionEffectHolder.build(CTX+key, map)));
         hasEffects = !effects.isEmpty();
 
         // Velocity and direction
@@ -138,7 +138,7 @@ public class Orb extends CustomEntity {
 
         // Try to add point.
         if(traversedBlocks.add(Point.fromLocation(location))) {
-            if (traversedBlocks.size() >= maxBlockTraversal) {
+            if (traversedBlocks.size() > maxBlockTraversal) {
                 remove();
             }
         }

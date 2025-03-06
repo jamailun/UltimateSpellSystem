@@ -150,8 +150,9 @@ public class SummonAttributesImpl implements SummonAttributes {
     public <T> @Nullable T tryGetAttribute(@NotNull String key, @NotNull Class<T> clazz) {
         Object object = getAttribute(key);
         try {
-            return object != null ? clazz.cast(object) : null;
+            return clazz.cast(object);
         } catch(ClassCastException e) {
+            assert object != null; // Compiler helper : object cannot be null with this exception.
             UltimateSpellSystem.logWarning("Attribute '" + key +"' in summon was expected of type " + clazz + " but was " + object.getClass() + ".");
             return null;
         }
