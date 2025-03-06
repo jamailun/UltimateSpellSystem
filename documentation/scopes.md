@@ -22,16 +22,22 @@ summon ZOMBIE at %caster for 25 seconds with: {{
 
 Current default scopes. You can still create custom ones (see next part).
 
-| Scope names                             | Commet                                                |
-|-----------------------------------------|-------------------------------------------------------|
-| `living`, `living_entity`, `any`, `all` | Any entity implementing the `LivingEntity` interface. |
-| `mob`                                   | Any entity implementing the `Mob` interface.          |
-| `monster`                               | Any entity implementing the `Monster` interface.      |
-| `animal`                                | Any entity implementing the `Animal` interface.       |
-| `player`, `human`                       | Any entity implementing the `Player` interface.       |
-| `item`                                  | Any entity implementing the `Item` interface.         |
-|                                         |                                                       |
-| `summon`, `summoned`                    | Any summoned entity                                   |
+Every entry below is lso valid with an ending "s" letter (i.e. `player` also works for `players`).
+
+| Scope names                             | Description                                                             |
+|-----------------------------------------|-------------------------------------------------------------------------|
+| `living`, `living_entity`, `any`, `all` | Any entity implementing the `LivingEntity` interface.                   |
+| `mob`                                   | Any entity implementing the `Mob` interface.                            |
+| `monster`                               | Any entity implementing the `Monster` interface.                        |
+| `animal`                                | Any entity implementing the `Animal` interface.                         |
+| `player`, `human`                       | Any entity implementing the `Player` interface.                         |
+| `item`                                  | Any entity implementing the `Item` interface.                           |
+|                                         |                                                                         |
+| `summon`, `summoned`                    | Any spell-summoned entity.                                              |
+| `undead`                                | Any "undead" entity. _Also includes th phantom._                        |
+| `spider`, `arthropod`                   | Any "arthropod" entity.                                                 |
+| `end`, `end_monster`                    | Any "ender"-related entity. Also considers ender pearls or end-crystal. |
+| `pillager`, `illager`                   | Any "pillager" entity. _Includes witch and vex_.                        |
 
 ## Register a custom scope
 

@@ -51,6 +51,7 @@ The orb represents a virtual entity, applying effects in a certain radius. It ca
 | `fire` | `Number` | Amount of ticks to set the hit targets on fire. | `0` |
 | `damages` | `Number` | Raw amount of damage to inflict on hit targets. | `0` |
 | `max_collisions` | `Number` | Amount of entity-collision before self destroy. If zero or negative, will pierce any number of targets. | `0` |
+| `max_blocks_hit` | `Number` | Maximum amount of blocks to hit. Any collision greater than this will destroy the orb. Negative value disable hit count. | `-1` ||
 | `velocity` | `Number` | Linear velocity of the orb, in blocs/seconds. | `0` |
 | `direction` | `Vector` *(\*)* | Direction to move to. Will be normalized to be applied to the velocity each clock tick. | *Direction of the caster* |
 | `_clock` | `Number` | Frequency of the clock, in server-ticks (20/s). Beware, as changing this may impact server performances. | `5` |
@@ -136,11 +137,12 @@ THe `half-sphere` creates only the top-half of the sphere.
 
 Defines an item.
 
-| Attribute | Type | Description | Default |
-|:---------:|:----:|:-----------:|:-------:|
-| `type`    | `String` as [Material](https://jd.papermc.io/paper/1.21.1/org/bukkit/Material.html) | The enum entry of the item. | *Mandatory* |
-| `amount`  | `Number` | The amount of items in the item-stack. | `1` |
-| `damage`  | `Number` | For Damageable items, the damage to the durability. | `0` |
-| `name`    | `String` | A custom-name for the item-stack. | *None* |
-| `lore`    | `Array[String]` | A list of string for the lore. Will be grayed by default. | *None* |
-| `unbreakable` | `Boolean` | If true, the item will be unbreable. | `false` |
+|   Attribute   | Type |                             Description                             | Default |
+|:-------------:|:----:|:-------------------------------------------------------------------:|:-------:|
+|    `type`     | `String` as [Material](https://jd.papermc.io/paper/1.21.1/org/bukkit/Material.html) |                     The enum entry of the item.                     | *Mandatory* |
+|   `amount`    | `Number` |               The amount of items in the item-stack.                | `1` |
+|   `damage`    | `Number` |         For Damageable items, the damage to the durability.         | `0` |
+|    `name`     | `String` |                  A custom-name for the item-stack.                  | *None* |
+|    `lore`     | `Array[String]` |      A list of string for the lore. Will be grayed by default.      | *None* |
+| `unbreakable` | `Boolean` |                If true, the item will be unbreable.                 | `false` |
+|  `droppable`  | `Boolean` | If true, the item may be dropped. Mostly use with summon equipment. | `false` |
