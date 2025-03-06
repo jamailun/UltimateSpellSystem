@@ -26,25 +26,29 @@ public class SummonNode extends RuntimeStatement {
         UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
         LivingEntity caster = runtime.getCaster();
-        Location loc = caster.getLocation();
+
+        // Find the location to summon.
+        Location location;
         if(source != null) {
             Object sourceValue = runtime.safeEvaluate(source, Object.class);
             if(sourceValue instanceof Location sourceLoc) {
-                loc = sourceLoc;
+                location = sourceLoc;
             } else if(sourceValue instanceof SpellEntity sourceEntity) {
                 if(entityType.doesPreferEyesLocation()) {
-                    loc = sourceEntity.getEyeLocation();
+                    location = sourceEntity.getEyeLocation();
                 } else {
-                    loc = sourceEntity.getLocation();
+                    location = sourceEntity.getLocation();
                 }
             } else {
                 throw new InvalidTypeException("teleport[loc]", "location or entity", sourceValue);
             }
+        } else {
+            location = caster.getLocation();
         }
 
         // Summon
         SpellEntity entity = UltimateSpellSystem.getSummonsManager().summon(
-                new SummonAttributesImpl(caster, loc, entityType, getProperties(optProperty, runtime), duration),
+                new SummonAttributesImpl(caster, location, entityType, getProperties(optProperty, runtime), duration),
                 runtime
         );
 

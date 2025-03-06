@@ -3,8 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl.registries;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,43 +41,16 @@ public final class EntityTypeRegistry {
         return string.toLowerCase().replace(' ', '_');
     }
 
-    public static final List<EntityType> DEFAULT_TYPES = List.of(
-            EntityType.ELDER_GUARDIAN,
-            EntityType.GUARDIAN,
-            EntityType.ZOMBIE, EntityType.GIANT, EntityType.DROWNED,
-            EntityType.ZOMBIE_VILLAGER, EntityType.ZOMBIFIED_PIGLIN, EntityType.ZOMBIE_HORSE,
-            EntityType.HUSK, EntityType.SKELETON,
-            EntityType.SKELETON_HORSE, EntityType.WITHER_SKELETON,
-            EntityType.VILLAGER, EntityType.PILLAGER, EntityType.EVOKER, EntityType.ILLUSIONER, EntityType.RAVAGER,
-            EntityType.VINDICATOR,
-            EntityType.VEX, EntityType.STRAY, EntityType.HUSK,
-            EntityType.SHULKER, EntityType.ALLAY,
-            EntityType.TNT, EntityType.ARMOR_STAND,
-            EntityType.CREEPER, EntityType.WITCH, EntityType.SILVERFISH,
-            EntityType.SLIME, EntityType.GHAST, EntityType.BLAZE, EntityType.MAGMA_CUBE,
-            EntityType.HOGLIN, EntityType.PIGLIN, EntityType.PIGLIN_BRUTE,
-            EntityType.STRIDER, EntityType.ZOGLIN,
-
-            EntityType.COW, EntityType.SALMON, EntityType.PUFFERFISH, EntityType.COD, EntityType.TROPICAL_FISH,
-            EntityType.PIG, EntityType.CAT, EntityType.DOLPHIN, EntityType.WOLF,
-            EntityType.TURTLE, EntityType.PANDA, EntityType.POLAR_BEAR, EntityType.BAT,
-            EntityType.SHEEP, EntityType.CHICKEN, EntityType.SQUID, EntityType.GLOW_SQUID,
-            EntityType.DONKEY, EntityType.MULE, EntityType.HORSE, EntityType.LLAMA,
-            EntityType.MOOSHROOM, EntityType.OCELOT, EntityType.PARROT, EntityType.TRADER_LLAMA,
-            EntityType.WANDERING_TRADER, EntityType.BEE, EntityType.FOX, EntityType.GOAT, EntityType.AXOLOTL,
-            EntityType.FROG, EntityType.TADPOLE, EntityType.CAMEL,
-
-            EntityType.IRON_GOLEM, EntityType.SNOW_GOLEM,
-            EntityType.SPIDER, EntityType.CAVE_SPIDER,
-
-            EntityType.WITHER, EntityType.SNIFFER,
-            EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.END_CRYSTAL, EntityType.ENDER_DRAGON,
-            EntityType.PHANTOM, EntityType.WARDEN,
-            EntityType.LIGHTNING_BOLT
+    private static final Set<EntityType> FORBIDDEN = Set.of(
+        EntityType.PLAYER, EntityType.AREA_EFFECT_CLOUD, EntityType.MARKER, EntityType.LEASH_KNOT, EntityType.PAINTING,
+        EntityType.ITEM, EntityType.ITEM_FRAME, EntityType.ITEM_DISPLAY, EntityType.GLOW_ITEM_FRAME, EntityType.OMINOUS_ITEM_SPAWNER,
+        EntityType.FISHING_BOBBER, EntityType.TEXT_DISPLAY, EntityType.INTERACTION, EntityType.BLOCK_DISPLAY, EntityType.FIREWORK_ROCKET
     );
 
     static {
-        DEFAULT_TYPES.forEach(et -> allow(et.name()));
+        Arrays.stream(EntityType.values())
+            .filter(e -> ! FORBIDDEN.contains(e))
+            .forEach(e -> allow(e.name()));
     }
 
 }

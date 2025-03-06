@@ -116,7 +116,7 @@ public abstract class ExpressionNode extends Node {
                     if(EntityTypeRegistry.isAllowed(v)) {
                         yield new EntityTypeExpression(token.pos(), v);
                     } else {
-                        throw new SyntaxException(token, "Unknown EntityType '" + v + "'.");
+                        throw new SyntaxException(token, "Unknown (or disallowed) EntityType '" + v + "'.");
                     }
                 }
 
