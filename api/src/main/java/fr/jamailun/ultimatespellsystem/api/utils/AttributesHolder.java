@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Can hold attributes.
@@ -51,5 +53,42 @@ public interface AttributesHolder {
      * @param <R> the generic to use, for the returned value.
      */
     <R> @NotNull List<R> tryGetAttributes(@NotNull String key, @NotNull Class<R> clazz);
+
+    default <R> @NotNull Collection<R> parseMap(@NotNull String key, @NotNull BiFunction<Map<?,?>, String, R> builder) {
+        List<R> output = new ArrayList<>();
+
+        // Read mono
+        Map<?,?> monoMap = tryGetAttribute(key, Map.class);
+        if(monoMap != null) {
+            R element = builder.apply(monoMap, key);
+            if(element != null)
+                output.add(element);
+        }
+
+        // Read multi
+        String keyMulti = key + "s";
+        if(hasAttribute(keyMulti)) {
+            for(Map<?,?> map : tryGetAttributes(keyMulti, Map.class)) {
+                R element = builder.apply(map, keyMulti);
+                if(element != null) {
+                    output.add(element);
+                }
+            }
+        }
+
+        return output;
+    }
+
+    default <R> @Nullable R parseMap(String key, Function<Map<?,?>, R> builder) {
+        Map<?,?> map = tryGetAttribute(key, Map.class);
+        if(map != null) {
+            return builder.apply(map);
+        }
+        return null;
+    }
+
+    default int tryGetInt(@NotNull String key, int defaultValue) {
+        return tryGetAttribute(key, Double.class, (double)defaultValue).intValue();
+    }
 
 }
