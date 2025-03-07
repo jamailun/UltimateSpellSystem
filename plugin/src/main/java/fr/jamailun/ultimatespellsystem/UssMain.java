@@ -9,11 +9,13 @@ import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
+import fr.jamailun.ultimatespellsystem.plugin.updater.UpdateCheck;
 import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
 import fr.jamailun.ultimatespellsystem.plugin.utils.bstats.Metrics;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The {@link JavaPlugin} of USS, and {@link UltimateSpellSystemPlugin} implementation.
@@ -76,6 +79,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         new Metrics(this, 24891);
 
         logInfo("Plugin loaded.");
+        testForLatestVersion();
     }
 
     @Override
@@ -100,17 +104,22 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
     @Override
     public void logInfo(@NotNull String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§3INFO  | §f" + message);
+        sendMessage("&3INFO | &f" + message, "&f");
     }
 
     @Override
     public void logWarning(@NotNull String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§6WARN  | §e" + message);
+        sendMessage("&6WARN | &e" + message, "&e");
     }
 
     @Override
     public void logError(@NotNull String message) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + "§4ERROR | §c" + message);
+        sendMessage("&4ERROR | &c" + message, "&c");
+    }
+
+    @SuppressWarnings("deprecation")
+    private void sendMessage(@NotNull String message, @NotNull String color) {
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.translateAlternateColorCodes('&', message.replace("&r", color)));
     }
 
     @Override
@@ -146,5 +155,27 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return super.onTabComplete(sender, command, alias, args);
+    }
+
+    /**
+     * Async check for an update.
+     */
+    private void testForLatestVersion() {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            Optional<String> latest = UpdateCheck.getLatestRelease(this);
+            if(latest.isPresent()) {
+                logWarning("----------[New update: &2" + latest.get() + "&r]----------");
+                logWarning("A new version is available for this USS plugin. Download the latest version to use all the features!");
+                logWarning("Go and check &b" + UpdateCheck.getPublicUrl());
+                logWarning("---------------------------------------");
+            } else {
+                String current = UpdateCheck.getPluginVersion(this);
+                if(current.contains("SNAPSHOT")) {
+                    logInfo("You are using an&e experimental&r build (" + current + "). Beware of any issue!");
+                } else {
+                    logInfo("You have the latest version: &a" + current + "&r.");
+                }
+            }
+        });
     }
 }

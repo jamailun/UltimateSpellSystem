@@ -17,6 +17,8 @@
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <json-org.version>20250107</json-org.version>
     </properties>
 
     <dependencies>
@@ -31,6 +33,13 @@
             <version>${parent.version}</version>
             <artifactId>ultimate-spell-system-api</artifactId>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json-org.version}</version>
         </dependency>
     </dependencies>
 
