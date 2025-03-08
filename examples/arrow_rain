@@ -1,0 +1,33 @@
+# -- config
+%HEIGHT = 10;
+%RADIUS = 4;
+%ELPSILON = 0.5;
+
+# Position to summon arrows at. 
+%pos = raycast(%caster, %caster, 50);
+if(%pos == null) {
+    send %caster message "&cYou are looking to far away !";
+    stop 1;
+}
+
+# Center, and then summon arrows.
+%center  = %pos + [[0, %HEIGHT, 0]];
+repeat 3 times every 1s: {
+    for(%dx = -%RADIUS; %dx <= %RADIUS; %dx = %dx + %ELPSILON) {
+        for(%dy = -%RADIUS; %dy <= %RADIUS; %dy = %dy + %ELPSILON) {
+            %p = %center + [[%dx, 0, %dy]];
+            if(distance(%p, %center) <= %RADIUS) {
+                summon ARROW at %p for 2s with: {{
+                    projectile_damage: 15,
+                    velocity: 1,
+                    direction: [[0, -1, 0]]
+                }};
+            }
+        }   
+    }
+    play PARTICLE at (%pos+[[0,0.5,0]]) with: {{
+        type: SMOKE,
+        radius: %RADIUS,
+        shape: CIRCLE
+    }};
+}
