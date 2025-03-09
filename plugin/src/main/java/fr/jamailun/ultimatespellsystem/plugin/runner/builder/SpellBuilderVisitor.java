@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
@@ -160,6 +161,15 @@ public class SpellBuilderVisitor implements StatementVisitor {
         RuntimeExpression type = convert(statement.getOptType());
         RuntimeExpression properties = convert(statement.getOptProperties());
         add(new GiveNode(target, amount, type, properties));
+    }
+
+    @Override
+    public void handleCallback(@NotNull CallbackStatement statement) {
+        String varInput = statement.getListenVariableName();
+        CallbackEvent type = statement.getCallbackType();
+        String varArg = statement.getOutputVariable().orElse(null);
+        RuntimeStatement child = convertOneStatement(statement.getChild());
+        add(new CallbackNode(varInput, type, varArg, child));
     }
 
     @Override

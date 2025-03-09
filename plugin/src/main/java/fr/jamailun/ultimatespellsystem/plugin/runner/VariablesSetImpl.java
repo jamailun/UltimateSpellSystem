@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
+import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -28,6 +29,16 @@ public final class VariablesSetImpl implements VariablesSet {
             return variables.get(key).content;
         }
         return null;
+    }
+
+    @Override
+    public <T> @Nullable T get(@NotNull String key, @NotNull Class<T> clazz) {
+        Object raw = get(key);
+        try {
+            return clazz.cast(raw);
+        } catch(ClassCastException e) {
+            throw new InvalidTypeException("Get variable '" + key + "'", clazz.getSimpleName(), raw);
+        }
     }
 
     @Override

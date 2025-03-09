@@ -244,12 +244,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     public void handleCallback(@NotNull CallbackStatement statement) {
         builder.append("CALLBACK %")
                 .append(statement.getListenVariableName())
-                .append(" ON @");
-        statement.getEventNode().visit(this);
+                .append(" ON @")
+                .append(statement.getCallbackType().name());
         statement.getOutputVariable().ifPresent(output -> {
-            builder.append(output.token())
+            assert statement.getCallbackType().argument() != null; // compiler hint
+            builder.append(statement.getCallbackType().argument().keyword())
                     .append(" %")
-                    .append(output.varName());
+                    .append(output);
         });
         builder.append(": ");
         statement.getChild().visit(this);

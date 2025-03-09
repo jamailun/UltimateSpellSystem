@@ -27,6 +27,15 @@ public interface VariablesSet {
     @Nullable Object get(@NotNull String key);
 
     /**
+     * Get and cast a value
+     * @param key the variable key.
+     * @param clazz a class to cast to.
+     * @return null if variable not found.
+     * @param <T> output class generic.
+     */
+    <T> @Nullable T get(@NotNull String key, @NotNull Class<T> clazz);
+
+    /**
      * Create an inherited variable set.
      * @return a new instance. Mutating existing vars of the instance will mutate {@code this} instance.
      * But creating new variables will not.

@@ -3,18 +3,14 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public class IfElseNode extends RuntimeStatement {
 
     private final RuntimeExpression condition;
     private final RuntimeStatement childTrue, childFalse;
-
-    public IfElseNode(RuntimeExpression condition, RuntimeStatement childTrue, RuntimeStatement childFalse) {
-        this.condition = condition;
-        this.childTrue = childTrue;
-        this.childFalse = childFalse;
-    }
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {

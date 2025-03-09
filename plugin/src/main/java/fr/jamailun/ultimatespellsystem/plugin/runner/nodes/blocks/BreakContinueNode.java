@@ -18,4 +18,9 @@ public class BreakContinueNode extends RuntimeStatement {
             runtime.statementBreak();
         }
     }
+
+    @Override
+    public String toString() {
+        return isContinue ? "CONTINUE" : "BREAK";
+    }
 }

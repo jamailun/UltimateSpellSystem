@@ -1,18 +1,19 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.VariableDefinition;
+import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CallbackEventRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,40 +22,43 @@ import java.util.Optional;
 @Getter
 public class CallbackStatement extends BlockHolder {
 
-    public static final Map<TokenType, TypePrimitive> KEYWORD_TYPE = Map.of(
-            TokenType.AT, TypePrimitive.LOCATION,
-            TokenType.BY, TypePrimitive.ENTITY
-    );
-
     private final TokenPosition firstPosition;
     private final String listenVariableName;
-    private final ExpressionNode eventNode;
-    private final @Nullable Output outputVariable;
+    private final CallbackEvent callbackType;
+    private final @Nullable String outputVariable;
 
-    public CallbackStatement(TokenPosition firstPosition, String listenVariableName, ExpressionNode eventNode, @Nullable Output outputVariable, StatementNode child) {
+    public CallbackStatement(TokenPosition firstPosition, String listenVariableName, CallbackEvent callbackType, @Nullable String outputVariable, StatementNode child) {
         super(child);
         this.firstPosition = firstPosition;
         this.listenVariableName = listenVariableName;
-        this.eventNode = eventNode;
+        this.callbackType = callbackType;
         this.outputVariable = outputVariable;
     }
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        TypesContext childContext = context.childContext();
-        assertExpressionType(eventNode, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.STRING, TypePrimitive.CUSTOM);
-        if(context.findVariable(listenVariableName) == null)
-            throw new SyntaxException(firstPosition, "Unknown variable on listen CALLBACK: '" + listenVariableName + "'.");
+        // variable must exist and be an entity.
+        VariableDefinition input = context.findVariable(listenVariableName);
+        if(input == null)
+            throw new SyntaxException(firstPosition, "Unknown variable name: '" + listenVariableName + "'.");
+        Type inputType = input.getType(context);
+        if(!inputType.is(TypePrimitive.ENTITY))
+            throw new SyntaxException(firstPosition, "Variable "+listenVariableName+" for a callback must be an entity. Current type is: " + inputType + "'.");
+        if(inputType.isCollection())
+            throw new SyntaxException(firstPosition, "Variable "+listenVariableName+" for a callback must be an entity, not an array.");
 
+        TypesContext childContext = context.childContext();
         // declare variable (if set)
-        if(outputVariable != null)
-            childContext.registerVariable(outputVariable.varName(), outputVariable.position(), outputVariable.primitive().asType());
+        if(outputVariable != null) {
+            assert callbackType.argument() != null; // compiler helper
+            childContext.registerVariable(outputVariable, firstPosition, callbackType.argument().type().asType());
+        }
 
         // Validate child
         child.validateTypes(childContext);
     }
 
-    public Optional<Output> getOutputVariable() {
+    public Optional<String> getOutputVariable() {
         return Optional.ofNullable(outputVariable);
     }
 
@@ -67,32 +71,33 @@ public class CallbackStatement extends BlockHolder {
     public static @NotNull CallbackStatement parseCallback(@NotNull TokenStream tokens) {
         TokenPosition pos = tokens.position();
         String varName = tokens.nextOrThrow(TokenType.VALUE_VARIABLE).getContentString();
-        ExpressionNode event = ExpressionNode.readNextExpression(tokens, true);
 
-        Output output;
-        if(KEYWORD_TYPE.containsKey(tokens.peek().getType())) {
-            Token keyword = tokens.next();
-            String argVariable = tokens.nextOrThrow(TokenType.VALUE_VARIABLE).getContentString();
-            output = Output.of(keyword, argVariable);
-        } else {
-            if(tokens.peek().getType() != TokenType.COLON)
-                throw new SyntaxException(tokens.peek(), "After a callback, either add an arguments, or put a colon (':').");
-            output = null;
+        Token eventToken = tokens.next();
+        if(eventToken.getType() != TokenType.VALUE_STRING && eventToken.getType() != TokenType.IDENTIFIER) {
+            throw new SyntaxException(eventToken, "Invalid token for callback type. Expected a string or an identifier. Got " + eventToken + ".");
         }
-        tokens.dropOrThrow(TokenType.COLON);
+        String eventName = eventToken.getContentString();
+        CallbackEvent eventType = CallbackEventRegistry.get(eventName);
+        if(eventType == null) {
+            throw new SyntaxException(eventToken, "Unregistered callback type: '" + eventName + "'.");
+        }
+
+        String argVariable;
+        if(tokens.dropOptional(TokenType.COLON)) {
+            argVariable = null;
+        } else {
+            if(eventType.argument() == null)
+                throw new SyntaxException(tokens.position(), "Callback type " + eventType.name() + " does ot accept any argument. As such, a ':' was expected.");
+            if(eventType.argument().keyword() != tokens.peek().getType())
+                throw new SyntaxException(tokens.position(), "Callback type " + eventType.name() + " only accept argument with keyword " + eventType.argument().keyword() + ". Got " + tokens.peek() + ".");
+            tokens.drop();
+            argVariable = tokens.nextOrThrow(TokenType.VALUE_VARIABLE).getContentString();
+            tokens.dropOrThrow(TokenType.COLON);
+        }
 
         StatementNode child = StatementNode.parseNextStatement(tokens);
         tokens.dropOptional(TokenType.SEMI_COLON);
 
-        return new CallbackStatement(pos, varName, event, output, child);
-    }
-
-    public record Output(@NotNull TokenPosition position, @NotNull TokenType token, @NotNull String varName) {
-        public TypePrimitive primitive() {
-            return KEYWORD_TYPE.get(token);
-        }
-        static @NotNull Output of(@NotNull Token token, @NotNull String varName) {
-            return new Output(token.pos(), token.getType(), varName);
-        }
+        return new CallbackStatement(pos, varName, eventType, argVariable, child);
     }
 }

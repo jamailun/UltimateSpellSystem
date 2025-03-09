@@ -4,21 +4,17 @@ import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class ForeachLoopNode extends RuntimeStatement {
 
     private final String varName;
     private final RuntimeExpression source;
     private final RuntimeStatement child;
-
-    public ForeachLoopNode(String varName, RuntimeExpression source, RuntimeStatement child) {
-        this.varName = varName;
-        this.source = source;
-        this.child = child;
-    }
 
     @Override
     public void run(@NotNull SpellRuntime runtimeParent) {
