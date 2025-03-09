@@ -76,6 +76,7 @@ public enum TokenType {
     EVERY(true),
     SUMMON(true),
     AT(true),
+    BY(true),
     AS(true),
     WITH(true),
     POSITION(true),
@@ -85,6 +86,7 @@ public enum TokenType {
     PLAY(true),
     SIZEOF(true),
     GIVE(true),
+    CALLBACK(true),
 
     INCREMENT(true),
     DECREMENT(true),

@@ -241,6 +241,21 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleCallback(@NotNull CallbackStatement statement) {
+        builder.append("CALLBACK %")
+                .append(statement.getListenVariableName())
+                .append(" ON @");
+        statement.getEventNode().visit(this);
+        statement.getOutputVariable().ifPresent(output -> {
+            builder.append(output.token())
+                    .append(" %")
+                    .append(output.varName());
+        });
+        builder.append(": ");
+        statement.getChild().visit(this);
+    }
+
+    @Override
     public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {
         builder.append("{");
         statement.getChild().visit(this);

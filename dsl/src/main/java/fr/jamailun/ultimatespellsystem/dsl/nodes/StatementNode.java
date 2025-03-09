@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +39,7 @@ public abstract class StatementNode extends Node {
             case BRACES_OPEN -> BlockStatement.parseNextBlock(tokens);
             case RUN -> RunLaterStatement.parseRunLater(tokens);
             case REPEAT -> RepeatStatement.parseRepeat(tokens);
+            case CALLBACK -> CallbackStatement.parseCallback(tokens);
 
             // Increment / decrement
             case INCREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, true);

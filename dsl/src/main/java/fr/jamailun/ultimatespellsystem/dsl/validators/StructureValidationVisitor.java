@@ -87,9 +87,9 @@ public class StructureValidationVisitor implements StatementVisitor {
         statement.getChild().visit(child());
     }
     @Override
-    public void handleRepeatRun(@NotNull RepeatStatement statement) {
-        statement.getChild().visit(child());
-    }
+    public void handleRepeatRun(@NotNull RepeatStatement statement) {statement.getChild().visit(child());}
+    @Override
+    public void handleCallback(@NotNull CallbackStatement statement) {statement.getChild().visit(child());}
 
     @Override
     public void handleSendMessage(@NotNull SendMessageStatement statement) {handleMono();}
