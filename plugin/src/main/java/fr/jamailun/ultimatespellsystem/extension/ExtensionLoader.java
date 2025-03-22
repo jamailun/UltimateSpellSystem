@@ -4,7 +4,9 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
-import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandListener;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
 import org.bukkit.Bukkit;
@@ -57,14 +59,18 @@ public final class ExtensionLoader {
         UltimateSpellSystem.logInfo("Loading extension callbacks.");
 
         // Load elements
-        loadCallback(plugin, new ProjectileLandListener());
+        loadCallback(plugin, new ProjectileLandCallbacks());
+        loadCallback(plugin, new EntityDeathCallbacks());
+        loadCallback(plugin, new SummonExpiresCallbacks());
+
+        UltimateSpellSystem.logInfo("Loaded extension callbacks.");
     }
 
     private static void loadCallback(JavaPlugin plugin, CallbackProvider<?> callbackProvider) {
         // 1. Event
         Bukkit.getPluginManager().registerEvents(callbackProvider, plugin);
         // 2. Register
-        CallbackEventProvider.instance().registerCallback(callbackProvider.getCallback());
+        callbackProvider.getCallbacks().forEach(CallbackEventProvider.instance()::registerCallback);
     }
 
 }

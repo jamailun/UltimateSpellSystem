@@ -4,9 +4,11 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.events.SummonedEntityExpiredEvent;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
@@ -89,6 +91,10 @@ public class SummonAttributesImpl implements SummonAttributes {
 
         // Start the death timer
         deathTimer = UltimateSpellSystem.runTaskLater(() -> {
+            if(entity.isValid()) {
+                // Called before the remove, so that the entity is still accessible.
+                Bukkit.getPluginManager().callEvent(new SummonedEntityExpiredEvent(this));
+            }
             entity.remove();
             callback.accept(getUUID());
         }, summonDuration.toTicks());
