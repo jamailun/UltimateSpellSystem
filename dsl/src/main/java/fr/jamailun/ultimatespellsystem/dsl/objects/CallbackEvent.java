@@ -22,24 +22,33 @@ public record CallbackEvent(@NotNull String name, @Nullable CallbackArgument arg
     /**
      * Create a new callback event from arguments.
      * @param name the non-null name of the callback. Must not contain any space.
-     * @param keyword the keyword to use. Only used if the {@code type} is also non-null.
-     * @param type the argument type. Only used if the {@code keyword} is also non-null.
+     * @param keyword the keyword to use for the argument.
+     * @param type the argument type of the argument.
      * @return a new instance of a callback.
      */
     @Contract("_,_,_ -> new")
-    public static @NotNull CallbackEvent of(@NotNull String name, @Nullable TokenType keyword, @Nullable TypePrimitive type) {
-        CallbackArgument arg = (keyword != null && type != null) ? new CallbackArgument(keyword, type) : null;
-        return new CallbackEvent(name, arg);
+    public static @NotNull CallbackEvent of(@NotNull String name, @NotNull TokenType keyword, @NotNull TypePrimitive type) {
+        return new CallbackEvent(name, new CallbackArgument(keyword, type));
+    }
+
+    /**
+     * Create a new callback event without argument.
+     * @param name the non-null name of the callback. Must not contain any space.
+     * @return a new instance of a callback.
+     */
+    @Contract("_ -> new")
+    public static @NotNull CallbackEvent of(@NotNull String name) {
+        return new CallbackEvent(name, null);
     }
 
     /**
      * An argument, able to be read in the callback scope.
-     * @param keyword
-     * @param type
+     * @param keyword keyword used by the argument.
+     * @param type type of the argument.
      */
     public record CallbackArgument(@NotNull TokenType keyword, @NotNull TypePrimitive type) {
         public CallbackArgument {
-            if(!keyword().letters)
+            if(!keyword.letters)
                 throw new RuntimeException("Invalid keyword type. Should be a 'letters' keyword.");
             if(type == TypePrimitive.NULL)
                 throw new RuntimeException("Invalid callback argument type. Cannot be null.");

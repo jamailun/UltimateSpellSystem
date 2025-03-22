@@ -45,7 +45,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     public void onLoad() {
         UltimateSpellSystem.setPlugin(this);
 
-        ExtensionLoader.load();
+        ExtensionLoader.loadStatic();
         UssKeys.initialize(this);
     }
 
@@ -74,6 +74,9 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+
+        // Callbacks
+        ExtensionLoader.loadCallbacks(this);
 
         // bStat
         new Metrics(this, 24891);

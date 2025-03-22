@@ -1,9 +1,14 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandListener;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Extension loader.
@@ -11,11 +16,12 @@ import fr.jamailun.ultimatespellsystem.extension.providers.*;
 public final class ExtensionLoader {
     private ExtensionLoader() {}
     private static boolean loaded = false;
+    private static boolean loadedCallbacks = false;
 
     /**
      * Load the internal extension.
      */
-    public static synchronized void load() {
+    public static synchronized void loadStatic() {
         if(loaded) {
             UltimateSpellSystem.logWarning("Extension already loaded.");
             return;
@@ -40,6 +46,25 @@ public final class ExtensionLoader {
         EntityTypes.register();
 
         UltimateSpellSystem.logInfo("Loaded extension.");
+    }
+
+    public static void loadCallbacks(JavaPlugin plugin) {
+        if(loadedCallbacks) {
+            UltimateSpellSystem.logWarning("Extension callbacks already loaded.");
+            return;
+        }
+        loadedCallbacks = true;
+        UltimateSpellSystem.logInfo("Loading extension callbacks.");
+
+        // Load elements
+        loadCallback(plugin, new ProjectileLandListener());
+    }
+
+    private static void loadCallback(JavaPlugin plugin, CallbackProvider<?> callbackProvider) {
+        // 1. Event
+        Bukkit.getPluginManager().registerEvents(callbackProvider, plugin);
+        // 2. Register
+        CallbackEventProvider.instance().registerCallback(callbackProvider.getCallback());
     }
 
 }

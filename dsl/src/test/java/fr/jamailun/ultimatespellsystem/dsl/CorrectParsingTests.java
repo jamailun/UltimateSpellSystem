@@ -5,7 +5,10 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionA
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl.registries.CallbackEventRegistry;
 import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +53,11 @@ public class CorrectParsingTests extends ParsingTest {
                 )
         );
         FunctionDefinitionsRegistry.register(definition);
+
+        // Callback
+        CallbackEventRegistry.register(
+                CallbackEvent.of("landed", TokenType.AT, TypePrimitive.LOCATION)
+        );
 
         // Parse
         testFolder("corrects_with_custom");

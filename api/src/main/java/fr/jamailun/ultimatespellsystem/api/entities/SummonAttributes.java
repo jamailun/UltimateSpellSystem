@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.utils.AttributesHolder;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.UnmodifiableView;
 
 import java.time.Instant;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 /**
@@ -92,5 +95,20 @@ public interface SummonAttributes extends AttributesHolder {
      * @return a duration, after which the summoned creature will be removed.
      */
     @NotNull Duration getDuration();
+
+    /**
+     * Register a new callback.
+     * @param event the event class.
+     * @param callback a runnable callback. First argument is this {@link SummonAttributes} instance. Second argument is the event itself.
+     * @param <E> generic of the event.
+     */
+    <E extends Event> void registerCallback(@NotNull Class<E> event, @NotNull Consumer<E> callback);
+
+    /**
+     * Propagate an event. May do nothing : the implementation decides what to do.
+     * @param event the non-nul bukkit event.
+     * @see #registerCallback(Class, Consumer)
+     */
+    void applyCallback(@NotNull Event event);
 
 }

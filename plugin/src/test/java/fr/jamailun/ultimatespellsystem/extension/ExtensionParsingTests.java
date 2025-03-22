@@ -17,7 +17,7 @@ public class ExtensionParsingTests extends ParseAndCompileTest {
 
     @BeforeAll
     static void beforeAll() {
-        ExtensionLoader.load();
+        ExtensionLoader.loadStatic();
     }
 
     @Test

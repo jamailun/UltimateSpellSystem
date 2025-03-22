@@ -2,4 +2,5 @@ summon arrow at %caster as %ar for 5s;
 
 callback %ar LANDED at %pos: {
   send %caster message "landed at %pos.";
+  teleport %caster to %pos;
 }

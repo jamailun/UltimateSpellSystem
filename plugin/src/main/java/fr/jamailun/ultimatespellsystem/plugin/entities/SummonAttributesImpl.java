@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -141,6 +142,26 @@ public class SummonAttributesImpl implements SummonAttributes {
     @Override
     public @NotNull Duration getDuration() {
         return summonDuration;
+    }
+
+    private final Map<Class<? extends Event>, Set<Consumer<? extends Event>>> listeners = new HashMap<>();
+
+    @Override
+    public <E extends Event> void registerCallback(@NotNull Class<E> event, @NotNull Consumer<E> callback) {
+        listeners.putIfAbsent(event, new HashSet<>());
+        listeners.get(event).add(callback);
+    }
+
+    @Override
+    public void applyCallback(@NotNull Event event) {
+        if(!listeners.containsKey(event.getClass()))
+            return;
+        listeners.get(event.getClass()).forEach(l -> handleEvent(event, l));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <E extends Event> void handleEvent(Event raw, @NotNull Consumer<E> listener) {
+        listener.accept((E) raw);
     }
 
     @Override
