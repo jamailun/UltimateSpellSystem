@@ -162,7 +162,7 @@ run after 42s: {...}
 
 Run an action periodically for a duration, with an optional initial delay.
 
-**Syntax:**  `repeat [after <DELAY>] <COUNT> times every <PERIOD>: <ST>` : run a statement repeatedly after an optional delay.
+**Syntax:**  `repeat [after <DELAY>] <COUNT> times every <PERIOD>: <ST>`.
 - `DELAY` is a **Duration**.
 - `COUNT` is a **Number**. Any non-integer value will be [rounded to one](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html#intValue()).
 - `PERIOD` is a **Duration**.
@@ -173,6 +173,34 @@ Run an action periodically for a duration, with an optional initial delay.
 repeat %count times every 0.5 minutes: {...} # run every 30 seconds
 repeat after 3s 12 times every 1m: {...} # run 12 times every minute, after an initial delay of 3s.
 ```
+
+### ➡️ `callback` on a summon
+
+Run an action when a summoned entity his part of a Bukkit event.
+An argument specific to the event can be used.
+
+**Syntax:**  `callback <ENTITY> <TYPE> [<KEYWORD> <ARGUMENT_VAR>]: <ST>`
+- `ENTITY` is a **Summoned entity**.
+- `TYPE` is a custom callback type. Check the [corresponding documentation](../callbacks.md) for the complete list.
+- `KEYWORD` is a **String** or custom, matching the `type`. Check the doc.
+- `ARGUMENT_VAR` is a **Variable** to store the argument value to.
+- `ST` is a **Statement** to execute when the event triggers.
+
+**Example:**
+```bash
+# First, summon a projectile with the SUMMON statement. Saved in the %projectile var.
+
+# Teleport the caster to the landing location
+callback %projectile LANDED at %pos: {
+  teleport %caster to %projectile;
+}
+
+# Or send a message when the projectile expired instead of landing. 
+callback %projectile expire: {
+  send %caster message "Projectile expired :(";
+}
+```
+
 
 ### Minecraft statements
 

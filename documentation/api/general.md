@@ -10,7 +10,7 @@ Using maven, add the following dependency (inside the `<depencendies>` tag in yo
 <dependency>
     <groupId>fr.jamailun.paper</groupId>
     <artifactId>ultimate-spell-system-api</artifactId>
-    <version>1.0.1</version>
+    <version>1.3.0</version>
 </dependency> 
 ```
 

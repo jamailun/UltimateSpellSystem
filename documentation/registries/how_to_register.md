@@ -115,3 +115,64 @@ public class CustomSummonPropertiesExtension extends SummonPropertiesProvider {
     }
 }
 ```
+
+## Register a callback event
+
+Callbacks can be used to react to some elements about summons. A callback is made of two parts:
+1. A registration for an event type, with a DSL keyword,
+2. A listener for the specific event. On this event, you'll need to check if a summon entity matches. Let's examine the
+"projectile land" callback.
+
+### 1. DSL registration
+
+Tht goal is to allow for a new `callback` type.
+Check the [corresponding documentation](../callbacks.md) for more details.
+
+```java
+import fr.jamailun.ultimatespellsystem.api.entities.CallbackAction;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
+import org.bukkit.Location;
+
+public class RegistrationDemo {
+    public static void registerProjectileLand() {
+        // Create a new callback action.
+        CallbackAction<ProjectileHitEvent, Location> definition = new CallbackAction<>(
+                // Defines the expected keyword, expected argument keyword and argument type.
+                // Here, the callback type will be "landed".
+                // The argument will be identified with the "AT %var" element.
+                // The argument will be the location.
+                CallbackEvent.of("landed", TokenType.AT, TypePrimitive.LOCATION),
+                // The listened event
+                ProjectileHitEvent.class,
+                // The argument content to use. Generally, we extract the value from the event.
+                e -> e.getEntity().getLocation()
+        );
+        // And call the register
+        CallbackEventProvider.instance().registerCallback(definition);
+    }
+}
+```
+
+### 2. Event listening
+
+Here's an example to detect when a projectile lands.
+
+```java
+import org.bukkit.event.Listener;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
+
+public class ProjectileLandCallbacks implements Listener {
+    @EventHandler
+    void onEvent(@NotNull ProjectileHitEvent event) {
+        // The projectile will be the return value of the ProjectileHitEvent#getentity() method.
+        SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
+        if (summon != null) {
+            // If no callback exist, it won't do anything.
+            summon.applyCallback(event);
+        }
+    }
+}
+```
