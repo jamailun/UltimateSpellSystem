@@ -64,7 +64,10 @@ public interface Spell {
      */
     @NotNull MultivaluedMap<String, SpellMetadata> getMetadata();
 
-
+    /**
+     * Get a string representation of the spell.
+     * @return a non-null string.
+     */
     @NotNull String getDebugString();
 
 }

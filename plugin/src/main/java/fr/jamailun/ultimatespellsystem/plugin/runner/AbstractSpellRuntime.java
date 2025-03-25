@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     }
 
     @Override
-    public <T> T safeEvaluate(RuntimeExpression expression, Class<T> clazz) {
+    public <T> @Nullable T safeEvaluate(RuntimeExpression expression, Class<T> clazz) {
         if(expression == null)
             return null;
         Object value = expression.evaluate(this);
@@ -55,18 +56,18 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     }
 
     @Override
-    public <T> List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz) {
+    public <T> @NotNull List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz) {
         if(expression == null)
-            return null;
+            return Collections.emptyList();
         Object value = expression.evaluate(this);
         if(value instanceof Collection<?> c) {
             return c.stream().map(clazz::cast).collect(Collectors.toCollection(ArrayList::new));
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
-    public <T> List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz) {
+    public <T> @NotNull List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz) {
         if(expression == null)
             return Collections.emptyList();
         Object value = expression.evaluate(this);

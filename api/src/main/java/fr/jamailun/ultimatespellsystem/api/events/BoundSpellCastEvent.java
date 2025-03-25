@@ -32,15 +32,6 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
         return caster;
     }
 
-    private static final HandlerList HANDLERS = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
-
     public @NotNull Action getAction() {
         return action;
     }
@@ -71,14 +62,37 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
         this.interactionCancelled = b;
     }
 
+    /**
+     * Action that caused the event.
+     */
     public enum Action {
+        /**
+         * A left click on the air.
+         */
         LEFT_CLICK_AIR,
+        /**
+         * A left click on a block.
+         */
         LEFT_CLICK_BLOCK,
+        /**
+         * A right click on the air.
+         */
         RIGHT_CLICK_AIR,
+        /**
+         * A right click on a block.
+         */
         RIGHT_CLICK_BLOCK,
+        /**
+         * A left click on an entity.
+         */
         ATTACK;
 
-        public static Action convert(org.bukkit.event.block.Action action) {
+        /**
+         * Convert a bukkit action to one of the instance action.
+         * @param action non-null bukkit action.
+         * @return a non-null action.
+         */
+        public static @NotNull Action convert(@NotNull org.bukkit.event.block.Action action) {
             return switch (action) {
                 case LEFT_CLICK_BLOCK -> LEFT_CLICK_BLOCK;
                 case RIGHT_CLICK_BLOCK -> RIGHT_CLICK_BLOCK;
@@ -87,5 +101,19 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
                 case PHYSICAL -> throw new UnreachableRuntimeException("Cannot be physical.");
             };
         }
+    }
+
+    private static final HandlerList HANDLERS = new HandlerList();
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLERS;
+    }
+
+    /**
+     * Boilerplate
+     * @return handlers.
+     */
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
     }
 }

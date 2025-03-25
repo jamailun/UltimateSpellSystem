@@ -16,6 +16,13 @@ public abstract class UssProvider<T> {
     private final Map<String, T> data = new HashMap<>();
 
     /**
+     * Protected-level access to a new USS provider.
+     */
+    protected UssProvider() {
+        // Nothing here
+    }
+
+    /**
      * Normalize an identifier.
      * @param key the key to normalize.
      * @return a non-null normalized string.

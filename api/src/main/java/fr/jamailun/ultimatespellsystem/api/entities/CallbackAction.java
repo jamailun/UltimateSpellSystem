@@ -23,7 +23,14 @@ public final class CallbackAction<E extends Event, A> {
     private final Class<E> listenedEvent;
     private final Function<E, A> argumentExtractor;
 
-    public void registerToSummon(@NotNull SummonAttributes summon, String argVarName, SpellRuntime runtime, RuntimeStatement child) {
+    /**
+     * Register this callback to a summoned entity.
+     * @param summon the summon attributes.
+     * @param argVarName optional argument name. If null no argument value will be registered.
+     * @param runtime spell runtime.
+     * @param child statement to execute when the callback triggers.
+     */
+    public void registerToSummon(@NotNull SummonAttributes summon, String argVarName, @NotNull SpellRuntime runtime, @NotNull RuntimeStatement child) {
         summon.registerCallback(listenedEvent, (event) -> {
             // 1. Register variable
             if(argVarName != null) {

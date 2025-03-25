@@ -19,12 +19,27 @@ import java.util.UUID;
 @Getter
 public abstract class CustomEntity implements SpellEntity {
 
+    /**
+     * UUID of the entity.
+     */
     protected final UUID uuid = UUID.randomUUID();
-    protected final Location location;
-    protected final SummonAttributes attributes;
-    private final BukkitRunnable runnable;
 
+    /**
+     * The current location of the entity.
+     */
+    protected final Location location;
+
+    /**
+     * The summon attributes.
+     */
+    protected final SummonAttributes attributes;
+
+    /**
+     * The current velocity of the entity.
+     */
     @Setter protected @NotNull Vector velocity = new Vector();
+
+    private final BukkitRunnable runnable;
     private boolean valid = true;
 
     /**

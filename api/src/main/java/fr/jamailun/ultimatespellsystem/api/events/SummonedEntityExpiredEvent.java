@@ -20,5 +20,10 @@ public class SummonedEntityExpiredEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     @Override
     public @NotNull HandlerList getHandlers() {return HANDLERS;}
+
+    /**
+     * Bukkit boilerplate.
+     * @return handlers
+     */
     public static HandlerList getHandlerList() {return HANDLERS;}
 }

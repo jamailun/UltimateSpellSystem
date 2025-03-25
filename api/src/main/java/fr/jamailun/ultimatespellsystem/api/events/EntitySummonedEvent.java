@@ -14,6 +14,10 @@ public class EntitySummonedEvent extends Event {
 
     private final SummonAttributes attributes;
 
+    /**
+     * Create a new event instance.
+     * @param attributes non-null attribute to propagate.
+     */
     public EntitySummonedEvent(@NotNull SummonAttributes attributes) {
         this.attributes = attributes;
     }
@@ -43,10 +47,16 @@ public class EntitySummonedEvent extends Event {
     }
 
     private static final HandlerList HANDLERS = new HandlerList();
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
+
+    /**
+     * Boilerplate
+     * @return handlers.
+     */
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

@@ -54,6 +54,13 @@ public interface AttributesHolder {
      */
     <R> @NotNull List<R> tryGetAttributes(@NotNull String key, @NotNull Class<R> clazz);
 
+    /**
+     * Parse a map, and read mono and multi elements.
+     * @param key the key of the map to read.
+     * @param builder a function to transform a Map into a new element.
+     * @return a new, non-null collection of parsed elements.
+     * @param <R> the produced type.
+     */
     default <R> @NotNull Collection<R> parseMap(@NotNull String key, @NotNull BiFunction<Map<?,?>, String, R> builder) {
         List<R> output = new ArrayList<>();
 
@@ -79,7 +86,14 @@ public interface AttributesHolder {
         return output;
     }
 
-    default <R> @Nullable R parseMap(String key, Function<Map<?,?>, R> builder) {
+    /**
+     * Parse an element of the map.
+     * @param key the key to use.
+     * @param builder a function to transform a map of data into a new element.
+     * @return null if the element is not null (or if the {@code builder} returns null).
+     * @param <R> the produced type.
+     */
+    default <R> @Nullable R parseMap(@NotNull String key, @NotNull Function<Map<?,?>, R> builder) {
         Map<?,?> map = tryGetAttribute(key, Map.class);
         if(map != null) {
             return builder.apply(map);
@@ -87,6 +101,12 @@ public interface AttributesHolder {
         return null;
     }
 
+    /**
+     * Try to get an int.
+     * @param key the key to use.
+     * @param defaultValue default value to return if the key does not exist.
+     * @return either the rounded value, or the default value.
+     */
     default int tryGetInt(@NotNull String key, int defaultValue) {
         return tryGetAttribute(key, Double.class, (double)defaultValue).intValue();
     }

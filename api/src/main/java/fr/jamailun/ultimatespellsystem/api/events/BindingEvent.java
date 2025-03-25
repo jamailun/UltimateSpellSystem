@@ -14,11 +14,22 @@ public abstract class BindingEvent extends Event {
     protected final Spell spell;
     private final ItemStack boundItem;
 
+    /**
+     * A new event instance.
+     * @param spell bound spell.
+     * @param boundItem item bound.
+     */
     public BindingEvent(@NotNull Spell spell, @NotNull ItemStack boundItem) {
         this.spell = spell;
         this.spellId = spell.getName();
         this.boundItem = boundItem;
     }
+
+    /**
+     * A new event instance.
+     * @param spellId ID of the spell.
+     * @param boundItem item bound.
+     */
     public BindingEvent(@NotNull String spellId, @NotNull ItemStack boundItem) {
         this.spellId = spellId;
         this.spell = null;

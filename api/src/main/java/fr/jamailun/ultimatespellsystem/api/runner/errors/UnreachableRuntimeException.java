@@ -1,8 +1,15 @@
 package fr.jamailun.ultimatespellsystem.api.runner.errors;
 
+/**
+ * Exception to throw when a non-reachable code as been reached.
+ */
 public class UnreachableRuntimeException extends UssRuntimeException {
 
-    public UnreachableRuntimeException(String string) {
-        super(string);
+    /**
+     * Create a new instance.
+     * @param message error message.
+     */
+    public UnreachableRuntimeException(String message) {
+        super(message);
     }
 }

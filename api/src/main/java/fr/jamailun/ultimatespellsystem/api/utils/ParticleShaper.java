@@ -20,6 +20,13 @@ public interface ParticleShaper {
      */
     void apply(@NotNull Particle particle, @NotNull Location location, @NotNull @Unmodifiable Map<String, Object> data);
 
+    /**
+     * Get a numeric value from a data map.
+     * @param data the data map to read from.
+     * @param key the key to read in the map.
+     * @param defaultValue the value to return if the key does not exist (or if the value does not match the Number type).
+     * @return either the default value, or the found value.
+     */
     default double getNumeric(@NotNull @Unmodifiable Map<String, Object> data, @NotNull String key, double defaultValue) {
         Object raw = data.get(key);
         if(raw instanceof Number number) {

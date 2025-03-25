@@ -10,6 +10,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ItemBoundEvent extends BindingEvent {
 
+    /**
+     * Create a new event instance.
+     * @param spell spell to bind.
+     * @param boundItem item to bind.
+     */
     public ItemBoundEvent(@NotNull Spell spell, @NotNull ItemStack boundItem) {
         super(spell, boundItem);
     }
@@ -19,6 +24,11 @@ public class ItemBoundEvent extends BindingEvent {
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
+
+    /**
+     * Bukkit boilerplate.
+     * @return handlers
+     */
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

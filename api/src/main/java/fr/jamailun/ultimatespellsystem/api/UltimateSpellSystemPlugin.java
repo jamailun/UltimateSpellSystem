@@ -7,6 +7,12 @@ import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Documented;
+
+/**
+ * Internal interface to implement a USS plugin.
+ * @see UltimateSpellSystem
+ */
 public interface UltimateSpellSystemPlugin {
 
     void logDebug(@NotNull String message);

@@ -16,27 +16,32 @@ public class EntityCastSpellEvent extends Event implements MaybeCancellable {
     private boolean cancelled = false;
     private final boolean cancellable;
 
+    /**
+     * Create a new event instance.
+     * @param caster the caster to use.
+     * @param spell spell to be cast.
+     * @param cancellable true if the spell can be cancelled.
+     */
     public EntityCastSpellEvent(@NotNull LivingEntity caster, @NotNull Spell spell, boolean cancellable) {
         this.caster = caster;
         this.spell = spell;
         this.cancellable = cancellable;
     }
 
+    /**
+     * Get the spell instance.
+     * @return a non-null spell instance.
+     */
     public @NotNull Spell getSpell() {
         return spell;
     }
 
+    /**
+     * Get the caster
+     * @return the reference to the bukkit caster.
+     */
     public @NotNull LivingEntity getCaster() {
         return caster;
-    }
-
-    private static final HandlerList HANDLERS = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
     }
 
     @Override
@@ -54,6 +59,21 @@ public class EntityCastSpellEvent extends Event implements MaybeCancellable {
     @Override
     public boolean isCancellable() {
         return cancellable;
+    }
+
+    private static final HandlerList HANDLERS = new HandlerList();
+
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLERS;
+    }
+
+    /**
+     * Boilerplate
+     * @return handlers.
+     */
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
     }
 
 }

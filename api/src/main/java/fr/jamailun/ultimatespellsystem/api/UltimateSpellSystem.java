@@ -15,6 +15,7 @@ public final class UltimateSpellSystem {
     private UltimateSpellSystem() {}
 
     private static UltimateSpellSystemPlugin plugin;
+
     public static void setPlugin(@NotNull UltimateSpellSystemPlugin plugin) {
         if(UltimateSpellSystem.plugin != null)
             throw new IllegalStateException("Cannot set the USS plugin twice.");
@@ -23,6 +24,7 @@ public final class UltimateSpellSystem {
 
     /**
      * Test if the plugin loaded properly.
+     * @return true if the plugin is online and running.
      */
     public static boolean isValid() {
         return plugin != null;

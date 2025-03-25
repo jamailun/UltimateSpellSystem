@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.api.runner;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -78,9 +79,31 @@ public interface SpellRuntime {
      */
     int getFinalExitCode();
 
+    /**
+     * Evaluate a value.
+     * @param expression the expression to evaluate.
+     * @param clazz the output lass to cast the obtained value to.
+     * @return null if the value could not be converted.
+     * @param <T> output type.
+     */
+    <T> @Nullable T safeEvaluate(RuntimeExpression expression, Class<T> clazz);
 
-    <T> T safeEvaluate(RuntimeExpression expression, Class<T> clazz);
-    <T> List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz);
-    <T> List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz);
+    /**
+     * Evaluate multiple values as a list.
+     * @param expression the expression to evaluate.
+     * @param clazz the output lass to cast the obtained value to.
+     * @return an empty list if the values could not be converted.
+     * @param <T> output type.
+     */
+    <T> @NotNull List<T> safeEvaluateList(RuntimeExpression expression, Class<T> clazz);
+
+    /**
+     * Evaluate a value. If it's a list, wrap it. If it's a single element, put it in a list.
+     * @param expression the expression to evaluate.
+     * @param clazz the output lass to cast the obtained value to.
+     * @return an empty list if the values could not be converted.
+     * @param <T> output type.
+     */
+    <T> @NotNull List<T> safeEvaluateAcceptsList(RuntimeExpression expression, Class<T> clazz);
 
 }
