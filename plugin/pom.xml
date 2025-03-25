@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ultimate-spell-system-plugin</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <parent>
         <groupId>fr.jamailun.paper</groupId>
         <artifactId>ultimate-spell-system</artifactId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.5.0</version>
     </parent>
 
     <properties>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.5.0</version>
             <artifactId>ultimate-spell-system-dsl</artifactId>
             <scope>compile</scope>
         </dependency>
