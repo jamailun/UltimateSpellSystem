@@ -72,7 +72,7 @@ public class Orb extends CustomEntity {
 
         // Effects
         effects.addAll(attributes.parseMap("effect", (map,key) -> PotionEffectHolder.build(CTX+key, map)));
-        hasEffects = !effects.isEmpty();
+        hasEffects |= !effects.isEmpty();
 
         // Velocity and direction
         double speed = attributes.tryGetAttribute("velocity", Double.class, 0d);
