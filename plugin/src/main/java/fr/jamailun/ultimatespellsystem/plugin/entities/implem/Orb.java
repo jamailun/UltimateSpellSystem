@@ -123,8 +123,12 @@ public class Orb extends CustomEntity {
             // Fire + Damages
             if(fireTicks > 0)
                 nearby.forEach(e -> e.setFireTicks(e.getFireTicks() + fireTicks));
-            if(damages > 0)
-                nearby.forEach(e -> e.damage(damages, getAttributes().getSummoner()));
+            if(damages > 0) {
+                getAttributes().getSummoner().getBukkitEntity().ifPresentOrElse(
+                        summoner -> nearby.forEach(e -> e.damage(damages, summoner)),
+                        () -> nearby.forEach(e -> e.damage(damages))
+                );
+            }
 
             // Hit effect
             hitSound.apply(other.getLocation());

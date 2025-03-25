@@ -55,12 +55,6 @@ public interface SpellEntity {
     void teleport(@NotNull Location location);
 
     /**
-     * Send a message to the entity.
-     * @param component component to send.
-     */
-    void sendMessage(Component component);
-
-    /**
      * Remove the entity from the game.
      * Will not do anything if already removed.
      */
@@ -71,6 +65,12 @@ public interface SpellEntity {
      * @return true if {@link #remove()} will do something.
      */
     boolean isValid();
+
+    /**
+     * Send a message to the entity. You probably don't want to implement this fully often.
+     * @param component component to send.
+     */
+    void sendMessage(Component component);
 
     /**
      * Add a potion effect.

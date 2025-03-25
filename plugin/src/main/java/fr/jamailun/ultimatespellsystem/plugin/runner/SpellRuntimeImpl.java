@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.Getter;
@@ -12,16 +13,20 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public final class SpellRuntimeImpl extends AbstractSpellRuntime {
 
-    private final LivingEntity caster;
+    private final SpellEntity caster;
+
+    public SpellRuntimeImpl(@NotNull LivingEntity caster) {
+        this(new BukkitSpellEntity(caster));
+    }
 
     /**
      * Create a new context.
      * @param caster the caster to declare.
      */
-    public SpellRuntimeImpl(@NotNull LivingEntity caster) {
+    public SpellRuntimeImpl(@NotNull SpellEntity caster) {
         super(new ExitCode());
         this.caster = caster;
-        variables.set("caster", new BukkitSpellEntity(caster));
+        variables.set("caster", caster);
     }
 
     private SpellRuntimeImpl(@NotNull SpellRuntimeImpl parent) {
@@ -35,7 +40,7 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
     }
 
     @Override
-    public @NotNull SpellRuntime makeChildNewCaster(@NotNull LivingEntity newCaster) {
+    public @NotNull SpellRuntime makeChildNewCaster(@NotNull SpellEntity newCaster) {
         return new SpellRuntimeImpl(this);
     }
 

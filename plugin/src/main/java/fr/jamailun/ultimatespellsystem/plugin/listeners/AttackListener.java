@@ -1,9 +1,11 @@
 package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.api.events.BoundSpellCastEvent;
+import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -40,10 +42,11 @@ public class AttackListener implements Listener {
                 return;
             }
             BoundSpellCastEvent cast = new BoundSpellCastEvent(entity, def, item, BoundSpellCastEvent.Action.ATTACK);
+            SpellEntity caster = new BukkitSpellEntity(entity);
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
-                def.castNotCancellable(entity);
+                def.castNotCancellable(caster);
                 // Don't decrement item.
             }
             event.setCancelled(cast.isInteractionCancelled());

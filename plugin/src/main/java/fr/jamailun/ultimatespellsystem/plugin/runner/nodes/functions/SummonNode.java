@@ -26,7 +26,7 @@ public class SummonNode extends RuntimeStatement {
     public void run(@NotNull SpellRuntime runtime) {
         UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
-        LivingEntity caster = runtime.getCaster();
+        SpellEntity caster = runtime.getCaster();
         Location location = getSource(runtime, caster, entityType);
 
         // Summon
@@ -42,12 +42,13 @@ public class SummonNode extends RuntimeStatement {
         }
     }
 
-    private @NotNull Location getSource(@NotNull SpellRuntime runtime, @NotNull Entity caster, @NotNull UssEntityType type) {
+    private @NotNull Location getSource(@NotNull SpellRuntime runtime, @NotNull SpellEntity caster, @NotNull UssEntityType type) {
         if(source == null)
             return caster.getLocation();
 
         Object sourceValue = runtime.safeEvaluate(source, Object.class);
         return switch(sourceValue) {
+            case null -> throw new InvalidTypeException("teleport.location", "the value has not been set!");
             case Location sourceLoc -> sourceLoc;
             case SpellEntity sourceEntity -> type.isProjectileLike() ? sourceEntity.getEyeLocation() : sourceEntity.getLocation();
             default -> throw new InvalidTypeException("teleport.location", "location or entity", sourceValue);

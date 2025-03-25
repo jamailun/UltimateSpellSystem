@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.spells;
 
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.events.EntityCastSpellEvent;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
@@ -15,22 +16,30 @@ public interface Spell {
 
     /**
      * Cast a spell, in a forceful way. An event will be emitted.
-     * @param caster the living-entity to cast the spell.
+     * @param caster the bukkit living entity, caster of the spell.
      * @return {@code false} if the spell finished with an error.
      * @see EntityCastSpellEvent
      */
-    default boolean castNotCancellable(@NotNull LivingEntity caster) {
+    boolean castNotCancellable(@NotNull LivingEntity caster);
+
+    /**
+     * Cast a spell, in a forceful way. An event will be emitted.
+     * @param caster the caster of the spell.
+     * @return {@code false} if the spell finished with an error.
+     * @see EntityCastSpellEvent
+     */
+    default boolean castNotCancellable(@NotNull SpellEntity caster) {
         return castNotCancellable(caster, null);
     }
 
     /**
      * Cast a spell, in a forceful way, with a specific runtime. An event will be emitted.
-     * @param caster the living-entity to cast the spell.
+     * @param caster the non-null caster for the spell.
      * @param runtime the runtime to use.
      * @return {@code false} if the spell finished with an error.
      * @see EntityCastSpellEvent
      */
-    boolean castNotCancellable(@NotNull LivingEntity caster, @Nullable SpellRuntime runtime);
+    boolean castNotCancellable(@NotNull SpellEntity caster, @Nullable SpellRuntime runtime);
 
     /**
      * Cast a spell, in a cancellable way. An event will be emitted.

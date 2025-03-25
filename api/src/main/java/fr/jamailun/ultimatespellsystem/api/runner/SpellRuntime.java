@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.runner;
 
-import org.bukkit.entity.LivingEntity;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ public interface SpellRuntime {
      * Get the caster of the current spell.
      * @return a non-null reference to the caster.
      */
-    @NotNull LivingEntity getCaster();
+    @NotNull SpellEntity getCaster();
 
     /**
      * A reference to the variables set.
@@ -70,7 +70,7 @@ public interface SpellRuntime {
      * @return a new instance with a copy of other variables.
      */
     @Contract("_ -> new")
-    @NotNull SpellRuntime makeChildNewCaster(@NotNull LivingEntity newCaster);
+    @NotNull SpellRuntime makeChildNewCaster(@NotNull SpellEntity newCaster);
 
     /**
      * Get the final exit code.

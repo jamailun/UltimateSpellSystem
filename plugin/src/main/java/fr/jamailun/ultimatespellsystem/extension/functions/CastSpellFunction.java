@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.extension.functions;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -41,7 +42,7 @@ public class CastSpellFunction extends AbstractFunction {
 
     @Override
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        LivingEntity entity = toLivingEntity("cast(entity)", arguments.getFirst(), runtime);
+        SpellEntity entity = toSpellEntity("cast(entity)", arguments.getFirst(), runtime);
         if(entity == null) return false;
         String spellId = runtime.safeEvaluate(arguments.get(1), String.class);
 

@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,17 +34,27 @@ public abstract class AbstractFunction extends RunnableJavaFunction {
     }
 
     protected @Nullable LivingEntity toLivingEntity(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
-        Object locationRaw = expression.evaluate(runtime);
-        if(locationRaw instanceof LivingEntity livingEntity) {
+        Object entityRaw = expression.evaluate(runtime);
+        if(entityRaw instanceof LivingEntity livingEntity) {
             return livingEntity;
-        } else if(locationRaw instanceof SpellEntity entity) {
+        } else if(entityRaw instanceof SpellEntity entity) {
             Entity be = entity.getBukkitEntity().orElse(null);
             if(be instanceof LivingEntity le)
                 return le;
             return null;
         } else {
-            throw new InvalidTypeException(context, "location or entity", locationRaw);
+            throw new InvalidTypeException(context, "location or entity", entityRaw);
         }
+    }
+
+    protected @Nullable SpellEntity toSpellEntity(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
+        Object entityRaw = expression.evaluate(runtime);
+        return switch (entityRaw) {
+            case null -> null;
+            case LivingEntity le -> new BukkitSpellEntity(le);
+            case SpellEntity se -> se;
+            default -> throw new InvalidTypeException(context, "location or entity", entityRaw);
+        };
     }
 
 }

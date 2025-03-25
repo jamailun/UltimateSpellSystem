@@ -4,7 +4,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.utils.AttributesHolder;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.ApiStatus;
@@ -14,8 +13,6 @@ import org.jetbrains.annotations.UnmodifiableView;
 
 import java.time.Instant;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 /**
@@ -38,7 +35,7 @@ public interface SummonAttributes extends AttributesHolder {
      * @return a non-null LivingEntity.
      */
     @Contract(pure = true)
-    @NotNull LivingEntity getSummoner();
+    @NotNull SpellEntity getSummoner();
 
     /**
      * Get the summoned entity.

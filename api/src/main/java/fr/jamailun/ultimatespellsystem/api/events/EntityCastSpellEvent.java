@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.events;
 
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class EntityCastSpellEvent extends Event implements MaybeCancellable {
 
-    private final LivingEntity caster;
+    private final SpellEntity caster;
     private final Spell spell;
     private boolean cancelled = false;
     private final boolean cancellable;
@@ -22,7 +22,7 @@ public class EntityCastSpellEvent extends Event implements MaybeCancellable {
      * @param spell spell to be cast.
      * @param cancellable true if the spell can be cancelled.
      */
-    public EntityCastSpellEvent(@NotNull LivingEntity caster, @NotNull Spell spell, boolean cancellable) {
+    public EntityCastSpellEvent(@NotNull SpellEntity caster, @NotNull Spell spell, boolean cancellable) {
         this.caster = caster;
         this.spell = spell;
         this.cancellable = cancellable;
@@ -40,7 +40,7 @@ public class EntityCastSpellEvent extends Event implements MaybeCancellable {
      * Get the caster
      * @return the reference to the bukkit caster.
      */
-    public @NotNull LivingEntity getCaster() {
+    public @NotNull SpellEntity getCaster() {
         return caster;
     }
 

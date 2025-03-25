@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
  */
 public class SummonAttributesImpl implements SummonAttributes {
 
-    protected final LivingEntity summoner;
+    protected final SpellEntity summoner;
     protected final Map<String, Object> attributes;
     protected final Location summonLocation;
     protected final UssEntityType summonEntityType;
@@ -44,7 +45,7 @@ public class SummonAttributesImpl implements SummonAttributes {
      * @param attributes properties to use. Implementation-dependent.
      * @param duration the duration of the summoning, after which the creature will be removed.
      */
-    public SummonAttributesImpl(LivingEntity summoner, Location location, UssEntityType type, Map<String, Object> attributes, Duration duration) {
+    public SummonAttributesImpl(SpellEntity summoner, Location location, UssEntityType type, Map<String, Object> attributes, Duration duration) {
         this.summoner = summoner;
         this.summonLocation = location;
         this.summonEntityType = type;
@@ -71,11 +72,16 @@ public class SummonAttributesImpl implements SummonAttributes {
         if(summonEntityType.isBukkit()) {
             Entity raw = summonLocation.getWorld().spawnEntity(summonLocation, summonEntityType.getBukkit(), false);
             if(raw instanceof Projectile projectile) {
-                projectile.setShooter(runtime.getCaster());
+                // Set the projectile source... if possible
+                if(runtime.getCaster().getBukkitEntity().orElse(null) instanceof ProjectileSource ps) {
+                    projectile.setShooter(ps);
+                }
+                // Set the pickup status when required.
                 if(projectile instanceof Arrow arrow) {
                     arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
                 }
             }
+            // Always wrap the entity.
             entity = new BukkitSpellEntity(raw);
         } else {
             entity = summonEntityType.generateCustom(this);
@@ -101,7 +107,7 @@ public class SummonAttributesImpl implements SummonAttributes {
     }
 
     @Override
-    public @NotNull LivingEntity getSummoner() {
+    public @NotNull SpellEntity getSummoner() {
         return summoner;
     }
 
