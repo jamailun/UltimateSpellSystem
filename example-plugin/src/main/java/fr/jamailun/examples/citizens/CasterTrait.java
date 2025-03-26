@@ -34,7 +34,9 @@ public class CasterTrait extends Trait implements SpellEntity {
 
     @Override
     public @NotNull UUID getUniqueId() {
-        return getNPC().getUniqueId();
+        return getBukkitEntity()
+                .map(Entity::getUniqueId)
+                .orElse(getNPC().getUniqueId());
     }
 
     @Override
