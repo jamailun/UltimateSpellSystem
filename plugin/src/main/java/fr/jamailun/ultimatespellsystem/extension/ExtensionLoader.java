@@ -8,9 +8,13 @@ import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
+import fr.jamailun.ultimatespellsystem.extension.listeners.EntityMoveListener;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Extension loader.
@@ -64,14 +68,21 @@ public final class ExtensionLoader {
         loadCallback(plugin, new EntityDeathCallbacks());
         loadCallback(plugin, new SummonExpiresCallbacks());
 
+        // Load listeners
+        registerEvents(plugin, new EntityMoveListener());
+
         UltimateSpellSystem.logInfo("Loaded extension callbacks.");
     }
 
     private static void loadCallback(JavaPlugin plugin, CallbackProvider<?> callbackProvider) {
         // 1. Event
-        Bukkit.getPluginManager().registerEvents(callbackProvider, plugin);
+        registerEvents(plugin, callbackProvider);
         // 2. Register
         callbackProvider.getCallbacks().forEach(CallbackEventProvider.instance()::registerCallback);
+    }
+
+    private static void registerEvents(@NotNull Plugin plugin, @NotNull Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, plugin);
     }
 
 }
