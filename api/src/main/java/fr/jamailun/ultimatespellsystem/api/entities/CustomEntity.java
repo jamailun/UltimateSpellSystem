@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,7 @@ public abstract class CustomEntity implements SpellEntity {
 
     private final BukkitRunnable runnable;
     private boolean valid = true;
+    private final PersistentDataContainer transientDataContainer = new TransientDataContainer();
 
     /**
      * Create a new custom entity. All entities are summons, so {@link SummonAttributes} are required.
@@ -108,5 +110,10 @@ public abstract class CustomEntity implements SpellEntity {
         if( ! runnable.isCancelled()) {
             runnable.cancel();
         }
+    }
+
+    @Override
+    public @NotNull PersistentDataContainer getNBT() {
+        return transientDataContainer;
     }
 }

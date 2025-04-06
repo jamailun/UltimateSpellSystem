@@ -106,6 +106,18 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
+    public void handleSendNbt(@NotNull SendNbtStatement statement) {
+        builder.append(indent()).append("send to ");
+        statement.getTarget().visit(this);
+        builder.append(" NBT ");
+        statement.getNbtName().visit(this);
+        builder.append(" = ");
+        statement.getNbtValue().visit(this);
+        builder.append(" for ");
+        statement.getNbtDuration().visit(this);
+    }
+
+    @Override
     public void handleSendEffect(@NotNull SendEffectStatement statement) {
         builder.append(indent()).append("send to ");
         statement.getTarget().visit(this);

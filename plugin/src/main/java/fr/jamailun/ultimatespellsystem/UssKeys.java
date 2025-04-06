@@ -6,6 +6,8 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -45,6 +47,11 @@ public final class UssKeys {
     @Contract("-> new")
     public static @NotNull NamespacedKey random() {
        return new NamespacedKey(plugin, UUID.randomUUID().toString());
+    }
+
+    private static final Map<String, NamespacedKey> KEYS = new HashMap<>();
+    public static @NotNull NamespacedKey custom(@NotNull String name) {
+        return KEYS.computeIfAbsent(name, n-> new NamespacedKey(plugin, n));
     }
 
 }

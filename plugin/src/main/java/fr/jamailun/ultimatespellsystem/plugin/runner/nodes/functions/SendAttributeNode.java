@@ -42,6 +42,7 @@ public class SendAttributeNode extends RuntimeStatement {
 
         // Duration
         Duration duration = runtime.safeEvaluate(durationRef, Duration.class);
+        Objects.requireNonNull(duration, "Duration should not be null.");
 
         // Apply modifier
         AttributeModifier modifier = createModifier(runtime);

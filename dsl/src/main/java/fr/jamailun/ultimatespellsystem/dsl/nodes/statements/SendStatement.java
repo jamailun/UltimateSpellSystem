@@ -41,6 +41,7 @@ public abstract class SendStatement extends StatementNode {
             case "message" -> SendMessageStatement.parseSendMessage(target, tokens);
             case "effect" -> SendEffectStatement.parseSendEffect(target, tokens);
             case "attribute", "attributes" -> SendAttributeStatement.parseAttributeEffect(target, tokens);
+            case "nbt" -> SendNbtStatement.parseSendNbt(target, tokens);
             default -> throw new SyntaxException(token, "Expected SEND type (message, effect).");
         };
     }

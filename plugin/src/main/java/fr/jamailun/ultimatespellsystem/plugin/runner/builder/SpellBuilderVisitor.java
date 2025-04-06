@@ -55,10 +55,13 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleSendMessage(@NotNull SendMessageStatement statement) {
+    public void handleSendAttribute(@NotNull SendAttributeStatement statement) {
         RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression message = convert(statement.getMessage());
-        add(new SendMessageNode(target, message));
+        RuntimeExpression value = convert(statement.getNumericValue());
+        RuntimeExpression type = convert(statement.getAttributeType());
+        RuntimeExpression mode = convert(statement.getAttributeMode().orElse(null));
+        RuntimeExpression duration = convert(statement.getDuration());
+        add(new SendAttributeNode(target, value, type, mode, duration));
     }
 
     @Override
@@ -71,14 +74,19 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleSendAttribute(@NotNull SendAttributeStatement statement) {
+    public void handleSendMessage(@NotNull SendMessageStatement statement) {
         RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression value = convert(statement.getNumericValue());
-        RuntimeExpression type = convert(statement.getAttributeType());
-        RuntimeExpression mode = convert(statement.getAttributeMode().orElse(null));
-        RuntimeExpression duration = convert(statement.getDuration());
-        add(new SendAttributeNode(target, value, type, mode, duration));
+        RuntimeExpression message = convert(statement.getMessage());
+        add(new SendMessageNode(target, message));
+    }
 
+    @Override
+    public void handleSendNbt(@NotNull SendNbtStatement statement) {
+        RuntimeExpression target = convert(statement.getTarget());
+        RuntimeExpression name = convert(statement.getNbtName());
+        RuntimeExpression value = convert(statement.getNbtValue());
+        RuntimeExpression duration = convert(statement.getNbtDuration());
+        add(new SendNbtNode(target, name, value, duration));
     }
 
     @Override

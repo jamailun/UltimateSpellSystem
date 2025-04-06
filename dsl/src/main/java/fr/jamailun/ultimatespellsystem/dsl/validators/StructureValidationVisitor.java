@@ -94,6 +94,8 @@ public class StructureValidationVisitor implements StatementVisitor {
     @Override
     public void handleSendMessage(@NotNull SendMessageStatement statement) {handleMono();}
     @Override
+    public void handleSendNbt(@NotNull SendNbtStatement statement) {handleMono();}
+    @Override
     public void handleSendEffect(@NotNull SendEffectStatement statement) {handleMono();}
     @Override
     public void handleSendAttribute(@NotNull SendAttributeStatement statement) {handleMono();}
