@@ -2,20 +2,30 @@ package fr.jamailun.ultimatespellsystem.plugin.bind.costs;
 
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * A cost in {@link Player} experience.
  */
-@Getter
-@Setter
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class ExperienceSpellCost implements SpellCost {
 
     private int cost = 1;
     private boolean levels = true;
+
+    public ExperienceSpellCost(@NotNull List<String> serialized) {
+        this.cost = Integer.parseInt(serialized.getFirst());
+        if(serialized.size() > 1)
+            this.levels = Boolean.parseBoolean(serialized.getLast());
+    }
 
     @Override
     public boolean canPay(@NotNull SpellEntity caster) {
@@ -36,5 +46,10 @@ public class ExperienceSpellCost implements SpellCost {
                 player.setTotalExperience(player.getTotalExperience() - cost);
             }
         }
+    }
+
+    @Override
+    public @NotNull String serialize() {
+        return cost + ";" + levels;
     }
 }

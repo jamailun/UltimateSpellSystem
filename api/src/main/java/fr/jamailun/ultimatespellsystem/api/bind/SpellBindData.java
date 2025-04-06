@@ -8,10 +8,24 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface SpellBindData {
 
+    /**
+     * Get the bound spell.
+     * @return a non-null spell instance.
+     */
     @NotNull Spell getSpell();
 
+    /**
+     * Get the trigger configuration.
+     * @return non-null instance.
+     */
     @NotNull SpellTrigger getTrigger();
 
-    //xxx should i put the cost here ??
+    /**
+     * Get the spell cost of the bound spell.
+     * @return the cost of the trigger.
+     */
+    default @NotNull SpellCost getCost() {
+        return getTrigger().getCost();
+    }
 
 }

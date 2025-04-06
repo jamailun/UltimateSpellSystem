@@ -2,24 +2,27 @@ package fr.jamailun.ultimatespellsystem.plugin.bind.costs;
 
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * A cost in {@link HumanEntity} food level.
  */
-@Getter
-@Setter
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class FoodLevelSpellCost implements SpellCost {
 
-    private int cost;
+    private int cost = 1;
+
+    public FoodLevelSpellCost(@NotNull List<String> serialized) {
+        this.cost = Integer.parseInt(serialized.getFirst());
+    }
 
     @Override
     public boolean canPay(@NotNull SpellEntity caster) {
@@ -37,4 +40,10 @@ public class FoodLevelSpellCost implements SpellCost {
             human.setFoodLevel(human.getFoodLevel() - cost);
         }
     }
+
+    @Override
+    public @NotNull String serialize() {
+        return String.valueOf(cost);
+    }
+
 }

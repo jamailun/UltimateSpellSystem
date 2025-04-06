@@ -21,4 +21,10 @@ public interface SpellCost {
      */
     void pay(@NotNull SpellEntity caster);
 
+    /**
+     * Serialize this object.
+     * @return a non null string.
+     */
+    @NotNull String serialize();
+
 }
