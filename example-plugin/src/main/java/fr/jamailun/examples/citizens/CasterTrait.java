@@ -1,6 +1,5 @@
 package fr.jamailun.examples.citizens;
 
-import fr.jamailun.examples.ExamplePlugin;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import net.citizensnpcs.api.trait.Trait;
@@ -10,10 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -27,11 +24,6 @@ public class CasterTrait extends Trait implements SpellEntity {
 
     public void cast(Spell spell) {
         spell.castNotCancellable(this);
-    }
-
-    @Override
-    public void onAttach() {
-        ExamplePlugin.info("Trait attached !");
     }
 
     @Override

@@ -61,7 +61,7 @@ public final class ExtensionLoader {
             return;
         }
         loadedCallbacks = true;
-        UltimateSpellSystem.logInfo("Loading extension callbacks.");
+        UltimateSpellSystem.logInfo("Loading extension callbacks and listeners.");
 
         // Load elements
         loadCallback(plugin, new ProjectileLandCallbacks());
@@ -71,7 +71,7 @@ public final class ExtensionLoader {
         // Load listeners
         registerEvents(plugin, new EntityMoveListener());
 
-        UltimateSpellSystem.logInfo("Loaded extension callbacks.");
+        UltimateSpellSystem.logInfo("Loaded extension callbacks and listeners.");
     }
 
     private static void loadCallback(JavaPlugin plugin, CallbackProvider<?> callbackProvider) {

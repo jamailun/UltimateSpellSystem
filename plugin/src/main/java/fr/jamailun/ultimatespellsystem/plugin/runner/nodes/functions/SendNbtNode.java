@@ -41,6 +41,7 @@ public class SendNbtNode extends RuntimeStatement {
         NamespacedKey key = UssKeys.custom(Objects.requireNonNull(name, "Provided name for a send-NBT cannot be null."));
         Duration duration = Objects.requireNonNull(runtime.safeEvaluate(durationRef, Duration.class), "Provided duration for a send-NBT cannot be null.");
         Object value = Objects.requireNonNull(valueRef.evaluate(runtime), "Provided value for a send-NBT cannot be null.");
+        UltimateSpellSystem.logDebug("SET NBT to " + targets + " : [" + key + "] = " + value);
 
         Consumer<PersistentDataContainer> func = switch(value) {
             case Boolean bool -> nbt -> nbt.set(key, PersistentDataType.BOOLEAN, bool);
@@ -63,4 +64,8 @@ public class SendNbtNode extends RuntimeStatement {
         }), duration.toTicks());
     }
 
+    @Override
+    public String toString() {
+        return "SEND_NBT(" + targetRef + ", '" + nameRef + "' = " + valueRef + "; for " + durationRef + ")";
+    }
 }
