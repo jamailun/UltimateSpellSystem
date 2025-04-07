@@ -13,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class AllAroundNode extends RuntimeExpression {
@@ -24,6 +25,7 @@ public class AllAroundNode extends RuntimeExpression {
     public List<? extends SpellEntity> evaluate(@NotNull SpellRuntime runtime) {
         // Distance
         Double distance = runtime.safeEvaluate(this.distance, Double.class);
+        Objects.requireNonNull(distance, "Provided distance for ALL-AROUND expression is null.");
 
         // Source
         Object source = this.source.evaluate(runtime);
@@ -45,8 +47,8 @@ public class AllAroundNode extends RuntimeExpression {
         List<Entity> list = EntitiesFinder.findEntitiesAround(scope, location, distance);
 
         // Remove entity around if not including.
-        if(!including && source instanceof Entity around) {
-            list.remove(around);
+        if(!including && source instanceof SpellEntity around) {
+            around.getBukkitEntity().ifPresent(list::remove);
         }
 
         return list.stream()
