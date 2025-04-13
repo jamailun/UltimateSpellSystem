@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * A simple distance function.
+ * A simple knockback function.
  */
 public class KnockbackFunction extends AbstractFunction {
 
@@ -61,7 +61,8 @@ public class KnockbackFunction extends AbstractFunction {
         dir = dir.normalize().multiply(num.doubleValue());
       }
 
-      entity.setVelocity(dir);
+      if(!dir.isZero())
+        entity.setVelocity(dir);
       return null;
     }
 }

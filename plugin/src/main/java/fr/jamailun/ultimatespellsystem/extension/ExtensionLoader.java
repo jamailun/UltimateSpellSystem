@@ -45,6 +45,8 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new DamageFunction());
         JavaFunctionProvider.instance().registerFunction(new RandFunction(), "rand_num");
         JavaFunctionProvider.instance().registerFunction(new KnockbackFunction(), "set_velocity");
+        JavaFunctionProvider.instance().registerFunction(new DirectionOfFunction(), "dir_of");
+        JavaFunctionProvider.instance().registerFunction(new NormalizeFunction(), "norm");
 
         // Others
         EntityAttributes.register();
