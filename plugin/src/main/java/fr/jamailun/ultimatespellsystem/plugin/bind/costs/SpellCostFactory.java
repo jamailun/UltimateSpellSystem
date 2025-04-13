@@ -22,6 +22,7 @@ public final class SpellCostFactory {
         register(FoodLevelSpellCost.class.getSimpleName(), FoodLevelSpellCost::new);
         register(HealthSpellCost.class.getSimpleName(), HealthSpellCost::new);
         register(ItemAmountSpellCost.class.getSimpleName(), ItemAmountSpellCost::new);
+        register(NoneSpellCost.class.getSimpleName(), x -> new NoneSpellCost());
     }
 
     public static @NotNull String serialize(@NotNull SpellCost cost) {

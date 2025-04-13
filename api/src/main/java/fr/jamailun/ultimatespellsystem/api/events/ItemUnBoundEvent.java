@@ -1,6 +1,9 @@
 package fr.jamailun.ultimatespellsystem.api.events;
 
+import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import lombok.Getter;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -11,21 +14,12 @@ import org.jetbrains.annotations.NotNull;
 public class ItemUnBoundEvent extends BindingEvent {
 
     /**
-     * New event without the spell instance.
-     * @param spellId the spell ID.
-     * @param boundItem the unbound item.
-     */
-    public ItemUnBoundEvent(@NotNull String spellId, @NotNull ItemStack boundItem) {
-        super(spellId, boundItem);
-    }
-
-    /**
      * New event with the spell instance.
-     * @param spell the spell instance.
+     * @param data the unbound data.
      * @param boundItem the unbound item.
      */
-    public ItemUnBoundEvent(@NotNull Spell spell, @NotNull ItemStack boundItem) {
-        super(spell, boundItem);
+    public ItemUnBoundEvent(@NotNull SpellBindData data, @NotNull ItemStack boundItem) {
+         super(data, boundItem);
     }
 
     private static final HandlerList HANDLERS = new HandlerList();

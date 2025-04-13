@@ -1,8 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
-import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.api.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
@@ -17,6 +15,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Listen to attacks and trigger when required.
+ */
 @RequiredArgsConstructor
 public class AttackListener implements Listener {
 
@@ -35,18 +36,12 @@ public class AttackListener implements Listener {
     }
 
     private void handle(@NotNull LivingEntity entity, @NotNull ItemStack item, EntityDamageByEntityEvent event) {
-        binder.tryFindBoundSpell(item).ifPresent(id -> {
-            Spell def = UltimateSpellSystem.getSpellsManager().getSpell(id);
-            if(def == null) {
-                UltimateSpellSystem.logError("Entity " + entity.getName() + " used item " + item + ". Unknown spell-id: '"+id+"'.");
-                return;
-            }
-            BoundSpellCastEvent cast = new BoundSpellCastEvent(entity, def, item, BoundSpellCastEvent.Action.ATTACK);
-            SpellEntity caster = new BukkitSpellEntity(entity);
+        binder.getBindData(item).ifPresent(data -> {
+            BoundSpellCastEvent cast = new BoundSpellCastEvent(entity, data, item, ItemBindTrigger.ATTACK);
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
                 // Not cancellable after that !
-                def.castNotCancellable(caster);
+                data.getSpell().castNotCancellable(new BukkitSpellEntity(entity));
                 // Don't decrement item.
             }
             event.setCancelled(cast.isInteractionCancelled());

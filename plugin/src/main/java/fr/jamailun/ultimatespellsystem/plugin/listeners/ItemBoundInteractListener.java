@@ -1,9 +1,11 @@
 package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.api.events.BoundSpellCastEvent;
+import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -38,23 +40,30 @@ public class ItemBoundInteractListener implements Listener {
         Player player = event.getPlayer();
         if(!config.doesTriggerInteract(event.getAction(), player) || !canDo(player.getUniqueId()))
             return;
+        ItemBindTrigger trigger = ItemBindTrigger.convert(event.getAction());
+        if(trigger == null)
+            return; // ignored
 
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
         // If it finds the spell, cast it (according to event result)
-        binder.tryFindBoundSpell(inHand).ifPresent(id -> {
-            Spell def = UltimateSpellSystem.getSpellsManager().getSpell(id);
-            if(def == null) {
-                UltimateSpellSystem.logError("Player " + player.getName() + " used item " + inHand + ". Unknown spell-id: '"+id+"'.");
-                return;
-            }
-            cast(player, def, inHand, event);
+        binder.getBindData(inHand).ifPresent(data -> {
+            cast(player, data, inHand, event, trigger);
         });
     }
 
-    private void cast(@NotNull Player player, @NotNull Spell spell, @NotNull ItemStack item, @NotNull PlayerInteractEvent event) {
+    private void cast(@NotNull Player player, @NotNull SpellBindData data, @NotNull ItemStack item, @NotNull PlayerInteractEvent event, @NotNull ItemBindTrigger trigger) {
+        SpellEntity caster = new BukkitSpellEntity(player);
+        boolean bypass = player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR;
+        // can afford ?
+        if(!bypass && !data.getCost().canPay(caster)) {
+            // Cannot pay !
+            //TODO faire ça
+            return;
+        }
+
         // Send event
-        BoundSpellCastEvent cast = new BoundSpellCastEvent(player, spell, item, BoundSpellCastEvent.Action.convert(event.getAction()));
+        BoundSpellCastEvent cast = new BoundSpellCastEvent(player, data, item, trigger);
         Bukkit.getPluginManager().callEvent(cast);
 
         // Always negate world effect
@@ -66,10 +75,11 @@ public class ItemBoundInteractListener implements Listener {
             return;
 
         // Not cancellable after that !
-        boolean success = spell.castNotCancellable(player);
-        // Decrement item-count if needed.
-        if(success && player.getGameMode() != GameMode.CREATIVE && UltimateSpellSystem.getItemBinder().hasDestroyKey(item)) {
-            player.getInventory().getItemInMainHand().setAmount(item.getAmount() - 1);
+        boolean success = data.getSpell().castNotCancellable(caster);
+
+        // Pay
+        if(success && !bypass) {
+            data.getCost().pay(caster);
         }
     }
 

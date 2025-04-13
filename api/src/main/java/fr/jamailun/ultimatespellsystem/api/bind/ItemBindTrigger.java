@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.bind;
 
 import lombok.Getter;
+import org.bukkit.event.block.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,4 +42,18 @@ public enum ItemBindTrigger {
             .findFirst().orElseThrow();
     }
 
+    /**
+     * Convert a Bukkit interact action, to a custom bind-trigger.
+     * @param action the action.
+     * @return null if the provided action is {@link Action#PHYSICAL PHYSICAL}.
+     */
+    public static @Nullable ItemBindTrigger convert(@NotNull Action action) {
+        return switch (action) {
+            case LEFT_CLICK_BLOCK -> LEFT_CLICK_BLOCK;
+            case RIGHT_CLICK_BLOCK -> RIGHT_CLICK_BLOCK;
+            case LEFT_CLICK_AIR -> LEFT_CLICK_AIR;
+            case RIGHT_CLICK_AIR -> RIGHT_CLICK_AIR;
+            default -> null;
+        };
+    }
 }

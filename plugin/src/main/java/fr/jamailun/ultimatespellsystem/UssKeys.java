@@ -26,6 +26,11 @@ public final class UssKeys {
     private static @Getter NamespacedKey legacyBindDestroysKey;
 
     /**
+     * Modern get-data key. Custom type.
+     */
+    private static @Getter NamespacedKey bindDataKey;
+
+    /**
      * Set to BOOLEAN. If true, object cannot be dropped on death.
      */
     private static @Getter NamespacedKey notDroppableKey;
@@ -42,6 +47,7 @@ public final class UssKeys {
         legacyBindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
         notDroppableKey = new NamespacedKey(plugin, "not-droppable");
         projectileDamagesKey = new NamespacedKey(plugin, "projectile-damage");
+        bindDataKey = new NamespacedKey(plugin, "bind");
     }
 
     @Contract("-> new")
