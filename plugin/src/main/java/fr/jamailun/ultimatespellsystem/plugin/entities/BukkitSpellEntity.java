@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -66,6 +67,11 @@ public class BukkitSpellEntity implements SpellEntity {
         if(entity instanceof LivingEntity living) {
             living.addPotionEffect(effect);
         }
+    }
+
+    @Override
+    public void setVelocity(@NotNull Vector vector) {
+        getBukkitEntity().ifPresent(entity -> entity.setVelocity(vector));
     }
 
     @Override

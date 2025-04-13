@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -87,4 +88,6 @@ public interface SpellEntity {
     default @Nullable PersistentDataContainer getNBT() {
         return getBukkitEntity().map(Entity::getPersistentDataContainer).orElse(null);
     }
+
+    void setVelocity(@NotNull Vector vector);
 }
