@@ -52,7 +52,7 @@ public class ItemBoundInteractListener implements Listener {
         });
     }
 
-    private void cast( @NotNull Player player,  @NotNull Spell spell,  @NotNull ItemStack item, @NotNull PlayerInteractEvent event) {
+    private void cast(@NotNull Player player, @NotNull Spell spell, @NotNull ItemStack item, @NotNull PlayerInteractEvent event) {
         // Send event
         BoundSpellCastEvent cast = new BoundSpellCastEvent(player, spell, item, BoundSpellCastEvent.Action.convert(event.getAction()));
         Bukkit.getPluginManager().callEvent(cast);

@@ -32,13 +32,26 @@ public interface ItemBinder {
      * Try to find a spell bound to an item.
      * @param item the item to look-on.
      * @return an Optional containing the ID of the spell.
+     * @deprecated legacy since post 1.5.1.
+     * @see #getBindData(ItemStack)
      */
+    @Deprecated
     @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item);
 
     /**
      * Check if an item should be destroyed after being used.
      * @param item the item to test. Can be null.
      * @return if the item has the "destroy key".
+     * @deprecated legacy since post 1.5.1.
+     * @see #getBindData(ItemStack)
      */
+    @Deprecated
     boolean hasDestroyKey(@Nullable ItemStack item);
+
+    /**
+     * Get the {@link SpellBindData} of an {@link ItemStack}.
+     * @param item the item to test. If {@code null}, the returned optional will be empty.
+     * @return an optional of a bind-data.
+     */
+    @NotNull Optional<SpellBindData> getBindData(@Nullable ItemStack item);
 }

@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.bind;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindException;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.ItemBoundEvent;
 import fr.jamailun.ultimatespellsystem.api.events.ItemUnBoundEvent;
@@ -33,11 +34,11 @@ public final class ItemBinderImpl implements ItemBinder {
         }
         // Write
         PersistentDataContainer nbt = meta.getPersistentDataContainer();
-        nbt.set(UssKeys.getBindKey(), PersistentDataType.STRING, spell.getName());
+        nbt.set(UssKeys.getLegacyBindKey(), PersistentDataType.STRING, spell.getName());
         if(destroy) {
-           nbt.set(UssKeys.getBindDestroysKey(), PersistentDataType.BOOLEAN, true);
+           nbt.set(UssKeys.getLegacyBindDestroysKey(), PersistentDataType.BOOLEAN, true);
         } else {
-            nbt.remove(UssKeys.getBindDestroysKey());
+            nbt.remove(UssKeys.getLegacyBindDestroysKey());
         }
         item.setItemMeta(meta);
         // Propagate
@@ -63,8 +64,8 @@ public final class ItemBinderImpl implements ItemBinder {
 
         // Write
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().remove(UssKeys.getBindKey());
-        meta.getPersistentDataContainer().remove(UssKeys.getBindDestroysKey());
+        meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindKey());
+        meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindDestroysKey());
         item.setItemMeta(meta);
 
         // Propagate
@@ -75,13 +76,19 @@ public final class ItemBinderImpl implements ItemBinder {
     public @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return Optional.empty();
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer().get(UssKeys.getBindKey(), PersistentDataType.STRING));
+        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer().get(UssKeys.getLegacyBindKey(), PersistentDataType.STRING));
     }
 
     @Override
     public boolean hasDestroyKey(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return false;
-        return item.getItemMeta().getPersistentDataContainer().has(UssKeys.getBindDestroysKey());
+        return item.getItemMeta().getPersistentDataContainer().has(UssKeys.getLegacyBindDestroysKey());
+    }
+
+    @Override
+    public @NotNull Optional<SpellBindData> getBindData(@Nullable ItemStack item) {
+        //TODO
+        return Optional.empty();
     }
 }

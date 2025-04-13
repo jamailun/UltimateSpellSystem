@@ -25,9 +25,8 @@ public interface SpellTrigger {
     @NotNull ItemBindTrigger getMonoTrigger();
 
     /**
-     * Get the complex trigger.
-     * @return a value if {@link #isMonoStep()} returns {@code false}.
-     * @throws IllegalStateException otherwise.
+     * Get the complex multistep trigger.
+     * @return a list of steps if {@link #isMonoStep()} is {@code true}, or return the value of {@link #getMonoTrigger()} wrapped in a list otherwise.
      */
     @NotNull List<ItemBindTrigger> getTriggersList();
 

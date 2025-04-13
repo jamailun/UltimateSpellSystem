@@ -24,6 +24,10 @@ public final class SpellCostFactory {
         register(ItemAmountSpellCost.class.getSimpleName(), ItemAmountSpellCost::new);
     }
 
+    public static @NotNull String serialize(@NotNull SpellCost cost) {
+        return cost.getClass().getSimpleName() + ";" + cost.serialize();
+    }
+
     public static @NotNull SpellCost deserialize(@NotNull String raw) {
         List<String> parts = new ArrayList<>(List.of(raw.split(";")));
         String clazz = parts.getFirst();

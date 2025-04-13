@@ -18,12 +18,12 @@ public final class UssKeys {
     /**
      * Set to a STRING. ID of the spell to bind.
      */
-    private static @Getter NamespacedKey bindKey;
+    private static @Getter NamespacedKey legacyBindKey;
 
     /**
      * Set to a BOOLEAN. If true, item destroyed on use.
      */
-    private static @Getter NamespacedKey bindDestroysKey;
+    private static @Getter NamespacedKey legacyBindDestroysKey;
 
     /**
      * Set to BOOLEAN. If true, object cannot be dropped on death.
@@ -38,8 +38,8 @@ public final class UssKeys {
     private static Plugin plugin;
     static void initialize(@NotNull Plugin plugin) {
         UssKeys.plugin = plugin;
-        bindKey = new NamespacedKey(plugin, "spell");
-        bindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
+        legacyBindKey = new NamespacedKey(plugin, "spell");
+        legacyBindDestroysKey = new NamespacedKey(plugin, "spell.destroy");
         notDroppableKey = new NamespacedKey(plugin, "not-droppable");
         projectileDamagesKey = new NamespacedKey(plugin, "projectile-damage");
     }
