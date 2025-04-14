@@ -44,24 +44,15 @@ public class LegacySpellBindData implements SpellBindData {
   @Getter
   public static class LegacySpellTrigger implements SpellTrigger {
     private final SpellCost cost;
+    private static final List<ItemBindTrigger> TRIGGERS = List.of(ItemBindTrigger.RIGHT_CLICK);
 
     public LegacySpellTrigger(boolean destroyable) {
       cost = destroyable ? new ItemAmountSpellCost(1) : new NoneSpellCost();
     }
 
     @Override
-    public boolean isMonoStep() {
-      return true;
-    }
-
-    @Override
-    public @NotNull ItemBindTrigger getMonoTrigger() {
-      return ItemBindTrigger.RIGHT_CLICK;
-    }
-
-    @Override
     public @NotNull List<ItemBindTrigger> getTriggersList() {
-      return List.of(getMonoTrigger());
+      return TRIGGERS;
     }
   }
 

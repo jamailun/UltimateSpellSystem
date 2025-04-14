@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.api;
 import fr.jamailun.ultimatespellsystem.api.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -101,6 +102,14 @@ public final class UltimateSpellSystem {
      */
     public static @NotNull SpellCostRegistry getSpellCostRegistry() {
         return plugin.getSpellCostRegistry();
+    }
+
+    /**
+     * Get the spells manager for players.
+     * @return the non-null reference.
+     */
+    public static @NotNull SpellsTriggerManager getSpellsTriggerManager() {
+        return plugin.getSpellsTriggerManager();
     }
 
     //TODO move to internal level

@@ -33,8 +33,8 @@ public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
 
     @SuppressWarnings("deprecation")
     private boolean msg(@NotNull CommandSender sender, @NotNull String message, @NotNull String color) {
-        var colored = ChatColor.translateAlternateColorCodes('&', UssMain.PREFIX + message.replace("&r", color));
-        sender.sendMessage(colored);
+        String colored = ChatColor.translateAlternateColorCodes('&', message.replace("&r", color));
+        sender.sendMessage(UssMain.PREFIX + colored);
         return true;
     }
 

@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.api;
 import fr.jamailun.ultimatespellsystem.api.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,6 +32,8 @@ public interface UltimateSpellSystemPlugin {
     @NotNull AnimationsManager getAnimationsManager();
 
     @NotNull SpellCostRegistry getSpellCostRegistry();
+
+    @NotNull SpellsTriggerManager getSpellsTriggerManager();
 
     @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks);
 

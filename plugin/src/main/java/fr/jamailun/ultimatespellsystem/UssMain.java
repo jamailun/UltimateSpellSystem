@@ -3,9 +3,11 @@ package fr.jamailun.ultimatespellsystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
+import fr.jamailun.ultimatespellsystem.plugin.bind.trigger.SpellTriggerManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
@@ -38,6 +40,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private SummonsManagerImpl summonsManager;
     @Getter private ItemBinderImpl itemBinder;
     @Getter private AnimationsManagerImpl animationsManager;
+    @Getter private final SpellsTriggerManager spellsTriggerManager = new SpellTriggerManagerImpl();
 
     private final UssConfig config = new UssConfig();
 
@@ -74,10 +77,11 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         // Listeners
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
-        Bukkit.getPluginManager().registerEvents(new AttackListener(itemBinder, config), this);
+        Bukkit.getPluginManager().registerEvents(new AttackListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(itemBinder, config), this);
+        Bukkit.getPluginManager().registerEvents(new ItemBoundInteractListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerSwitchItemListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveListener(), this);
 
         // bStat

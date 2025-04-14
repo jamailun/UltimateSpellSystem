@@ -132,4 +132,9 @@ public class SpellDefinition extends AbstractSpell {
     public @NotNull MultivaluedMap<String, SpellMetadata> getMetadata() {
         return metadata.map(SpellMetadata.class::cast);
     }
+
+    @Override
+    public String toString() {
+        return "SpellDef(" + name + ")";
+    }
 }
