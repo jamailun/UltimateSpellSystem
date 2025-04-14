@@ -18,12 +18,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ItemBoundInteractListener implements Listener {
+/**
+ * Trigger actions for interactions.
+ */
+public class PlayerInteractListener implements Listener {
 
     private final Duration spamDuration = Duration.of(100, ChronoUnit.MILLIS);
     private final Map<UUID, Instant> spamBlocker = new HashMap<>();
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     void onPlayerInteracts(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if(event.getAction() == Action.PHYSICAL || !canDo(player.getUniqueId()))
