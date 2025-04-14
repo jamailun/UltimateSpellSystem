@@ -222,7 +222,6 @@ public class UssCommand extends AbstractCommand {
             // We are writing an argument
             if(current < costEntry.args().size()) {
                 SpellCostArgType type = costEntry.args().get(current);
-                info(sender, "current type = " + type);
                 List<String> ex = switch(type) {
                     case DOUBLE, INTEGER -> List.of("0", "5", "10");
                     case BOOLEAN -> List.of("true", "false");
