@@ -5,6 +5,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,6 +26,12 @@ public interface ItemBinder {
     @Deprecated(since = "1.6.0")
     void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws ItemBindException;
 
+    default void bind(@Nullable ItemStack item, @NotNull Collection<SpellBindData> dataCollection) throws ItemBindException {
+        for(SpellBindData data : dataCollection) {
+            bind(item, data);
+        }
+    }
+
     void bind(@Nullable ItemStack item, @NotNull SpellBindData data) throws ItemBindException;
 
     void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull SpellTrigger trigger) throws ItemBindException;
@@ -40,8 +48,8 @@ public interface ItemBinder {
      * Try to find a spell bound to an item.
      * @param item the item to look-on.
      * @return an Optional containing the ID of the spell.
-     * @deprecated Use the complete {@link #getBindData(ItemStack)}.
-     * @see #getBindData(ItemStack)
+     * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
+     * @see #getBindDatas(ItemStack)
      */
     @Deprecated(since = "1.6.0")
     @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item);
@@ -50,7 +58,7 @@ public interface ItemBinder {
      * Check if an item should be destroyed after being used.
      * @param item the item to test. Can be null.
      * @return if the item has the "destroy key".
-     * @deprecated Use the complete {@link #getBindData(ItemStack)}.
+     * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
      */
     @Deprecated(since = "1.6.0")
     boolean hasDestroyKey(@Nullable ItemStack item);
@@ -60,5 +68,5 @@ public interface ItemBinder {
      * @param item the item to test. If {@code null}, the returned optional will be empty.
      * @return an optional of a bind-data.
      */
-    @NotNull Optional<SpellBindData> getBindData(@Nullable ItemStack item);
+    @NotNull Optional<List<SpellBindData>> getBindDatas(@Nullable ItemStack item);
 }

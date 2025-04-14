@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,13 +55,27 @@ public final class ItemBinderImpl implements ItemBinder {
     @Override
     public void bind(@Nullable ItemStack item, @NotNull SpellBindData data) throws ItemBindException {
         ItemMeta meta = getMeta(item);
+        // Get current list
+        SpellBindDataContainer container = meta.getPersistentDataContainer().get(UssKeys.getBindDataKey(), TYPE);
+        List<SpellBindData> itemData;
+        if(container == null) {
+            itemData = new ArrayList<>();
+        } else {
+            itemData = new ArrayList<>(container.list());
+        }
+
+        // Add this data
+        itemData.add(data);
+
+        // Write to the item
         meta.getPersistentDataContainer().set(
             UssKeys.getBindDataKey(),
             TYPE,
-            data
+            new SpellBindDataContainer(itemData)
         );
         item.setItemMeta(meta);
-        // Propagate
+
+        // Propagate an event
         Bukkit.getPluginManager().callEvent(new ItemBoundEvent(data, item));
     }
 
@@ -77,11 +92,11 @@ public final class ItemBinderImpl implements ItemBinder {
     @Override
     public void unbind(@Nullable ItemStack item) {
         // Check if contains spell. handles null item.
-        Optional<SpellBindData> dataOpt = getBindData(item);
+        Optional<List<SpellBindData>> dataOpt = getBindDatas(item);
         if(dataOpt.isEmpty())
             return;
         assert item != null;
-        SpellBindData data = dataOpt.get();
+        List<SpellBindData> list = dataOpt.get();
 
         // Write
         ItemMeta meta = item.getItemMeta();
@@ -93,7 +108,7 @@ public final class ItemBinderImpl implements ItemBinder {
         item.setItemMeta(meta);
 
         // Propagate
-        Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(data, item));
+        Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(item, list));
     }
 
     @Override
@@ -111,7 +126,7 @@ public final class ItemBinderImpl implements ItemBinder {
     }
 
     @Override
-    public @NotNull Optional<SpellBindData> getBindData(@Nullable ItemStack item) {
+    public @NotNull Optional<List<SpellBindData>> getBindDatas(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return Optional.empty();
         PersistentDataContainer nbt = item.getItemMeta().getPersistentDataContainer();
@@ -120,11 +135,11 @@ public final class ItemBinderImpl implements ItemBinder {
         if(nbt.has(UssKeys.getLegacyBindKey(), PersistentDataType.STRING)) {
             String legacySpellId = nbt.get(UssKeys.getLegacyBindKey(), PersistentDataType.STRING);
             boolean legacyDestroyable = Objects.requireNonNullElse(nbt.get(UssKeys.getLegacyBindDestroysKey(), PersistentDataType.BOOLEAN), false);
-            return Optional.of(new LegacySpellBindData(legacySpellId, legacyDestroyable));
+            return Optional.of(List.of(new LegacySpellBindData(legacySpellId, legacyDestroyable)));
         }
 
         // Modern
-        SpellBindData data = nbt.get(UssKeys.getBindDataKey(), TYPE);
-        return Optional.ofNullable(data);
+        SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
+        return container == null ? Optional.empty() : Optional.of(container.list());
     }
 }

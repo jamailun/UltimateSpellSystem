@@ -47,8 +47,9 @@ public class ItemBoundInteractListener implements Listener {
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
         // If it finds the spell, cast it (according to event result)
-        binder.getBindData(inHand).ifPresent(data -> {
-            cast(player, data, inHand, event, trigger);
+        binder.getBindDatas(inHand).ifPresent(list -> {
+            //TODO handle multiple spells...
+            cast(player, list.getFirst(), inHand, event, trigger);
         });
     }
 

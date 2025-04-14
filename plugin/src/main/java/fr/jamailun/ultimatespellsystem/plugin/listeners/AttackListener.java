@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.api.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
@@ -36,7 +37,10 @@ public class AttackListener implements Listener {
     }
 
     private void handle(@NotNull LivingEntity entity, @NotNull ItemStack item, EntityDamageByEntityEvent event) {
-        binder.getBindData(item).ifPresent(data -> {
+        binder.getBindDatas(item).ifPresent(list -> {
+            // TODO
+            SpellBindData data = list.getFirst();
+
             BoundSpellCastEvent cast = new BoundSpellCastEvent(entity, data, item, ItemBindTrigger.ATTACK);
             Bukkit.getPluginManager().callEvent(cast);
             if( ! cast.isCancelled()) {
