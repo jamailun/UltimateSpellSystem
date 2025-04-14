@@ -19,7 +19,7 @@ public class EntityDeathListener implements Listener {
         // Is the entity a summon ? If so, if non-droppable, will not drop anything.
         SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
         if(summon != null) {
-            if(summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_DROP, Boolean.class, false)) {
+            if(!summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_DROP, Boolean.class, false)) {
                 event.getDrops().clear();
                 return;
             }

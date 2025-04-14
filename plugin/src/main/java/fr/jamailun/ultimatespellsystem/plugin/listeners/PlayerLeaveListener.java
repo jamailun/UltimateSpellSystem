@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerLeaveListener implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     void playerLeft(@NotNull PlayerQuitEvent event) {
         SendAttributeNode.purge(event.getPlayer());
         UltimateSpellSystem.getSpellsTriggerManager().reset(event.getPlayer());

@@ -23,7 +23,7 @@ public class ItemBoundInteractListener implements Listener {
     private final Duration spamDuration = Duration.of(100, ChronoUnit.MILLIS);
     private final Map<UUID, Instant> spamBlocker = new HashMap<>();
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     void onPlayerInteracts(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if(event.getAction() == Action.PHYSICAL || !canDo(player.getUniqueId()))
