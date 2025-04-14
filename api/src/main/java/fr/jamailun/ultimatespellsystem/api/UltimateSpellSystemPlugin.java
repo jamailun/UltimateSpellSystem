@@ -2,12 +2,11 @@ package fr.jamailun.ultimatespellsystem.api;
 
 import fr.jamailun.ultimatespellsystem.api.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.annotation.Documented;
 
 /**
  * Internal interface to implement a USS plugin.
@@ -30,6 +29,8 @@ public interface UltimateSpellSystemPlugin {
     @NotNull ItemBinder getItemBinder();
 
     @NotNull AnimationsManager getAnimationsManager();
+
+    @NotNull SpellCostRegistry getSpellCostRegistry();
 
     @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks);
 

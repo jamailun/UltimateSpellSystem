@@ -49,4 +49,9 @@ public class ItemAmountSpellCost implements SpellCost {
         return String.valueOf(cost);
     }
 
+    @Override
+    public String toString() {
+        return "ItemAmount[" + cost + "]";
+    }
+
 }

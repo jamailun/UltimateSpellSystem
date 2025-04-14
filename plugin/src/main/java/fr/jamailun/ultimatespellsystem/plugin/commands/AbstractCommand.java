@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.UssMain;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -30,19 +31,23 @@ public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
         return UltimateSpellSystem.getSpellsManager();
     }
 
-    protected boolean error(@NotNull CommandSender sender, @NotNull String message) {
-        sender.sendMessage(UssMain.PREFIX + "§4ERROR | §c" + message);
+    @SuppressWarnings("deprecation")
+    private boolean msg(@NotNull CommandSender sender, @NotNull String message, @NotNull String color) {
+        var colored = ChatColor.translateAlternateColorCodes('&', UssMain.PREFIX + message.replace("&r", color));
+        sender.sendMessage(colored);
         return true;
+    }
+
+    protected boolean error(@NotNull CommandSender sender, @NotNull String message) {
+        return msg(sender, "&4ERROR | &c" + message, "&c");
     }
 
     protected boolean info(@NotNull CommandSender sender, @NotNull String message) {
-        sender.sendMessage(UssMain.PREFIX + "§3INFO | §7" + message);
-        return true;
+        return msg(sender, "&3INFO | &7" + message, "&7");
     }
 
     protected boolean success(@NotNull CommandSender sender, @NotNull String message) {
-        sender.sendMessage(UssMain.PREFIX + "§aSUCCESS | §f" + message);
-        return true;
+        return msg(sender, "&aSUCCESS | &f" + message, "&f");
     }
 
     protected @NotNull String print(@NotNull Spell spell) {

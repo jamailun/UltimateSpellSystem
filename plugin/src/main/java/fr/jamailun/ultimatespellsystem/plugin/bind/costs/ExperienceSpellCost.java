@@ -52,4 +52,9 @@ public class ExperienceSpellCost implements SpellCost {
     public @NotNull String serialize() {
         return cost + ";" + levels;
     }
+
+    @Override
+    public String toString() {
+        return "Experience[" + cost + " " + (levels?"levels":"points") + "]";
+    }
 }

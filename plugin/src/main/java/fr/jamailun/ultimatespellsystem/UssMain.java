@@ -2,8 +2,10 @@ package fr.jamailun.ultimatespellsystem;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
+import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
 import fr.jamailun.ultimatespellsystem.plugin.commands.UssCommand;
 import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
@@ -118,6 +120,11 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public void logError(@NotNull String message) {
         sendMessage("&4ERROR | &c" + message, "&c");
+    }
+
+    @Override
+    public @NotNull SpellCostRegistry getSpellCostRegistry() {
+        return SpellCostFactory.instance();
     }
 
     @SuppressWarnings("deprecation")

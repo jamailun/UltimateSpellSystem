@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.api;
 
 import fr.jamailun.ultimatespellsystem.api.animations.AnimationsManager;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -92,6 +93,14 @@ public final class UltimateSpellSystem {
      */
     public static @NotNull AnimationsManager getAnimationsManager() {
         return plugin.getAnimationsManager();
+    }
+
+    /**
+     * Get the spell-cost registry singleton instance.
+     * @return the non-null reference.
+     */
+    public static @NotNull SpellCostRegistry getSpellCostRegistry() {
+        return plugin.getSpellCostRegistry();
     }
 
     //TODO move to internal level

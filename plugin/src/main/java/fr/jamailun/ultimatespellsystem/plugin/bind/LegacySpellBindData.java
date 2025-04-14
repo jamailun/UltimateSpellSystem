@@ -10,7 +10,6 @@ import fr.jamailun.ultimatespellsystem.plugin.bind.costs.ItemAmountSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.spells.NotFoundSpell;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -35,6 +34,11 @@ public class LegacySpellBindData implements SpellBindData {
   public LegacySpellBindData(Spell spell, boolean destroyable) {
     this.spell = spell;
     this.trigger = new LegacySpellTrigger(destroyable);
+  }
+
+  @Override
+  public boolean isLegacy() {
+    return true;
   }
 
   @Getter

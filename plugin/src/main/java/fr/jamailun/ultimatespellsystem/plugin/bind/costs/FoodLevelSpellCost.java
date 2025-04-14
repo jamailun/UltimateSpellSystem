@@ -46,4 +46,8 @@ public class FoodLevelSpellCost implements SpellCost {
         return String.valueOf(cost);
     }
 
+    @Override
+    public String toString() {
+        return "FoodLevel[" + cost + "]";
+    }
 }

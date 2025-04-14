@@ -28,5 +28,9 @@ public class NoneSpellCost implements SpellCost {
     public @NotNull String serialize() {
         return "none";
     }
+    @Override
+    public String toString() {
+        return "None[]";
+    }
 
 }

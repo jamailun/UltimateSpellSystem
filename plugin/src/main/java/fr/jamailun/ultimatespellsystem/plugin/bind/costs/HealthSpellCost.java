@@ -45,4 +45,9 @@ public class HealthSpellCost implements SpellCost {
     public @NotNull String serialize() {
         return String.valueOf(cost);
     }
+
+    @Override
+    public String toString() {
+        return "Health[" + cost + "]";
+    }
 }

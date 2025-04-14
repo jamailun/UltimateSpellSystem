@@ -15,6 +15,14 @@ public interface SpellBindData {
     @NotNull Spell getSpell();
 
     /**
+     * Get the ID of the spell.
+     * @return a non-null string.
+     */
+    default @NotNull String getSpellId() {
+        return getSpell().getName();
+    }
+
+    /**
      * Get the trigger configuration.
      * @return non-null instance.
      */
@@ -26,6 +34,14 @@ public interface SpellBindData {
      */
     default @NotNull SpellCost getCost() {
         return getTrigger().getCost();
+    }
+
+    /**
+     * If true, this cost is legacy. Only used internally with commands, no impact.
+     * @return a boolean.
+     */
+    default boolean isLegacy() {
+        return false;
     }
 
 }
