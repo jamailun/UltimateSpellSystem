@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.*;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.ItemBoundEvent;
@@ -91,15 +92,10 @@ public final class ItemBinderImpl implements ItemBinder {
 
     @Override
     public void unbind(@Nullable ItemStack item) {
-        // Check if contains spell. handles null item.
-        Optional<List<SpellBindData>> dataOpt = getBindDatas(item);
-        if(dataOpt.isEmpty())
-            return;
-        assert item != null;
-        List<SpellBindData> list = dataOpt.get();
+        ItemMeta meta = item == null ? null : item.getItemMeta();
+        if(meta == null) return;
+        var optDatas = getBindDatas(item);
 
-        // Write
-        ItemMeta meta = item.getItemMeta();
         // Legacy
         meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindKey());
         meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindDestroysKey());
@@ -107,8 +103,8 @@ public final class ItemBinderImpl implements ItemBinder {
         meta.getPersistentDataContainer().remove(UssKeys.getBindDataKey());
         item.setItemMeta(meta);
 
-        // Propagate
-        Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(item, list));
+        // Propagate event
+        optDatas.ifPresent(spellBindData -> Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(item, spellBindData)));
     }
 
     @Override
@@ -139,7 +135,12 @@ public final class ItemBinderImpl implements ItemBinder {
         }
 
         // Modern
-        SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
-        return container == null ? Optional.empty() : Optional.of(container.list());
+        try {
+            SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
+            return container == null ? Optional.empty() : Optional.of(container.list());
+        } catch(Exception e) {
+            UltimateSpellSystem.logError("Error on deserialize: " + e.getMessage());
+            return Optional.empty();
+        }
     }
 }

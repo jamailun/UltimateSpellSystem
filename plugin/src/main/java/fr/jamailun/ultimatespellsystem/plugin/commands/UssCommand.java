@@ -214,10 +214,10 @@ public class UssCommand extends AbstractCommand {
         }
 
         if(args.length >= 4 && "bind".equals(args[0])) {
-            SpellCostEntry costEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
+            SpellCostEntry<?> costEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
             if(costEntry == null) return Collections.emptyList();
             // /uss bind <spell> <type> [ARG...]
-            int current = args.length - 3;
+            int current = args.length - 4;
             String argN = args[args.length - 1].toLowerCase();
             // We are writing an argument
             if(current < costEntry.args().size()) {

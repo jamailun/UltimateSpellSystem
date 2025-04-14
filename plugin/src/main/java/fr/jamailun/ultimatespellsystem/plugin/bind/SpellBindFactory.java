@@ -62,18 +62,20 @@ public final class SpellBindFactory {
   }
 
   private static @NotNull String serialize(@NotNull SpellTrigger trigger) {
-    return trigger.getTriggersList().stream().map(e -> String.valueOf(e.getCode())).collect(Collectors.joining(","));
+    return trigger.getTriggersList().stream()
+        .map(Enum::name)
+        .collect(Collectors.joining(","));
   }
 
   private static @NotNull SpellTrigger deserializeTrigger(@NotNull List<String> data) {
     String triggerRaw = data.getFirst();
     data.removeFirst();
-    SpellCost cost = SpellCostFactory.deserialize(triggerRaw);
     String[] triggerParts = triggerRaw.split(",");
     List<ItemBindTrigger> triggers = Arrays.stream(triggerParts)
-        .mapToInt(Integer::valueOf)
-        .mapToObj(ItemBindTrigger::fromCode)
+        .map(ItemBindTrigger::valueOf)
         .toList();
+
+    SpellCost cost = SpellCostFactory.deserialize(data);
     return new SpellTriggerImpl(triggers, cost);
   }
 

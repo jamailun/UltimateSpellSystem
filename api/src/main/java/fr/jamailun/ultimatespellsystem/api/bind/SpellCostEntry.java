@@ -12,9 +12,10 @@ import java.util.function.Function;
  * @param deserializer a function to transform a list of serialized elements to the spell instance.
  * @param args expected arguments list with commands.
  */
-public record SpellCostEntry(
+public record SpellCostEntry<T extends SpellCost>(
     @NotNull String id,
-    @NotNull Function<List<String>, SpellCost> deserializer,
+    @NotNull Class<T> clazz,
+    @NotNull Function<List<String>, T> deserializer,
     @NotNull List<SpellCostArgType> args
 ) {
   /**
@@ -25,8 +26,8 @@ public record SpellCostEntry(
    * @return a new instance
    */
   @Contract("_,_,_ -> new")
-  public static @NotNull SpellCostEntry of(@NotNull String id, @NotNull Function<List<String>, SpellCost> deserializer, @NotNull SpellCostArgType... args) {
-    return new SpellCostEntry(id, deserializer, List.of(args));
+  public static <T extends SpellCost> @NotNull SpellCostEntry<T> of(@NotNull String id, @NotNull Class<T> clazz, @NotNull Function<List<String>, T> deserializer, @NotNull SpellCostArgType... args) {
+    return new SpellCostEntry(id, clazz, deserializer, List.of(args));
   }
 
   /**

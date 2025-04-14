@@ -15,7 +15,7 @@ public interface SpellCostRegistry {
      * Register a new spell-cost entry.
      * @param entry a non-null instance. The {@link SpellCostEntry#id()} must return a <b>unique</b> identifier.
      */
-    void register(@NotNull SpellCostEntry entry);
+    void register(@NotNull SpellCostEntry<?> entry);
 
     /**
      * List registered costs IDs.
@@ -28,6 +28,13 @@ public interface SpellCostRegistry {
      * @param id a non-null ID.
      * @return null if nothing was found.
      */
-    @Nullable SpellCostEntry get(@NotNull String id);
+    @Nullable SpellCostEntry<?> get(@NotNull String id);
+
+    /**
+     * Find an entry from its class.
+     * @param clazz the spell cost class.
+     * @return null if nothing was found.
+     */
+    @Nullable SpellCostEntry<?> getByClass(@NotNull Class<? extends SpellCost> clazz);
 
 }

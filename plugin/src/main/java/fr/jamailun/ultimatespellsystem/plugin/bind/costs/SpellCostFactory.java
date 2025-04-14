@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind.costs;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostArgType;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostEntry;
@@ -16,26 +17,29 @@ import java.util.*;
 public final class SpellCostFactory implements SpellCostRegistry {
 
     private static final SpellCostFactory INSTANCE = new SpellCostFactory();
-    private final Map<String, SpellCostEntry> entries = new HashMap<>();
+    private final Map<String, SpellCostEntry<?>> entries = new HashMap<>();
+    private final Map<Class<?>, SpellCostEntry<?>> entriesPerClass = new HashMap<>();
 
     private SpellCostFactory() {
-        register(SpellCostEntry.of("durability", DurabilitySpellCost::new, SpellCostArgType.INTEGER));
-        register(SpellCostEntry.of("experience", ExperienceSpellCost::new, SpellCostArgType.INTEGER, SpellCostArgType.BOOLEAN));
-        register(SpellCostEntry.of("durability", DurabilitySpellCost::new, SpellCostArgType.INTEGER));
-        register(SpellCostEntry.of("food-level", FoodLevelSpellCost::new, SpellCostArgType.INTEGER));
-        register(SpellCostEntry.of("health", HealthSpellCost::new, SpellCostArgType.DOUBLE));
-        register(SpellCostEntry.of("item-amount", ItemAmountSpellCost::new, SpellCostArgType.INTEGER));
-        register(SpellCostEntry.of("none", x -> new NoneSpellCost()));
+        register(SpellCostEntry.of("durability", DurabilitySpellCost.class, DurabilitySpellCost::new, SpellCostArgType.INTEGER));
+        register(SpellCostEntry.of("experience", ExperienceSpellCost.class, ExperienceSpellCost::new, SpellCostArgType.INTEGER, SpellCostArgType.BOOLEAN));
+        register(SpellCostEntry.of("food-level", FoodLevelSpellCost.class, FoodLevelSpellCost::new, SpellCostArgType.INTEGER));
+        register(SpellCostEntry.of("health", HealthSpellCost.class, HealthSpellCost::new, SpellCostArgType.DOUBLE));
+        register(SpellCostEntry.of("item-amount", ItemAmountSpellCost.class, ItemAmountSpellCost::new, SpellCostArgType.INTEGER));
+        register(SpellCostEntry.of("none", NoneSpellCost.class, x -> new NoneSpellCost()));
     }
 
     public static @NotNull String serialize(@NotNull SpellCost cost) {
-        return cost.getClass().getSimpleName() + ";" + cost.serialize();
+        SpellCostEntry<?> entry = INSTANCE.getByClass(cost.getClass());
+        if(entry == null) {
+            throw new IllegalArgumentException("Cannot serialize cost " + cost + " : register it first !");
+        }
+        return entry.id() + ";" + cost.serialize();
     }
 
-    public static @NotNull SpellCost deserialize(@NotNull String raw) {
-        List<String> parts = new ArrayList<>(List.of(raw.split(";")));
+    public static @NotNull SpellCost deserialize(@NotNull List<String> parts) {
         String id = parts.getFirst();
-        SpellCostEntry entry = INSTANCE.get(id);
+        SpellCostEntry<?> entry = INSTANCE.get(id);
         if(entry == null) {
             throw new RuntimeException("No SpellCost class for class '" + id + "'.");
         }
@@ -48,8 +52,9 @@ public final class SpellCostFactory implements SpellCostRegistry {
     }
 
     @Override
-    public void register(@NotNull SpellCostEntry entry) {
+    public void register(@NotNull SpellCostEntry<?> entry) {
         entries.put(entry.id(), entry);
+        entriesPerClass.put(entry.clazz(), entry);
     }
 
     @Override
@@ -58,7 +63,12 @@ public final class SpellCostFactory implements SpellCostRegistry {
     }
 
     @Override
-    public @Nullable SpellCostEntry get(@NotNull String id) {
+    public @Nullable SpellCostEntry<?> get(@NotNull String id) {
         return entries.get(id);
+    }
+
+    @Override
+    public @Nullable SpellCostEntry<?> getByClass(@NotNull Class<? extends SpellCost> clazz) {
+        return entriesPerClass.get(clazz);
     }
 }
