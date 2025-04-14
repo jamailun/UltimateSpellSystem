@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,8 +29,8 @@ public class ItemAmountSpellCost implements SpellCost {
     public boolean canPay(@NotNull SpellEntity caster) {
         if(cost <= 0) return true;
 
-        if(caster.getBukkitEntity().orElse(null) instanceof LivingEntity le) {
-            ItemStack item = le.getActiveItem();
+        if(caster.getBukkitEntity().orElse(null) instanceof HumanEntity human) {
+            ItemStack item = human.getInventory().getItemInMainHand();
             return item.getAmount() >= cost;
         }
         return false;
@@ -38,8 +38,8 @@ public class ItemAmountSpellCost implements SpellCost {
 
     @Override
     public void pay(@NotNull SpellEntity caster) {
-        if(caster.getBukkitEntity().orElse(null) instanceof LivingEntity le) {
-            ItemStack item = le.getActiveItem();
+        if(caster.getBukkitEntity().orElse(null) instanceof HumanEntity human) {
+            ItemStack item = human.getInventory().getItemInMainHand();
             item.setAmount(item.getAmount() - cost);
         }
     }
