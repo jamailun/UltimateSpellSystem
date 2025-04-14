@@ -132,7 +132,7 @@ public class UssCommand extends AbstractCommand {
             if(args.length == 2) {
                 return error(sender, "Missing argument:&4 cost-type &r(/uss bind <spell> <cost-type> <cost-args...> [trigger])");
             }
-            SpellCostEntry spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
+            SpellCostEntry<?> spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
             if(spellCostEntry == null) {
                 return error(p, "Unknown cost-type: '&4" + args[2] + "&r'.");
             }
@@ -144,9 +144,17 @@ public class UssCommand extends AbstractCommand {
             SpellCost cost = spellCostEntry.deserialize(costArgs);
 
             // Read trigger
-            List<ItemBindTrigger> triggerSteps = new ArrayList<>();
+            List<ItemBindTrigger> triggerSteps;
             if(args.length > 3 + spellCostEntry.args().size()) {
-                //TODO !
+                List<String> values = Arrays.asList(args).subList(3 + spellCostEntry.args().size(), args.length);
+                triggerSteps = new ArrayList<>(values.size());
+                for(String value : values) {
+                    try {
+                        triggerSteps.add(ItemBindTrigger.valueOf(value.toUpperCase()));
+                    } catch(IllegalArgumentException e) {
+                        return error(p, "Invalid trigger value: '&4" + value + "&r'.");
+                    }
+                }
             } else {
                 // default trigger
                 triggerSteps = List.of(ItemBindTrigger.RIGHT_CLICK);
@@ -160,7 +168,7 @@ public class UssCommand extends AbstractCommand {
             } catch(ItemBindException e) {
                 return error(sender, e.getMessage());
             }
-            return success(sender, "Item bound successfully.");
+            return success(sender, "Item bound successfully. Triggers: &7" + triggerSteps);
         }
 
         // Cast
