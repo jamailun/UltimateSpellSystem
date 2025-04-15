@@ -1,22 +1,15 @@
+# Version : don't change that.
+version: 1
+
 # Should the plugin print with DEBUG level.
-debug: true
+debug: false
 
-# Trigger configuration for bound-items
-trigger:
-  left-click:
-    air: false
-    block: false
-  right-click:
-    air: true
-    block: true
-  attack: false
-  ignore:
-    sprint: false
-    sneak: true
-
-after-trigger:
-  use-item: true
-  use-block: false
+bind:
+  # Default trigger sequence.
+  default-trigger:
+  - RIGHT_CLICK
+  # Default price
+  default-cost: none
 
 # Clock configurations, in second. '-1' disable clocks.
 tick:

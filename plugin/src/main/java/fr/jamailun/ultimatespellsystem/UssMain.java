@@ -62,6 +62,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         ExtensionLoader.loadCallbacks(this);
 
         // Config
+        checkConfigurationVersion();
         reloadConfiguration();
         saveConfig();
 
@@ -73,7 +74,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         animationsManager.start();
 
         // Commands
-        new UssCommand(this);
+        new UssCommand(this, config);
 
         // Listeners
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
@@ -90,6 +91,10 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         logInfo("Plugin loaded.");
         testForLatestVersion();
+    }
+
+    private void checkConfigurationVersion() {
+        config.checkVersionAndMigrate(new File(getDataFolder(), "config.yml"), super::saveDefaultConfig);
     }
 
     @Override
