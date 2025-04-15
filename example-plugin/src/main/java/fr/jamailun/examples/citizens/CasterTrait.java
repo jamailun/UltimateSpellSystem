@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -78,5 +79,11 @@ public class CasterTrait extends Trait implements SpellEntity {
     public void addPotionEffect(PotionEffect effect) {
         getBukkitEntity().map(LivingEntity.class::cast)
                 .ifPresent(le -> le.addPotionEffect(effect));
+    }
+
+    @Override
+    public void setVelocity(Vector vector) {
+        getBukkitEntity().map(LivingEntity.class::cast)
+            .ifPresent(le -> le.setVelocity(vector));
     }
 }
