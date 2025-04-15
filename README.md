@@ -4,7 +4,7 @@ Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org
 
 ## Author
 
-Made by [jamailun](https://github.com/jamailun).
+Made with love by [jamailun](https://github.com/jamailun).
 
 ## Basics
 
@@ -18,10 +18,15 @@ send to %caster message "You just casted a spell !";
 
 define %enemies_around = sizeof(all monsters within 10 around %caster)
 if(%enemies_around > 2) {
-    summon IRON_GOLEM for 4 seconds with: {{
+    summon IRON_GOLEM at %caster as %my_golem for 40 seconds with: {{
         name: "&eMichel",
         health: 25 + 5 * %enemies_around
-    }} 
+    }};
+    
+    callback %my_golem die: {
+      send to %caster message "&cYour golem is dead :(";
+      send to %caster effect resistance 2 for 12 secs;
+    }
 }
 ```
 
@@ -31,12 +36,13 @@ I've also put a handful of [examples](/examples).
 # API
 
 You can code your own plugin to interact with USS.
+- Provide custom attributes for summoned entities.
+- Listen to specific events.
+- Cast spell on players or entities (or whatever you'd like really).
+
+Check the [wiki](https://github.com/jamailun/UltimateSpellSystem/wiki) or the [documentation](/documentation/registries) _(roughly the same content)_.
 
 # Questions ?
 
-For now, just creabt an issue on the repo !
-
-You can provides custom attributes for summoned entities.
-You can listen to specific events.
-
-Check the [documentation](/documentation/registries).
+- Create an issue on Github.
+- Ask your question on [Discord](https://discord.com/invite/MA5sxbKQuW).
