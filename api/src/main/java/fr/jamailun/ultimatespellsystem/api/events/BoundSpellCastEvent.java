@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Event called every time a player cast a USS spell.
+ * Event called every time an entity casts a USS spell.
  */
 @Getter
 public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
@@ -20,6 +20,13 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
     private boolean interactionCancelled = true;
     private final ItemBindTrigger lastTrigger;
 
+    /**
+     * A new event for an entity casting a spell.
+     * @param caster the caster.
+     * @param data the selected spell data.
+     * @param boundItem item used for the cast.
+     * @param lastTrigger last action.
+     */
     public BoundSpellCastEvent(@NotNull LivingEntity caster, @NotNull SpellBindData data, @NotNull ItemStack boundItem, @NotNull ItemBindTrigger lastTrigger) {
         super(data, boundItem);
         this.caster = caster;

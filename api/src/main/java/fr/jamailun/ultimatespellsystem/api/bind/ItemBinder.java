@@ -23,19 +23,46 @@ public interface ItemBinder {
      * @throws ItemBindException if the item instance cannot be bound.
      * @deprecated legacy since 1.6.0.
      */
-    @Deprecated(since = "1.6.0")
+    @Deprecated(since = "1.6.0", forRemoval = true)
     void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws ItemBindException;
 
+    /**
+     * Bind multiple spell data to an item.
+     * @param item the item to bind. If null, will do nothing.
+     * @param dataCollection a non-null collection of spell data to bind.
+     * @throws ItemBindException if the item instance cannot be bound.
+     */
     default void bind(@Nullable ItemStack item, @NotNull Collection<SpellBindData> dataCollection) throws ItemBindException {
         for(SpellBindData data : dataCollection) {
             bind(item, data);
         }
     }
 
+    /**
+     * Bind a spell data to an item.
+     * @param item the item to bind. If null, will do nothing.
+     * @param data spell data to bind.
+     * @throws ItemBindException if the item instance cannot be bound.
+     */
     void bind(@Nullable ItemStack item, @NotNull SpellBindData data) throws ItemBindException;
 
+    /**
+     * Bind a spell data to an item.
+     * @param item the item to bind. If null, will do nothing.
+     * @param spell spell to bind.
+     * @param trigger trigger to use for the binding.
+     * @throws ItemBindException if the item instance cannot be bound.
+     */
     void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull SpellTrigger trigger) throws ItemBindException;
 
+    /**
+     * Create a basic spell data binding.
+     * @param item the item to bind. If null, will do nothing.
+     * @param spell the spell to bind to the item.
+     * @param trigger the action to trigger the spell.
+     * @param cost the cost of the trigger.
+     * @throws ItemBindException if the item instance cannot be bound.
+     */
     void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost) throws ItemBindException;
 
     /**
@@ -51,7 +78,7 @@ public interface ItemBinder {
      * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
      * @see #getBindDatas(ItemStack)
      */
-    @Deprecated(since = "1.6.0")
+    @Deprecated(since = "1.6.0", forRemoval = true)
     @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item);
 
     /**
@@ -60,7 +87,7 @@ public interface ItemBinder {
      * @return if the item has the "destroy key".
      * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
      */
-    @Deprecated(since = "1.6.0")
+    @Deprecated(since = "1.6.0", forRemoval = true)
     boolean hasDestroyKey(@Nullable ItemStack item);
 
     /**

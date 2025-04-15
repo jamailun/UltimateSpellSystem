@@ -52,7 +52,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      */
     public static final String ATTRIBUTE_MOB_AGGRO_RANGE = "aggro_range";
 
-    public record Context(SpellRuntime runtime, SummonAttributes attributes) {}
+    /**
+     * The spell context.
+     * @param runtime runtime, used to evaluate expressions.
+     * @param attributes attributes of the summoned entity.
+     */
+    public record Context(@NotNull SpellRuntime runtime, @NotNull SummonAttributes attributes) {}
 
     /**
      * Consumer interface.

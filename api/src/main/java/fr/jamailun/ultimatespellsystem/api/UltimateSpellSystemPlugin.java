@@ -15,24 +15,64 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface UltimateSpellSystemPlugin {
 
+    /**
+     * Log a debug message.
+     * @param message message to print.
+     */
     void logDebug(@NotNull String message);
 
+    /**
+     * Log a message.
+     * @param message message to print.
+     */
     void logInfo(@NotNull String message);
 
+    /**
+     * Log a warning message.
+     * @param message message to print.
+     */
     void logWarning(@NotNull String message);
 
+    /**
+     * Log an error message.
+     * @param message message to print.
+     */
     void logError(@NotNull String message);
 
+    /**
+     * Get the spell manager.
+     * @return non-null instance.
+     */
     @NotNull SpellsManager getSpellsManager();
 
+    /**
+     * Get the summons manager.
+     * @return non-null instance.
+     */
     @NotNull SummonsManager getSummonsManager();
 
+    /**
+     * Get the item-binder.
+     * @return non-null instance.
+     */
     @NotNull ItemBinder getItemBinder();
 
+    /**
+     * Get the spell manager.
+     * @return non-null instance.
+     */
     @NotNull AnimationsManager getAnimationsManager();
 
+    /**
+     * Get the spell-cost registry.
+     * @return non-null instance.
+     */
     @NotNull SpellCostRegistry getSpellCostRegistry();
 
+    /**
+     * Get the spell-trigger manager.
+     * @return non-null instance.
+     */
     @NotNull SpellsTriggerManager getSpellsTriggerManager();
 
     @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks);
@@ -41,6 +81,9 @@ public interface UltimateSpellSystemPlugin {
 
     @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period);
 
+    /**
+     * Reload the configuration.
+     */
     void reloadConfiguration();
 
 }

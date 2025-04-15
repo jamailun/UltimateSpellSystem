@@ -20,6 +20,11 @@ import java.util.function.Consumer;
  */
 public interface SummonAttributes extends AttributesHolder {
 
+    /**
+     * <b>Internal</b> summon call.
+     * @param callback post-summon callback.
+     * @param runtime runtime to use.
+     */
     @ApiStatus.Internal
     void summon(Consumer<UUID> callback, SpellRuntime runtime);
 

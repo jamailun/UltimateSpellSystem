@@ -9,8 +9,10 @@ import java.util.function.Function;
 /**
  * An entry to define a new spell-cost.
  * @param id the non-null ID used to <b>persist</b> the cost itself. Will also be used for commands.
+ * @param clazz the serialized class.
  * @param deserializer a function to transform a list of serialized elements to the spell instance.
  * @param args expected arguments list with commands.
+ * @param <T> the output spell cost class.
  */
 public record SpellCostEntry<T extends SpellCost>(
     @NotNull String id,

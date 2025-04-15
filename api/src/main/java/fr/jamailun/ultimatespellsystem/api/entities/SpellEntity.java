@@ -89,5 +89,9 @@ public interface SpellEntity {
         return getBukkitEntity().map(Entity::getPersistentDataContainer).orElse(null);
     }
 
+    /**
+     * Set the entity velocity.
+     * @param vector vector to use.
+     */
     void setVelocity(@NotNull Vector vector);
 }

@@ -15,7 +15,7 @@ public abstract class BindingEvent extends Event {
 
     /**
      * A new event instance.
-     * @param spell bound spell.
+     * @param data bound data.
      * @param boundItem item bound.
      */
     public BindingEvent(@NotNull SpellBindData data, @NotNull ItemStack boundItem) {

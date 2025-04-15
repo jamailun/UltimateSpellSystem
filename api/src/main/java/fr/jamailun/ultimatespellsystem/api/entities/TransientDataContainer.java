@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Transient implementation of a PersistentDataContainer.
+ */
 public class TransientDataContainer implements PersistentDataContainer {
 
     private final Map<NamespacedKey, Entry<?,?>> primitiveStorage = new HashMap<>();

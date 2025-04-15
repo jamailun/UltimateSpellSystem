@@ -14,6 +14,7 @@ public interface SummonsManager {
     /**
      * Summon a creature.
      * @param summon the attributes to use.
+     * @param runtime the used spell runtime.
      * @return a reference to the newly created entity.
      */
     @NotNull SpellEntity summon(@NotNull SummonAttributes summon, @NotNull SpellRuntime runtime);
