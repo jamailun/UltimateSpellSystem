@@ -176,3 +176,62 @@ public class ProjectileLandCallbacks implements Listener {
     }
 }
 ```
+
+## Register a cost
+
+The spells can be cast using a cost. Each cost must be defined in the Java API.
+
+You need to implement a `SpellCost` class, and register it, wrapped in a `SpellCostEntry`.
+This entry will required a method to produce a cost from a list of string. Indeed, each cost
+can register data into the item its bound to. For instance, let's implement a "RandomCost" that has a
+specific chance of succeeding (this seems to be a very bad design, don't do it :P)
+
+```java
+import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+
+public class RandomCost implements SpellCost {
+
+  private double chances = 0.5;
+
+  // This is the method used to deserialize the cost.
+  // But a static method can also produce the same result !
+  public RandomCost(@NotNull List<String> serialized) {
+    this.cost = Double.parseDouble(serialized.getFirst());
+  }
+
+  @Override
+  public boolean canPay(@NotNull SpellEntity caster) {
+    return new java.util.Random().nextDouble(1) <= chances;
+  }
+
+  @Override
+  public void pay(@NotNull SpellEntity caster) {
+    // We don't remove anything from the caster :)
+  }
+
+  @Override
+  public @NotNull List<Object> serialize() {
+    return List.of(chances);
+  }
+
+  @Override
+  public String toString() {
+    return "Random[" + chances + "]";
+  }
+  
+  // Register this class
+  public static void registerCost() {
+    UltimateSpellSystem.getSpellCostRegistry().register(
+      SpellCostEntry.of(
+          "random", // ID of the cost : must be unique.
+          RandomCost.class, // Serialized class
+          RandomCost::new, // Method to deserialize the cost : here the constructor
+          SpellCostArgType.DOUBLE // Varargs of arguments (here the 'chance' field)
+      )  
+    );
+  }
+}
+```
+
