@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 public final class SpellBindFactory {
 
   public static @NotNull SpellBindDataContainer deserializeContainer(@NotNull String serializedData) {
+    if(serializedData.isEmpty()) {
+      return new SpellBindDataContainer(Collections.emptyList());
+    }
     String[] base64Parts = serializedData.split("\\.");
     List<SpellBindData> list = new ArrayList<>();
     for(String base64Part : base64Parts) {

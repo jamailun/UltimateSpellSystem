@@ -108,6 +108,39 @@ public final class ItemBinderImpl implements ItemBinder {
     }
 
     @Override
+    public void unbind(@Nullable ItemStack item, @NotNull String spellId) {
+        var optDatas = getBindDatas(item);
+        if(optDatas.isEmpty()) return;
+        assert item != null;
+        List<SpellBindData> spells = new ArrayList<>(optDatas.get());
+
+        // Check if legacy
+        SpellBindData data = spells.stream()
+            .filter(d -> Objects.equals(d.getSpellId(), spellId))
+            .findAny().orElse(null);
+        if(data == null) return;
+        ItemMeta meta = item.getItemMeta();
+
+        if(data.isLegacy()) {
+            meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindKey());
+            meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindDestroysKey());
+        } else {
+            spells.remove(data);
+            if(spells.isEmpty()) {
+                meta.getPersistentDataContainer().remove(UssKeys.getBindDataKey());
+            } else {
+                meta.getPersistentDataContainer().set(
+                    UssKeys.getBindDataKey(),
+                    TYPE,
+                    new SpellBindDataContainer(spells)
+                );
+            }
+        }
+        item.setItemMeta(meta);
+        Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(item, List.of(data)));
+    }
+
+    @Override
     public @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item) {
         if(item == null || item.getItemMeta() == null)
             return Optional.empty();
@@ -137,7 +170,7 @@ public final class ItemBinderImpl implements ItemBinder {
         // Modern
         try {
             SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
-            return container == null ? Optional.empty() : Optional.of(container.list());
+            return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());
         } catch(Exception e) {
             UltimateSpellSystem.logError("Error on deserialize: " + e.getMessage());
             return Optional.empty();

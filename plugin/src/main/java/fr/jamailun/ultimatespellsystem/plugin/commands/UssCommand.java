@@ -76,8 +76,13 @@ public class UssCommand extends AbstractCommand {
                 return error(sender, "You must be a player to " + arg0 + " a spell to an item.");
             }
             ItemStack item = p.getInventory().getItemInMainHand();
+            if(args.length >= 2) {
+                String spellId = args[1];
+                UltimateSpellSystem.getItemBinder().unbind(item, spellId);
+                return success(sender, "Spell '&e"+spellId+"&r' removed from your main-hand item.");
+            }
             UltimateSpellSystem.getItemBinder().unbind(item);
-            return success(sender, "Item-in hand unbound.");
+            return success(sender, "Item in main-hand cleared from bound-spells.");
         }
 
         if("bind-check".equals(arg0)) {
@@ -220,6 +225,14 @@ public class UssCommand extends AbstractCommand {
             String arg1 = args[1].toLowerCase();
             if(args_0_with_id.contains(args[0])) {
                 return spellIds().filter(s -> s.contains(arg1)).toList();
+            }
+            if("unbind".equalsIgnoreCase(args[0]) && sender instanceof Player p) {
+                return UltimateSpellSystem.getItemBinder().getBindDatas(p.getInventory().getItemInMainHand())
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .map(SpellBindData::getSpellId)
+                    .filter(s -> s.contains(arg1))
+                    .toList();
             }
         }
 

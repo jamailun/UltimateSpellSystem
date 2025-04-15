@@ -21,7 +21,7 @@ public class ItemUnBoundEvent extends Event {
     /**
      * New event with the spell instance.
      * @param datas the unbound data.
-     * @param boundItem the unbound item.
+     * @param boundItem list of spells <b>removed</b> from the item.
      */
     public ItemUnBoundEvent(@NotNull ItemStack boundItem, @NotNull List<SpellBindData> datas) {
          this.boundItem = boundItem;

@@ -66,10 +66,17 @@ public interface ItemBinder {
     void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost) throws ItemBindException;
 
     /**
-     * Remove any spell-bind to an item. If no spell have been bound, do nothing.
-     * @param item the item to unbind.
+     * Remove <b>all</b> spells bound to an item. If no spell have been bound, does nothing.
+     * @param item the item to unbind. Does nothing if null.
      */
     void unbind(@Nullable ItemStack item);
+
+    /**
+     * Remove a specific bound spell from an item. If this spell does is not bound, does nothing.
+     * @param item the item to unbind. Does nothing if null.
+     * @param spellId the non-null spell ID to remove.
+     */
+    void unbind(@Nullable ItemStack item, @NotNull String spellId);
 
     /**
      * Try to find a spell bound to an item.
