@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
+import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -20,10 +21,12 @@ import java.util.stream.Stream;
 public class UssCommand extends AbstractCommand {
 
     private final JavaPlugin plugin;
+    private final UssConfig config;
 
-    public UssCommand(@NotNull JavaPlugin plugin) {
+    public UssCommand(@NotNull JavaPlugin plugin, @NotNull UssConfig config) {
         super("uss");
         this.plugin = plugin;
+        this.config = config;
     }
 
     private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
@@ -129,24 +132,30 @@ public class UssCommand extends AbstractCommand {
             if(!(sender instanceof Player p)) {
                 return error(sender, "You must be a player to bind a spell to an item.");
             }
-            if(args.length == 2) {
-                return error(sender, "Missing argument:&4 cost-type &r(/uss bind <spell> <cost-type> <cost-args...> [trigger])");
+
+            SpellCost cost;
+            int costLength;
+            if(args.length > 2) {
+                SpellCostEntry<?> spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
+                if(spellCostEntry == null) {
+                    return error(p, "Unknown cost-type: '&4" + args[2] + "&r'.");
+                }
+                int costArgsCount = args.length - 3;
+                if(costArgsCount < spellCostEntry.args().size()) {
+                    return error(p, "Missing arguments for the cost. Expected args type: " + spellCostEntry.args());
+                }
+                List<String> costArgs = Arrays.asList(args).subList(3, spellCostEntry.args().size() + 3);
+                cost = spellCostEntry.deserialize(costArgs);
+                costLength = spellCostEntry.args().size();
+            } else {
+                cost = config.getDefaultCost();
+                costLength = 0;
             }
-            SpellCostEntry<?> spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
-            if(spellCostEntry == null) {
-                return error(p, "Unknown cost-type: '&4" + args[2] + "&r'.");
-            }
-            int costArgsCount = args.length - 3;
-            if(costArgsCount < spellCostEntry.args().size()) {
-                return error(p, "Missing arguments for the cost. Expected args type: " + spellCostEntry.args());
-            }
-            List<String> costArgs = Arrays.asList(args).subList(3, spellCostEntry.args().size() + 3);
-            SpellCost cost = spellCostEntry.deserialize(costArgs);
 
             // Read trigger
             List<ItemBindTrigger> triggerSteps;
-            if(args.length > 3 + spellCostEntry.args().size()) {
-                List<String> values = Arrays.asList(args).subList(3 + spellCostEntry.args().size(), args.length);
+            if(args.length > 3 + costLength) {
+                List<String> values = Arrays.asList(args).subList(3 + costLength, args.length);
                 triggerSteps = new ArrayList<>(values.size());
                 for(String value : values) {
                     try {
@@ -157,7 +166,7 @@ public class UssCommand extends AbstractCommand {
                 }
             } else {
                 // default trigger
-                triggerSteps = List.of(ItemBindTrigger.RIGHT_CLICK);
+                triggerSteps = new ArrayList<>( config.getDefaultTrigger() );
             }
             SpellTrigger trigger = new SpellTriggerImpl(triggerSteps, cost);
             SpellBindData data = new SpellBindDataImpl(spell, trigger);
