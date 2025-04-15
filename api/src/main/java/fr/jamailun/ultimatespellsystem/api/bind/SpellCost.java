@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.api.bind;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * The cost of a {@link fr.jamailun.ultimatespellsystem.api.spells.Spell Spell}.
  */
@@ -25,6 +27,6 @@ public interface SpellCost {
      * Serialize this object.
      * @return a non null string.
      */
-    @NotNull String serialize();
+    @NotNull List<Object> serialize();
 
 }

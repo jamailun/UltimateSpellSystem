@@ -49,8 +49,8 @@ public class ExperienceSpellCost implements SpellCost {
     }
 
     @Override
-    public @NotNull String serialize() {
-        return cost + ";" + levels;
+    public @NotNull List<Object> serialize() {
+        return List.of(cost, levels);
     }
 
     @Override

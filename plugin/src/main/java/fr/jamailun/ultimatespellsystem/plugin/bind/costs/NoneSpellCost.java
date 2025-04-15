@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * No cost.
  */
@@ -25,8 +28,8 @@ public class NoneSpellCost implements SpellCost {
     }
 
     @Override
-    public @NotNull String serialize() {
-        return "none";
+    public @NotNull List<Object> serialize() {
+        return Collections.emptyList();
     }
     @Override
     public String toString() {

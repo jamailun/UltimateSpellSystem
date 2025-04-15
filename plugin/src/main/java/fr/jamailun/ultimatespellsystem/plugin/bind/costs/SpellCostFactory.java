@@ -34,7 +34,11 @@ public final class SpellCostFactory implements SpellCostRegistry {
         if(entry == null) {
             throw new IllegalArgumentException("Cannot serialize cost " + cost + " : register it first !");
         }
-        return entry.id() + ";" + cost.serialize();
+        List<String> serialized = cost.serialize()
+            .stream()
+            .map(Objects::toString)
+            .toList();
+        return entry.id() + (serialized.isEmpty() ? "" : ";" + String.join(";", serialized));
     }
 
     public static @NotNull SpellCost deserialize(@NotNull List<String> parts) {
@@ -53,6 +57,9 @@ public final class SpellCostFactory implements SpellCostRegistry {
 
     @Override
     public void register(@NotNull SpellCostEntry<?> entry) {
+        if(entries.containsKey(entry.id())) {
+            UltimateSpellSystem.logWarning("Duplicate spell cost id '" + entry.id() + "'.");
+        }
         entries.put(entry.id(), entry);
         entriesPerClass.put(entry.clazz(), entry);
     }

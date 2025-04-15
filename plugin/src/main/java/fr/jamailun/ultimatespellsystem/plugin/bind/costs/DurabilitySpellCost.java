@@ -58,8 +58,8 @@ public class DurabilitySpellCost implements SpellCost {
     }
 
     @Override
-    public @NotNull String serialize() {
-        return String.valueOf(cost);
+    public @NotNull List<Object> serialize() {
+        return List.of(cost);
     }
 
     @Override
