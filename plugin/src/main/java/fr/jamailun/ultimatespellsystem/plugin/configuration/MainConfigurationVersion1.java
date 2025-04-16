@@ -20,7 +20,7 @@ import java.util.List;
 public class MainConfigurationVersion1 implements MainConfiguration {
 
   @Comment("Dont change this value manually.")
-  @Getter private String version = "1";
+  @Getter private String version = "1.1";
 
   @Comment("If true, 'debug' log will be printed into the console.")
   @Getter private boolean debug = false;
