@@ -7,7 +7,7 @@ import fr.jamailun.ultimatespellsystem.plugin.listeners.AggroListener;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Clock;
-import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
+import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Mob;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ public class SummonsManagerImpl implements SummonsManager {
 
     public SummonsManagerImpl(@NotNull UssConfig config) {
         config.registerObserver(this::refreshConfig);
-        aggroClock = new Clock(this::recomputeAggro, config.getCheckSummonsAggroEverySeconds());
+        aggroClock = new Clock(this::recomputeAggro, config.getTicksAggroSummons());
     }
 
     private void recomputeAggro() {
@@ -78,7 +78,7 @@ public class SummonsManagerImpl implements SummonsManager {
     }
 
     public void refreshConfig(@NotNull UssConfig config) {
-        aggroClock.setFrequency(config.getCheckSummonsAggroEverySeconds());
+        aggroClock.setFrequency(config.getTicksAggroSummons());
     }
 
     @Override

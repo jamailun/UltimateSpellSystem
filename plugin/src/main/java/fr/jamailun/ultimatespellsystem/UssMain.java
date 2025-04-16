@@ -14,7 +14,7 @@ import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.updater.UpdateCheck;
-import fr.jamailun.ultimatespellsystem.plugin.utils.UssConfig;
+import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
 import fr.jamailun.ultimatespellsystem.plugin.utils.bstats.Metrics;
 import lombok.Getter;
@@ -42,7 +42,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private AnimationsManagerImpl animationsManager;
     @Getter private final SpellsTriggerManager spellsTriggerManager = new SpellTriggerManagerImpl();
 
-    private final UssConfig config = new UssConfig();
+    private UssConfig config;
 
     public static final String PREFIX = "§b§lUSS§d | §f";
 
@@ -56,7 +56,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        config = new UssConfig(this);
 
         // Callbacks
         ExtensionLoader.loadCallbacks(this);
@@ -64,7 +64,6 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         // Config
         checkConfigurationVersion();
         reloadConfiguration();
-        saveConfig();
 
         // Managers
         itemBinder = new ItemBinderImpl();
@@ -94,13 +93,13 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     }
 
     private void checkConfigurationVersion() {
-        config.checkVersionAndMigrate(new File(getDataFolder(), "config.yml"), super::saveDefaultConfig);
+        config.checkVersionAndMigrate();
     }
 
     @Override
     public void reloadConfiguration() {
-        config.reload(getConfig());
-        logDebug("Debug mode enabled.");
+        config.reload();
+        logDebug("Debug mode enabled."); // will be printed only if debug mode is enabled :)
     }
 
     @Override
