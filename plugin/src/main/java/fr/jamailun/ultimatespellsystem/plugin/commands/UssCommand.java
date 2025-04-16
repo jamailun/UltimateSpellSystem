@@ -29,13 +29,13 @@ public class UssCommand extends AbstractCommand {
         this.config = config;
     }
 
-    private final static List<String> args_0 = List.of("reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
+    private final static List<String> args_0 = List.of("help", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 0) {
-            return error(sender, "Missing argument. Allowed: " + args_0);
+            return error(sender, "Missing argument. Allowed: " + args_0 + ". Do /help for more information.");
         }
         String arg0 = args[0].toLowerCase();
         if(!args_0.contains(arg0))
@@ -46,6 +46,12 @@ public class UssCommand extends AbstractCommand {
             UltimateSpellSystem.reloadConfiguration();
             spells().reloadSpells();
             return success(sender, "Successfully reloaded configuration and " + spells().spellIds().size() + " spells.");
+        }
+
+        // Help
+        if("help".equals(arg0)) {
+            sendHelp(sender);
+            return true;
         }
 
         // PURGE
@@ -129,7 +135,8 @@ public class UssCommand extends AbstractCommand {
         }
         if("debug".equals(arg0)) {
             String debug = spell.getDebugString();
-            UltimateSpellSystem.logInfo("Debug spell [" + spell.getName() + "] : " + debug);
+            if(sender instanceof Player) // only print in console if player
+                UltimateSpellSystem.logInfo("Debug spell [" + spell.getName() + "] : " + debug);
             return info(sender, "SPELL["+spell.getName()+"]=" + debug);
         }
 
@@ -271,6 +278,21 @@ public class UssCommand extends AbstractCommand {
 
     private @NotNull Stream<String> spellIds() {
         return spells().spellIds().stream();
+    }
+
+    private void sendHelp(@NotNull CommandSender sender) {
+        info(sender, "Ultimate Spells System command guide :");
+        info(sender, "/uss&e help&r: display this help page.");
+        info(sender, "/uss&e reload&r: reload the plugin configuration and the spells.");
+        info(sender, "/uss&e list&r: list existing spells.");
+        info(sender, "/uss&e cast&b <spell_id>&r: cast a specific spell on yourself.");
+        info(sender, "/uss&e purge&r: purge all plugin tasks and remove all summoned entities.");
+        info(sender, "/uss&e bind&b <spell_id>&f [cost] [trigger]&r: Bind a spell to the item your are currently holding. The cost can have a specific argument. The trigger is a sequence of steps to execute for the spell to be triggered.");
+        info(sender, "/uss&e bind-check&r: check if the item you are currently holding is bound to a spell.");
+        info(sender, "/uss&e unbind&f [spell_id]&r: unbind a spell from the item you are currently holding. If no spell is specified, remove all of them.");
+        info(sender, "/uss&e disable&b <spell_di>&r: disable a spell. The change is not persisted through server stop.");
+        info(sender, "/uss&e enable&b <spell_id>&r: re-enable a disabled spell.");
+        info(sender, "/uss&e debug&b <spell_id>&r: get the code of a spell. Will also be printed to the console.");
     }
 
 }
