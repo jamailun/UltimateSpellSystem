@@ -1,0 +1,74 @@
+# This spell makes the caster launch an explosive pig to the looked direction.
+# The pig will explode after some time, if not killed.
+
+# -- configuration
+%duration = 4s;
+%radius = 5;
+%damage = 10;
+
+# Summon the pig, give it slowness, send to the the caster direction.
+summon PIG at ((position of %caster) + [[0,1.1,0]]) as %pig for %duration with: {{
+  name: "&dExplosive pig",
+  max_health: 20
+}}
+send to %pig effect SLOW 10 for %duration;
+knockback(%pig, direction_of(%caster), 2); # '2' is the pig velocity
+
+# Do 'tick' sounds
+run after 1s: repeat ((%duration-1s)/1s) times every 1s: {
+  if(is_valid(%pig)) {
+    play sound at %pig with: {{
+      type: "item_flintandsteel_use",
+      volume: 2,
+      pitch: 0.8
+    }}
+  }
+}
+
+# On expiration (i.e. pig as not been killed) simulate an explosion
+callback %pig expire: {
+  # Explosion : damage and knockback with a power inversely proportional to the distance
+  foreach(%en : all entities within %radius around %pig) {
+    %p_pig = position of %pig;
+    %p_en = position of %en;
+    %dist = distance(%p_pig, %p_en);
+    if(%dist < 0.0001) %dist = 0.001; # If entities at the same position, we don't want to divide by 0 !
+    %force = 1.2 / %dist;
+    knockback(%en, %p_en - %p_pig, %force);
+    damage_entity(%en, (1/%dist) * %damage, %pig);
+  }
+
+  # Explosion : particles effects
+  play particle at %pig with: {{
+    type: EXPLOSION,
+    radius: 2,
+    count: 35
+  }};
+  play particle at %pig with: {{
+    type: WHITE_SMOKE,
+    count: 200,
+    radius: 1,
+    speed: 0.01
+  }};
+
+  # Explosion : sound effect
+  play sound at %pig with: {{
+    type: "entity_dragon_fireball_explode",
+    volume: 2,
+    pitch: 0.9
+  }};
+}
+
+# If the pig as been killed, it does not explode. Particle and sound instead.
+callback %pig die: run after 1s: {
+  play particle at %pig with: {{
+    type: SMOKE,
+    count: 100,
+    radius: 0.4,
+    speed: 0.01
+  }}
+  play sound at %pig with: {{
+    type: "block_fire_extinguish",
+    volume: 2
+  }}
+}
