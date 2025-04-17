@@ -28,7 +28,7 @@ public class GiveNode extends RuntimeStatement {
     public void run(@NotNull SpellRuntime runtime) {
         // Extract inventory-holder
         SpellEntity entity = runtime.safeEvaluate(target, SpellEntity.class);
-        if(entity.getBukkitEntity().isEmpty()) return;
+        if(entity == null || entity.getBukkitEntity().isEmpty()) return;
         Entity bukkitEntity = entity.getBukkitEntity().orElse(null);
         if(!(bukkitEntity instanceof InventoryHolder holder)) return;
 
