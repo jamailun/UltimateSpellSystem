@@ -2,7 +2,6 @@ package fr.jamailun.ultimatespellsystem.api.events;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

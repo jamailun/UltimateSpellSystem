@@ -49,7 +49,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      */
     public static final String ATTRIBUTE_MOB_AGGRO_SCOPE = "aggro_scope";
     /**
-     * Double. The range at which the summon an aggro an entity. Default = 7.
+     * Double. The range at which the summon will aggro an entity. Default = 7.
      */
     public static final String ATTRIBUTE_MOB_AGGRO_RANGE = "aggro_range";
 

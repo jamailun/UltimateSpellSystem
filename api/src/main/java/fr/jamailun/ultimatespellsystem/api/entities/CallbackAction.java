@@ -4,7 +4,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

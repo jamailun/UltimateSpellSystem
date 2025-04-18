@@ -6,7 +6,6 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionA
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
