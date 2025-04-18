@@ -12,7 +12,12 @@ import org.jetbrains.annotations.Nullable;
 public final class ScopeProvider extends UssProvider<EntityScope> {
     private ScopeProvider() {}
     private static final ScopeProvider INSTANCE = new ScopeProvider();
-    public static ScopeProvider instance() {
+
+    /**
+     * Get the provider instance.
+     * @return a non-null instance.
+     */
+    public static @NotNull ScopeProvider instance() {
         return INSTANCE;
     }
 

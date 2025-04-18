@@ -11,10 +11,16 @@ import java.util.Random;
 public abstract class Animation {
 
     @Getter(AccessLevel.PROTECTED) private int ticks = 0;
+
+    /** Random instance, to generate random numbers */
     protected final Random random = new Random();
+
+    /** Create a new instance. */
+    protected Animation() {}
 
     /**
      * Get the duration of this animation.
+     * @return a non-negative long.
      */
     protected abstract long getDuration();
 

@@ -20,10 +20,11 @@ public interface ItemBinder {
      * If the binding is successful, an event will be propagated.
      * @param item the item to bind the spell to.
      * @param spell the spell to bind.
+     * @param destroy if true, the item will be destroyed after use.
      * @throws ItemBindException if the item instance cannot be bound.
-     * @deprecated legacy since 1.6.0.
+     * @deprecated legacy since 2.0.0.
      */
-    @Deprecated(since = "1.6.0", forRemoval = true)
+    @Deprecated(since = "2.0.0", forRemoval = true)
     void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws ItemBindException;
 
     /**
@@ -85,7 +86,7 @@ public interface ItemBinder {
      * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
      * @see #getBindDatas(ItemStack)
      */
-    @Deprecated(since = "1.6.0", forRemoval = true)
+    @Deprecated(since = "2.0.0", forRemoval = true)
     @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item);
 
     /**
@@ -94,7 +95,7 @@ public interface ItemBinder {
      * @return if the item has the "destroy key".
      * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
      */
-    @Deprecated(since = "1.6.0", forRemoval = true)
+    @Deprecated(since = "2.0.0", forRemoval = true)
     boolean hasDestroyKey(@Nullable ItemStack item);
 
     /**

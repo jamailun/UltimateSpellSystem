@@ -15,13 +15,24 @@ import java.util.function.Function;
  * @param <E> the generic event.
  * @param <A> the argument type.
  */
-@RequiredArgsConstructor
 @Getter
 public final class CallbackAction<E extends Event, A> {
 
     private final CallbackEvent dslDefinition;
     private final Class<E> listenedEvent;
     private final Function<E, A> argumentExtractor;
+
+    /**
+     * Create a new callback definition.
+     * @param dslDefinition DSL definition to register.
+     * @param listenedEvent type of event to react to.
+     * @param argumentExtractor argument extractor. Must extract an argument from the event instance (matching the type).
+     */
+    public CallbackAction(@NotNull CallbackEvent dslDefinition, @NotNull Class<E> listenedEvent, @NotNull Function<E, A> argumentExtractor) {
+        this.dslDefinition = dslDefinition;
+        this.listenedEvent = listenedEvent;
+        this.argumentExtractor = argumentExtractor;
+    }
 
     /**
      * Register this callback to a summoned entity.

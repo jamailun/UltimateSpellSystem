@@ -10,7 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public final class JavaFunctionProvider extends UssProvider<RunnableJavaFunction> {
     private JavaFunctionProvider() {}
     private static final JavaFunctionProvider INSTANCE = new JavaFunctionProvider();
-    /** Get the non-null instance. **/
+    /**
+     * Get the non-null instance.
+     * @return singleton instance.
+     **/
     public static @NotNull JavaFunctionProvider instance() {
         return INSTANCE;
     }

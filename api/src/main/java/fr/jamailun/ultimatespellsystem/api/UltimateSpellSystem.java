@@ -18,6 +18,10 @@ public final class UltimateSpellSystem {
 
     private static UltimateSpellSystemPlugin plugin;
 
+    /**
+     * Internal setter for the plugin instance. Do not call this : it will break everything.
+     * @param plugin plugin instance.
+     */
     public static void setPlugin(@NotNull UltimateSpellSystemPlugin plugin) {
         if(UltimateSpellSystem.plugin != null)
             throw new IllegalStateException("Cannot set the USS plugin twice.");

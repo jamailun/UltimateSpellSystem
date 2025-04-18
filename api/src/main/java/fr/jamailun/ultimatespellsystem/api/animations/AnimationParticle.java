@@ -10,8 +10,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AnimationParticle extends Animation {
 
+    /** Useful math value. */
     protected final static double PI_SQUARE = Math.PI * 2;
+    /** Useful math value. */
+    protected final static double PI_2 = Math.PI / 2;
 
+    /**
+     * Particle type to display.
+     */
     protected final Particle particle;
 
     /**

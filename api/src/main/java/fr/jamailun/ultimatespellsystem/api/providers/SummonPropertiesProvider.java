@@ -69,6 +69,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
          */
         @NotNull SummonAttributes attributes();
 
+        /**
+         * Send a warning about an invalid type.
+         * @param name name of the property, or context.
+         * @param expected expected type.
+         * @param actual obtained object.
+         */
         void invalidTypeWarn(@NotNull String name, @NotNull Class<?> expected, @Nullable Object actual);
     }
 

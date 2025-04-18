@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public abstract class RuntimeStatement {
 
+    /** New instance of an expression */
+    protected RuntimeStatement() {}
+
     /**
      * Run the statement with a specific context.
      * @param runtime the non-null context to run this statement on.

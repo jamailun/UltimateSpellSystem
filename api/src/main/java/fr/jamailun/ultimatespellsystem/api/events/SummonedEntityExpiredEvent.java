@@ -10,12 +10,19 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Event called when a summoned entity expired.
  */
-@RequiredArgsConstructor
 @Getter
 public class SummonedEntityExpiredEvent extends Event {
 
     @NotNull
     private final SummonAttributes summon;
+
+    /**
+     * Create a new instance.
+     * @param summon summon properties.
+     */
+    public SummonedEntityExpiredEvent(@NotNull SummonAttributes summon) {
+        this.summon = summon;
+    }
 
     private static final HandlerList HANDLERS = new HandlerList();
     @Override

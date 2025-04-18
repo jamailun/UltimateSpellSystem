@@ -21,6 +21,11 @@ public class TransientDataContainer implements PersistentDataContainer {
     private final Map<NamespacedKey, Entry<?,?>> primitiveStorage = new HashMap<>();
     private final PersistentDataAdapterContext context = new Context(this);
 
+    /**
+     * New in-memory instance of NBT holder.
+     */
+    public TransientDataContainer() {}
+
     @Override
     public <P, C> void set(@NotNull NamespacedKey key, @NotNull PersistentDataType<P, C> type, @NotNull C value) {
         primitiveStorage.put(key, new Entry<>(key, type, type.toPrimitive(value, context)));

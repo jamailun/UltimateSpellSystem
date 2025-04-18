@@ -41,6 +41,10 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
         return caster;
     }
 
+    /**
+     * Get the last action that triggered the event.
+     * @return a non-null trigger step.
+     */
     public @NotNull ItemBindTrigger getLastTrigger() {
         return lastTrigger;
     }

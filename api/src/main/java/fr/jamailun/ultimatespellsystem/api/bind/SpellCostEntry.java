@@ -20,12 +20,15 @@ public record SpellCostEntry<T extends SpellCost>(
     @NotNull Function<List<String>, T> deserializer,
     @NotNull List<SpellCostArgType> args
 ) {
+
   /**
-   *
+   * Create a new instance.
    * @param id the ID of the entry.
+   * @param clazz the serialized class.
    * @param deserializer deserializer function.
    * @param args command arguments
    * @return a new instance
+   * @param <T> output spell cost class.
    */
   @Contract("_,_,_,_ -> new")
   public static <T extends SpellCost> @NotNull SpellCostEntry<T> of(@NotNull String id, @NotNull Class<T> clazz, @NotNull Function<List<String>, T> deserializer, @NotNull SpellCostArgType... args) {

@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class RuntimeExpression {
 
+    /** New instance of an expression */
+    protected RuntimeExpression() {}
+
     /**
      * Evaluate this expression node with a specific context.
      * @param runtime the runtime-context to use.

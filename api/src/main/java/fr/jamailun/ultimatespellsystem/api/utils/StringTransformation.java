@@ -11,6 +11,7 @@ import java.util.Objects;
  * USS string transformation. For example, will render variables to a string.
  */
 public final class StringTransformation {
+    private StringTransformation() {/* No instanciation */}
 
     /**
      * Apply all transformations to a string.

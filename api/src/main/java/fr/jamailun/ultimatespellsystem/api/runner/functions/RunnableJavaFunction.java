@@ -15,12 +15,24 @@ import java.util.List;
  * A runnable code declaration
  */
 @Getter
-@RequiredArgsConstructor
 public abstract class RunnableJavaFunction {
 
     private final @NotNull String id;
     private final @NotNull Type type;
     private final @NotNull List<FunctionArgument> arguments;
+
+    /**
+     * New instance of a function.
+     * @param id ID of the function. Alternate ids can be provided at registration-time.
+     * @param type output type.
+     * @param arguments arguments types.
+     * @see FunctionArgument
+     */
+    public RunnableJavaFunction(@NotNull String id, @NotNull Type type, @NotNull List<FunctionArgument> arguments) {
+        this.id = id;
+        this.type = type;
+        this.arguments = arguments;
+    }
 
     /**
      * Compute the value, using the arguments.

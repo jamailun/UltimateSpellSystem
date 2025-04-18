@@ -17,6 +17,11 @@ public class MultivaluedMap<K, V> {
     private final Map<K, List<V>> map = new HashMap<>();
 
     /**
+     * Create an empty map.
+     */
+    public MultivaluedMap() {}
+
+    /**
      * Get all values for the key.
      * @param key the key to use.
      * @return null if the key does not exist.
