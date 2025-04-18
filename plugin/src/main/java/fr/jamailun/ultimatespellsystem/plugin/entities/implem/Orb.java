@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.entities.implem;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.CustomEntity;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Point;
@@ -95,17 +96,21 @@ public class Orb extends CustomEntity {
 
         // Effects
         if(hasEffects) {
-            Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius, le -> !receivedEffects.contains(le.getUniqueId()));
-            if(!nearby.isEmpty()) {
-                applyEffects(nearby);
-                if(maxCollisionsEntity > 0 && receivedEffects.size() >= maxCollisionsEntity) {
-                    remove();
-                }
-            }
+            UltimateSpellSystem.getScheduler().run(this::handleEntities);
         }
         // Can remove the orb after too many block traversals.
         if(maxBlockTraversal >= 0) {
             checkForBlockTraversal();
+        }
+    }
+
+    private void handleEntities() {
+        Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius, le -> !receivedEffects.contains(le.getUniqueId()));
+        if(!nearby.isEmpty()) {
+            applyEffects(nearby);
+            if(maxCollisionsEntity > 0 && receivedEffects.size() >= maxCollisionsEntity) {
+                remove();
+            }
         }
     }
 
