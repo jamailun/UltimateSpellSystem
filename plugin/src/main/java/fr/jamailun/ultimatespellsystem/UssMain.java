@@ -103,6 +103,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public void reloadConfiguration() {
         config.reload();
+        UssLogger.setDebug(config.isDebug());
         UssLogger.logDebug("Debug mode enabled."); // will be printed only if debug mode is enabled :)
     }
 

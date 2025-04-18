@@ -6,15 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 /**
  * Internal access to Bukkit schedule, for the plugin.
  */
 public final class UssLogger {
 
     @Setter(AccessLevel.MODULE)
-    private static @NotNull Supplier<Boolean> isDebug = () -> false;
+    private static boolean isDebug = false;
 
     @SuppressWarnings("deprecation")
     private static void sendMessage(@NotNull String message, @NotNull String color) {
@@ -26,7 +24,7 @@ public final class UssLogger {
      * @param message the message to print.
      */
     public static void logDebug(@NotNull String message) {
-        if(isDebug.get())
+        if(isDebug)
             sendMessage("&9DEBUG | &7" + message, "&7");
     }
 

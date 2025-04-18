@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor
 public class SummonNode extends RuntimeStatement {
 
@@ -23,8 +25,8 @@ public class SummonNode extends RuntimeStatement {
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {
-        UssEntityType entityType = runtime.safeEvaluate(type, UssEntityType.class);
-        Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
+        UssEntityType entityType = Objects.requireNonNull(runtime.safeEvaluate(type, UssEntityType.class), "Summon.entity-type cannot be null.");
+        Duration duration = Objects.requireNonNull(runtime.safeEvaluate(this.duration, Duration.class), "Summon.duration cannot be null.");
         SpellEntity caster = runtime.getCaster();
         Location location = getSource(runtime, caster, entityType);
 
