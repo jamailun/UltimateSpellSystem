@@ -1,9 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.events;
 
 import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
-import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import lombok.Getter;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

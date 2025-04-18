@@ -2,7 +2,7 @@
 
 A statement is an instruction. All statements are executed one after another. Statements must end with a `;`.
 
-You can create "blocks" by placing multiple statements between curcly braces (`{}`).
+You can create "blocks" by placing multiple statements between curly braces (`{}`).
 
 # Statements list
 
@@ -71,7 +71,7 @@ Classic conditional branching.
 - `ST_TRUE` the statement to execute if the condition evaluates to true.
 - `ST_FALSE` the statement to execute otherwise.
 
-_Note:_ Obvisouly, you can put another `if` in a `else` statement, thus obtaining `else if` statements.
+_Note:_ Obviously, you can put another `if` in a `else` statement, thus obtaining `else if` statements.
 
 **Example:**
 ```bash
@@ -204,9 +204,9 @@ callback %projectile expire: {
 
 ### Minecraft statements
 
-Now that we can control variables and control the flow of the spell exection, let's act on the world !
+Now that we can control variables and control the flow of the spell execution, let's act on the world !
 
-Note that, in general, one of the philosphy here is to **not** impact the world durably. All modifications are either transient, or limited to a duration.
+Note that, in general, one of the philosophy here is to **not** impact the world durably. All modifications are either transient, or limited to a duration.
 
 ### ➡️ `send` a message ✉️
 
@@ -314,7 +314,7 @@ play block at %caster with: {{ type: GRASS_BLOCK, duration: 0.6 minutes }};
 Give an item to a player.
 
 **Syntax:** `give [[<AMOUNT>] <TYPE>] TO <TARGET> [WITH: <PROPERTIES>]`
-- `AMOUNT` : optional **Nuber** (if `<TYPE>` is specified). Default value is `1`.
+- `AMOUNT` : optional **Number** (if `<TYPE>` is specified). Default value is `1`.
 - `TYPE` : optional **String**, matching a [Material](https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.html).
 - `TARGET` : of type **Entity**, recipient of the item. Can be a list.
 - `PROPERTIES` optional properties set. Check the `summon` statement for more links. May override the `AMOUNT` and `TYPE` arguments.

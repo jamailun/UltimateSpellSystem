@@ -27,9 +27,9 @@ public record SpellCostEntry<T extends SpellCost>(
    * @param args command arguments
    * @return a new instance
    */
-  @Contract("_,_,_ -> new")
+  @Contract("_,_,_,_ -> new")
   public static <T extends SpellCost> @NotNull SpellCostEntry<T> of(@NotNull String id, @NotNull Class<T> clazz, @NotNull Function<List<String>, T> deserializer, @NotNull SpellCostArgType... args) {
-    return new SpellCostEntry(id, clazz, deserializer, List.of(args));
+    return new SpellCostEntry<>(id, clazz, deserializer, List.of(args));
   }
 
   /**
