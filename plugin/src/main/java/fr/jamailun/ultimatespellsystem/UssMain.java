@@ -41,7 +41,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private SummonsManagerImpl summonsManager;
     @Getter private ItemBinderImpl itemBinder;
     @Getter private AnimationsManagerImpl animationsManager;
-    @Getter private Scheduler scheduler;
+    @Getter private final Scheduler scheduler = new UssScheduler(this);
     @Getter private final ItemReader itemReader = new ItemReaderImpl();
     @Getter private final SpellsTriggerManager spellsTriggerManager = new SpellTriggerManagerImpl();
 
@@ -55,7 +55,6 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         ExtensionLoader.loadStatic();
         UssKeys.initialize(this);
-        scheduler = new UssScheduler(this);
     }
 
     @Override
