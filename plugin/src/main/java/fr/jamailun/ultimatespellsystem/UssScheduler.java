@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem;
 
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
@@ -19,13 +20,17 @@ public final class UssScheduler implements Scheduler {
     }
 
     @Override
-    public @NotNull BukkitRunnable run(@NotNull Runnable runnable) {
-        return of(runnable, t -> t.runTask(plugin));
+    public void run(@NotNull Runnable runnable) {
+        of(runnable, t -> t.runTask(plugin));
     }
 
     @Override
-    public @NotNull BukkitRunnable runAsync(@NotNull Runnable runnable) {
-        return of(runnable, t -> t.runTaskAsynchronously(plugin));
+    public void runAsync(@NotNull Runnable runnable) {
+        if(!Bukkit.isPrimaryThread()) {
+            runnable.run();
+            return;
+        }
+        of(runnable, t -> t.runTaskAsynchronously(plugin));
     }
 
     @Override

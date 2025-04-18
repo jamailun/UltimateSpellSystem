@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -39,9 +40,10 @@ public abstract class PlayNode extends RuntimeStatement {
         if(locations.isEmpty())
             return;
 
-        Map<String, Object> attributes = getProperties(properties, runtime);
-
-        apply(locations, attributes);
+        UltimateSpellSystem.getScheduler().runAsync(() -> {
+            Map<String, Object> attributes = getProperties(properties, runtime);
+            apply(locations, attributes);
+        });
     }
 
     protected abstract void apply(@NotNull List<Location> locations, @NotNull Map<String, Object> properties);

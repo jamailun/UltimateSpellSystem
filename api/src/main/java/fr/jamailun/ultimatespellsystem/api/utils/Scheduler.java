@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.api.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,17 +11,15 @@ public interface Scheduler {
 
   /**
    * Run a task on the main.
-   * @param runnable thing to run
-   * @return a non-null {@link BukkitRunnable}.
+   * @param runnable thing to run.
    */
-  @NotNull BukkitRunnable run(@NotNull Runnable runnable);
+  void run(@NotNull Runnable runnable);
 
   /**
-   * Run a task on a secondary thread.
-   * @param runnable thing to run
-   * @return a non-null {@link BukkitRunnable}.
+   * Run a task on a secondary thread. If {@link Bukkit#isPrimaryThread()} returns {@code false}, then run the runnable now.
+   * @param runnable thing to run.
    */
-  @NotNull BukkitRunnable runAsync(@NotNull Runnable runnable);
+  void runAsync(@NotNull Runnable runnable);
 
   /**
    * Run a task on the main thread, later.
