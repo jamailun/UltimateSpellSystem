@@ -13,6 +13,10 @@ public class BooleanExpression extends LiteralExpression<Boolean> {
 
     private final boolean rawValue;
 
+    /**
+     * New instance, from a token.
+     * @param token non-null token to use.
+     */
     public BooleanExpression(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentBoolean();

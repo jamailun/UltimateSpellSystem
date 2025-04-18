@@ -10,6 +10,9 @@ public final class DefaultMetadataRules {
 
     private static boolean initialized = false;
 
+    /**
+     * Initialize the metadata rules system.
+     */
     public static void initialize() {
         if(initialized) return;
         initialized = true;

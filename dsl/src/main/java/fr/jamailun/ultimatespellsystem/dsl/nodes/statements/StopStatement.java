@@ -14,6 +14,9 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A {@code stop} statement will stop the spell execution.
+ */
 @AllArgsConstructor
 @Getter
 public class StopStatement extends StatementNode {
@@ -31,6 +34,11 @@ public class StopStatement extends StatementNode {
         visitor.handleStop(this);
     }
 
+    /**
+     * Parse a STOP statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.STOP)
     public static @NotNull StopStatement parseStop(@NotNull TokenStream tokens) {
         if(tokens.dropOptional(TokenType.SEMI_COLON)) {

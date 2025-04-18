@@ -11,19 +11,29 @@ import org.jetbrains.annotations.Nullable;
 public enum TypePrimitive {
 
     // Real Primitives
+    /** A String primitive. */
     STRING(String.class),
+    /** A number primitive. */
     NUMBER(Number.class),
+    /** A boolean primitive. */
     BOOLEAN(Boolean.class),
 
     // In-game
+    /** A temporal duration. */
     DURATION(Duration.class),
+    /** An in-game entity. */
     ENTITY(SpellEntity.class),
+    /** A Bukkit entity-type. */
     ENTITY_TYPE(String.class),
+    /** A Bukkit location. */
     LOCATION(Location.class),
 
     // Specials
+    /** A map of properties. */
     PROPERTIES_SET,
+    /** A string for custom values. */
     CUSTOM(String.class),
+    /** A {@code null} value. */
     NULL;
 
     public final Class<?> clazz;

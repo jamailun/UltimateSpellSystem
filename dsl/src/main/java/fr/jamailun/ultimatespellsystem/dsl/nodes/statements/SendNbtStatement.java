@@ -11,6 +11,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Send a NBT k/v to a Bukkit entity.
+ */
 public class SendNbtStatement extends SendStatement {
 
     @Getter private final ExpressionNode nbtName;
@@ -38,6 +41,11 @@ public class SendNbtStatement extends SendStatement {
         visitor.handleSendNbt(this);
     }
 
+    /**
+     * Parse a send-nbt statement. Called by {@link SendStatement#parseSendStatement(TokenStream)}.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.SEND/* + NBT */}) // <NAME> = <VALUE> for <DURATION>;
     public static @NotNull SendNbtStatement parseSendNbt(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         ExpressionNode nbtName = ExpressionNode.readNextExpression(tokens, true);

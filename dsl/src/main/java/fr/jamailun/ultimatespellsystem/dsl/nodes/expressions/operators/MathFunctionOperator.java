@@ -7,11 +7,20 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Math-function mono-operator.
+ */
 public class MathFunctionOperator extends MonoOperator {
 
     private final MonoOpeType type;
 
-    public MathFunctionOperator(TokenPosition pos, ExpressionNode expression, MonoOpeType type) {
+    /**
+     * New instance.
+     * @param pos position of the token.
+     * @param expression expression to use.
+     * @param type type of operator.
+     */
+    public MathFunctionOperator(@NotNull TokenPosition pos, @NotNull ExpressionNode expression, @NotNull MonoOpeType type) {
         super(pos, expression);
         this.type = type;
     }

@@ -1,12 +1,16 @@
 package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
 import fr.jamailun.ultimatespellsystem.dsl.errors.ParsingException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+/**
+ * Internal tokenizer. Transforms a string into a list of {@link Token tokens}.
+ */
 public class Tokenizer {
 
     private final static Map<Character, TokenType> OPERATORS_MONO = new HashMap<>();
@@ -68,10 +72,14 @@ public class Tokenizer {
     private final List<Token> tokens = new ArrayList<>();
     private boolean done = false;
 
-    public static TokenStream tokenize(CharStream chars) {
+    /**
+     * Tokenize a string.
+     * @param chars a stream of chars.
+     * @return a new token stream.
+     */
+    public static @NotNull TokenStream tokenize(@NotNull CharStream chars) {
         return new Tokenizer(chars).tokenize();
     }
-
 
     private final Predicate<String> ALLOWED_WORD_START = Pattern.compile("[A-Za-z_]").asPredicate();
     private final Predicate<String> ALLOWED_WORD_BODY = Pattern.compile("[A-Za-z_0-9]").asPredicate();

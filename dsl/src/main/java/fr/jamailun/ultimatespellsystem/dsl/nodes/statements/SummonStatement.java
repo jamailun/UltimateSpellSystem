@@ -14,6 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+/**
+ * Summon an entity (by the caster).
+ */
 @RequiredArgsConstructor
 public class SummonStatement extends StatementNode {
 
@@ -41,6 +44,11 @@ public class SummonStatement extends StatementNode {
         visitor.handleSummon(this);
     }
 
+    /**
+     * Parse a summon statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     // SUMMON (ENTITY_TYPE) [AT (POSITION/ENTITY)] [[AS (VAR_NAME)]] FOR (DURATION) [WITH : (PROPS)]
     @PreviousIndicator(expected = {TokenType.SUMMON})
     public static @NotNull SummonStatement parseSummonStatement(@NotNull TokenStream tokens) {

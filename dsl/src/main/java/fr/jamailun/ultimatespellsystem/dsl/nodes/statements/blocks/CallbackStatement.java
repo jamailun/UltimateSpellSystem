@@ -67,6 +67,11 @@ public class CallbackStatement extends BlockHolder {
         visitor.handleCallback(this);
     }
 
+    /**
+     * Parse a callback statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.CALLBACK) // CALLBACK %<VAR> <EVENT> [<keyword> %<ARG>]: {CHILD}
     public static @NotNull CallbackStatement parseCallback(@NotNull TokenStream tokens) {
         TokenPosition pos = tokens.position();

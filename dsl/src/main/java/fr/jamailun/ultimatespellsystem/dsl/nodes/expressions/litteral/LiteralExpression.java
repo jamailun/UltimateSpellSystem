@@ -11,10 +11,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class LiteralExpression<T> extends ExpressionNode {
 
+    /** Prefix to toString's */
     protected final static String PREFIX = "<";
+    /** Suffix to toString's */
     protected final static String SUFFIX = ">";
 
-    protected LiteralExpression(TokenPosition position) {
+    /**
+     * New literal.
+     * @param position position of the corresponding (first) token.
+     */
+    protected LiteralExpression(@NotNull TokenPosition position) {
         super(position);
     }
 

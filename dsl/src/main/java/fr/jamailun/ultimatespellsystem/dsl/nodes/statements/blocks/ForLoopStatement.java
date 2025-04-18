@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A for loop.
+ */
 @Getter
 @RequiredArgsConstructor
 public class ForLoopStatement extends StatementNode {
@@ -36,6 +39,11 @@ public class ForLoopStatement extends StatementNode {
         visitor.handleForLoop(this);
     }
 
+    /**
+     * Parse a for-loop statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.FOR)
     public static @NotNull ForLoopStatement parseForLoop(@NotNull TokenStream tokens) {
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);

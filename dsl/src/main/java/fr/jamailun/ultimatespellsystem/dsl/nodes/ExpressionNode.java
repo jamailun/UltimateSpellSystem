@@ -24,16 +24,26 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * An "expression" is an element of the AST that can have, by itself, a type.
+ * An "expression" is a typed element, used by {@link StatementNode statements}. <br/>
+ * Types are statically checked.<br/>
+ * This class can parse expressions using the {@link #readNextExpression(TokenStream)} method.
  */
 public abstract class ExpressionNode extends Node {
 
     private final TokenPosition position;
 
+    /**
+     * New instance of an expression, needs a position.
+     * @param position non-null position of the first token.
+     */
     protected ExpressionNode(@NotNull TokenPosition position) {
         this.position = position;
     }
 
+    /**
+     * Get the position of the first token of the expression.
+     * @return a non-null token position.
+     */
     public @NotNull TokenPosition firstTokenPosition() {
         return position;
     }

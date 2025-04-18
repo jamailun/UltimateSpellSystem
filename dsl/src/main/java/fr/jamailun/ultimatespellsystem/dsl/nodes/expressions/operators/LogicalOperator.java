@@ -8,13 +8,22 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A logical operator, returning a boolean after comparing two expressions.
+ */
 public class LogicalOperator extends BiOperator {
 
     private final BiOpeType type;
 
-    public LogicalOperator(Token operand, ExpressionNode left, ExpressionNode right) {
-        super(operand.pos(), left, right);
-        this.type = switch (operand.getType()) {
+    /**
+     * New instance.
+     * @param operator token to use.
+     * @param left first operand.
+     * @param right second operand
+     */
+    public LogicalOperator(Token operator, ExpressionNode left, ExpressionNode right) {
+        super(operator.pos(), left, right);
+        this.type = switch (operator.getType()) {
             case COMP_EQ -> BiOpeType.EQUAL;
             case COMP_NE -> BiOpeType.NOT_EQUAL;
             case COMP_LE -> BiOpeType.LESSER_OR_EQ;
@@ -23,7 +32,7 @@ public class LogicalOperator extends BiOperator {
             case COMP_GT -> BiOpeType.GREATER;
             case OPE_AND -> BiOpeType.AND;
             case OPE_OR -> BiOpeType.OR;
-            default -> throw new RuntimeException("Invalid logical operator : " + operand + " at " + operand.pos());
+            default -> throw new RuntimeException("Invalid logical operator : " + operator + " at " + operator.pos());
         };
     }
 

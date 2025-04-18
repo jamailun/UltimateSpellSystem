@@ -8,23 +8,20 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Structure validation.
+ */
 public class StructureValidationVisitor implements StatementVisitor {
-    private StructureValidationVisitor parent;
     private boolean stopMet = false;
     private boolean breakMet = false;
     private boolean metadataAllowed = true;
 
-    public StructureValidationVisitor child() {
+    private StructureValidationVisitor child() {
         StructureValidationVisitor clone = new StructureValidationVisitor();
         clone.metadataAllowed = metadataAllowed;
         clone.stopMet = stopMet;
         clone.breakMet = breakMet;
-        clone.parent = this;
         return clone;
-    }
-
-    public StructureValidationVisitor root() {
-        return parent == null ? this : parent;
     }
 
     @Override

@@ -11,6 +11,12 @@ import org.jetbrains.annotations.NotNull;
  * A NOT Operator for a boolean child-expression.
  */
 public class NotOperator extends MonoOperator {
+
+    /**
+     * New instance.
+     * @param token token, for the position.
+     * @param expression expression to invert.
+     */
     public NotOperator(@NotNull Token token, ExpressionNode expression) {
         super(token.pos(), expression);
     }

@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.dsl.tokenization;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,8 +15,12 @@ public record TokenPosition(int line, int col) {
         return "("+line+":"+col+")";
     }
 
-    @Contract("-> new")
+    private static final TokenPosition UNKNOWN = new TokenPosition(-1, -1);
+    /**
+     * Unknown position.
+     * @return an unknown position.
+     */
     public static @NotNull TokenPosition unknown() {
-        return new TokenPosition(-1, -1);
+        return UNKNOWN;
     }
 }

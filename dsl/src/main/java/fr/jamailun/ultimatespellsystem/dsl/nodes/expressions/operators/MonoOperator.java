@@ -12,6 +12,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.function.Function;
 
+/**
+ * Mono-operator, on a single expression.
+ */
 @Getter
 public abstract class MonoOperator extends ExpressionNode {
 

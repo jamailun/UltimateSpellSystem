@@ -7,11 +7,16 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Raw properties set.
+ */
+@Getter
 public class PropertiesExpression extends ExpressionNode {
 
     private final Map<String, ExpressionNode> expressions;
@@ -43,11 +48,7 @@ public class PropertiesExpression extends ExpressionNode {
             expression.validateTypes(context);
     }
 
-    public Map<String, ExpressionNode> getExpressions() {
-        return expressions;
-    }
-
-    @PreviousIndicator(expected = {TokenType.PROPERTY_OPEN})
+  @PreviousIndicator(expected = {TokenType.PROPERTY_OPEN})
     public static PropertiesExpression parseProperties(TokenStream tokens) {
         TokenPosition pos = tokens.position();
         Map<String, ExpressionNode> expressions = new HashMap<>();

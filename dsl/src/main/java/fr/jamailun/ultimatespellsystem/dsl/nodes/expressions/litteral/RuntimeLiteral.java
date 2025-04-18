@@ -13,6 +13,10 @@ public class RuntimeLiteral extends LiteralExpression<String> {
 
     private final String value;
 
+    /**
+     * New literal runtime.
+     * @param token token to use.
+     */
     public RuntimeLiteral(@NotNull Token token) {
         super(token.pos());
         this.value = token.getContentString();

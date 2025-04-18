@@ -33,16 +33,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     private StringBuilder builder;
 
-    public PrintingVisitor(int indent) {
+    private PrintingVisitor(int indent) {
         this.indentDelta = indent;
     }
 
-    /**
-     * Visit multiple statements.
-     * @param statements the non-null statements to visit.
-     * @return a non-null string to print.
-     */
-    public @NotNull String visit(@NotNull List<StatementNode> statements) {
+    private @NotNull String visit(@NotNull List<StatementNode> statements) {
         builder = new StringBuilder();
         for(StatementNode statement : statements) {
             statement.visit(this);
@@ -51,18 +46,38 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         return builder.toString();
     }
 
+    /**
+     * Print multiple statements to sys-out, with an indentation of {@code 2}.
+     * @param statements the non-null statements to visit.
+     */
     public static void print(@NotNull List<StatementNode> statements) {
         print(statements, 2);
     }
 
+    /**
+     * Print multiple statements to sys-out.
+     * @param statements list of statements to print.
+     * @param indent specific indent to use.
+     */
     public static void print(@NotNull List<StatementNode> statements, int indent) {
         System.out.println(toString(statements, indent));
     }
 
+    /**
+     * Print multiple statements to a String.
+     * @param statements list of statements to print.
+     * @return the print output.
+     */
     public static @NotNull String toString(@NotNull List<StatementNode> statements) {
         return toString(statements, 2);
     }
 
+    /**
+     * Print multiple statements to a String.
+     * @param statements list of statements to print.
+     * @param indent specific indent to use.
+     * @return the print output.
+     */
     public static @NotNull String toString(@NotNull List<StatementNode> statements, int indent) {
         return new PrintingVisitor(indent).visit(statements);
     }

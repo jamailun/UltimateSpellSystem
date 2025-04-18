@@ -8,8 +8,13 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Group of parenthesis.
+ */
+@Getter
 public class ParenthesisExpression extends ExpressionNode {
 
     private final ExpressionNode expression;
@@ -35,11 +40,7 @@ public class ParenthesisExpression extends ExpressionNode {
         expression.validateTypes(context);
     }
 
-    public ExpressionNode getExpression() {
-        return expression;
-    }
-
-    @Override
+  @Override
     public String toString() {
         return " (" + expression + ") ";
     }

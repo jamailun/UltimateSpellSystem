@@ -13,6 +13,10 @@ public class StringExpression extends LiteralExpression<String> {
 
     private final String rawValue;
 
+    /**
+     * New raw string.
+     * @param token token to use.
+     */
     public StringExpression(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentString();

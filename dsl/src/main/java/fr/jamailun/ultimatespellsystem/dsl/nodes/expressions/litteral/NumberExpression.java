@@ -14,12 +14,21 @@ public class NumberExpression extends LiteralExpression<Double> {
 
     private final Double rawValue;
 
+    /**
+     * New literal, using a token.
+     * @param token token to use.
+     */
     public NumberExpression(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentNumber();
     }
 
-    public NumberExpression(TokenPosition position, double number) {
+    /**
+     * New instance.
+     * @param position position of the token.
+     * @param number value.
+     */
+    public NumberExpression(@NotNull TokenPosition position, double number) {
         super(position);
         this.rawValue = number;
     }

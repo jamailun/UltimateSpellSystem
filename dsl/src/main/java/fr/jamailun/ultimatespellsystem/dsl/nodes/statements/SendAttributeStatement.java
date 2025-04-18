@@ -14,6 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+/**
+ * Send a bukkit Attribute to a Bukkit Entity.
+ */
 @Getter
 public class SendAttributeStatement extends SendStatement {
 
@@ -50,6 +53,11 @@ public class SendAttributeStatement extends SendStatement {
         visitor.handleSendAttribute(this);
     }
 
+    /**
+     * Parse a send-attribute statement. Called by {@link SendStatement#parseSendStatement(TokenStream)}.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.SEND/* + ATTRIBUTE */})
     public static @NotNull SendAttributeStatement parseAttributeEffect(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         // Value

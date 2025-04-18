@@ -10,6 +10,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Get array value at index.
+ */
 @Getter
 public class ArrayGetterExpression extends ExpressionNode {
 

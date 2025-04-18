@@ -15,6 +15,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A play statement : either BLOCK, SOUND or PARTICLE.
+ */
 @Getter
 @RequiredArgsConstructor
 public class PlayStatement extends StatementNode {
@@ -28,6 +31,11 @@ public class PlayStatement extends StatementNode {
         assertExpressionType(properties, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.PROPERTIES_SET);
     }
 
+    /**
+     * Parse a play statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.PLAY) // PLAY <BLOCK/PARTICLE/SOUND> AT <LOC> WITH: <DATA>;
     public static @NotNull PlayStatement parsePlay(@NotNull TokenStream tokens) {
         Type type = readType(tokens);
@@ -58,6 +66,9 @@ public class PlayStatement extends StatementNode {
         visitor.handlePlay(this);
     }
 
+    /**
+     * A type of {@link PlayStatement}.
+     */
     public enum Type {
         BLOCK, PARTICLE, SOUND
     }

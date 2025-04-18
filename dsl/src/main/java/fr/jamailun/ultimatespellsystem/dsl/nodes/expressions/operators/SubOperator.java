@@ -10,7 +10,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Subtraction operation between two expressions.
+ */
 public class SubOperator extends BiOperator {
+    /**
+     * New instance.
+     * @param pos token position.
+     * @param left first expression.
+     * @param right second expression.
+     */
     public SubOperator(TokenPosition pos, ExpressionNode left, ExpressionNode right) {
         super(pos, left, right);
     }

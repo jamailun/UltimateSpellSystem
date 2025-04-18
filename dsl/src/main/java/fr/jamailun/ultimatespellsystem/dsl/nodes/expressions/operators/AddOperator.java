@@ -8,7 +8,17 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Addition operator.
+ */
 public class AddOperator extends BiOperator {
+
+    /**
+     * New instance.
+     * @param pos token position.
+     * @param left first operand.
+     * @param right second operand
+     */
     public AddOperator(TokenPosition pos, ExpressionNode left, ExpressionNode right) {
         super(pos, left, right);
     }

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * A block statement is a sequence of statements between brackets.
+ */
 @Getter
 @RequiredArgsConstructor
 public class BlockStatement extends StatementNode {
@@ -33,6 +36,11 @@ public class BlockStatement extends StatementNode {
         visitor.handleBlock(this);
     }
 
+    /**
+     * Parse a block statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.BRACES_OPEN})
     public static @NotNull BlockStatement parseNextBlock(@NotNull TokenStream tokens) {
         List<StatementNode> list = new ArrayList<>();

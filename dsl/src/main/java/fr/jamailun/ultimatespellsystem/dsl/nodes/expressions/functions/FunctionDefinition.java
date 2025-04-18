@@ -13,6 +13,10 @@ import java.util.List;
  */
 public record FunctionDefinition(@NotNull String id, @NotNull Type returnedType, @NotNull List<FunctionArgument> arguments) {
 
+    /**
+     * Get the amount of mandatory arguments.
+     * @return a non-negative integer.
+     */
     public int mandatoryArgumentsCount() {
         return (int) arguments.stream()
                 .filter(a -> ! a.optional())

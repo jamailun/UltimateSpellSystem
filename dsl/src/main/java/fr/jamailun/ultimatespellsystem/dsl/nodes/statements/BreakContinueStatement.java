@@ -34,6 +34,11 @@ public class BreakContinueStatement extends StatementNode {
         return isContinue ? "continue" : "break";
     }
 
+    /**
+     * Parse a break/continue statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.BREAK, TokenType.CONTINUE})
     public static @NotNull BreakContinueStatement parseNextBreakContinue(@NotNull TokenStream tokens, boolean isContinue) {
         tokens.dropOrThrow(TokenType.SEMI_COLON);

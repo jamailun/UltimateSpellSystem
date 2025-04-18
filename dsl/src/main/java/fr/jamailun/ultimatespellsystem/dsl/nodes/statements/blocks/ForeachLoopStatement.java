@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Foreach iteration over a collection.
+ */
 @RequiredArgsConstructor
 public class ForeachLoopStatement extends StatementNode {
 
@@ -46,6 +49,11 @@ public class ForeachLoopStatement extends StatementNode {
         visitor.handleForeachLoop(this);
     }
 
+    /**
+     * Parse a foreach statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.FOREACH) // FOREACH(<VARIABLE> : <SOURCE>) <CHILD>
     public static @NotNull ForeachLoopStatement parseForLoop(@NotNull TokenStream tokens) {
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);

@@ -19,14 +19,31 @@ public class FunctionType {
     private final List<TypePrimitive> primitives;
     private final CollectionFilter collectionFilter;
 
+    /**
+     * Create a new function-type, that accepts a restricted amount of type primitives.
+     * @param types varargs of allowed types.
+     * @return a new instance.
+     */
     public static @NotNull FunctionType accept(@NotNull TypePrimitive... types) {
         if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.ANY);
     }
+
+    /**
+     * Create a new function-type, that accepts a restricted amount of type primitives <b>as non-collection</b>.
+     * @param types varargs of allowed types.
+     * @return a new instance.
+     */
     public static @NotNull FunctionType acceptOnlyMono(@NotNull TypePrimitive... types) {
         if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.MONO_ELEMENT);
     }
+
+    /**
+     * Create a new function-type, that accepts a restricted amount of type primitives <b>as collection</b>.
+     * @param types varargs of allowed types.
+     * @return a new instance.
+     */
     public static @NotNull FunctionType acceptOnlyCollection(@NotNull TypePrimitive ... types) {
         if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.LIST);
@@ -39,6 +56,7 @@ public class FunctionType {
     public @NotNull Type asType() {
         return primitives.getFirst().asType(collectionFilter == CollectionFilter.LIST);
     }
+
 
     public @NotNull TestResult accepts(@NotNull Type type) {
         if( ! primitives.contains(type.primitive())) {

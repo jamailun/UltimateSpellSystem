@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Definition of a variable. Internal representation.
+ */
 @RequiredArgsConstructor
 public class VariableDefinition {
 
@@ -17,11 +20,20 @@ public class VariableDefinition {
 
     private transient Type computedType;
 
+    /**
+     * Register a reference to this definition.
+     * @param reference non-null reference.
+     */
     public void register(@NotNull VariableReference reference) {
         references.add(reference);
         computedType = null;
     }
 
+    /**
+     * Get the representation type of this variable.
+     * @param context current context.
+     * @return a {@link TypePrimitive#NULL} type if unset.
+     */
     public @NotNull Type getType(@NotNull TypesContext context) {
         if(computedType != null) return computedType;
 

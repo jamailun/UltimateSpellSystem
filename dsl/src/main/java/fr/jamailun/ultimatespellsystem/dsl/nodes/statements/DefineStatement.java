@@ -39,6 +39,11 @@ public class DefineStatement extends StatementNode {
         return "DEFINE{%" + varName + " <- " + expression + "}";
     }
 
+    /**
+     * Parse a define statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.DEFINE})
     public static @NotNull StatementNode parseNextDefine(@NotNull TokenStream tokens) {
         // %VAR_NAME

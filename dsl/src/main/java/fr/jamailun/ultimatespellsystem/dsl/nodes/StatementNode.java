@@ -9,7 +9,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A statement is an instruction.
+ * A statement is an instruction in the code. It can use other statements, or {@link ExpressionNode expressions}.<br/>
+ * Can be visited by a {@link StatementVisitor}.
+ * This class can parse a statement with the {@link #parseNextStatement(TokenStream)} method.
  */
 public abstract class StatementNode extends Node {
 

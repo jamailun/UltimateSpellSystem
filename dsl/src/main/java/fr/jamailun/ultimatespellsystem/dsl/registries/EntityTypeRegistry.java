@@ -33,11 +33,20 @@ public final class EntityTypeRegistry {
         return ALLOWED.contains(prepare(entityType));
     }
 
+    /**
+     * Disallow an entity type.
+     * @param entityType the type to disable.
+     */
     public static void disallow(@NotNull String entityType) {
         ALLOWED.remove(prepare(entityType));
     }
 
-    public static String prepare(String string) {
+    /**
+     * Prepare a string for a "clean" representation.
+     * @param string non-null string.
+     * @return a cleaned string.
+     */
+    public static @NotNull String prepare(@NotNull String string) {
         return string.toLowerCase().replace(' ', '_');
     }
 

@@ -9,6 +9,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Variable reference expression.
+ */
 public class VariableExpression extends ExpressionNode {
 
     private final String varName;
@@ -24,7 +27,11 @@ public class VariableExpression extends ExpressionNode {
         this.varName = token.getContentString();
     }
 
-    public String getVariableName() {
+    /**
+     * Get the name of the variable.
+     * @return a non-null string.
+     */
+    public @NotNull String getVariableName() {
         return varName;
     }
 

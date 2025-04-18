@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.type;
 
+import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,16 +52,32 @@ public record Duration(double amount, TimeUnit timeUnit) {
         return new Duration(Math.max(0, toSeconds() - other.toSeconds()), TimeUnit.SECONDS);
     }
 
+    /**
+     * Multiply this duration by a lambda
+     * @param lambda numerical value.
+     * @return a new duration.
+     */
     @Contract("_ -> new")
     public @NotNull Duration mul(double lambda) {
         return new Duration(toSeconds() * lambda, TimeUnit.SECONDS);
     }
 
+    /**
+     * Divide this duration by a lambda
+     * @param lambda numerical value. <b>Cannot be 0.</b>
+     * @return a new duration.
+     */
     @Contract("_ -> new")
     public @NotNull Duration div(double lambda) {
+        Preconditions.checkState(lambda != 0, "Cannot divide by 0.");
         return new Duration(toSeconds() / lambda, TimeUnit.SECONDS);
     }
 
+    /**
+     * Divide the duration by another one. Produces a number.
+     * @param duration duration to divide this instance with.
+     * @return output value of the duration.
+     */
     public double div(@NotNull Duration duration) {
         return toSeconds() / duration.toSeconds();
     }

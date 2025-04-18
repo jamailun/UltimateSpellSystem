@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Teleport a bukkit entity to a location (or another entity).
+ */
 @Getter
 @RequiredArgsConstructor
 public class TeleportStatement extends StatementNode {
@@ -31,6 +34,11 @@ public class TeleportStatement extends StatementNode {
         visitor.handleTeleport(this);
     }
 
+    /**
+     * Parse a teleport statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.TELEPORT)
     public static @NotNull TeleportStatement parseTeleport(@NotNull TokenStream tokens) {
         ExpressionNode entity = ExpressionNode.readNextExpression(tokens);

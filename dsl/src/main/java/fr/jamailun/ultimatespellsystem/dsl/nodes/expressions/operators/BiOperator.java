@@ -10,6 +10,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Operator between two elements.
+ */
 public abstract class BiOperator extends Operator {
 
     protected Type producedType = TypePrimitive.NULL.asType();

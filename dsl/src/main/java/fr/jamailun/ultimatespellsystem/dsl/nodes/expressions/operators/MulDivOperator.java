@@ -8,16 +8,25 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Multiplication or division.
+ */
 public class MulDivOperator extends BiOperator {
 
     private final BiOpeType type;
 
-    public MulDivOperator(Token operand, ExpressionNode left, ExpressionNode right) {
-        super(operand.pos(), left, right);
-        type = switch (operand.getType()) {
+    /**
+     * New instance.
+     * @param operatorToken token to use.
+     * @param left first operand.
+     * @param right second operand
+     */
+    public MulDivOperator(Token operatorToken, ExpressionNode left, ExpressionNode right) {
+        super(operatorToken.pos(), left, right);
+        type = switch (operatorToken.getType()) {
             case OPE_MUL -> BiOpeType.MUL;
             case OPE_DIV -> BiOpeType.DIV;
-            default -> throw new RuntimeException("Cannot create MulDivOperator with an operand: " + operand + operand.pos());
+            default -> throw new RuntimeException("Cannot create MulDivOperator with an operand: " + operatorToken + operatorToken.pos());
         };
     }
 

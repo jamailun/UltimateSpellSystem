@@ -12,6 +12,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Size of a collection.
+ */
 @Getter
 public class SizeOfExpression extends ExpressionNode {
 

@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+/**
+ * Send a potion effect to a Bukkit entity.
+ */
 public class SendEffectStatement extends SendStatement {
 
     @Getter private final ExpressionNode effectType;
@@ -45,6 +48,11 @@ public class SendEffectStatement extends SendStatement {
         visitor.handleSendEffect(this);
     }
 
+    /**
+     * Parse a send-effect statement. Called by {@link SendStatement#parseSendStatement(TokenStream)}.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.SEND/* + EFFECT */})
     public static @NotNull SendEffectStatement parseSendEffect(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         // Effect type

@@ -13,7 +13,12 @@ public class EntityTypeExpression extends LiteralExpression<String> {
 
     private final String type;
 
-    public EntityTypeExpression(TokenPosition position, String type) {
+    /**
+     * New instance.
+     * @param position token position.
+     * @param type entity-type value.
+     */
+    public EntityTypeExpression(@NotNull TokenPosition position, @NotNull String type) {
         super(position);
         this.type = type;
     }

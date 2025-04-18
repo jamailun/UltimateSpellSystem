@@ -14,6 +14,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface PreviousIndicator {
 
+    /**
+     * Previous token.
+     * @return token types.
+     */
     TokenType[] expected();
 
 }

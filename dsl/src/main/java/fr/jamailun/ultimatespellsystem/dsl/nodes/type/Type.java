@@ -25,10 +25,19 @@ public record Type(@NotNull TypePrimitive primitive, boolean isCollection) {
         return primitive + (isCollection?"[]":"");
     }
 
+    /**
+     * Get this type as a non-list.
+     * @return a new instance of a type.
+     */
     @Contract(" -> new")
     public @NotNull Type asMonoElement() {
         return new Type(primitive, false);
     }
+
+    /**
+     * Get this type as a list.
+     * @return a new instance of a type.
+     */
     @Contract(" -> new")
     public @NotNull Type asCollection() {
         return new Type(primitive, true);

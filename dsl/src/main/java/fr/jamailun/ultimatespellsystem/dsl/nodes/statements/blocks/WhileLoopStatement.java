@@ -10,19 +10,18 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Classic while statement.
+ */
+@RequiredArgsConstructor
 public class WhileLoopStatement extends StatementNode {
 
     private final ExpressionNode nodeCondition;
     @Getter private final StatementNode child;
     @Getter private final boolean whileFirst;
-
-    public WhileLoopStatement(ExpressionNode nodeCondition, StatementNode child, boolean whileFirst) {
-        this.nodeCondition = nodeCondition;
-        this.child = child;
-        this.whileFirst = whileFirst;
-    }
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
@@ -37,6 +36,11 @@ public class WhileLoopStatement extends StatementNode {
         visitor.handleWhileLoop(this);
     }
 
+    /**
+     * Parse a "while-loop" statement. Can be either a while/do or a do/while.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     // WHILE(<CDT>) <BLOCK>
     // DO <BLOCK> WHILE(<CDT>)
     @PreviousIndicator(expected = {TokenType.WHILE, TokenType.DO})

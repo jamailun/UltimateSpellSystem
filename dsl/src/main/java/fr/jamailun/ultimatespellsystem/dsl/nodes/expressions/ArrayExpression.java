@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Raw array value.
+ */
 public class ArrayExpression extends ExpressionNode {
 
     @Getter

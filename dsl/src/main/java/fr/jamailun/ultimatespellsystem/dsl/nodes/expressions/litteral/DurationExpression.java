@@ -14,6 +14,10 @@ public class DurationExpression extends LiteralExpression<Duration> {
 
     private final Duration duration;
 
+    /**
+     * New instance, from a token.
+     * @param token token to use.
+     */
     public DurationExpression(@NotNull Token token) {
         super(token.pos());
         this.duration = new Duration(token.getContentNumber(), token.getContentTimeUnit());

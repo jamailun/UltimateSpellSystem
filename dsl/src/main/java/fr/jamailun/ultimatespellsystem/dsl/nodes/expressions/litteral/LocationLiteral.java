@@ -62,8 +62,13 @@ public class LocationLiteral extends ExpressionNode {
         }
     }
 
+    /**
+     * Parse a new raw location.
+     * @param tokens stream of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.CHAR_AT)
-    public static LocationLiteral readNextLocation(TokenStream tokens) {
+    public static @NotNull LocationLiteral readNextLocation(@NotNull TokenStream tokens) {
         TokenPosition position = tokens.position();
         // Open
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);

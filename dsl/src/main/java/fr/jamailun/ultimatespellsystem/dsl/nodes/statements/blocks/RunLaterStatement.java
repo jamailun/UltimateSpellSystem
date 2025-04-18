@@ -11,6 +11,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Run a block of code after a delay.
+ */
 public class RunLaterStatement extends BlockHolder {
 
     private final ExpressionNode duration;
@@ -30,6 +33,11 @@ public class RunLaterStatement extends BlockHolder {
         return duration;
     }
 
+    /**
+     * Parse a "run later" statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     // RUN AFTER (DURATION): {}
     @PreviousIndicator(expected = {TokenType.RUN})
     public static RunLaterStatement parseRunLater(TokenStream tokens) {

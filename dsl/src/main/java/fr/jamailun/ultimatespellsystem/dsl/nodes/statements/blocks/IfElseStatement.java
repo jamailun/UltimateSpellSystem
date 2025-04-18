@@ -15,6 +15,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+/**
+ * {@code if} statement. Can be linked to a ELSE.
+ */
 public class IfElseStatement extends BlockHolder {
 
     @Getter private final ExpressionNode condition;
@@ -43,6 +46,11 @@ public class IfElseStatement extends BlockHolder {
         visitor.handleIf(this);
     }
 
+    /**
+     * Parse a new if+else statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.IF)
     public static @NotNull IfElseStatement parseIfStatement(@NotNull TokenStream tokens) {
         // Condition

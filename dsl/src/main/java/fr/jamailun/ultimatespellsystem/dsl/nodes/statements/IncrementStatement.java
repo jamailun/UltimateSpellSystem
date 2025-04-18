@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Either {@code increment} or {@code decrement}.
+ */
 @Getter
 @RequiredArgsConstructor
 public class IncrementStatement extends StatementNode {
@@ -36,6 +39,11 @@ public class IncrementStatement extends StatementNode {
         visitor.handleIncrement(this);
     }
 
+    /**
+     * Parse a increment/decrement statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.INCREMENT, TokenType.DECREMENT})
     public static @NotNull IncrementStatement parseIncrementOrDecrement(@NotNull TokenStream tokens, boolean increment) {
         Token var = tokens.nextOrThrow(TokenType.VALUE_VARIABLE);

@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Abstract <b>send</b> statement.
+ */
 @Getter
 @RequiredArgsConstructor
 public abstract class SendStatement extends StatementNode {
@@ -24,6 +27,11 @@ public abstract class SendStatement extends StatementNode {
         assertExpressionType(target, context, TypePrimitive.ENTITY);
     }
 
+    /**
+     * Parse a metadata statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.SEND}) // SEND (to) TARGET <THING> (...)
     public static @NotNull StatementNode parseSendStatement(@NotNull TokenStream tokens) {
         // Optional "to"
@@ -35,14 +43,12 @@ public abstract class SendStatement extends StatementNode {
         // Type of send
         Token token = tokens.next();
         String type = token.getContentString();
-        if(type == null)
-            throw new SyntaxException(token, "Invalid SEND type. Expected a string-value container.");
         return switch (type.toLowerCase()) {
             case "message" -> SendMessageStatement.parseSendMessage(target, tokens);
             case "effect" -> SendEffectStatement.parseSendEffect(target, tokens);
             case "attribute", "attributes" -> SendAttributeStatement.parseAttributeEffect(target, tokens);
             case "nbt" -> SendNbtStatement.parseSendNbt(target, tokens);
-            default -> throw new SyntaxException(token, "Expected SEND type (message, effect).");
+            default -> throw new SyntaxException(token, "Expected SEND type to be one of (message, effect, attribute, nbt).");
         };
     }
 

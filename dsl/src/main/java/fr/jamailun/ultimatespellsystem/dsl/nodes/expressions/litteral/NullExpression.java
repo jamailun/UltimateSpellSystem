@@ -11,6 +11,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NullExpression extends LiteralExpression<Void> {
 
+    /**
+     * New instance.
+     * @param pos position of the keyword.
+     */
     public NullExpression(@NotNull TokenPosition pos) {
         super(pos);
     }

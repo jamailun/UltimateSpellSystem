@@ -13,6 +13,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 'all entities' within, around expression. Returns a collection of entities.
+ */
 @Getter
 public class AllEntitiesAroundExpression extends ExpressionNode {
 

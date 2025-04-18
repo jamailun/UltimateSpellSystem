@@ -11,11 +11,14 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.VariableReferenc
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A list operator. Can be one of a {@link BiOpeType} for lists.
+ */
 public class ListOperator extends BiOperator {
 
     private final BiOpeType opeType;
 
-    protected ListOperator(@NotNull Token operand, @NotNull ExpressionNode left, @NotNull ExpressionNode right) {
+    public ListOperator(@NotNull Token operand, @NotNull ExpressionNode left, @NotNull ExpressionNode right) {
         super(operand.pos(), left, right);
         opeType = switch (operand.getType()) {
             case LIST_ADD -> BiOpeType.LIST_ADD;

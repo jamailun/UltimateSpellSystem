@@ -17,6 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * A metadata statement of a spell.
+ * Should not be "executed" as such.
+ */
 @RequiredArgsConstructor
 @Getter
 public class MetadataStatement extends StatementNode {
@@ -25,6 +29,11 @@ public class MetadataStatement extends StatementNode {
     private final @NotNull String name;
     private final @NotNull @Unmodifiable List<Object> params;
 
+    /**
+     * Parse a metadata statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.CHAR_AT)
     public static @NotNull MetadataStatement parseMetadata(@NotNull TokenStream tokens) {
         TokenPosition position = tokens.position();

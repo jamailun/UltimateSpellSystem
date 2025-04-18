@@ -57,6 +57,12 @@ public final class FunctionCallExpression extends ExpressionNode {
         return function.returnedType();
     }
 
+    /**
+     * Parse a new function call expression from the tokens stream.
+     * @param functionDefinition found definition.
+     * @param tokens tokens streams.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.BRACKET_OPEN)
     public static @NotNull FunctionCallExpression readNextFunctionCall(@NotNull FunctionDefinition functionDefinition, @NotNull TokenStream tokens) {
         List<ExpressionNode> arguments = new ArrayList<>();

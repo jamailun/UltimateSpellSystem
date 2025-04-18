@@ -52,6 +52,11 @@ public class RepeatStatement extends BlockHolder {
         return Optional.ofNullable(delay);
     }
 
+    /**
+     * Parse a "repeat N times" statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     // REPEAT [[AFTER (DURATION)]] (COUNT) TIMES EVERY (DURATION): {}
     @PreviousIndicator(expected = {TokenType.REPEAT})
     public static RepeatStatement parseRepeat(TokenStream tokens) {

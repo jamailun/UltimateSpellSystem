@@ -11,6 +11,9 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Position of an entity.
+ */
 public class PositionOfExpression extends ExpressionNode {
 
     private final ExpressionNode entityNode;

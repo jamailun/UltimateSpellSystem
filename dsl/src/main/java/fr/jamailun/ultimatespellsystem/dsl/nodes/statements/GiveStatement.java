@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A give-statement.
+ * A give-statement, to five an ItemStack to a Player.
  */
 @Getter
 @RequiredArgsConstructor
@@ -51,6 +51,11 @@ public class GiveStatement extends StatementNode {
                 + (getOptProperties()==null?"":" WITH: " + getOptProperties())+"}";
     }
 
+    /**
+     * Parse a give statement.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = TokenType.GIVE) // GIVE [[<AMOUNT>] <TYPE>] TO <TARGET> [WITH: <PROPERTIES>]
     public static @NotNull GiveStatement parseNextGiveStatement(@NotNull TokenStream tokens) {
         // Amount + type. both are optional, but 'amount' is even more optional.

@@ -10,6 +10,9 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Send a message to a player.
+ */
 @Getter
 public class SendMessageStatement extends SendStatement {
 
@@ -31,6 +34,11 @@ public class SendMessageStatement extends SendStatement {
         visitor.handleSendMessage(this);
     }
 
+    /**
+     * Parse a send-message statement. Called by {@link SendStatement#parseSendStatement(TokenStream)}.
+     * @param tokens streams of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.SEND/* + MESSAGE */})
     public static @NotNull SendMessageStatement parseSendMessage(@NotNull ExpressionNode target, @NotNull TokenStream tokens) {
         ExpressionNode message = ExpressionNode.readNextExpression(tokens);
