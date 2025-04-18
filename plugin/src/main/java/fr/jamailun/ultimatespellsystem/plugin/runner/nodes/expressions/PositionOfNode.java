@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
@@ -29,7 +29,7 @@ public class PositionOfNode extends RuntimeExpression {
         }
         Object entityRef = runtime.safeEvaluate(this.entity, Object.class);
         Location location = getLocation(entityRef);
-        UltimateSpellSystem.logDebug("PositionOf : " + entityRef + (entityRef==null?"":" = " +location));
+        UssLogger.logDebug("PositionOf : " + entityRef + (entityRef==null?"":" = " +location));
         return location;
 
     }

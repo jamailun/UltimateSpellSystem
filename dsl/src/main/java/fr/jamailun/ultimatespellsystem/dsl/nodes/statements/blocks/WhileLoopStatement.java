@@ -9,13 +9,14 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public class WhileLoopStatement extends StatementNode {
 
     private final ExpressionNode nodeCondition;
-    private final StatementNode child;
-    private final boolean whileFirst;
+    @Getter private final StatementNode child;
+    @Getter private final boolean whileFirst;
 
     public WhileLoopStatement(ExpressionNode nodeCondition, StatementNode child, boolean whileFirst) {
         this.nodeCondition = nodeCondition;
@@ -65,15 +66,7 @@ public class WhileLoopStatement extends StatementNode {
         return nodeCondition;
     }
 
-    public StatementNode getChild() {
-        return child;
-    }
-
-    public boolean isWhileFirst() {
-        return whileFirst;
-    }
-
-    @Override
+  @Override
     public String toString() {
         if(whileFirst)
             return "WHILE(" + nodeCondition + ") DO " + child;

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.entities;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
@@ -88,7 +89,7 @@ public class SummonAttributesImpl implements SummonAttributes {
         }
 
         // Apply properties
-        SummonPropertiesProvider.Context context = new SummonPropertiesProvider.Context(runtime, this);
+        SummonPropertiesProvider.Context context = new ContextImpl(runtime, this);
         for(String key : attributes.keySet()) {
             SummonPropertiesProvider.instance()
                     .findOptional(key)
@@ -96,7 +97,7 @@ public class SummonAttributesImpl implements SummonAttributes {
         }
 
         // Start the death timer
-        deathTimer = UltimateSpellSystem.runTaskLater(() -> {
+        deathTimer = UltimateSpellSystem.getScheduler().runTaskLater(() -> {
             if(entity.isValid()) {
                 // Called before the remove, so that the entity is still accessible.
                 Bukkit.getPluginManager().callEvent(new SummonedEntityExpiredEvent(this));
@@ -188,7 +189,7 @@ public class SummonAttributesImpl implements SummonAttributes {
             return clazz.cast(object);
         } catch(ClassCastException e) {
             assert object != null; // Compiler helper : object cannot be null with this exception.
-            UltimateSpellSystem.logWarning("Attribute '" + key +"' in summon was expected of type " + clazz + " but was " + object.getClass() + ".");
+            UssLogger.logWarning("Attribute '" + key +"' in summon was expected of type " + clazz + " but was " + object.getClass() + ".");
             return null;
         }
     }
@@ -217,8 +218,16 @@ public class SummonAttributesImpl implements SummonAttributes {
             }
             return list;
         } catch(ClassCastException e) {
-            UltimateSpellSystem.logWarning("Summon tried to read attribute " + key + ": " + e.getMessage());
+            UssLogger.logWarning("Summon tried to read attribute " + key + ": " + e.getMessage());
             return Collections.emptyList();
+        }
+    }
+
+    private record ContextImpl(@NotNull SpellRuntime runtime, @NotNull SummonAttributes attributes) implements SummonPropertiesProvider.Context {
+        @Override
+        public void invalidTypeWarn(@NotNull String name, @NotNull Class<?> expected, @Nullable Object actual) {
+            String real = actual == null ? "null" : "'" + actual + "'";
+            UssLogger.logWarning("Summon-attributes: invalid type for '" + name + "'. Expected " + expected.getSimpleName() + ", got " + real);
         }
     }
 

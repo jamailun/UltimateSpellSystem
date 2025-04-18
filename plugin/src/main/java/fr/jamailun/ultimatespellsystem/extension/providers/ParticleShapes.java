@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension.providers;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.providers.ParticleShapeProvider;
 import fr.jamailun.ultimatespellsystem.api.utils.ParticleShaper;
@@ -95,7 +95,7 @@ public final class ParticleShapes {
             double delta = getNumeric(data, "delta", .25d);
             Object targetRaw = data.get("target");
             if(targetRaw == null) {
-                UltimateSpellSystem.logWarning("Particle shape 'line' is missing a 'target' property, of type LOCATION or ENTITY.");
+                UssLogger.logWarning("Particle shape 'line' is missing a 'target' property, of type LOCATION or ENTITY.");
                 return;
             }
             Location target;
@@ -104,7 +104,7 @@ public final class ParticleShapes {
             } else if(targetRaw instanceof SpellEntity entity) {
                 target = entity.getLocation();
             } else {
-                UltimateSpellSystem.logWarning("Particle shape 'line' expects property 'target' of type LOCATION or ENTITY. Got " + targetRaw.getClass() + ".");
+                UssLogger.logWarning("Particle shape 'line' expects property 'target' of type LOCATION or ENTITY. Got " + targetRaw.getClass() + ".");
                 return;
             }
             ParticlesHelper.playLine(location, target, delta, particle);

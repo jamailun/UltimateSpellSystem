@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.RuntimeBiOperator;
@@ -39,10 +39,10 @@ public class ListAddRemOpe extends RuntimeBiOperator {
         List<Object> listObj = (List<Object>) list;
         if(append) {
             listObj.addAll(allOthers);
-            UltimateSpellSystem.logDebug("[List:add] New list: " + listObj);
+            UssLogger.logDebug("[List:add] New list: " + listObj);
         } else {
             listObj.removeAll(allOthers);
-            UltimateSpellSystem.logDebug("[List:rem] New list: " + listObj);
+            UssLogger.logDebug("[List:rem] New list: " + listObj);
         }
         return listObj;
     }

@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public final class VariablesSetImpl implements VariablesSet {
     public void set(@NotNull String key, @Nullable Object value) {
         variables.putIfAbsent(key, new VarEntry());
         variables.get(key).content = value;
-        UltimateSpellSystem.logDebug("§e[Vars] §7%"+key+" <-- " + value);
+        UssLogger.logDebug("§e[Vars] §7%"+key+" <-- " + value);
     }
 
     @Override

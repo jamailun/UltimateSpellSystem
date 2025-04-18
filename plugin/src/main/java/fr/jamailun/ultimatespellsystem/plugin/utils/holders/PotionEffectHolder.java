@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidEnumValueException;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendEffectNode;
@@ -44,7 +44,7 @@ public class PotionEffectHolder {
         // Duration
         Object durRaw = values.get("duration");
         if(!(durRaw instanceof Duration duration)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid duration type : '" + durRaw + "'.");
+            UssLogger.logError("(" + context + ") Invalid duration type : '" + durRaw + "'.");
             return null;
         }
 
@@ -55,7 +55,7 @@ public class PotionEffectHolder {
 
         Object powRaw = values.get("power");
         if(!(powRaw instanceof Double power)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid duration type : '" + durRaw + "'.");
+            UssLogger.logError("(" + context + ") Invalid duration type : '" + durRaw + "'.");
             return null;
         }
         return new PotionEffectHolder(effect, duration, power.intValue());

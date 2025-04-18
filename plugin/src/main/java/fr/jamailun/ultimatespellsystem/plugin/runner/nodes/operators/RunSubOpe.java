@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -33,7 +33,7 @@ public final class RunSubOpe extends RuntimeBiOperator {
         }
         // Add durations
         if(left instanceof Duration ld && right instanceof Duration rd) {
-            UltimateSpellSystem.logDebug("SUB durations. produced " + ld.sub(rd));
+            UssLogger.logDebug("SUB durations. produced " + ld.sub(rd));
             return ld.sub(rd);
         }
         // Add Locations

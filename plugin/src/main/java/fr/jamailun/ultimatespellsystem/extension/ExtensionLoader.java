@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
@@ -29,11 +29,11 @@ public final class ExtensionLoader {
      */
     public static synchronized void loadStatic() {
         if(loaded) {
-            UltimateSpellSystem.logWarning("Extension already loaded.");
+            UssLogger.logWarning("Extension already loaded.");
             return;
         }
         loaded = true;
-        UltimateSpellSystem.logInfo("Loading extension.");
+        UssLogger.logInfo("Loading extension.");
 
         // Functions
         JavaFunctionProvider.instance().registerFunction(new RayCastFunction(), "raycast_block");
@@ -55,16 +55,16 @@ public final class ExtensionLoader {
         ItemProperties.register();
         EntityTypes.register();
 
-        UltimateSpellSystem.logInfo("Loaded extension.");
+        UssLogger.logInfo("Loaded extension.");
     }
 
     public static void loadCallbacks(JavaPlugin plugin) {
         if(loadedCallbacks) {
-            UltimateSpellSystem.logWarning("Extension callbacks already loaded.");
+            UssLogger.logWarning("Extension callbacks already loaded.");
             return;
         }
         loadedCallbacks = true;
-        UltimateSpellSystem.logInfo("Loading extension callbacks and listeners.");
+        UssLogger.logInfo("Loading extension callbacks and listeners.");
 
         // Load elements
         loadCallback(plugin, new ProjectileLandCallbacks());
@@ -74,7 +74,7 @@ public final class ExtensionLoader {
         // Load listeners
         registerEvents(plugin, new EntityMoveListener());
 
-        UltimateSpellSystem.logInfo("Loaded extension callbacks and listeners.");
+        UssLogger.logInfo("Loaded extension callbacks and listeners.");
     }
 
     private static void loadCallback(JavaPlugin plugin, CallbackProvider<?> callbackProvider) {

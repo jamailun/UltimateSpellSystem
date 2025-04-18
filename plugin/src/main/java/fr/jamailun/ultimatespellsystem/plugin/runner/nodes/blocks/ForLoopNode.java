@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
@@ -63,10 +63,10 @@ public class ForLoopNode extends RuntimeStatement {
             if(eval instanceof Boolean bool) {
                 if(iterationCount < MAX_ITERATIONS)
                     return bool;
-                UltimateSpellSystem.logWarning("ForLoop : forcefully existed after " + iterationCount + " iterations.");
+                UssLogger.logWarning("ForLoop : forcefully existed after " + iterationCount + " iterations.");
                 return false;
             }
-            UltimateSpellSystem.logWarning("ForLoop : unexpected type " + eval);
+            UssLogger.logWarning("ForLoop : unexpected type " + eval);
             return false;
         }
 

@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.api.providers.ItemReader;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -46,7 +46,7 @@ public class GiveNode extends RuntimeStatement {
             material = handleMaterial(properties.get("type"));
 
         // Add the item
-        ItemStack item = ItemReader.instance().readFromMap(material, amount, properties, runtime);
+        ItemStack item = UltimateSpellSystem.getItemReader().readFromMap(material, amount, properties, runtime);
         holder.getInventory().addItem(item);
     }
 

@@ -23,7 +23,7 @@ public final class AnimationsManagerImpl implements AnimationsManager {
     public void start() {
         if(task != null)
             throw new IllegalStateException("Cannot start an AnimationManager twice.");
-        task = UltimateSpellSystem.runTaskRepeat(this::tick, 1, 1);
+        task = UltimateSpellSystem.getScheduler().runTaskRepeat(this::tick, 1, 1);
     }
 
     public void stop() {

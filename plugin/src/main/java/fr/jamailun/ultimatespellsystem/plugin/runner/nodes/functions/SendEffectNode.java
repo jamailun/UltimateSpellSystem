@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidEnumValueException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -44,7 +44,7 @@ public class SendEffectNode extends RuntimeStatement {
             power = runtime.safeEvaluate(optPowerRef, Double.class).intValue();
             if(power < 1) {
                 power = 1;
-                UltimateSpellSystem.logWarning("Invalid power value to effect " + effectRaw);
+                UssLogger.logWarning("Invalid power value to effect " + effectRaw);
             }
         }
         PotionEffect potionEffect = new PotionEffect(effectType, durationTicks, power - 1);

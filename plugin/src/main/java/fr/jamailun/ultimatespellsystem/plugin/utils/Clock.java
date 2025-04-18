@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils;
 
+import fr.jamailun.ultimatespellsystem.UssScheduler;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -46,7 +47,7 @@ public class Clock {
     }
 
     private void start() {
-         task = UltimateSpellSystem.runTaskRepeat(runnable, 0, (long) (frequency * 20));
+         task = UltimateSpellSystem.getScheduler().runTaskRepeat(runnable, 0, (long) (frequency * 20));
     }
 
     public boolean isPaused() {

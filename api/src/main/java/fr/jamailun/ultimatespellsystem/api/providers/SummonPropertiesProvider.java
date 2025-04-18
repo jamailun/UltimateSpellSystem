@@ -13,6 +13,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
@@ -54,10 +55,22 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
 
     /**
      * The spell context.
-     * @param runtime runtime, used to evaluate expressions.
-     * @param attributes attributes of the summoned entity.
      */
-    public record Context(@NotNull SpellRuntime runtime, @NotNull SummonAttributes attributes) {}
+    public interface Context {
+        /**
+         * Get the runtime, used to evaluate expressions.
+         * @return a non-null instance.
+         */
+        @NotNull SpellRuntime runtime();
+
+        /**
+         * Get the attributes of the summoned entity.
+         * @return a non-null instance.
+         */
+        @NotNull SummonAttributes attributes();
+
+        void invalidTypeWarn(@NotNull String name, @NotNull Class<?> expected, @Nullable Object actual);
+    }
 
     /**
      * Consumer interface.
@@ -66,12 +79,12 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
 
     private SummonPropertiesProvider() {
         // Statistics attributes
-        register(createForLivingEntity((entity, value, run) -> {
+        register(createForLivingEntity((entity, value, ctx) -> {
             if (value instanceof Double number) {
                 Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(number);
                 entity.setHealth(number);
             } else {
-                UltimateSpellSystem.logWarning("Invalid type for MAX_HEALTH: " + value);
+                ctx.invalidTypeWarn("max_health", Double.class, value);
             }
         }), "health", "max_health");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
@@ -109,7 +122,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
             if (value instanceof Double number) {
                 Objects.requireNonNull(entity.getAttribute(attribute)).setBaseValue(number);
             } else {
-                UltimateSpellSystem.logWarning("Invalid type for "+attribute+": " + value);
+                ctx.invalidTypeWarn(attribute.name().toLowerCase(), Double.class, value);
             }
         });
     }
@@ -150,7 +163,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
                 if(classValue.isInstance(value)) {
                     base.accept(clazz.cast(be), classValue.cast(value), ctx);
                 } else {
-                    UltimateSpellSystem.logWarning("Invalid type for '"+value+"', expected " + classValue + "(" + value.getClass() + ")");
+                    ctx.invalidTypeWarn("(? entity)", classValue, value);
                 }
             }
         });
@@ -163,7 +176,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      */
     public static @NotNull SummonProperty createEquipment(@NotNull EquipmentSlot slot) {
         return createForEntity((entity,mapRaw,ctx) -> {
-            ItemStack item = ItemReader.instance().readFromMap(mapRaw, ctx.runtime(), "slot " + slot);
+            ItemStack item = UltimateSpellSystem.getItemReader().readFromMap(mapRaw, ctx.runtime(), "slot " + slot);
             if(entity.getEquipment() != null)
                 entity.getEquipment().setItem(slot, item);
         }, LivingEntity.class, Map.class);

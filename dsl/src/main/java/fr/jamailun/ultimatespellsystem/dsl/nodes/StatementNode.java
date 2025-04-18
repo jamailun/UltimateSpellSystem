@@ -5,7 +5,6 @@ import fr.jamailun.ultimatespellsystem.dsl.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
 

@@ -6,15 +6,15 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
-import org.bukkit.scheduler.BukkitRunnable;
+import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
+import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Entry point of the <b>Ultimate Spells System</b> API.
  */
 public final class UltimateSpellSystem {
-
-    private UltimateSpellSystem() {}
+    private UltimateSpellSystem() {/* No instanciation */}
 
     private static UltimateSpellSystemPlugin plugin;
 
@@ -30,38 +30,6 @@ public final class UltimateSpellSystem {
      */
     public static boolean isValid() {
         return plugin != null;
-    }
-
-    /**
-     * Log a DEBUG message. Will only be sent if debug mode is enabled in the configuration.
-     * @param message the message to print.
-     */
-    public static void logDebug(@NotNull String message) {
-        plugin.logDebug(message);
-    }
-
-    /**
-     * Log a INFO message.
-     * @param message the message to print.
-     */
-    public static void logInfo(@NotNull String message) {
-        plugin.logInfo(message);
-    }
-
-    /**
-     * Log a WARN message.
-     * @param message the message to print.
-     */
-    public static void logWarning(@NotNull String message) {
-        plugin.logWarning(message);
-    }
-
-    /**
-     * Log a ERROR message.
-     * @param message the message to print.
-     */
-    public static void logError(@NotNull String message) {
-        plugin.logError(message);
     }
 
     /**
@@ -112,19 +80,21 @@ public final class UltimateSpellSystem {
         return plugin.getSpellsTriggerManager();
     }
 
-    //TODO move to internal level
-    public static @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks) {
-        return plugin.runTaskLater(runnable, ticks);
+    /**
+     * Get the ItemReader singleton, used to deserialize items from spells.
+     * @return the non-null reference.
+     */
+    public static @NotNull ItemReader getItemReader() {
+        return plugin.getItemReader();
     }
 
-    //TODO move to internal level
-    public static @NotNull BukkitRunnable runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period) {
-        return plugin.runTaskRepeat(runnable, amount, delay, period);
-    }
-
-    //TODO move to internal level
-    public static @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
-        return plugin.runTaskRepeat(runnable, delay, period);
+    /**
+     * Get the USS scheduler. If you plan to run tasks in your USS extension, use those. It will allow to plugin
+     * to properly control everything it does.
+     * @return the non-null reference.
+     */
+    public static @NotNull Scheduler getScheduler() {
+        return plugin.getScheduler();
     }
 
     /**

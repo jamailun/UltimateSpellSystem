@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.commands;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
@@ -20,7 +21,7 @@ public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
     public AbstractCommand(@NotNull String command) {
         PluginCommand cmd = Bukkit.getPluginCommand(command);
         if(cmd == null) {
-            UltimateSpellSystem.logError("Could not load command '"+command+"'");
+            UssLogger.logError("Could not load command '"+command+"'");
             return;
         }
         cmd.setTabCompleter(this);

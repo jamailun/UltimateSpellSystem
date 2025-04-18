@@ -9,7 +9,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.errors.UnknownFunctionExceptio
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

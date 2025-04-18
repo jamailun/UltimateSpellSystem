@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
@@ -25,11 +26,20 @@ public class RunRepeatNode extends RuntimeStatement {
     public void run(@NotNull SpellRuntime runtime) {
         Duration period = runtime.safeEvaluate(this.period, Duration.class);
         Duration delay = runtime.safeEvaluate(this.optDelay, Duration.class);
-        int count = runtime.safeEvaluate(this.count, Double.class).intValue();
+        Double rawCount = runtime.safeEvaluate(this.count, Double.class);
+        if(rawCount == null) {
+            UssLogger.logWarning("RepeatNode:count is null.");
+            return;
+        }
+        if(period == null) {
+            UssLogger.logWarning("RepeatNode:period is null.");
+            return;
+        }
+        int count = rawCount.intValue();
 
         long delayTicks = delay == null ? 0 : delay.toTicks();
 
-        UltimateSpellSystem.runTaskRepeat(
+        UltimateSpellSystem.getScheduler().runTaskRepeat(
                 new Runnable() {
                     private int count = 0;
                     @Override
@@ -37,9 +47,8 @@ public class RunRepeatNode extends RuntimeStatement {
                         runtime.variables().set(RepeatStatement.INDEX_VARIABLE, count);
                         try {
                             child.run(runtime);
-                        } catch (Throwable t) {
-                            UltimateSpellSystem.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run : " + t.getMessage());
-                            t.printStackTrace();
+                        } catch (Exception t) {
+                            UssLogger.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run", t);
                         }
                         count++;
                     }

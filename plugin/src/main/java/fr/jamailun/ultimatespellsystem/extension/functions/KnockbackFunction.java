@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.extension.functions;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -48,7 +48,7 @@ public class KnockbackFunction extends AbstractFunction {
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
       SpellEntity entity = toSpellEntity("knockback.entity", arguments.getFirst(), runtime);
       if(entity == null) {
-        UltimateSpellSystem.logError("Null argument for knockback:entity.");
+        UssLogger.logError("Null argument for knockback:entity.");
         return null;
       }
       Object vector = arguments.get(1).evaluate(runtime);

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
@@ -38,7 +39,7 @@ public final class SpellBindFactory {
     // Read spell
     String spellId = lines.getFirst();
     Spell spell = Objects.requireNonNullElseGet(UltimateSpellSystem.getSpellsManager().getSpell(spellId), () -> {
-      UltimateSpellSystem.logWarning("Unknown spell id from SpellBindDataFactory: '" + spellId + "'.");
+      UssLogger.logWarning("Unknown spell id from SpellBindDataFactory: '" + spellId + "'.");
       return new NotFoundSpell(spellId);
     });
 

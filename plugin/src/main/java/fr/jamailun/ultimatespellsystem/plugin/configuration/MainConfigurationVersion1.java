@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.configuration;
 
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
@@ -43,13 +44,13 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     public SpellCost deserialize() {
       SpellCostEntry<?> entry = UltimateSpellSystem.getSpellCostRegistry().get(type);
       if(entry == null) {
-        UltimateSpellSystem.logWarning("Configuration: Unknown spell cost '" + type + "'.");
+        UssLogger.logWarning("Configuration: Unknown spell cost '" + type + "'.");
         return new NoneSpellCost();
       }
       try {
         return entry.deserialize(args);
       } catch(Exception e) {
-        UltimateSpellSystem.logWarning("Configuration: Could not deserialize spell cost '" + type + "' with args " + args + " : " + e.getMessage());
+        UssLogger.logWarning("Configuration: Could not deserialize spell cost '" + type + "' with args " + args + " : " + e.getMessage());
         return new NoneSpellCost();
       }
     }

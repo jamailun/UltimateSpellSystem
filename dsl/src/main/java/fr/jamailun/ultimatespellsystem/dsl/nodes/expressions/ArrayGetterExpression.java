@@ -7,8 +7,10 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class ArrayGetterExpression extends ExpressionNode {
 
     private final ExpressionNode array;
@@ -36,14 +38,6 @@ public class ArrayGetterExpression extends ExpressionNode {
         if( ! typeArray.is(TypePrimitive.NULL) && ! typeArray.isCollection()) {
             throw new TypeException(this, "Cannot get the value of a non-array.");
         }
-    }
-
-    public ExpressionNode getArray() {
-        return array;
-    }
-
-    public ExpressionNode getIndex() {
-        return index;
     }
 
     @Override

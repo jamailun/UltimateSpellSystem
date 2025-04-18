@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
@@ -24,7 +25,7 @@ public class BlockHolder {
     public BlockHolder(@NotNull Material type, @NotNull Duration duration) {
         this.type = type;
         this.duration = duration;
-        UltimateSpellSystem.logDebug("New block-holder : (" + this +")");
+        UssLogger.logDebug("New block-holder : (" + this +")");
     }
 
     /**
@@ -37,14 +38,14 @@ public class BlockHolder {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid material-type : '" + typeRaw + "'.");
+            UssLogger.logError("(" + context + ") Invalid material-type : '" + typeRaw + "'.");
             return null;
         }
         Material material;
         try {
             material = Material.valueOf(type.toUpperCase());
         } catch(IllegalArgumentException e) {
-            UltimateSpellSystem.logError("(" + context + ") Unknown material-type : '" + type + "' ("+e.getMessage()+")");
+            UssLogger.logError("(" + context + ") Unknown material-type : '" + type + "' ("+e.getMessage()+")");
             return null;
         }
         // Count
@@ -52,7 +53,7 @@ public class BlockHolder {
         if(values.containsKey("duration")) {
             Object raw = values.get("duration");
             if(!(raw instanceof Duration dur)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid block-effect duration : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid block-effect duration : '" + raw + "'.");
                 return null;
             }
             duration = dur;
@@ -75,7 +76,7 @@ public class BlockHolder {
         players.forEach(p -> p.sendBlockChange(location, newData));
 
         // Reset block data
-        UltimateSpellSystem.runTaskLater(() -> players.forEach(p -> p.sendBlockChange(location, originalData)), duration.toTicks());
+        UltimateSpellSystem.getScheduler().runTaskLater(() -> players.forEach(p -> p.sendBlockChange(location, originalData)), duration.toTicks());
     }
 
 }

@@ -6,7 +6,8 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
-import org.bukkit.scheduler.BukkitRunnable;
+import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
+import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,30 +15,6 @@ import org.jetbrains.annotations.NotNull;
  * @see UltimateSpellSystem
  */
 public interface UltimateSpellSystemPlugin {
-
-    /**
-     * Log a debug message.
-     * @param message message to print.
-     */
-    void logDebug(@NotNull String message);
-
-    /**
-     * Log a message.
-     * @param message message to print.
-     */
-    void logInfo(@NotNull String message);
-
-    /**
-     * Log a warning message.
-     * @param message message to print.
-     */
-    void logWarning(@NotNull String message);
-
-    /**
-     * Log an error message.
-     * @param message message to print.
-     */
-    void logError(@NotNull String message);
 
     /**
      * Get the spell manager.
@@ -75,11 +52,17 @@ public interface UltimateSpellSystemPlugin {
      */
     @NotNull SpellsTriggerManager getSpellsTriggerManager();
 
-    @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks);
+    /**
+     * Get the item-reader.
+     * @return non-null instance.
+     */
+    @NotNull ItemReader getItemReader();
 
-    @NotNull BukkitRunnable runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period);
-
-    @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period);
+    /**
+     * Get the USS scheduler.
+     * @return non-null instance.
+     */
+    @NotNull Scheduler getScheduler();
 
     /**
      * Reload the configuration.

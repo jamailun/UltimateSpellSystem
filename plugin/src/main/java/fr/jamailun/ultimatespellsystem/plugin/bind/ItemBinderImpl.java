@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.bind.*;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.ItemBoundEvent;
@@ -172,7 +172,7 @@ public final class ItemBinderImpl implements ItemBinder {
             SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
             return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());
         } catch(Exception e) {
-            UltimateSpellSystem.logError("Error on deserialize: " + e.getMessage());
+            UssLogger.logError("Error on deserialize: " + e.getMessage());
             return Optional.empty();
         }
     }

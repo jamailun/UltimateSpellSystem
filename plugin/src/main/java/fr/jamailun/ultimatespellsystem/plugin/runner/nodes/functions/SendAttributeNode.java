@@ -58,7 +58,7 @@ public class SendAttributeNode extends RuntimeStatement {
         }
 
         // Clear after duration
-        UltimateSpellSystem.runTaskLater(() -> {
+        UltimateSpellSystem.getScheduler().runTaskLater(() -> {
             for(SpellEntity target : targets) {
                 target.getBukkitEntity().map(Attributable.class::cast)
                         .map(a -> getInstance(a, attribute))
@@ -113,7 +113,8 @@ public class SendAttributeNode extends RuntimeStatement {
 
     private @NotNull AttributeModifier createModifier(@NotNull SpellRuntime runtime) {
         // Value
-        double amount = runtime.safeEvaluate(numericValue, Double.class);
+        Double amountRaw = runtime.safeEvaluate(numericValue, Double.class);
+        double amount = Objects.requireNonNullElse(amountRaw, 0d);
 
         // Attribute operation
         AttributeModifier.Operation ope;

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.commands;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.*;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
@@ -136,7 +137,7 @@ public class UssCommand extends AbstractCommand {
         if("debug".equals(arg0)) {
             String debug = spell.getDebugString();
             if(sender instanceof Player) // only print in console if player
-                UltimateSpellSystem.logInfo("Debug spell [" + spell.getName() + "] : " + debug);
+                UssLogger.logInfo("Debug spell [" + spell.getName() + "] : " + debug);
             return info(sender, "SPELL["+spell.getName()+"]=" + debug);
         }
 
@@ -213,7 +214,7 @@ public class UssCommand extends AbstractCommand {
                 spell.cast(player);
             } catch (RuntimeException e) {
                 error(sender, "An error occurred. " + e.getClass().getSimpleName() + " : " + e.getMessage());
-                e.printStackTrace();
+                UssLogger.logError("Error on player cast via command.", e);
             }
             return true;
         }

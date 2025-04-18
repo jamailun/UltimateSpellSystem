@@ -10,8 +10,10 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class AllEntitiesAroundExpression extends ExpressionNode {
 
     private final ExpressionNode entityType;
@@ -73,19 +75,4 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
         return new AllEntitiesAroundExpression(pos, scope, including, source, distance);
     }
 
-    public ExpressionNode getEntityType() {
-        return entityType;
-    }
-
-    public ExpressionNode getSource() {
-        return source;
-    }
-
-    public ExpressionNode getDistance() {
-        return distance;
-    }
-
-    public boolean isIncluding() {
-        return including;
-    }
 }

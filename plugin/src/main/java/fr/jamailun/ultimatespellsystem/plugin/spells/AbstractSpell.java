@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.spells;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
@@ -64,7 +64,7 @@ public abstract class AbstractSpell implements Spell {
     @Override
     public final void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        UltimateSpellSystem.logInfo("Spell '" + name + "' has been " + (enabled?"enabled":"disabled") + ".");
+        UssLogger.logInfo("Spell '" + name + "' has been " + (enabled?"enabled":"disabled") + ".");
     }
 
     @Override

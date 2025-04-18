@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.configuration;
 
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurationStore;
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.utils.observable.AbstractObservable;
@@ -55,10 +55,10 @@ public class UssConfig extends AbstractObservable<UssConfig> {
 
     public void checkVersionAndMigrate() {
         String version = file.exists() ? YamlConfiguration.loadConfiguration(file).getString("version") : null;
-        UltimateSpellSystem.logInfo("Read configuration version: " + version);
+        UssLogger.logInfo("Read configuration version: " + version);
         if(PLUGIN_CONFIG_VERSION.compareTo(Objects.requireNonNullElse(version, "0")) > 0) {
-            UltimateSpellSystem.logWarning("Resetting configuration. A proper migration system will be created later.");
-            if(file.exists() && !file.delete()) UltimateSpellSystem.logError("Could not delete config file.");
+            UssLogger.logWarning("Resetting configuration. A proper migration system will be created later.");
+            if(file.exists() && !file.delete()) UssLogger.logError("Could not delete config file.");
             store.save(new MainConfigurationVersion1(), file.toPath());
         }
     }

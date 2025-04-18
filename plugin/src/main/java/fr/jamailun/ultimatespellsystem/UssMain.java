@@ -4,6 +4,8 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
+import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
+import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
 import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
@@ -16,14 +18,13 @@ import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.updater.UpdateCheck;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
+import fr.jamailun.ultimatespellsystem.plugin.utils.ItemReaderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.utils.bstats.Metrics;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,6 +41,8 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private SummonsManagerImpl summonsManager;
     @Getter private ItemBinderImpl itemBinder;
     @Getter private AnimationsManagerImpl animationsManager;
+    @Getter private Scheduler scheduler;
+    @Getter private final ItemReader itemReader = new ItemReaderImpl();
     @Getter private final SpellsTriggerManager spellsTriggerManager = new SpellTriggerManagerImpl();
 
     private UssConfig config;
@@ -52,6 +55,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         ExtensionLoader.loadStatic();
         UssKeys.initialize(this);
+        scheduler = new UssScheduler(this);
     }
 
     @Override
@@ -88,7 +92,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         // bStat
         new Metrics(this, 24891);
 
-        logInfo("Plugin loaded.");
+        UssLogger.logInfo("Plugin loaded.");
         testForLatestVersion();
     }
 
@@ -99,7 +103,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public void reloadConfiguration() {
         config.reload();
-        logDebug("Debug mode enabled."); // will be printed only if debug mode is enabled :)
+        UssLogger.logDebug("Debug mode enabled."); // will be printed only if debug mode is enabled :)
     }
 
     @Override
@@ -107,68 +111,12 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         summonsManager.purgeAll();
         animationsManager.purge();
         SendAttributeNode.purge();
-        logInfo("Plugin disabled.");
-    }
-
-    @Override
-    public void logDebug(@NotNull String message) {
-        if(config.isDebug())
-            Bukkit.getConsoleSender().sendMessage(PREFIX + "§9DEBUG | §7" + message);
-    }
-
-    @Override
-    public void logInfo(@NotNull String message) {
-        sendMessage("&3INFO | &f" + message, "&f");
-    }
-
-    @Override
-    public void logWarning(@NotNull String message) {
-        sendMessage("&6WARN | &e" + message, "&e");
-    }
-
-    @Override
-    public void logError(@NotNull String message) {
-        sendMessage("&4ERROR | &c" + message, "&c");
+        UssLogger.logInfo("Plugin disabled.");
     }
 
     @Override
     public @NotNull SpellCostRegistry getSpellCostRegistry() {
         return SpellCostFactory.instance();
-    }
-
-    @SuppressWarnings("deprecation")
-    private void sendMessage(@NotNull String message, @NotNull String color) {
-        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.translateAlternateColorCodes('&', message.replace("&r", color)));
-    }
-
-    @Override
-    public @NotNull BukkitRunnable runTaskLater(@NotNull Runnable runnable, long ticks) {
-        BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
-        task.runTaskLater(this, ticks);
-        return task;
-    }
-
-    @Override
-    public @NotNull BukkitRunnable runTaskRepeat(@NotNull Runnable runnable, int amount, long delay, long period) {
-        BukkitRunnable br = new BukkitRunnable() {
-            private int count = 0;
-            @Override
-            public void run() {
-                runnable.run();
-                count++;
-                if(count == amount)
-                    cancel();
-            }
-        };
-        br.runTaskTimer(this, delay, period);
-        return br;
-    }
-
-    @Override
-    public @NotNull BukkitRunnable runTaskRepeat(Runnable runnable, long delay, long period) {
-        BukkitRunnable task = new BukkitRunnable() {public void run() {runnable.run();}};
-        task.runTaskTimer(this, delay, period);
-        return task;
     }
 
     @Override
@@ -183,16 +131,16 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             Optional<String> latest = UpdateCheck.getLatestRelease(this);
             if(latest.isPresent()) {
-                logWarning("----------[New update: &2" + latest.get() + "&r]----------");
-                logWarning("A new version is available for this USS plugin. Download the latest version to use all the features!");
-                logWarning("Go and check &b" + UpdateCheck.getPublicUrl());
-                logWarning("---------------------------------------");
+                UssLogger.logWarning("----------[New update: &2" + latest.get() + "&r]----------");
+                UssLogger.logWarning("A new version is available for this USS plugin. Download the latest version to use all the features!");
+                UssLogger.logWarning("Go and check &b" + UpdateCheck.getPublicUrl());
+                UssLogger.logWarning("---------------------------------------");
             } else {
                 String current = UpdateCheck.getPluginVersion(this);
                 if(current.contains("SNAPSHOT")) {
-                    logInfo("You are using an&e experimental&r build (" + current + "). Beware of any issue!");
+                    UssLogger.logInfo("You are using an&e experimental&r build (" + current + "). Beware of any issue!");
                 } else {
-                    logInfo("You have the latest version: &a" + current + "&r.");
+                    UssLogger.logInfo("You have the latest version: &a" + current + "&r.");
                 }
             }
         });

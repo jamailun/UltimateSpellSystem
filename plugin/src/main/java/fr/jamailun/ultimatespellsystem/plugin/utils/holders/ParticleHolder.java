@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.utils.ParticleShaper;
 import fr.jamailun.ultimatespellsystem.api.providers.ParticleShapeProvider;
 import org.bukkit.Location;
@@ -40,14 +40,14 @@ public class ParticleHolder {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid particle-type : '" + typeRaw + "'.");
+            UssLogger.logError("(" + context + ") Invalid particle-type : '" + typeRaw + "'.");
             return null;
         }
         Particle particle;
         try {
             particle = Particle.valueOf(type.toUpperCase());
         } catch(IllegalArgumentException e) {
-            UltimateSpellSystem.logError("(" + context + ") Unknown particle-type : '" + type + "' ("+e.getMessage()+")");
+            UssLogger.logError("(" + context + ") Unknown particle-type : '" + type + "' ("+e.getMessage()+")");
             return null;
         }
 
@@ -56,7 +56,7 @@ public class ParticleHolder {
         if(values.containsKey("speed")) {
             Object raw = values.get("speed");
             if(!(raw instanceof Double ds)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid particle speed : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid particle speed : '" + raw + "'.");
                 return null;
             }
             speed = ds;
@@ -66,7 +66,7 @@ public class ParticleHolder {
         if(values.containsKey("radius")) {
             Object raw = values.get("radius");
             if(!(raw instanceof Double ds)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid particle radius : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid particle radius : '" + raw + "'.");
                 return null;
             }
             radius = ds;
@@ -77,7 +77,7 @@ public class ParticleHolder {
         if(values.containsKey("count")) {
             Object raw = values.get("count");
             if(!(raw instanceof Double di)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid particle count : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid particle count : '" + raw + "'.");
                 return null;
             }
             count = di.intValue();
@@ -90,16 +90,16 @@ public class ParticleHolder {
             Object raw = values.get("shape");
             if(raw instanceof String string) {
                 shaper = ParticleShapeProvider.instance().find(string);
-                if(shaper == null) UltimateSpellSystem.logWarning("Unknown particle shape: '" + string + "'.");
+                if(shaper == null) UssLogger.logWarning("Unknown particle shape: '" + string + "'.");
                 else shaperInstance = new ShaperInstance(shaper, (Map<String, Object>) values);
             } else if(raw instanceof Map<?,?> map) {
                 Object rawType = map.get("type");
                 if(rawType instanceof String shapeType) {
                     shaper = ParticleShapeProvider.instance().find(shapeType);
-                    if(shaper == null) UltimateSpellSystem.logWarning("Unknown particle shape: '" + shapeType + "'.");
+                    if(shaper == null) UssLogger.logWarning("Unknown particle shape: '" + shapeType + "'.");
                     else shaperInstance = new ShaperInstance(shaper, (Map<String, Object>) map);
                 } else {
-                    UltimateSpellSystem.logError("Particle shape missing the 'type' entry.");
+                    UssLogger.logError("Particle shape missing the 'type' entry.");
                 }
             }
         }

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
@@ -17,7 +18,11 @@ public class RunLaterNode extends RuntimeStatement {
     @Override
     public void run(@NotNull SpellRuntime runtime) {
         Duration duration = runtime.safeEvaluate(this.duration, Duration.class);
-        UltimateSpellSystem.runTaskLater(
+        if(duration == null) {
+            UssLogger.logWarning("RunLater:duration is null.");
+            return;
+        }
+        UltimateSpellSystem.getScheduler().runTaskLater(
                 () -> child.run(runtime),
                 duration.toTicks()
         );

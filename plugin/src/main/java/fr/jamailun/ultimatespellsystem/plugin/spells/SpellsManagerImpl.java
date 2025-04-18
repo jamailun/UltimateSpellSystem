@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.spells;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public final class SpellsManagerImpl implements SpellsManager {
     public SpellsManagerImpl(@NotNull File spellsFolder) {
         this.spellsFolder = spellsFolder;
         if(! (spellsFolder.exists() || spellsFolder.mkdirs())) {
-            UltimateSpellSystem.logError("Cannot access " + spellsFolder + ".");
+            UssLogger.logError("Cannot access " + spellsFolder + ".");
             return;
         }
 
@@ -38,7 +38,7 @@ public final class SpellsManagerImpl implements SpellsManager {
 
     @Override
     public void reloadSpells() {
-        UltimateSpellSystem.logInfo("Reloading spells.");
+        UssLogger.logInfo("Reloading spells.");
         spells.clear();
 
         try(Stream<Path> fileStream = Files.walk(Paths.get(spellsFolder.getAbsolutePath()))) {
@@ -49,25 +49,25 @@ public final class SpellsManagerImpl implements SpellsManager {
                     .filter(Objects::nonNull)
                     .forEach(spell -> spells.put(spell.getName(), spell));
         } catch(IOException e) {
-            UltimateSpellSystem.logError("Could not list files of " + spellsFolder + ": " + e.getMessage());
+            UssLogger.logError("Could not list files of " + spellsFolder + ": " + e.getMessage());
             return;
         }
 
-        UltimateSpellSystem.logInfo("Loaded " + spells.size() + " spells.");
+        UssLogger.logInfo("Loaded " + spells.size() + " spells.");
     }
 
     @Override
     public boolean registerSpell(@NotNull Spell spell) {
         if(spell.getName().isBlank() || spell.getName().isEmpty()) {
-            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell + " : empty name.");
+            UssLogger.logWarning("Cannot register custom Spell " + spell + " : empty name.");
             return false;
         }
         if(spells.containsKey(spell.getName())) {
-            UltimateSpellSystem.logWarning("Cannot register custom Spell " + spell.getName() + " : duplicate name.");
+            UssLogger.logWarning("Cannot register custom Spell " + spell.getName() + " : duplicate name.");
             return false;
         }
         spells.put(spell.getName(), spell);
-        UltimateSpellSystem.logDebug("Registered custom spell '" + spell.getName() + "'.");
+        UssLogger.logDebug("Registered custom spell '" + spell.getName() + "'.");
         return true;
     }
 

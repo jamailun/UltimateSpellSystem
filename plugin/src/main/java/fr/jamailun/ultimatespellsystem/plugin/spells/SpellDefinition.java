@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.spells;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
@@ -62,11 +62,11 @@ public class SpellDefinition extends AbstractSpell {
                 .replaceFirst("[.][^.]+$", "");
 
         if(name.startsWith(".")) {
-            UltimateSpellSystem.logInfo("Skip " + file.getName());
+            UssLogger.logInfo("Skip " + file.getName());
             return null;
         }
 
-        UltimateSpellSystem.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
+        UssLogger.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
         return loadFile(name, file);
     }
 
@@ -83,9 +83,9 @@ public class SpellDefinition extends AbstractSpell {
             List<RuntimeStatement> steps = SpellBuilderVisitor.build(dsl);
             return new SpellDefinition(file, name, steps);
         } catch(Exception e) {
-            UltimateSpellSystem.logError("In "+file+" : " + e.getMessage());
+            UssLogger.logError("In "+file+" : " + e.getMessage());
             for(StackTraceElement se : e.getStackTrace()) {
-                UltimateSpellSystem.logDebug("  §c" + se.toString());
+                UssLogger.logDebug("  §c" + se.toString());
             }
             return null;
         }
@@ -99,7 +99,7 @@ public class SpellDefinition extends AbstractSpell {
             DslValidator.validateDsl(dsl);
             return PrintingVisitor.toString(dsl);
         } catch(Exception e) {
-            UltimateSpellSystem.logError("In "+file+" : " + e.getMessage());
+            UssLogger.logError("In "+file+" : " + e.getMessage());
             return "";
         }
     }
@@ -108,10 +108,10 @@ public class SpellDefinition extends AbstractSpell {
     protected boolean castSpell(@NotNull SpellEntity caster, @NotNull SpellRuntime runtime) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
-        UltimateSpellSystem.logDebug(prefix + " Casted on " + caster);
+        UssLogger.logDebug(prefix + " Casted on " + caster);
 
         for(RuntimeStatement statement : steps) {
-            UltimateSpellSystem.logDebug(prefix + "Running " + statement.toString());
+            UssLogger.logDebug(prefix + "Running " + statement.toString());
             statement.run(runtime);
 
             if(runtime.isStopped())
@@ -119,7 +119,7 @@ public class SpellDefinition extends AbstractSpell {
         }
 
         boolean success = runtime.getFinalExitCode() == 0;
-        UltimateSpellSystem.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
+        UssLogger.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
         return success;
     }
 

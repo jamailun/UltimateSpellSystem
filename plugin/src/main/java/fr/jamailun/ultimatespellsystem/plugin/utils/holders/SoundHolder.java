@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ public class SoundHolder {
         this.type = type;
         this.volume = volume;
         this.pitch = pitch;
-        UltimateSpellSystem.logDebug("New sounds-holder : (" + this +")");
+        UssLogger.logDebug("New sounds-holder : (" + this +")");
     }
 
     /**
@@ -44,14 +44,14 @@ public class SoundHolder {
         // Type
         Object typeRaw = values.get("type");
         if(!(typeRaw instanceof String type)) {
-            UltimateSpellSystem.logError("(" + context + ") Invalid sound-type : '" + typeRaw + "'.");
+            UssLogger.logError("(" + context + ") Invalid sound-type : '" + typeRaw + "'.");
             return null;
         }
         Sound sound;
         try {
             sound = Sound.valueOf(type.toUpperCase());
         } catch(IllegalArgumentException e) {
-            UltimateSpellSystem.logError("(" + context + ") Unknown sound-type : '" + type + "' ("+e.getMessage()+")");
+            UssLogger.logError("(" + context + ") Unknown sound-type : '" + type + "' ("+e.getMessage()+")");
             return null;
         }
 
@@ -60,7 +60,7 @@ public class SoundHolder {
         if(values.containsKey("volume")) {
             Object raw = values.get("volume");
             if(!(raw instanceof Double ds)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid sound volume : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid sound volume : '" + raw + "'.");
                 return null;
             }
             volume = ds.floatValue();
@@ -71,7 +71,7 @@ public class SoundHolder {
         if(values.containsKey("pitch")) {
             Object raw = values.get("pitch");
             if(!(raw instanceof Double ds)) {
-                UltimateSpellSystem.logError("(" + context + ") Invalid sound pitch : '" + raw + "'.");
+                UssLogger.logError("(" + context + ") Invalid sound pitch : '" + raw + "'.");
                 return null;
             }
             pitch = ds.floatValue();

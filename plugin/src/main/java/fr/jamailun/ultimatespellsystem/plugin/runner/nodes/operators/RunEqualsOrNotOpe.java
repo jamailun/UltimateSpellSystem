@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -27,10 +27,10 @@ public final class RunEqualsOrNotOpe extends RuntimeBiOperator {
             return (left == null) == (right == null);
         }
         if(left instanceof Number l && right instanceof Number r) {
-            UltimateSpellSystem.logDebug("Comparison (numbers). L="+l+"; R="+r);
+            UssLogger.logDebug("Comparison (numbers). L="+l+"; R="+r);
             return l.doubleValue() == r.doubleValue();
         }
-        UltimateSpellSystem.logDebug("Comparison. L="+left+"|"+left.getClass()+"; R="+right+"|"+right.getClass());
+        UssLogger.logDebug("Comparison. L="+left+"|"+left.getClass()+"; R="+right+"|"+right.getClass());
         return Objects.equals(left, right);
     }
 

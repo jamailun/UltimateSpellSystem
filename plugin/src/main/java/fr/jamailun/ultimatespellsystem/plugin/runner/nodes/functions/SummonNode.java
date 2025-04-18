@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
@@ -11,8 +12,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
@@ -35,7 +34,7 @@ public class SummonNode extends RuntimeStatement {
                 runtime
         );
 
-        UltimateSpellSystem.logDebug("Summon created " + entity);
+        UssLogger.logDebug("Summon created " + entity);
         // Set variable if set
         if(optVariableName != null) {
             runtime.variables().set(optVariableName, entity);

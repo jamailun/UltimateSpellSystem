@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind.costs;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostArgType;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostEntry;
@@ -58,7 +58,7 @@ public final class SpellCostFactory implements SpellCostRegistry {
     @Override
     public void register(@NotNull SpellCostEntry<?> entry) {
         if(entries.containsKey(entry.id())) {
-            UltimateSpellSystem.logWarning("Duplicate spell cost id '" + entry.id() + "'.");
+            UssLogger.logWarning("Duplicate spell cost id '" + entry.id() + "'.");
         }
         entries.put(entry.id(), entry);
         entriesPerClass.put(entry.clazz(), entry);

@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
 import fr.jamailun.ultimatespellsystem.UssKeys;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
@@ -41,7 +42,7 @@ public class SendNbtNode extends RuntimeStatement {
         NamespacedKey key = UssKeys.custom(Objects.requireNonNull(name, "Provided name for a send-NBT cannot be null."));
         Duration duration = Objects.requireNonNull(runtime.safeEvaluate(durationRef, Duration.class), "Provided duration for a send-NBT cannot be null.");
         Object value = Objects.requireNonNull(valueRef.evaluate(runtime), "Provided value for a send-NBT cannot be null.");
-        UltimateSpellSystem.logDebug("SET NBT to " + targets + " : [" + key + "] = " + value);
+        UssLogger.logDebug("SET NBT to " + targets + " : [" + key + "] = " + value);
 
         Consumer<PersistentDataContainer> func = switch(value) {
             case Boolean bool -> nbt -> nbt.set(key, PersistentDataType.BOOLEAN, bool);
@@ -58,7 +59,7 @@ public class SendNbtNode extends RuntimeStatement {
         });
 
         // Remove it
-        UltimateSpellSystem.runTaskLater(() -> targets.forEach(en -> {
+        UltimateSpellSystem.getScheduler().runTaskLater(() -> targets.forEach(en -> {
             if(en.getNBT() != null)
                 en.getNBT().remove(key);
         }), duration.toTicks());

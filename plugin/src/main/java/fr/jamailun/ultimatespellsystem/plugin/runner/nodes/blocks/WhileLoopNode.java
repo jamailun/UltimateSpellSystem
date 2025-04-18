@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
-import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
@@ -72,10 +72,10 @@ public class WhileLoopNode extends RuntimeStatement {
             if(eval instanceof Boolean bool) {
                 if(iterationCount < MAX_ITERATIONS)
                     return bool;
-                UltimateSpellSystem.logWarning("WhileLoop : forcefully existed after " + iterationCount + " iterations.");
+                UssLogger.logWarning("WhileLoop : forcefully existed after " + iterationCount + " iterations.");
                 return false;
             }
-            UltimateSpellSystem.logWarning("WhileLoop : unexpected type " + eval);
+            UssLogger.logWarning("WhileLoop : unexpected type " + eval);
             return false;
         }
 

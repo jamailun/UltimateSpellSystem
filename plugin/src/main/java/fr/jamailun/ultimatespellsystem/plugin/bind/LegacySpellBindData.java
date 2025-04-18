@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
@@ -25,7 +26,7 @@ public class LegacySpellBindData implements SpellBindData {
     this(Objects.requireNonNullElseGet(
         UltimateSpellSystem.getSpellsManager().getSpell(spellId),
         () -> {
-          UltimateSpellSystem.logWarning("Unknown spell id for LEGACY bind '" + spellId + "'.");
+          UssLogger.logWarning("Unknown spell id for LEGACY bind '" + spellId + "'.");
           return new NotFoundSpell(spellId);
         }
       ), destroyable);
