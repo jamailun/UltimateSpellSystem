@@ -36,11 +36,9 @@ public class ListOperator extends BiOperator {
 
     @Override
     protected void validateTypes(@NotNull Type leftType, @NotNull Type rightType, @NotNull TypesContext context) {
-        if(rightType.is(TypePrimitive.NULL)) {
+        // Left must be a list, right cannot be null.
+        if(rightType.is(TypePrimitive.NULL))
             throw new TypeException(firstTokenPosition(), "Cannot apply an operator with a NULL-typed right operand (" + right + ")");
-        }
-
-        // Left must ALWAYS be a list.
         if(! leftType.isCollection())
             throw new TypeException(firstTokenPosition(), "A list operator (" + opeType + ") can ONLY be applied on a LIST for the left operand. Left is " + leftType);
 

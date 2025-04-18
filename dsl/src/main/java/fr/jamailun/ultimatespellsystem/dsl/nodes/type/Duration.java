@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -115,5 +116,16 @@ public record Duration(double amount, TimeUnit timeUnit) {
             case HOURS -> "hour" + s;
             case DAYS -> "day" + s;
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        return toSeconds() == ((Duration)o).toSeconds();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toSeconds());
     }
 }
