@@ -23,6 +23,10 @@ public abstract class PlayNode extends RuntimeStatement {
     private final RuntimeExpression location;
     private final RuntimeExpression properties;
 
+    protected boolean isAsync() {
+        return true;
+    }
+
     @Override
     public void run(@NotNull SpellRuntime runtime) {
         List<Object> list = runtime.safeEvaluateAcceptsList(location, Object.class);
@@ -40,10 +44,16 @@ public abstract class PlayNode extends RuntimeStatement {
         if(locations.isEmpty())
             return;
 
-        UltimateSpellSystem.getScheduler().runAsync(() -> {
+        Runnable action = () -> {
             Map<String, Object> attributes = getProperties(properties, runtime);
             apply(locations, attributes);
-        });
+        };
+
+        if(isAsync()) {
+            UltimateSpellSystem.getScheduler().runAsync(action);
+        } else {
+            action.run();
+        }
     }
 
     protected abstract void apply(@NotNull List<Location> locations, @NotNull Map<String, Object> properties);

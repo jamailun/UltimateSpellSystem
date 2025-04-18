@@ -21,4 +21,8 @@ public class PlaySoundNode extends PlayNode {
             locations.forEach(holder::apply);
     }
 
+    @Override
+    protected boolean isAsync() {
+        return false;
+    }
 }
