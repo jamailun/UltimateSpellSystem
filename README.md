@@ -1,6 +1,6 @@
 # Ultimate Spells System
 
-Spigot plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language).
+Paper plugin, for dynamic spells, using a custom [DSL](https://en.wikipedia.org/wiki/Domain-specific_language).
 
 ## Author
 
