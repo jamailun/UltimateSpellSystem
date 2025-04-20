@@ -79,8 +79,7 @@ public class SpellDefinition extends AbstractSpell {
     public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
-            DslValidator.validateDsl(dsl);
-            List<RuntimeStatement> steps = SpellBuilderVisitor.build(dsl);
+            List<RuntimeStatement> steps = load(dsl);
             return new SpellDefinition(file, name, steps);
         } catch(Exception e) {
             UssLogger.logError("In "+file+" : " + e.getMessage());
@@ -89,6 +88,11 @@ public class SpellDefinition extends AbstractSpell {
             }
             return null;
         }
+    }
+
+    public static @NotNull List<RuntimeStatement> load(@NotNull List<StatementNode> dsl) {
+        DslValidator.validateDsl(dsl);
+        return SpellBuilderVisitor.build(dsl);
     }
 
     public static @NotNull String debugFile(@NotNull File file) {

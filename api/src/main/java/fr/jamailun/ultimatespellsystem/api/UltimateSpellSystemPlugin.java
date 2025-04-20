@@ -5,6 +5,8 @@ import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
+import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
@@ -63,6 +65,12 @@ public interface UltimateSpellSystemPlugin {
      * @return non-null instance.
      */
     @NotNull Scheduler getScheduler();
+
+    /**
+     * Get the externa executor. Used to evaluate string expressions.
+     * @return non-null instance.
+     */
+    @NotNull ExternalExecutor getExternalExecutor();
 
     /**
      * Reload the configuration.

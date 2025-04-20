@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
+import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
 import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
@@ -15,6 +16,7 @@ import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsManagerImpl;
+import fr.jamailun.ultimatespellsystem.plugin.spells.external.ExternalExecutorImpl;
 import fr.jamailun.ultimatespellsystem.plugin.updater.UpdateCheck;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.extension.ExtensionLoader;
@@ -44,6 +46,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Getter private final Scheduler scheduler = new UssScheduler(this);
     @Getter private final ItemReader itemReader = new ItemReaderImpl();
     @Getter private final SpellsTriggerManager spellsTriggerManager = new SpellTriggerManagerImpl();
+    @Getter private final ExternalExecutor externalExecutor = new ExternalExecutorImpl();
 
     private UssConfig config;
 

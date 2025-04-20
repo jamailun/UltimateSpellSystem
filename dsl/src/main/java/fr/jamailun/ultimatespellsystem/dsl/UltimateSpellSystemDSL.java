@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl;
 
 import fr.jamailun.ultimatespellsystem.dsl.metadata.rules.DefaultMetadataRules;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.*;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,6 @@ public final class UltimateSpellSystemDSL {
             StatementNode node = StatementNode.parseNextStatement(tokens);
             statements.add(node);
         }
-
         return statements;
     }
 
@@ -63,6 +63,16 @@ public final class UltimateSpellSystemDSL {
      */
     public static @NotNull List<StatementNode> parse(@NotNull File file) {
         return parse(CharStream.from(file));
+    }
+
+    /**
+     * Parse any expression... Will stop at the first one !
+     * @param string string to parse.
+     * @return a non-null expression.
+     */
+    public static @NotNull ExpressionNode parseExpression(@NotNull String string) {
+        TokenStream tokens = Tokenizer.tokenize(CharStream.from(string));
+        return ExpressionNode.readNextExpression(tokens);
     }
 
 }

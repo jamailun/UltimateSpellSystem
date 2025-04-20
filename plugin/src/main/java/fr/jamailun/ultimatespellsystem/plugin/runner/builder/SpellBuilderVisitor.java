@@ -17,6 +17,7 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.*;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +33,7 @@ import java.util.List;
 public class SpellBuilderVisitor implements StatementVisitor {
 
     private final ExpressionQueue expressionQueue = new ExpressionQueue();
-    private List<RuntimeStatement> currentQueue; // dynamic pointer toward the top of the queue stack.
+    @Getter private List<RuntimeStatement> currentQueue; // dynamic pointer toward the top of the queue stack.
     private final List<RuntimeStatement> statementsAccumulator = new ArrayList<>();
     private final Deque<List<RuntimeStatement>> accumulatorsStack = new ArrayDeque<>();
 
@@ -231,7 +232,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         add(new BreakContinueNode(statement.isContinue()));
     }
 
-    private RuntimeExpression convert(ExpressionNode expression) {
+    public RuntimeExpression convert(ExpressionNode expression) {
         if(expression == null)
             return null;
         expression.visit(expressionQueue);

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
+import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
@@ -99,6 +100,15 @@ public final class UltimateSpellSystem {
      */
     public static @NotNull Scheduler getScheduler() {
         return plugin.getScheduler();
+    }
+
+
+    /**
+     * Get the external executor. Used to evaluate any DSL expressions.
+     * @return the non-null reference.
+     */
+    public static @NotNull ExternalExecutor getExternalExecutor() {
+        return plugin.getExternalExecutor();
     }
 
     /**
