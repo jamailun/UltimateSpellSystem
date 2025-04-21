@@ -77,7 +77,7 @@ public class SendEffectNode extends RuntimeStatement {
             case "health_boost", "max_health" -> PotionEffectType.HEALTH_BOOST;
             case "absorption", "bonus_health", "health_bonus" -> PotionEffectType.ABSORPTION;
             case "saturation" -> PotionEffectType.SATURATION;
-            case "glowing" -> PotionEffectType.GLOWING;
+            case "glowing", "glow", "glowness" -> PotionEffectType.GLOWING;
             case "levitation" -> PotionEffectType.LEVITATION;
             case "luck" -> PotionEffectType.LUCK;
             case "bad_luck" -> PotionEffectType.UNLUCK;
