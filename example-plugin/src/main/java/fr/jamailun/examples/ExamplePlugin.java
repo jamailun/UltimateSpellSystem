@@ -1,7 +1,7 @@
 package fr.jamailun.examples;
 
 import fr.jamailun.examples.citizens.CasterTrait;
-import fr.jamailun.examples.commands.NpcCastCommand;
+import fr.jamailun.examples.commands.SpellCasterCommand;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
@@ -45,9 +45,10 @@ public class ExamplePlugin extends JavaPlugin {
             return "0";
         });
 
-        new NpcCastCommand();
+        // Command
+        new SpellCasterCommand();
 
-        info("TEST enabled.");
+        info("Example USS loaded.");
     }
 
     public static void info(String msg) {

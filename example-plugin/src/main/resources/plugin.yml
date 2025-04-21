@@ -3,16 +3,16 @@ version: '${project.version}'
 main: fr.jamailun.examples.ExamplePlugin
 api-version: '1.21'
 author: jamailun
-description: test
+description: Demo plugin for USS.
 
 depend: [UltimateSpellSystem]
 softdepend: [Citizens]
 
 commands:
-  test-cast-npc:
+  spellcaster:
     description: cast a spell on a citizen NPC
-    permission: test-cast-npc
+    permission: uss.spellcaster
 
 permissions:
-  test-cast-npc:
+  uss.spellcaster:
     default: op

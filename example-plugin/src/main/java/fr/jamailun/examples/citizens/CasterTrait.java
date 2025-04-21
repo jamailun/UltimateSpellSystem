@@ -2,8 +2,10 @@ package fr.jamailun.examples.citizens;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import net.citizensnpcs.api.exception.NPCLoadException;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
+import net.citizensnpcs.api.util.DataKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -13,19 +15,49 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @TraitName("uss-caster")
 public class CasterTrait extends Trait implements SpellEntity {
 
+    private final List<SpellCastRule> rules = new ArrayList<>();
+
     public CasterTrait() {
         super("uss-caster");
     }
 
-    public void cast(Spell spell) {
+    public void cast(@NotNull Spell spell) {
         spell.castNotCancellable(this);
     }
+
+    public @NotNull List<SpellCastRule> getRules() {
+        return rules;
+    }
+
+    // -- Citizens NPC
+
+    @Override
+    public void load(@NotNull DataKey key) {
+        key.getIntegerSubKeys().forEach(dk -> {
+            SpellCastRule rule = SpellCastRule.load(dk);
+            rules.add(rule);
+        });
+    }
+
+    @Override
+    public void save(@NotNull DataKey key) {
+        int i = 0;
+        for(SpellCastRule rule : rules) {
+            DataKey out = key.getRelative(i);
+            rule.saveData(out);
+            i++;
+        }
+    }
+
+    // -- Spell Entity
 
     @Override
     public @NotNull UUID getUniqueId() {
@@ -82,7 +114,7 @@ public class CasterTrait extends Trait implements SpellEntity {
     }
 
     @Override
-    public void setVelocity(Vector vector) {
+    public void setVelocity(@NotNull Vector vector) {
         getBukkitEntity().map(LivingEntity.class::cast)
             .ifPresent(le -> le.setVelocity(vector));
     }
