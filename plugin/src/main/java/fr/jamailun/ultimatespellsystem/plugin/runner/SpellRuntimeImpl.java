@@ -44,4 +44,8 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
         return new SpellRuntimeImpl(this);
     }
 
+    @Override
+    public @NotNull String toString() {
+        return "SpellRuntime[" + caster + ", vars=" + variables() + "]";
+    }
 }

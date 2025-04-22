@@ -44,11 +44,12 @@ public abstract class PlayNode extends RuntimeStatement {
         if(locations.isEmpty())
             return;
 
-        Runnable action = () -> {
-            Map<String, Object> attributes = getProperties(properties, runtime);
-            apply(locations, attributes);
-        };
+        // Evaluate variables synchronously.
+        // It may cause issue if not.
+        Map<String, Object> attributes = getProperties(properties, runtime);
 
+        // Eventually run it async.
+        Runnable action = () -> apply(locations, attributes);
         if(isAsync()) {
             UltimateSpellSystem.getScheduler().runAsync(action);
         } else {

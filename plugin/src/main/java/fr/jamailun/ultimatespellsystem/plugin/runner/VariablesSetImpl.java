@@ -59,7 +59,7 @@ public final class VariablesSetImpl implements VariablesSet {
 
     @Override
     public @NotNull String toString() {
-        return "Vars" + variables;
+        return variables.toString();
     }
 
     private static class VarEntry {
