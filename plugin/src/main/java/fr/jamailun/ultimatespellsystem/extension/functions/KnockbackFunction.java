@@ -33,7 +33,7 @@ public class KnockbackFunction extends AbstractFunction {
                                 "entity", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.LOCATION),
+                                FunctionType.accept(TypePrimitive.LOCATION, TypePrimitive.NUMBER),
                                 "velocity", false
                         ),
                         new FunctionArgument(
