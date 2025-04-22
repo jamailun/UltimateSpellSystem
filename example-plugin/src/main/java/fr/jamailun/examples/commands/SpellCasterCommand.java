@@ -48,7 +48,7 @@ public class SpellCasterCommand implements CommandExecutor, TabCompleter {
             if(trait.isPresent()) {
                 List<SpellCastRule> rules = trait.get().getRules();
                 if(rules.isEmpty()) {
-                    sender.sendMessage("§7This NPC does nt have any cast rule.");
+                    sender.sendMessage("§7This NPC does not have any cast rule.");
                 } else {
                     sender.sendMessage("§aFound " + rules.size() + " cast rule" + (rules.size()>1?"s":"") + " (§e" + rules.size() + "§a) :");
                     int i = 0;
@@ -120,16 +120,19 @@ public class SpellCasterCommand implements CommandExecutor, TabCompleter {
                 for(int i = 3; i < args.length; i++) {
                     joiner.add(args[i]);
                 }
-                condition = joiner.toString();
+                String concat = joiner.toString();
+                if(concat.startsWith("\"") && concat.endsWith("\""))
+                    condition = concat.substring(1, concat.length() - 1);
+                else condition = concat;
                 // parse
                 try {
                     UltimateSpellSystemDSL.parseExpression(condition);
                 } catch (Exception e) {
-                    sender.sendMessage("Invalid USS syntax: " + e.getMessage());
+                    sender.sendMessage("§cInvalid USS syntax: " + e.getMessage());
                     return true;
                 }
             } else {
-                condition = null;
+                condition = "";
             }
 
             // Register
@@ -140,7 +143,7 @@ public class SpellCasterCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage("§aNew spell rule registered.");
             sender.sendMessage("§7Spell ID = §e" + spell.getName());
             sender.sendMessage("§7Cooldown = §e" + cooldown);
-            sender.sendMessage("§7Condition = " + (condition == null ? "§7<none>" : "§f"+condition));
+            sender.sendMessage("§7Condition = " + (condition.isEmpty() ? "§7<none>" : "§f"+condition));
             return true;
         }
 

@@ -27,7 +27,7 @@ public class SpellCastRule {
     private transient Duration cooldown;
     private transient RuntimeExpression condition;
 
-    public SpellCastRule(String spellId, String rawCooldown, String rawCondition) {
+    public SpellCastRule(@NotNull String spellId, @NotNull String rawCooldown, @NotNull String rawCondition) {
         this.spellId = spellId;
         this.rawCooldown = rawCooldown;
         this.rawCondition = rawCondition;
@@ -45,10 +45,9 @@ public class SpellCastRule {
         }
     }
 
-    private boolean testCondition(@NotNull SpellEntity entity) {
+    private boolean testCondition(@NotNull SpellRuntime runtime) {
         if(condition == null) return true;
 
-        SpellRuntime runtime = UltimateSpellSystem.getExternalExecutor().generateRuntime(entity);
         return switch (condition.evaluate(runtime)) {
             case null -> false;
             case Double d -> d != 0;
@@ -64,29 +63,33 @@ public class SpellCastRule {
                 + "]";
     }
 
+    private SpellRuntime runtime;
     public boolean canExecute(@NotNull SpellEntity entity) {
         Instant now = Instant.now();
-        if(now.isAfter(nextExecute) && testCondition(entity)) {
+        if(runtime == null)
+            runtime = UltimateSpellSystem.getExternalExecutor().generateRuntime(entity);
+        if(now.isAfter(nextExecute) && testCondition(runtime)) {
             nextExecute = now.plus(cooldown);
+            runtime = null;
             return true;
         }
         return false;
     }
 
-    public void saveData(@NotNull DataKey key) {
-        key.setString("spell-id", spellId);
-        key.setString("cooldown", rawCooldown);
-        key.setString("condition", rawCondition);
+    public String getSpellId() {
+        return spellId;
     }
 
-    public static @NotNull SpellCastRule load(@NotNull DataKey key) {
+    public static @NotNull SpellCastRule create(@NotNull DataKey key) {
         String spellId = key.getString("spell-id");
         String cooldown = key.getString("cooldown");
         String condition = key.getString("condition");
         return new SpellCastRule(spellId, cooldown, condition);
     }
 
-    public String getSpellId() {
-        return spellId;
+    public void save(@NotNull DataKey key) {
+        key.setString("spell-id", getSpellId());
+        key.setString("cooldown", rawCooldown);
+        key.setString("condition", rawCondition);
     }
 }

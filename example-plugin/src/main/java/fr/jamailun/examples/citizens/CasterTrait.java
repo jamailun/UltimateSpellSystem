@@ -1,8 +1,8 @@
 package fr.jamailun.examples.citizens;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import net.citizensnpcs.api.exception.NPCLoadException;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
 import net.citizensnpcs.api.util.DataKey;
@@ -23,7 +23,12 @@ import java.util.UUID;
 @TraitName("uss-caster")
 public class CasterTrait extends Trait implements SpellEntity {
 
+    private static final int TICK_RATE = 15;
+
+    // Persisted manually
     private final List<SpellCastRule> rules = new ArrayList<>();
+
+    private transient int tickCounter = 0;
 
     public CasterTrait() {
         super("uss-caster");
@@ -37,25 +42,44 @@ public class CasterTrait extends Trait implements SpellEntity {
         return rules;
     }
 
-    // -- Citizens NPC
+    @Override
+    public void run() {
+        if (!npc.isSpawned()) return;
+        tickCounter++;
+        if (tickCounter >= TICK_RATE) {
+            tickCounter = 0;
+            runUpdate();
+        }
+    }
+
+    private void runUpdate() {
+        for(SpellCastRule rule : rules) {
+            if(rule.canExecute(this)) {
+                Spell spell = UltimateSpellSystem.getSpellsManager().getSpell(rule.getSpellId());
+                if(spell != null)
+                    spell.castNotCancellable(this);
+                return;
+            }
+        }
+    }
+
+    // persistence
 
     @Override
-    public void load(@NotNull DataKey key) {
-        key.getIntegerSubKeys().forEach(dk -> {
-            SpellCastRule rule = SpellCastRule.load(dk);
-            rules.add(rule);
-        });
+    public void load(@NotNull DataKey root) {
+        for(DataKey key : root.getIntegerSubKeys()) {
+            rules.add(SpellCastRule.create(key));
+        }
     }
 
     @Override
     public void save(@NotNull DataKey key) {
         int i = 0;
         for(SpellCastRule rule : rules) {
-            DataKey out = key.getRelative(i);
-            rule.saveData(out);
-            i++;
+            rule.save(key.getRelative(i ++));
         }
     }
+
 
     // -- Spell Entity
 
@@ -117,5 +141,10 @@ public class CasterTrait extends Trait implements SpellEntity {
     public void setVelocity(@NotNull Vector vector) {
         getBukkitEntity().map(LivingEntity.class::cast)
             .ifPresent(le -> le.setVelocity(vector));
+    }
+
+    @Override
+    public String toString() {
+        return "CasterTrait(" + (npc==null?"unset":npc.getName()+")");
     }
 }
