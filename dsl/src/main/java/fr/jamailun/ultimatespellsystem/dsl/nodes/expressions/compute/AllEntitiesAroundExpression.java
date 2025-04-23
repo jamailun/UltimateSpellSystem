@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -48,7 +49,7 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
         assertExpressionType(distance, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
 
         // Scope can be entity-type OR custom
-        assertExpressionType(entityType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY_TYPE, TypePrimitive.CUSTOM);
+        assertExpressionType(entityType, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY_TYPE, TypePrimitive.CUSTOM, TypePrimitive.STRING);
 
         // Source can be entity OR location
         assertExpressionType(source, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.ENTITY, TypePrimitive.LOCATION);
@@ -59,8 +60,14 @@ public class AllEntitiesAroundExpression extends ExpressionNode {
         return "FETCH_ALL{" + entityType + " around " + source + (including ?"(STRICT)":"") + ", within "+ distance + "}";
     }
 
+    /**
+     * Parse the next all-entities-around expression.
+     * @param tokens stream of tokens.
+     * @return a new instance.
+     */
     @PreviousIndicator(expected = {TokenType.ALL}) // all (SCOPE) within (DISTANCE) around (SOURCE) [[including]]
-    public static AllEntitiesAroundExpression parseAllExpression(TokenStream tokens) {
+    @Contract("_ -> new")
+    public static @NotNull AllEntitiesAroundExpression parseAllExpression(@NotNull TokenStream tokens) {
         TokenPosition pos = tokens.position();
 
         // Entity type
