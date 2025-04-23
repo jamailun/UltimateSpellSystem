@@ -1,7 +1,9 @@
 package fr.jamailun.ultimatespellsystem.extension.providers;
 
+import fr.jamailun.ultimatespellsystem.api.entities.EntityScope;
 import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import org.bukkit.entity.EntityType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,11 +34,16 @@ public final class Scopes {
             EntityType.RAVAGER, EntityType.VEX, EntityType.WITCH
     );
 
+    private static @NotNull EntityScope of(@NotNull String tag, @NotNull List<EntityType> list) {
+        return e -> list.contains(e.getType()) || e.getScoreboardTags().contains(tag);
+    }
+
     public static void register() {
-        ScopeProvider.instance().register(e -> UNDEAD_TYPES.contains(e.getType()), "undead", "undead_monster", "undeads_monster");
-        ScopeProvider.instance().register(e -> ENDER_TYPES.contains(e.getType()), "end", "end_monster");
-        ScopeProvider.instance().register(e -> SPIDER_TYPES.contains(e.getType()), "spider", "spider_monster", "arthropod", "arthropod_monsters", "arthropods_monsters");
-        ScopeProvider.instance().register(e -> PILLAGER_TYPES.contains(e.getType()), "illager", "pillagers");
+        ScopeProvider.instance().register(of("undead", UNDEAD_TYPES), "undead", "undead_monster", "undeads_monster");
+        ScopeProvider.instance().register(of("end", ENDER_TYPES), "end", "end_monster");
+        ScopeProvider.instance().register(of("spider", SPIDER_TYPES), "spider", "spider_monster", "arthropod", "arthropod_monsters", "arthropods_monsters");
+        ScopeProvider.instance().register(of("illager", PILLAGER_TYPES), "illager", "pillagers");
+        ScopeProvider.instance().register(e -> e.getScoreboardTags().contains("CITIZENS_NPC"), "citizen");
     }
 
 }

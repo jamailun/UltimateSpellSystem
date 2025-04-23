@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
             <artifactId>ultimate-spell-system-api</artifactId>
             <scope>compile</scope>
         </dependency>
