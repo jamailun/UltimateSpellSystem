@@ -2,7 +2,10 @@ package fr.jamailun.ultimatespellsystem.extension.providers;
 
 import fr.jamailun.ultimatespellsystem.api.entities.EntityScope;
 import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -38,12 +41,21 @@ public final class Scopes {
         return e -> list.contains(e.getType()) || e.getScoreboardTags().contains(tag);
     }
 
+    private static boolean isPlayer(@NotNull Entity e) {
+        return (e instanceof Player p && p.getGameMode() != GameMode.SPECTATOR && p.getGameMode() != GameMode.CREATIVE)
+                // Must not be a Citizens NPC
+                || !e.getScoreboardTags().contains("CITIZENS_NPC");
+    }
+
     public static void register() {
         ScopeProvider.instance().register(of("undead", UNDEAD_TYPES), "undead", "undead_monster", "undeads_monster");
         ScopeProvider.instance().register(of("end", ENDER_TYPES), "end", "end_monster");
         ScopeProvider.instance().register(of("spider", SPIDER_TYPES), "spider", "spider_monster", "arthropod", "arthropod_monsters", "arthropods_monsters");
         ScopeProvider.instance().register(of("illager", PILLAGER_TYPES), "illager", "pillagers");
         ScopeProvider.instance().register(e -> e.getScoreboardTags().contains("CITIZENS_NPC"), "citizen");
+
+        // Override player
+        ScopeProvider.instance().register(Scopes::isPlayer, "player");
     }
 
 }

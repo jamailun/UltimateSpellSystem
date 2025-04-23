@@ -27,7 +27,7 @@ public final class ScopeProvider extends UssProvider<EntityScope> {
         instance().register(e -> e instanceof Mob || e.getScoreboardTags().contains("mob"), "mob");
         instance().register(e -> e instanceof Monster || e.getScoreboardTags().contains("monster"), "monster");
         instance().register(e -> e instanceof Animals || e.getScoreboardTags().contains("animal"), "animal");
-        instance().register(e -> e instanceof Player || e.getScoreboardTags().contains("player"), "player", "human");
+        instance().register(e -> e instanceof Player, "player", "human");
         instance().register(e -> e instanceof Item, "item");
         instance().register(e -> UltimateSpellSystem.getSummonsManager().isASummonedEntity(e.getUniqueId()), "summon", "summoned");
     }
