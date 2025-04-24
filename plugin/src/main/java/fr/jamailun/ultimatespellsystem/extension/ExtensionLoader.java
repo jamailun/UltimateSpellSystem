@@ -48,6 +48,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new DirectionOfFunction(), "dir_of");
         JavaFunctionProvider.instance().registerFunction(new NormalizeFunction(), "norm");
         JavaFunctionProvider.instance().registerFunction(new GetHealthFunction());
+        JavaFunctionProvider.instance().registerFunction(new GetMaxHealthFunction());
         JavaFunctionProvider.instance().registerFunction(new HealEntityFunction(), "heal_entity");
 
         // Others
