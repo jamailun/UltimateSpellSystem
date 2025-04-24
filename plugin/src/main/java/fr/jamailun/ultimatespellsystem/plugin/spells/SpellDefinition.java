@@ -60,12 +60,6 @@ public class SpellDefinition extends AbstractSpell {
                 .replace(" ", "-")
                 .toLowerCase()
                 .replaceFirst("[.][^.]+$", "");
-
-        if(name.startsWith(".")) {
-            UssLogger.logInfo("Skip " + file.getName());
-            return null;
-        }
-
         UssLogger.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
         return loadFile(name, file);
     }

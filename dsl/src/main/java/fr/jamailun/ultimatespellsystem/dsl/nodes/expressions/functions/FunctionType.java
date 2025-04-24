@@ -1,11 +1,13 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions;
 
+import com.google.common.base.Preconditions;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -24,8 +26,9 @@ public class FunctionType {
      * @param types varargs of allowed types.
      * @return a new instance.
      */
-    public static @NotNull FunctionType accept(@NotNull TypePrimitive... types) {
-        if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
+    @Contract("_ -> new")
+    public static @NotNull FunctionType accept(@NotNull TypePrimitive @NotNull ... types) {
+        Preconditions.checkArgument(types.length > 0, "Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.ANY);
     }
 
@@ -34,8 +37,9 @@ public class FunctionType {
      * @param types varargs of allowed types.
      * @return a new instance.
      */
-    public static @NotNull FunctionType acceptOnlyMono(@NotNull TypePrimitive... types) {
-        if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
+    @Contract("_ -> new")
+    public static @NotNull FunctionType acceptOnlyMono(@NotNull TypePrimitive @NotNull ... types) {
+        Preconditions.checkArgument(types.length > 0, "Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.MONO_ELEMENT);
     }
 
@@ -44,8 +48,9 @@ public class FunctionType {
      * @param types varargs of allowed types.
      * @return a new instance.
      */
-    public static @NotNull FunctionType acceptOnlyCollection(@NotNull TypePrimitive ... types) {
-        if(types.length == 0) throw new IllegalArgumentException("Cannot have zero primitive.");
+    @Contract("_ -> new")
+    public static @NotNull FunctionType acceptOnlyCollection(@NotNull TypePrimitive @NotNull ... types) {
+        Preconditions.checkArgument(types.length > 0, "Cannot have zero primitive.");
         return new FunctionType(List.of(types), CollectionFilter.LIST);
     }
 
@@ -56,7 +61,6 @@ public class FunctionType {
     public @NotNull Type asType() {
         return primitives.getFirst().asType(collectionFilter == CollectionFilter.LIST);
     }
-
 
     public @NotNull TestResult accepts(@NotNull Type type) {
         if( ! primitives.contains(type.primitive())) {

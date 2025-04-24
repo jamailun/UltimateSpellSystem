@@ -37,4 +37,8 @@ public class ForeachLoopNode extends RuntimeStatement {
         }
     }
 
+    @Override
+    public String toString() {
+        return "foreach(" + varName +" : " + source + ")";
+    }
 }

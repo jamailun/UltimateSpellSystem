@@ -1,5 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.spells;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public interface SpellMetadata {
      * @return null if class is not assignable.
      * @param <T> the type to get.
      */
-    default <T> T getFirst(Class<T> clazz) {
+    default <T> T getFirst(@NotNull Class<T> clazz) {
         return get(0, clazz);
     }
 
@@ -36,7 +38,7 @@ public interface SpellMetadata {
      * @return null if class is not assignable.
      * @param <T> the type to get.
      */
-    <T> T get(int index, Class<T> clazz);
+    <T> T get(int index, @NotNull Class<T> clazz);
 
     /**
      * Get all evaluated parameters.
@@ -44,6 +46,13 @@ public interface SpellMetadata {
      * @return a new, non-null list.
      * @param <T> the type to get.
      */
-    <T> List<T> get(Class<T> clazz);
+    <T> @NotNull List<T> get(@NotNull Class<T> clazz);
+
+    /**
+     * Get raw value.
+     * @param index index to get. if OOB, returns null.
+     * @return null if not found.
+     */
+    Object getRaw(int index);
 
 }

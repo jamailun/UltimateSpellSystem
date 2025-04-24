@@ -34,17 +34,21 @@ public class MetadataNode extends RuntimeStatement implements SpellMetadata {
     }
 
     @Override
-    public <T> T get(int index, Class<T> clazz) {
-        if(index < 0 || params.size() <= index) return null;
-        return clazz.cast(params.get(index));
+    public <T> T get(int index, @NotNull Class<T> clazz) {
+        return clazz.cast(getRaw(index));
     }
 
     @Override
-    public <T> List<T> get(Class<T> clazz) {
+    public <T> @NotNull List<T> get(@NotNull Class<T> clazz) {
         return params.stream()
                 .map(clazz::cast)
                 .filter(Objects::nonNull)
                 .toList();
     }
 
+    @Override
+    public Object getRaw(int index) {
+        if(index < 0 || params.size() <= index) return null;
+        return params.get(index);
+    }
 }

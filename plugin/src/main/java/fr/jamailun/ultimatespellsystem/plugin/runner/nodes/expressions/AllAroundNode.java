@@ -25,7 +25,7 @@ public class AllAroundNode extends RuntimeExpression {
     public List<? extends SpellEntity> evaluate(@NotNull SpellRuntime runtime) {
         // Distance
         Double distance = runtime.safeEvaluate(this.distance, Double.class);
-        Objects.requireNonNull(distance, "Provided distance for ALL-AROUND expression is null.");
+        Objects.requireNonNull(distance, "Provided distance for ALL-AROUND expression is null");
 
         // Source
         Object source = this.source.evaluate(runtime);
@@ -54,5 +54,10 @@ public class AllAroundNode extends RuntimeExpression {
         return list.stream()
                 .map(BukkitSpellEntity::new)
                 .toList();
+    }
+
+    @Override
+    public String toString() {
+        return "All(" + scope + " within " + distance + " around " + source + (including?"":" EXCLUDING") + ")";
     }
 }

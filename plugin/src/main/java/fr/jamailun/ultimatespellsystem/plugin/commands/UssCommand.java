@@ -3,7 +3,10 @@ package fr.jamailun.ultimatespellsystem.plugin.commands;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.*;
+import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
@@ -30,7 +33,7 @@ public class UssCommand extends AbstractCommand {
         this.config = config;
     }
 
-    private final static List<String> args_0 = List.of("help", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
+    private final static List<String> args_0 = List.of("help", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
     @Override
@@ -53,6 +56,31 @@ public class UssCommand extends AbstractCommand {
         if("help".equals(arg0)) {
             sendHelp(sender);
             return true;
+        }
+
+        if("evaluate".equals(arg0)) {
+            if(!(sender instanceof Player player))
+                return error(sender, "you must be a player.");
+
+            // Read
+            StringJoiner joiner = new StringJoiner(" ");
+            for(int i = 1; i < args.length; i++)
+                joiner.add(args[i]);
+            String code = joiner.toString();
+            if(code.startsWith("\"") && code.endsWith("\""))
+                code = code.substring(1, code.length() - 1);
+            info(sender, "Expression: &f" + code);
+
+            // Parse
+            try {
+                ExpressionNode raw = UltimateSpellSystemDSL.parseExpression(code);
+                RuntimeExpression expression = UltimateSpellSystem.getExternalExecutor().handleImplementation(raw);
+                Object out = expression.evaluate(UltimateSpellSystem.getExternalExecutor().generateRuntime(player));
+
+                return success(sender, "Output value : &e" + out);
+            } catch(Exception e) {
+                return error(sender, "Could not evaluate expression. " + e.getMessage());
+            }
         }
 
         // PURGE
@@ -294,6 +322,7 @@ public class UssCommand extends AbstractCommand {
         info(sender, "/uss&e disable&b <spell_di>&r: disable a spell. The change is not persisted through server stop.");
         info(sender, "/uss&e enable&b <spell_id>&r: re-enable a disabled spell.");
         info(sender, "/uss&e debug&b <spell_id>&r: get the code of a spell. Will also be printed to the console.");
+        info(sender, "/uss&e evaluate&b <USS CODE>&r: evaluate an expression, with yourself as the caster.");
     }
 
 }

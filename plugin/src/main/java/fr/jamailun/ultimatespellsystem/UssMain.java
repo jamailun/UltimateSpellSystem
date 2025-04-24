@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +72,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         // Managers
         itemBinder = new ItemBinderImpl();
-        spellsManager = new SpellsManagerImpl(new File(getDataFolder(), "spells"));
+        spellsManager = new SpellsManagerImpl(getDataFolder());
         summonsManager = new SummonsManagerImpl(config);
         animationsManager = new AnimationsManagerImpl();
         animationsManager.start();

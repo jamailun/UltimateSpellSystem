@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.api.utils;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -26,8 +27,12 @@ public class MultivaluedMap<K, V> {
      * @param key the key to use.
      * @return null if the key does not exist.
      */
-    public List<V> get(K key) {
+    public @Nullable List<V> get(@NotNull K key) {
         return map.get(key);
+    }
+
+    public @NotNull List<V> getOrEmpty(@NotNull K key) {
+        return Objects.requireNonNullElse(get(key), Collections.emptyList());
     }
 
     /**
@@ -35,9 +40,34 @@ public class MultivaluedMap<K, V> {
      * @param key the key to use.
      * @return null if the key does not exist.
      */
-    public V getFirst(K key) {
+    public @Nullable V getFirst(@NotNull K key) {
         List<V> list = get(key);
         return list == null ? null : list.getFirst();
+    }
+
+    /**
+     * get the first non-null value.
+     * @param keys an array of keys to try.
+     * @return null if nothing was found.
+     */
+    public @Nullable V getFirstNonNull(@NotNull K @NotNull ... keys) {
+        for(K key : keys) {
+            V value = getFirst(key);
+            if(value != null)
+                return value;
+        }
+        return null;
+    }
+
+    /**
+     * Get the first values mapped to the key, or return a specified value if key does not exist.
+     * @param key the key to use.
+     * @param defaultValue default value to return.
+     * @return null if the key does not exist.
+     */
+    public V getFirst(K key, V defaultValue) {
+        List<V> list = get(key);
+        return list == null ? defaultValue : list.getFirst();
     }
 
     /**
