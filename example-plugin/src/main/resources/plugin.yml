@@ -12,6 +12,9 @@ commands:
   spellcaster:
     description: cast a spell on a citizen NPC
     permission: uss.spellcaster
+  tag.npc:
+    description: Helper command to edit NPC (scoreboard) tags.
+    permission: citizens2.tag
 
 permissions:
   uss.spellcaster:

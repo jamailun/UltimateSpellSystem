@@ -1,6 +1,7 @@
 package fr.jamailun.examples;
 
 import fr.jamailun.examples.citizens.CasterTrait;
+import fr.jamailun.examples.commands.NpcTagCommand;
 import fr.jamailun.examples.commands.SpellCasterCommand;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import net.citizensnpcs.api.CitizensAPI;
@@ -46,6 +47,7 @@ public class ExamplePlugin extends JavaPlugin {
         });
 
         // Command
+        new NpcTagCommand();
         new SpellCasterCommand();
 
         info("Example USS loaded.");
