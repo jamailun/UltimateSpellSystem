@@ -50,6 +50,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new GetHealthFunction());
         JavaFunctionProvider.instance().registerFunction(new GetMaxHealthFunction());
         JavaFunctionProvider.instance().registerFunction(new HealEntityFunction(), "heal_entity");
+        JavaFunctionProvider.instance().registerFunction(new LocationToListFunction());
 
         // Others
         EntityAttributes.register();
