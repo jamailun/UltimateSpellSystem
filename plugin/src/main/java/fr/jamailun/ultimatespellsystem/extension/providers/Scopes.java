@@ -42,9 +42,13 @@ public final class Scopes {
     }
 
     private static boolean isPlayer(@NotNull Entity e) {
-        return (e instanceof Player p && p.getGameMode() != GameMode.SPECTATOR && p.getGameMode() != GameMode.CREATIVE)
-                // Must not be a Citizens NPC
-                || !e.getScoreboardTags().contains("CITIZENS_NPC");
+        if(e instanceof Player p) {
+            return p.getGameMode() != GameMode.SPECTATOR && p.getGameMode() != GameMode.CREATIVE;
+        }
+        if(e.getScoreboardTags().contains("player")) {
+            return true;
+        }
+        return !e.getScoreboardTags().contains("CITIZENS_NPC");
     }
 
     public static void register() {
