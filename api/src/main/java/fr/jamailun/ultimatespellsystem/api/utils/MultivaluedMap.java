@@ -31,6 +31,11 @@ public class MultivaluedMap<K, V> {
         return map.get(key);
     }
 
+    /**
+     * Get a list, or return an empty list.
+     * @param key key to use.
+     * @return a non-null list.
+     */
     public @NotNull List<V> getOrEmpty(@NotNull K key) {
         return Objects.requireNonNullElse(get(key), Collections.emptyList());
     }
@@ -50,7 +55,8 @@ public class MultivaluedMap<K, V> {
      * @param keys an array of keys to try.
      * @return null if nothing was found.
      */
-    public @Nullable V getFirstNonNull(@NotNull K @NotNull ... keys) {
+    @SafeVarargs
+    public final @Nullable V getFirstNonNull(@NotNull K @NotNull ... keys) {
         for(K key : keys) {
             V value = getFirst(key);
             if(value != null)
