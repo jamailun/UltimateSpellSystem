@@ -16,7 +16,7 @@ This will bind a spell to the current item. You can bind multiple spells on one 
 You can specify 3 things (in the following order) :
 1. The spell ID. _Required._
 2. The cost. Can have a default value (set in the configuration).
-   - A custom cost can be registered following [this documentation](registries/how_to_register.md#register-a-cost).
+   - A custom cost can be registered following [this documentation](registries/how_to_register.md#register-a-spell-cost).
    - A majority of costs have arguments. They _must_ follow the ID of the cost.
 3. The trigger sequence. Can have a default value (idem).
    - A sequence is made of steps, each one can be a right-click, a 'sneak', an attack... The autocompletion will help you.

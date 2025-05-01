@@ -177,7 +177,7 @@ public class ProjectileLandCallbacks implements Listener {
 }
 ```
 
-## Register a cost
+## Register a spell-cost
 
 The spells can be cast using a cost. Each cost must be defined in the Java API.
 
@@ -235,3 +235,46 @@ public class RandomCost implements SpellCost {
 }
 ```
 
+## Register a allies check
+
+From the `2.2.0`, properties exist to forbid a summon from attacking a caster "allies" (or projectile damage, or spell damage, ...).
+
+Thus, USS must know if two entities are related. Using the same paradigm as every other registry, a "client" plugin will register a "AlliesCheck".
+It is simply a form of `BiFunction`. It accepts the spell-caster and the targeted bukkit entity, and return a result.
+The output value accepts 3 values :
+- `ALLIES` : the caster and the target are allied. Thus, if the spell supports it, not damage / aggro will be applied.
+- `ENEMIES` : the plugin knows for sure entities are not allies.
+- `IGNORE` : the plugin does not know. The next check may know more.
+
+Both `ALLIES` and `ENEMIES` will stop any further check if returned.
+
+### Demo
+
+Let's say we have a plugin `FooParty` that handles parties. Party members should not have summons attack each others.
+The method `FooParty.getPartyOf(UUID)` will supposedly return a `Party`, and `Party#contains(UUID)` will check if entities share the same party.
+
+```java
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider.AlliesResult;
+import org.bukkit.entity.Entity;
+
+/**
+ * We implement the thing to be registered
+ */
+public class FooPartyAlliesCheck implements AlliesProvider.AlliesCheck {
+    @Override
+    public @NotNull AlliesResult test(@NotNull SpellEntity spellEntity, @NotNull Entity entity) {
+        Party party = FooParty.getPartyOf(spellEntity.getUniqueId());
+        if(party == null) return AlliesResult.IGNORE; // Caster is not in any party. Thus, this check may not now about alliance.
+
+        // Simply check if the party contains the target !
+        return party.contains(entity.getUniqueId()) ? AlliesResult.ALLIES : AlliesResult.IGNORE;
+    }
+    
+    // Register to the provider
+    public static void registerThis() {
+        AlliesProvider.instance().register(new FooPartyAlliesCheck(), "foo-party");
+    }
+}
+```

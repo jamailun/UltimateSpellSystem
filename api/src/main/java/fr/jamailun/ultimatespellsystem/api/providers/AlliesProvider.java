@@ -70,6 +70,12 @@ public final class AlliesProvider extends UssProvider<AlliesProvider.AlliesCheck
      */
     public interface AlliesCheck {
 
+        /**
+         * Test if a caster and a target are in an alliance.
+         * @param caster caster of the spell, or summoner.
+         * @param target any bukkit target.
+         * @return a non-null result. Any value other than {@link AlliesResult#IGNORE} will be definitive.
+         */
         @NotNull AlliesResult test(@NotNull SpellEntity caster, @NotNull Entity target);
 
     }
