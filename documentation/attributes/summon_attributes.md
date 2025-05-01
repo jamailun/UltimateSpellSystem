@@ -29,6 +29,14 @@ Newly created summons can have attributes
 - `aggro_range` : Number. Range of aggro lookup. _Default value: `7`._
 - `can_aggro_caster` : Boolean. If true, caster can be attacked. _Default value: `false`._
 - `can_aggro_summons` : Boolean. If true, caster's other summons can be attacked. _Default value: `false`._
+- `can_aggro_allies` : Boolean. If true, caster's allies can be attacked. _Default value: `false`._ Check the allies documentation for more information.
+
+## Projectile attributes
+
+- `velocity` : Double. Velocity to shoot the projectile with. If not specified, The projectile will just drop from the caster with a value of `0`.
+- `projectile_damage` : Double. Amount of damage the projectile should apply. If not specified, Minecraft will handle it with the projectile velocity.
+- `can_damage_caster` : Boolean. if true, the projectile may damage the caster. _Default value: `true`._
+- `can_damage_allies` : Boolean. if true, the projectile may damage the caster allies. _Default value: `true`._
 
 ## Read custom attributes
 

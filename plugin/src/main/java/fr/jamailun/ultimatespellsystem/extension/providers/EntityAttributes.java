@@ -1,10 +1,8 @@
 package fr.jamailun.ultimatespellsystem.extension.providers;
 
-import fr.jamailun.ultimatespellsystem.UssKeys;
 import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.plugin.utils.TypeInterpretation;
 import org.bukkit.entity.Projectile;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
 /**
@@ -13,26 +11,7 @@ import org.bukkit.util.Vector;
 public final class EntityAttributes {
 
     public static void register() {
-        registerProjectileDamages();
         registerProjectileVelocityAndDirection();
-    }
-
-    private static void registerProjectileDamages() {
-        SummonPropertiesProvider.instance().register(
-                SummonPropertiesProvider.createForEntity(
-                        (projectile, damage, ctx) -> {
-                            // Set a custom amount of damage.
-                            // A plugin-specific event will apply those damage.
-                            projectile.getPersistentDataContainer().set(
-                                    UssKeys.getProjectileDamagesKey(),
-                                    PersistentDataType.DOUBLE,
-                                    damage
-                            );
-                        },
-                        Projectile.class,
-                        Double.class
-                ), "projectile_damage"
-        );
     }
 
     private static void registerProjectileVelocityAndDirection() {

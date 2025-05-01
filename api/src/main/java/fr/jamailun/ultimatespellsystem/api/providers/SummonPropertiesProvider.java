@@ -58,6 +58,16 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
     public static final String ATTRIBUTE_MOB_AGGRO_RANGE = "aggro_range";
 
     /**
+     * Boolean. If true, the projectile cannot deal damage to a caster.
+     */
+    public static final String ATTRIBUTE_PROJECTILE_CAN_DAMAGE_CASTER = "can_damage_caster";
+
+    /**
+     * Boolean. If true, the projectile cannot deal damage to an ally.
+     */
+    public static final String ATTRIBUTE_PROJECTILE_CAN_DAMAGE_ALLIES = "can_damage_allies";
+
+    /**
      * The spell context.
      */
     public interface Context {
