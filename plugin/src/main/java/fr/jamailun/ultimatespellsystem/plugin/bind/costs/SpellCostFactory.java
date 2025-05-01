@@ -26,6 +26,7 @@ public final class SpellCostFactory implements SpellCostRegistry {
         register(SpellCostEntry.of("food-level", FoodLevelSpellCost.class, FoodLevelSpellCost::new, SpellCostArgType.INTEGER));
         register(SpellCostEntry.of("health", HealthSpellCost.class, HealthSpellCost::new, SpellCostArgType.DOUBLE));
         register(SpellCostEntry.of("item-amount", ItemAmountSpellCost.class, ItemAmountSpellCost::new, SpellCostArgType.INTEGER));
+        register(SpellCostEntry.of("permission", PermissionCost.class, PermissionCost::new, SpellCostArgType.STRING));
         register(SpellCostEntry.of("none", NoneSpellCost.class, x -> new NoneSpellCost()));
     }
 
