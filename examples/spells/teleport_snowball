@@ -1,0 +1,11 @@
+# Summon a snow ball, and teleport to the landing location.
+# It demonstrate the callback system.
+
+summon snowball at %caster as %ball for 5s with: {{
+   velocity: 1
+}};
+
+callback %ball LANDED at %pos: {
+  send %caster message "&eLanded at %pos.";
+  teleport %caster to %pos;
+}

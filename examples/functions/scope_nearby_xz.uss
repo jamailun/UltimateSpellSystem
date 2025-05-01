@@ -1,0 +1,27 @@
+# This a FUNCTION. Meaning it can be called by another spell.*
+
+# The function will return an array of entities in a specific range of the caster,
+# but with a limitation on the height. Thus its the center of the sphere with the 'dh' height.
+
+# What follows is the declaration of metadata, parameters and the output.
+
+@function("scope_nearby_xz")        # @function may override the name.
+@param("r", "number")               # @param will declare a parameter, and the type. Here, we expect 3 of them.
+@param("scope", "string")           # The signature is: scope_nearby_xz(Number range, Scope scope, Number dh) -> Entity[]
+@param("dh", "number")
+@output("out", "entity", true)      # @output will indicate in what variable the returned value will be.
+                                    # It also specifies the output type : here it is an array of entities.
+
+%out = [[]];
+
+%y = loc_to_list(position of %caster)[1]; # Extract the Y component of the location.
+
+foreach(%en : all %scope within %r around %caster) {
+  # Check for height
+  %py = loc_to_list(position of %en)[1];
+  if(abs(%y - %py) <= %dh) {
+    %out :+ %en;    # Append to the output list.
+  }
+}
+
+# Returns out, because declared as @output.

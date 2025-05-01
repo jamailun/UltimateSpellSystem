@@ -17,7 +17,9 @@ summon ZOMBIE at %pos for 2 minutes with: {{
   # Aggro
   aggro_scope: living,
   aggro_range: 10,
-  aggro_summons: false,
+  can_aggro_caster: false,
+  can_aggro_summons: false,
+  can_aggro_allies: false,
 
   # Equipment
   hand: {{

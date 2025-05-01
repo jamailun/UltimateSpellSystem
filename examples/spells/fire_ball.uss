@@ -1,0 +1,22 @@
+# Throws a ball of fire, damaging and setting hit entities ablaze.
+
+summon orb at %caster for 4s with: {{
+    radius: 0.5,
+    damages: 7,
+	max_blocks_hit: 1,   # Will only pierce one block
+    fire: 200,
+
+    # Some effects
+    sound: {{ type: "ITEM_FIRECHARGE_USE" }},
+    hit_sound: {{ type: "BLOCK_FIRE_EXTINGUISH" }},
+    particle: {{
+        type: "FLAME",
+        speed: 0.1,
+        count: 1,
+        shape: {{type:"sphere",radius:0.5}}
+    }},
+
+    # Movement
+    velocity: 8, # in block/sec
+    _clock: 2 # Refresh speed. Use with moderation.
+}};

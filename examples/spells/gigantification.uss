@@ -1,4 +1,5 @@
 # Become a small giant !
+# Boost attack, regen and size. Caster will be a little bit slower though.
 
 # -- config
 define %dur = 30s;

@@ -273,7 +273,7 @@ Summon an entity.
 - `PROPERTIES` a **property set** defining all attributes for the summon. Check the [summon attributes documentation](/documentation/attributes/summon_attributes.md) for more information.
 
 **Example:**
-Check the documentation or [this example](/examples/summon_friendly_zombie.uss).
+Check the documentation or [this example](/examples/spells/summon_friendly_zombie.uss).
 
 ### ➡️ `teleport`
 

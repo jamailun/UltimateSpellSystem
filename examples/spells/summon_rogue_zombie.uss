@@ -1,6 +1,6 @@
 # Summon a zombie at the looked-location.
 # - Cannot be too far away,
-# - Zombie will not attack anything, even its creator !
+# - Zombie will attack anything, even its creator !
 
 define  %looked_pos = raycast(%caster, %caster, 7);
 if( %looked_pos == null) {
@@ -19,6 +19,7 @@ summon ZOMBIE at  %looked_pos for 2 minutes with: {{
   aggro_range: 15,
   can_aggro_summons: true,
   can_aggro_caster: true,
+  can_aggro_allies: true,
 
   # Equipment
   hand: {{ type: GOLDEN_SWORD }},
