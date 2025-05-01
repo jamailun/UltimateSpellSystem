@@ -1,8 +1,10 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.UssLogger;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
+import fr.jamailun.ultimatespellsystem.extension.allies.VanillaTeamAllies;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
@@ -58,6 +60,7 @@ public final class ExtensionLoader {
         ParticleShapes.register();
         ItemProperties.register();
         EntityTypes.register();
+        AlliesProvider.instance().register(new VanillaTeamAllies(), "vanilla-teams");
 
         UssLogger.logInfo("Loaded extension.");
     }

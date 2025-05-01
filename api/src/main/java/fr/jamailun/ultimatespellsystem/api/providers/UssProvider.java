@@ -2,10 +2,9 @@ package fr.jamailun.ultimatespellsystem.api.providers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * An abstract provider for a specific type.
@@ -71,6 +70,14 @@ public abstract class UssProvider<T> {
     public final @NotNull Optional<T> findOptional(@Nullable String key) {
         if(key == null) return Optional.empty();
         return Optional.ofNullable(find(key));
+    }
+
+    /**
+     * Read-only access to the existing values.
+     * @return a non-null, non-modifiable set of provided values.
+     */
+    protected @NotNull @UnmodifiableView Collection<T> getValues() {
+        return Collections.unmodifiableCollection(data.values());
     }
 
 }

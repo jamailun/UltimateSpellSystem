@@ -45,6 +45,10 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      */
     public static final String ATTRIBUTE_MOB_CAN_AGGRO_SUMMONS = "can_aggro_summons";
     /**
+     * Boolean. If true, the mob can attack its master's other summons. Default: false.
+     */
+    public static final String ATTRIBUTE_MOB_CAN_AGGRO_ALLIES = "can_aggro_allies";
+    /**
      * Scope. The kind of entities the summon can aggro. Default = none.
      */
     public static final String ATTRIBUTE_MOB_AGGRO_SCOPE = "aggro_scope";

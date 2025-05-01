@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.plugin.utils.EntitiesFinder;
 import org.bukkit.GameMode;
@@ -19,6 +20,9 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Aggro management.
+ */
 public class AggroListener implements Listener {
 
     @EventHandler
@@ -59,14 +63,19 @@ public class AggroListener implements Listener {
 
         UUID summonerUuid = summon.getSummoner().getUniqueId();
 
-        // Test is caster
+        // Test is caster.
         if(Objects.equals(summonerUuid, target.getUniqueId())) {
             return summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_AGGRO_MASTER, Boolean.class, false);
         }
 
-        // Test is a summon of the same caster
+        // Test is a summon of the same caster.
         if(Objects.equals(summonerUuid, UltimateSpellSystem.getSummonsManager().getUuidOfSummoner(target.getUniqueId()))) {
             return summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_AGGRO_SUMMONS, Boolean.class, false);
+        }
+
+        // Test if the target is an "ally" of the caster.
+        if(!summon.tryGetAttribute(SummonPropertiesProvider.ATTRIBUTE_MOB_CAN_AGGRO_ALLIES, Boolean.class, false)) {
+            return AlliesProvider.instance().testForAllies(summon.getSummoner(), target) != AlliesProvider.AlliesResult.ALLIES;
         }
 
         return true;
