@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 /**
  * Grants way for other plugins to "link" two entities/players as "ally".
  */
-public class AlliesProvider extends UssProvider<AlliesProvider.AlliesCheck> {
+public final class AlliesProvider extends UssProvider<AlliesProvider.AlliesCheck> {
     private AlliesProvider() {/* Private constructor. */}
     private static final AlliesProvider INSTANCE = new AlliesProvider();
 
@@ -34,6 +34,18 @@ public class AlliesProvider extends UssProvider<AlliesProvider.AlliesCheck> {
                 return result;
         }
         return AlliesResult.IGNORE;
+    }
+
+    /**
+     * Test if two entities, a caster and a target are allies.
+     * @param caster the caster of a spell.
+     * @param target the target of the spell.
+     * @return a non-null result ; {@link AlliesResult#IGNORE} by default.
+     */
+    public @NotNull AlliesResult testForAllies(@NotNull SpellEntity caster, @NotNull SpellEntity target) {
+        Entity targetEntity = target.getBukkitEntity().orElse(null);
+        if(targetEntity == null) return AlliesResult.IGNORE;
+        return testForAllies(caster, targetEntity);
     }
 
     /**
