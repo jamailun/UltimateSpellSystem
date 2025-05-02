@@ -58,6 +58,6 @@ public class SummonNode extends RuntimeStatement {
 
     @Override
     public @NotNull String toString() {
-        return "SummonNode{"+(optProperty==null?"":optProperty+":= ")+type+", for "+duration+" at "+source+"}";
+        return "SummonNode{"+(optVariableName==null?"":optVariableName+":= ")+type+", for "+duration+" at "+source+"}";
     }
 }

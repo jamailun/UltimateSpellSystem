@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A literal entries for a properties set.
+ */
 public class PropertiesLiteral extends RuntimeExpression {
 
     private final Map<String, RuntimeExpression> expressions;
@@ -22,5 +25,10 @@ public class PropertiesLiteral extends RuntimeExpression {
             map.put(key, expressions.get(key).evaluate(runtime));
         }
         return map;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + expressions + "}";
     }
 }

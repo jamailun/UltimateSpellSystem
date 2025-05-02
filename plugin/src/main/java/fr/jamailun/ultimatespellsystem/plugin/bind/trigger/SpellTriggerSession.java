@@ -42,9 +42,6 @@ public class SpellTriggerSession {
    * @return an optional with the caster spell value, if exists.
    */
   public @NotNull ActionRes action(@NotNull ItemBindTrigger action) {
-    // Ignore invalid, ignore too old.
-    if(isTooOldOrInvalid()) return ActionRes.ignored();
-
     // Remove non-matching spells.
     Iterator<SpellBindData> iterator = spells.listIterator();
     boolean foundOne = false;
@@ -57,21 +54,17 @@ public class SpellTriggerSession {
       }
     }
     // This action does not match anything : returns null.
-    if(!foundOne) {
+    if(!foundOne || spells.isEmpty()) {
+      isValid = false;
       return ActionRes.ignored();
     }
 
-    spells.removeIf(d -> !accepts(d, action, actions.size()));
     actions.add(action);
     lastUpdate = Instant.now();
 
     // Is casting over ?
     if(spells.size() == 1 && spells.getFirst().getTrigger().getTriggersList().size() == actions.size()) {
       return ActionRes.success(spells.getFirst());
-    }
-    if(spells.isEmpty()) {
-      isValid = false; // now we are not valid ?
-      return ActionRes.ignored();
     }
     return ActionRes.okWithoutSpell();
   }
