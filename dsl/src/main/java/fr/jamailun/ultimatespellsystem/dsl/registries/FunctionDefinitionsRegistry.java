@@ -24,6 +24,15 @@ public final class FunctionDefinitionsRegistry {
     }
 
     /**
+     * Register a new function definition, with a specific ID.
+     * @param key key to register.
+     * @param functionDefinition the non-null function definition to register
+     */
+    public static void register(@NotNull String key, @NotNull FunctionDefinition functionDefinition) {
+        REGISTRY.put(key, functionDefinition);
+    }
+
+    /**
      * Test if a function exist.
      * @param functionId the function ID to test.
      * @return true if a function with this ID has already been registered.

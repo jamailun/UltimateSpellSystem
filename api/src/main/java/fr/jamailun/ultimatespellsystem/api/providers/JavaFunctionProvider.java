@@ -30,7 +30,7 @@ public final class JavaFunctionProvider extends UssProvider<RunnableJavaFunction
     @Override
     protected void postRegister(@NotNull String key, @NotNull RunnableJavaFunction function) {
         // Also register to the DSL.
-        FunctionDefinitionsRegistry.register(function.getDslDefinition());
+        FunctionDefinitionsRegistry.register(key, function.getDslDefinition());
     }
 
 }
