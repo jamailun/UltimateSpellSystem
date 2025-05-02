@@ -25,23 +25,24 @@ public final class SpellTriggerManagerImpl implements SpellsTriggerManager {
   private final Map<UUID, SpellTriggerSession> sessions = new HashMap<>();
 
   @Override
-  public boolean action(@NotNull Player player, @NotNull ItemBindTrigger action) {
+  public @NotNull ActionResult action(@NotNull Player player, @NotNull ItemBindTrigger action) {
     UUID uuid = player.getUniqueId();
     if( ! sessions.containsKey(uuid) || sessions.get(uuid).isTooOldOrInvalid()) {
       ItemStack item = player.getInventory().getItemInMainHand();
       var data = UltimateSpellSystem.getItemBinder().getBindDatas(item);
-      if(data.isEmpty()) {
-        return false;
+      if(data.isEmpty()) { // No bound spell... Ignore the action.
+        return ActionResult.IGNORED;
       }
       sessions.put(uuid, new SpellTriggerSession(player, item, data.get()));
     }
 
     SpellTriggerSession session = sessions.get(uuid);
-    session.action(action).ifPresent(data -> {
-      cast(player, data, session);
+    ActionRes res = session.action(action);
+    if(res.data() != null) {
+      cast(player, res.data(), session);
       sessions.remove(uuid);
-    });
-    return true;
+    }
+    return res.result();
   }
 
   @Override

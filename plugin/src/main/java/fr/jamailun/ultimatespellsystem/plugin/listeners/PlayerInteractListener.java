@@ -2,6 +2,8 @@ package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
+import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager.ActionResult;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -32,14 +34,15 @@ public class PlayerInteractListener implements Listener {
         if(event.getAction() == Action.PHYSICAL || !canDo(player.getUniqueId()))
             return;
 
-        if(UltimateSpellSystem.getSpellsTriggerManager().action(player, convert(event.getAction()))) {
+        ActionResult result = UltimateSpellSystem.getSpellsTriggerManager().action(player, convert(event.getAction()));
+        if(result != ActionResult.IGNORED) {
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
             event.setCancelled(true);
         }
     }
 
-    private static ItemBindTrigger convert(@NotNull Action action) {
+    private static @NotNull ItemBindTrigger convert(@NotNull Action action) {
         return switch (action) {
             case LEFT_CLICK_BLOCK -> ItemBindTrigger.LEFT_CLICK_BLOCK;
             case RIGHT_CLICK_BLOCK -> ItemBindTrigger.RIGHT_CLICK_BLOCK;

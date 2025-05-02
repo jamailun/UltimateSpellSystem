@@ -27,7 +27,7 @@ public abstract class UssProvider<T> {
      * @return a non-null normalized string.
      */
     protected @NotNull String prepare(@NotNull String key) {
-        return key.toLowerCase().replace(' ', '_');
+        return key.replace(' ', '_');
     }
 
     /**

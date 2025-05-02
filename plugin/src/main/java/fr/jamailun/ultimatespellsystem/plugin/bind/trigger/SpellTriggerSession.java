@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Stores actions of a player.
@@ -41,24 +41,39 @@ public class SpellTriggerSession {
    * @param action the propagated action.
    * @return an optional with the caster spell value, if exists.
    */
-  public Optional<SpellBindData> action(@NotNull ItemBindTrigger action) {
+  public @NotNull ActionRes action(@NotNull ItemBindTrigger action) {
     // Ignore invalid, ignore too old.
-    if(isTooOldOrInvalid()) return Optional.empty();
+    if(isTooOldOrInvalid()) return ActionRes.ignored();
 
-    // Remove unmatching spells.
+    // Remove non-matching spells.
+    Iterator<SpellBindData> iterator = spells.listIterator();
+    boolean foundOne = false;
+    while(iterator.hasNext()) {
+      SpellBindData spell = iterator.next();
+      if(accepts(spell, action, actions.size())) {
+        foundOne = true;
+      } else {
+        iterator.remove();
+      }
+    }
+    // This action does not match anything : returns null.
+    if(!foundOne) {
+      return ActionRes.ignored();
+    }
+
     spells.removeIf(d -> !accepts(d, action, actions.size()));
     actions.add(action);
     lastUpdate = Instant.now();
 
     // Is casting over ?
     if(spells.size() == 1 && spells.getFirst().getTrigger().getTriggersList().size() == actions.size()) {
-      return Optional.of(spells.getFirst());
+      return ActionRes.success(spells.getFirst());
     }
     if(spells.isEmpty()) {
-      isValid = false;
-      return Optional.empty();
+      isValid = false; // now we are not valid ?
+      return ActionRes.ignored();
     }
-    return Optional.empty();
+    return ActionRes.okWithoutSpell();
   }
 
   public boolean isTooOldOrInvalid() {
