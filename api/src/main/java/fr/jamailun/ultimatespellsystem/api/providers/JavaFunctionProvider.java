@@ -33,4 +33,10 @@ public final class JavaFunctionProvider extends UssProvider<RunnableJavaFunction
         FunctionDefinitionsRegistry.register(key, function.getDslDefinition());
     }
 
+    @Override
+    protected @NotNull String prepare(@NotNull String key) {
+        // Function are sensible to casing !
+        return key.replace(' ', '_');
+    }
+
 }
