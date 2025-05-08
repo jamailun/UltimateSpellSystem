@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.updater;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,21 +27,15 @@ public final class UpdateCheck {
 
     /**
      * Test if a more recent version exist.
-     * @param plugin the plugin to read the version from.
      * @return an optional containing the latest version, if it exists.
      */
-    public static Optional<String> getLatestRelease(@NotNull Plugin plugin) {
-        String pluginVersion = getPluginVersion(plugin);
+    public static Optional<String> getLatestRelease() {
+        String pluginVersion = UltimateSpellSystem.getVersion();
         String latest = getLatestVersion();
         if(isVersionMoreRecent(pluginVersion, latest)) {
             return Optional.of(latest);
         }
         return Optional.empty();
-    }
-
-    @SuppressWarnings("all")
-    public static @NotNull String getPluginVersion(@NotNull Plugin plugin) {
-        return plugin.getPluginMeta().getVersion();
     }
 
     public static @Nullable String getLatestVersion() {

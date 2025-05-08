@@ -109,6 +109,12 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
+    public @NotNull String getVersion() {
+        return getPluginMeta().getVersion();
+    }
+
+    @Override
     public void onDisable() {
         summonsManager.purgeAll();
         animationsManager.purge();
@@ -131,14 +137,14 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
      */
     private void testForLatestVersion() {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            Optional<String> latest = UpdateCheck.getLatestRelease(this);
+            Optional<String> latest = UpdateCheck.getLatestRelease();
             if(latest.isPresent()) {
                 UssLogger.logWarning("----------[New update: &2" + latest.get() + "&r]----------");
                 UssLogger.logWarning("A new version is available for this USS plugin. Download the latest version to use all the features!");
                 UssLogger.logWarning("Go and check &b" + UpdateCheck.getPublicUrl());
                 UssLogger.logWarning("---------------------------------------");
             } else {
-                String current = UpdateCheck.getPluginVersion(this);
+                String current = getVersion();
                 if(current.contains("SNAPSHOT")) {
                     UssLogger.logInfo("You are using an&e experimental&r build (" + current + "). Beware of any issue!");
                 } else {

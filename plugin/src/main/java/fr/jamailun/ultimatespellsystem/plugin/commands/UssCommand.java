@@ -62,7 +62,7 @@ public class UssCommand extends AbstractCommand {
         }
 
         if("status".equals(arg0)) {
-            info(sender, "USS &a"+plugin.getPluginMeta().getVersion()+"&r status :");
+            info(sender, "USS &a"+UltimateSpellSystem.getVersion()+"&r status :");
 
             // Allies
             var alliesKeys = AlliesProvider.instance().getKeys();

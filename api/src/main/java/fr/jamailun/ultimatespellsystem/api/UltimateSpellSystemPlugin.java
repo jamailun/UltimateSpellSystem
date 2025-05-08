@@ -77,4 +77,10 @@ public interface UltimateSpellSystemPlugin {
      */
     void reloadConfiguration();
 
+    /**
+     * Get the current version of the plugin.
+     * @return a non-null string version.
+     */
+    @NotNull String getVersion();
+
 }

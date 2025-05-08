@@ -74,12 +74,16 @@ public abstract class UssProvider<T> {
 
     /**
      * Read-only access to the existing values.
-     * @return a non-null, non-modifiable set of provided values.
+     * @return a non-null, non-modifiable collection of provided values.
      */
     protected @NotNull @UnmodifiableView Collection<T> getValues() {
         return Collections.unmodifiableCollection(data.values());
     }
 
+    /**
+     * Get the registered keys.
+     * @return a non-null, non-modifiable collection of registered keys.
+     */
     public @NotNull @UnmodifiableView Collection<String> getKeys() {
         return Collections.unmodifiableCollection(data.keySet());
     }

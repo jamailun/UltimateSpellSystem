@@ -118,4 +118,13 @@ public final class UltimateSpellSystem {
         plugin.reloadConfiguration();
     }
 
+    /**
+     * Get the current version of the plugin.<br/>
+     * The output format is: {@code <MAJOR>.<MINOR>.<PATCH>[-SNAPSHOT]}.
+     * @return a non-null string version.
+     */
+    public static @NotNull String getVersion() {
+        return plugin.getVersion();
+    }
+
 }
