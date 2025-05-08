@@ -80,4 +80,7 @@ public abstract class UssProvider<T> {
         return Collections.unmodifiableCollection(data.values());
     }
 
+    public @NotNull @UnmodifiableView Collection<String> getKeys() {
+        return Collections.unmodifiableCollection(data.keySet());
+    }
 }

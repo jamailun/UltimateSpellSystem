@@ -3,6 +3,9 @@ package fr.jamailun.ultimatespellsystem.plugin.commands;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.*;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
+import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
+import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
@@ -33,7 +36,7 @@ public class UssCommand extends AbstractCommand {
         this.config = config;
     }
 
-    private final static List<String> args_0 = List.of("help", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
+    private final static List<String> args_0 = List.of("help", "status", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
     @Override
@@ -55,6 +58,17 @@ public class UssCommand extends AbstractCommand {
         // Help
         if("help".equals(arg0)) {
             sendHelp(sender);
+            return true;
+        }
+
+        if("status".equals(arg0)) {
+            info(sender, "USS &a"+plugin.getPluginMeta().getVersion()+"&r status :");
+
+            // Allies
+            var alliesKeys = AlliesProvider.instance().getKeys();
+            info(sender, "&eAllies:&r " + alliesKeys);
+            info(sender, "&eFunctions count:&r " + JavaFunctionProvider.instance().getKeys().size());
+            info(sender, "&eScopes count:&r " + ScopeProvider.instance().getKeys().size());
             return true;
         }
 
