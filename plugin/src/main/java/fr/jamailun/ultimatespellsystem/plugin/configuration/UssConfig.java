@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.1";
+    private static final String PLUGIN_CONFIG_VERSION = "1.2";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -57,9 +57,22 @@ public class UssConfig extends AbstractObservable<UssConfig> {
         String version = file.exists() ? YamlConfiguration.loadConfiguration(file).getString("version") : null;
         UssLogger.logInfo("Read configuration version: " + version);
         if(PLUGIN_CONFIG_VERSION.compareTo(Objects.requireNonNullElse(version, "0")) > 0) {
-            UssLogger.logWarning("Resetting configuration. A proper migration system will be created later.");
-            if(file.exists() && !file.delete()) UssLogger.logError("Could not delete config file.");
-            store.save(new MainConfigurationVersion1(), file.toPath());
+            try {
+                var value = store.load(file.toPath());
+                value.setVersion(PLUGIN_CONFIG_VERSION);
+                store.save(value, file.toPath());
+                UssLogger.logWarning("Configuration overwritten using config version " + PLUGIN_CONFIG_VERSION + ".");
+            } catch(Exception ignored) {
+                UssLogger.logWarning("Configuration could not be read. It has been reset.");
+                store.save(new MainConfigurationVersion1(), file.toPath());
+            }
         }
+    }
+
+    public boolean shouldCancelStep() {
+        return config.cancelOnStep();
+    }
+    public boolean shouldCancelCast() {
+        return config.cancelOnCast();
     }
 }

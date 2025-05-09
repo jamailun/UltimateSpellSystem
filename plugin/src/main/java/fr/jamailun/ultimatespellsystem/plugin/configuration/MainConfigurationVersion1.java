@@ -9,24 +9,25 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostEntry;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.List;
 
 /**
- * Version {@code 1.1} of configuration file.
+ * Version {@code 1.2} of configuration file.
  */
 @Configuration
 public class MainConfigurationVersion1 implements MainConfiguration {
 
-  @Comment("Dont change this value manually.")
-  @Getter private String version = "1.1";
+  @Comment("Dont change this value manually. It does not match the plugin version.")
+  @Getter @Setter private String version = "1.2";
 
-  @Comment("If true, 'debug' log will be printed into the console.")
+  @Comment({"","If true, 'debug' log will be printed into the console."})
   @Getter private boolean debug = false;
 
-  @Comment("Default values of the bind command.")
+  @Comment({"","Default values of the bind command."})
   private SectionDefault defaultSection = new SectionDefault(
       List.of(ItemBindTrigger.RIGHT_CLICK),
       new DefaultSpellCostType("none", List.of())
@@ -56,7 +57,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     }
   }
 
-  @Comment("Tick-rate management")
+  @Comment({"","Tick-rate management"})
   private TickSection tick = new TickSection(new TickSection.TickAggroSection(5));
   private record TickSection(
       @Comment("Tick-rate related to aggro management")
@@ -67,6 +68,22 @@ public class MainConfigurationVersion1 implements MainConfiguration {
         long summons
     ) {}
   }
+
+  @Comment({"","Bound-spell behaviour."})
+  private BindSpellSection bindSpell = new BindSpellSection(true, true);
+
+  private record BindSpellSection(
+          @Comment({
+                  "If true, all cast spells will cancel their last action.",
+                  "For example, a RIGHT_CLICK bind in front of a lever will NOT trigger it."
+          })
+          boolean cancelOnCast,
+          @Comment({
+                  "If true, all bind-steps (not resulting in a cast, but valid step anyway) will cancel",
+                  "their event, as defined in the previous comment."
+          })
+          boolean cancelOnStep
+  ) {}
 
   // -- read methods
 
@@ -83,5 +100,15 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   @Override
   public long getTickAggroSummons() {
     return tick.aggro().summons();
+  }
+
+  @Override
+  public boolean cancelOnStep() {
+    return bindSpell.cancelOnStep();
+  }
+
+  @Override
+  public boolean cancelOnCast() {
+    return bindSpell.cancelOnCast();
   }
 }

@@ -22,4 +22,7 @@ public interface MainConfiguration {
 
   long getTickAggroSummons();
 
+  boolean cancelOnStep();
+  boolean cancelOnCast();
+
 }
