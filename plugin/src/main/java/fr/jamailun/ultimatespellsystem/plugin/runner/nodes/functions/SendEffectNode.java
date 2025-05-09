@@ -87,6 +87,11 @@ public class SendEffectNode extends RuntimeStatement {
             case "bad_omen" -> PotionEffectType.BAD_OMEN;
             case "hero_of_the_village", "hero" -> PotionEffectType.HERO_OF_THE_VILLAGE;
             case "darkness", "dark" -> PotionEffectType.DARKNESS;
+            case "charged", "wind_charged", "winded" -> PotionEffectType.WIND_CHARGED;
+            case "trial", "trial_omen" -> PotionEffectType.TRIAL_OMEN;
+            case "weaving", "weave" -> PotionEffectType.WEAVING;
+            case "oozing", "ooze" -> PotionEffectType.OOZING;
+            case "infested", "infestation" -> PotionEffectType.INFESTED;
             default -> null;
         };
     }
