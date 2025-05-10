@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.api.utils.StringTransformation;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Ageable;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
@@ -128,6 +129,13 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         register(createEquipment(EquipmentSlot.FEET), "feet", "boots");
         register(createEquipment(EquipmentSlot.HAND), "hand", "main_hand", "right_hand");
         register(createEquipment(EquipmentSlot.OFF_HAND), "off_hand", "left_hand", "offhand");
+
+        // Armor stand tags
+        register(createForEntity((as,val,r) -> as.setSmall(val), ArmorStand.class, Boolean.class), "small");
+        register(createForEntity((as,val,r) -> as.setMarker(val), ArmorStand.class, Boolean.class), "marker");
+        register(createForEntity((as,val,r) -> as.setBasePlate(val), ArmorStand.class, Boolean.class), "base_plate");
+        register(createForEntity((as,val,r) -> as.setVisible(val), ArmorStand.class, Boolean.class), "visible");
+        register(createForEntity((as,val,r) -> as.setArms(val), ArmorStand.class, Boolean.class), "show_arms");
     }
 
     // -- instance
