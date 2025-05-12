@@ -7,11 +7,13 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellTrigger;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.ItemAmountSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.spells.NotFoundSpell;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +37,11 @@ public class LegacySpellBindData implements SpellBindData {
   public LegacySpellBindData(Spell spell, boolean destroyable) {
     this.spell = spell;
     this.trigger = new LegacySpellTrigger(destroyable);
+  }
+
+  @Override
+  public @Nullable Duration getCooldown() {
+    return null;
   }
 
   @Override

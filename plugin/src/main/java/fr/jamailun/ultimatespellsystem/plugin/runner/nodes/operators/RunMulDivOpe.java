@@ -5,6 +5,9 @@ import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeExcep
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class RunMulDivOpe extends RuntimeBiOperator {
 
     private final boolean isMultiplication;
@@ -31,6 +34,13 @@ public final class RunMulDivOpe extends RuntimeBiOperator {
             } else if(left instanceof Location loc) {
                 return isMultiplication ? loc.clone().multiply(rd) : loc.clone().multiply(1/rd);
             }
+        }
+        if(left instanceof List<?> list) {
+            List<Object> out = new ArrayList<>();
+            for(Object from : list) {
+                out.add(evaluate(from, right));
+            }
+            return out;
         }
         throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }

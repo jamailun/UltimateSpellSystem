@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.bind;
 
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,19 +14,6 @@ import java.util.Optional;
  * Utils class, able to bind a {@link Spell} ID to an {@link ItemStack}.
  */
 public interface ItemBinder {
-
-    /**
-     * Bind a spell to an item.
-     * <br/>
-     * If the binding is successful, an event will be propagated.
-     * @param item the item to bind the spell to.
-     * @param spell the spell to bind.
-     * @param destroy if true, the item will be destroyed after use.
-     * @throws ItemBindException if the item instance cannot be bound.
-     * @deprecated legacy since 2.0.0.
-     */
-    @Deprecated(since = "2.0.0", forRemoval = true)
-    void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws ItemBindException;
 
     /**
      * Bind multiple spell data to an item.
@@ -67,6 +55,17 @@ public interface ItemBinder {
     void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost) throws ItemBindException;
 
     /**
+     * Create a basic spell data binding.
+     * @param item the item to bind. If null, will do nothing.
+     * @param spell the spell to bind to the item.
+     * @param trigger the action to trigger the spell.
+     * @param cost the cost of the trigger.
+     * @param cooldown additional cooldown on this specific bind.
+     * @throws ItemBindException if the item instance cannot be bound.
+     */
+    void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost, @Nullable Duration cooldown) throws ItemBindException;
+
+    /**
      * Remove <b>all</b> spells bound to an item. If no spell have been bound, does nothing.
      * @param item the item to unbind. Does nothing if null.
      */
@@ -78,25 +77,6 @@ public interface ItemBinder {
      * @param spellId the non-null spell ID to remove.
      */
     void unbind(@Nullable ItemStack item, @NotNull String spellId);
-
-    /**
-     * Try to find a spell bound to an item.
-     * @param item the item to look-on.
-     * @return an Optional containing the ID of the spell.
-     * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
-     * @see #getBindDatas(ItemStack)
-     */
-    @Deprecated(since = "2.0.0", forRemoval = true)
-    @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item);
-
-    /**
-     * Check if an item should be destroyed after being used.
-     * @param item the item to test. Can be null.
-     * @return if the item has the "destroy key".
-     * @deprecated Use the complete {@link #getBindDatas(ItemStack)}.
-     */
-    @Deprecated(since = "2.0.0", forRemoval = true)
-    boolean hasDestroyKey(@Nullable ItemStack item);
 
     /**
      * Get the {@link SpellBindData} of an {@link ItemStack}.

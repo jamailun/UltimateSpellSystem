@@ -1,7 +1,9 @@
 package fr.jamailun.ultimatespellsystem.api.bind;
 
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Bind data of a spell.
@@ -35,6 +37,12 @@ public interface SpellBindData {
     default @NotNull SpellCost getCost() {
         return getTrigger().getCost();
     }
+
+    /**
+     * Get the bound-spell cooldown.
+     * @return {@code null} if no cooldown has been set.
+     */
+    @Nullable Duration getCooldown();
 
     /**
      * If true, this cost is legacy. Only used internally with commands, no impact.

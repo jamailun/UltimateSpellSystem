@@ -8,12 +8,16 @@ import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
+import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
+import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -38,6 +42,12 @@ public class UssCommand extends AbstractCommand {
 
     private final static List<String> args_0 = List.of("help", "status", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
+
+    private final static Map<String, Collection<String>> BIND_CONFIG = Map.of(
+            "cost", SpellCostFactory.instance().listIds(),
+            "trigger", Arrays.stream(ItemBindTrigger.values()).map(i -> i.name().toLowerCase()).toList(),
+            "cooldown", List.of("10s", "1m")
+    );
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -183,36 +193,37 @@ public class UssCommand extends AbstractCommand {
             return info(sender, "SPELL["+spell.getName()+"]=" + debug);
         }
 
-        if("bind".equals(arg0)) { // us bind <spell_id> <cost_type> <cost arg> <trigger>
+        if("bind".equals(arg0)) { // us bind <spell_id> --FLAGS(cooldown, trigger, ...)
             if(!(sender instanceof Player p)) {
                 return error(sender, "You must be a player to bind a spell to an item.");
             }
+            MultivaluedMap<String, String> flagsArgs = parseWithFlags(2, args);
+            if(flagsArgs == null) {
+                return error(sender, "Invalid syntax. Expected '--<flag> <value...>', with the following flags: " + BIND_CONFIG.keySet());
+            }
 
+            // Cost
             SpellCost cost;
-            int costLength;
-            if(args.length > 2) {
-                SpellCostEntry<?> spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
+            if(flagsArgs.containsKey("cost")) {
+                List<String> costArgs = new ArrayList<>(Objects.requireNonNull(flagsArgs.get("cost")));
+                SpellCostEntry<?> spellCostEntry = UltimateSpellSystem.getSpellCostRegistry().get(costArgs.getFirst());
+                costArgs.removeFirst();
                 if(spellCostEntry == null) {
                     return error(p, "Unknown cost-type: '&4" + args[2] + "&r'.");
                 }
-                int costArgsCount = args.length - 3;
+                int costArgsCount = costArgs.size() - 1;
                 if(costArgsCount < spellCostEntry.args().size()) {
                     return error(p, "Missing arguments for the cost. Expected args type: " + spellCostEntry.args());
                 }
-                List<String> costArgs = Arrays.asList(args).subList(3, spellCostEntry.args().size() + 3);
                 cost = spellCostEntry.deserialize(costArgs);
-                costLength = spellCostEntry.args().size();
             } else {
                 cost = config.getDefaultCost();
-                costLength = 0;
             }
 
-            // Read trigger
-            List<ItemBindTrigger> triggerSteps;
-            if(args.length > 3 + costLength) {
-                List<String> values = Arrays.asList(args).subList(3 + costLength, args.length);
-                triggerSteps = new ArrayList<>(values.size());
-                for(String value : values) {
+            // Trigger
+            List<ItemBindTrigger> triggerSteps = new ArrayList<>();
+            if(flagsArgs.containsKey("trigger")) {
+                for(String value : Objects.requireNonNull(flagsArgs.get("trigger"))) {
                     try {
                         triggerSteps.add(ItemBindTrigger.valueOf(value.toUpperCase()));
                     } catch(IllegalArgumentException e) {
@@ -220,11 +231,20 @@ public class UssCommand extends AbstractCommand {
                     }
                 }
             } else {
-                // default trigger
-                triggerSteps = new ArrayList<>( config.getDefaultTrigger() );
+                triggerSteps.addAll( config.getDefaultTrigger() );
             }
+
+            // Cooldown
+            Duration cooldown;
+            if(flagsArgs.containsKey("cooldown")) {
+                List<String> cdArgs = Objects.requireNonNull(flagsArgs.get("cooldown"));
+                cooldown = DurationHelper.parse(cdArgs.getFirst(), null);
+            } else {
+                cooldown = null;
+            }
+
             SpellTrigger trigger = new SpellTriggerImpl(triggerSteps, cost);
-            SpellBindData data = new SpellBindDataImpl(spell, trigger);
+            SpellBindData data = new SpellBindDataImpl(spell, trigger, cooldown);
 
             ItemStack item = p.getInventory().getItemInMainHand();
             try {
@@ -294,26 +314,10 @@ public class UssCommand extends AbstractCommand {
         }
 
         if(args.length >= 4 && "bind".equals(args[0])) {
-            SpellCostEntry<?> costEntry = UltimateSpellSystem.getSpellCostRegistry().get(args[2]);
-            if(costEntry == null) return Collections.emptyList();
-            // /uss bind <spell> <type> [ARG...]
-            int current = args.length - 4;
             String argN = args[args.length - 1].toLowerCase();
-            // We are writing an argument
-            if(current < costEntry.args().size()) {
-                SpellCostArgType type = costEntry.args().get(current);
-                List<String> ex = switch(type) {
-                    case DOUBLE, INTEGER -> List.of("0", "5", "10");
-                    case BOOLEAN -> List.of("true", "false");
-                    default -> List.of(argN);
-                };
-                return ex.stream().filter(s -> s.contains(argN)).toList();
-            }
-            // triggers !!
-            return Arrays.stream(ItemBindTrigger.values())
-                .map(t -> t.name().toLowerCase())
-                .filter(s -> s.startsWith(argN))
-                .toList();
+            return autocompleteWithFlags(3, args, BIND_CONFIG).stream()
+                    .filter(s -> s.contains(argN))
+                    .toList();
         }
 
         return Collections.emptyList();
@@ -327,6 +331,7 @@ public class UssCommand extends AbstractCommand {
         info(sender, "Ultimate Spells System command guide :");
         info(sender, "/uss&e help&r: display this help page.");
         info(sender, "/uss&e reload&r: reload the plugin configuration and the spells.");
+        info(sender, "/uss&e status&r: get the plugin status.");
         info(sender, "/uss&e list&r: list existing spells.");
         info(sender, "/uss&e cast&b <spell_id>&r: cast a specific spell on yourself.");
         info(sender, "/uss&e purge&r: purge all plugin tasks and remove all summoned entities.");

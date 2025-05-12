@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public final class SpellBindFactory {
 
-  public static @NotNull SpellBindDataContainer deserializeContainer(@NotNull String serializedData) {
+  public static @NotNull SpellBindDataContainer deserializeContainerV1(@NotNull String serializedData) {
     if(serializedData.isEmpty()) {
       return new SpellBindDataContainer(Collections.emptyList());
     }
@@ -26,12 +26,12 @@ public final class SpellBindFactory {
     for(String base64Part : base64Parts) {
       byte[] raw = Base64.getDecoder().decode(base64Part);
       String decoded = new String(raw, StandardCharsets.UTF_8);
-      list.add(deserialize(decoded));
+      list.add(deserializeV1(decoded));
     }
     return new SpellBindDataContainer(list);
   }
 
-  public static @NotNull SpellBindData deserialize(@NotNull String data) {
+  public static @NotNull SpellBindData deserializeV1(@NotNull String data) {
     List<String> lines = new ArrayList<>(List.of(data.split(";")));
     if(lines.size() < 3) {
       throw new RuntimeException("Invalid data : expected at least 3 args.");
@@ -46,10 +46,10 @@ public final class SpellBindFactory {
     // Read the rest
     lines.removeFirst();
     SpellTrigger trigger = deserializeTrigger(lines);
-    return new SpellBindDataImpl(spell, trigger);
+    return new SpellBindDataImpl(spell, trigger, null);
   }
 
-  public static @NotNull String serialize(@NotNull SpellBindDataContainer container) {
+  public static @NotNull String serializeV1(@NotNull SpellBindDataContainer container) {
     StringJoiner joiner = new StringJoiner(".");
     for(SpellBindData data : container.list()) {
       String raw = serialize(data);
@@ -71,6 +71,7 @@ public final class SpellBindFactory {
         .collect(Collectors.joining(","));
   }
 
+  @Deprecated
   private static @NotNull SpellTrigger deserializeTrigger(@NotNull List<String> data) {
     String triggerRaw = data.getFirst();
     data.removeFirst();
@@ -78,8 +79,7 @@ public final class SpellBindFactory {
     List<ItemBindTrigger> triggers = Arrays.stream(triggerParts)
         .map(ItemBindTrigger::valueOf)
         .toList();
-
-    SpellCost cost = SpellCostFactory.deserialize(data);
+    SpellCost cost = SpellCostFactory.deserializeV1(data);
     return new SpellTriggerImpl(triggers, cost);
   }
 

@@ -8,6 +8,8 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -30,19 +32,18 @@ public final class SpellCostFactory implements SpellCostRegistry {
         register(SpellCostEntry.of("none", NoneSpellCost.class, x -> new NoneSpellCost()));
     }
 
-    public static @NotNull String serialize(@NotNull SpellCost cost) {
+    public static @NotNull JSONObject serialize(@NotNull SpellCost cost) {
         SpellCostEntry<?> entry = INSTANCE.getByClass(cost.getClass());
         if(entry == null) {
             throw new IllegalArgumentException("Cannot serialize cost " + cost + " : register it first !");
         }
-        List<String> serialized = cost.serialize()
-            .stream()
-            .map(Objects::toString)
-            .toList();
-        return entry.id() + (serialized.isEmpty() ? "" : ";" + String.join(";", serialized));
+        return new JSONObject(Map.of(
+                "id", entry.id(),
+                "data", new JSONArray(cost.serialize())
+        ));
     }
 
-    public static @NotNull SpellCost deserialize(@NotNull List<String> parts) {
+    public static @NotNull SpellCost deserializeV1(@NotNull List<String> parts) {
         String id = parts.getFirst();
         SpellCostEntry<?> entry = INSTANCE.get(id);
         if(entry == null) {
@@ -50,6 +51,15 @@ public final class SpellCostFactory implements SpellCostRegistry {
         }
         parts.removeFirst();
         return entry.deserialize(parts);
+    }
+
+    public static @NotNull SpellCost deserialize(@NotNull JSONObject json) {
+        String id = json.getString("id");
+        SpellCostEntry<?> entry = INSTANCE.get(id);
+        if(entry == null) {
+            throw new RuntimeException("No SpellCost class for class '" + id + "'.");
+        }
+        return entry.deserialize(json.getJSONArray("data").toList().stream().map(String.class::cast).toList());
     }
 
     public static @NotNull SpellCostRegistry instance() {

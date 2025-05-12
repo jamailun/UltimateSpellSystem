@@ -9,16 +9,16 @@ import org.jetbrains.annotations.NotNull;
  * Handles serialization of {@link SpellBindData}.
  * Wraps it around a {@link SpellBindDataContainer}.
  */
-public class SpellCostDataType implements PersistentDataType<String, SpellBindDataContainer> {
+public class LegacySpellBindDataType implements PersistentDataType<String, SpellBindDataContainer> {
 
     @Override
     public @NotNull String toPrimitive(@NotNull SpellBindDataContainer cost, @NotNull PersistentDataAdapterContext context) {
-        return SpellBindFactory.serialize(cost);
+        return SpellBindFactory.serializeV1(cost);
     }
 
     @Override
     public @NotNull SpellBindDataContainer fromPrimitive(@NotNull String primitive, @NotNull PersistentDataAdapterContext context) {
-        return SpellBindFactory.deserializeContainer(primitive);
+        return SpellBindFactory.deserializeContainerV1(primitive);
     }
 
     @Override

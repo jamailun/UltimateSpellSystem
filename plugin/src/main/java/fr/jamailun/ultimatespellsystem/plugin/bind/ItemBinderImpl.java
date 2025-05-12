@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.ItemBoundEvent;
 import fr.jamailun.ultimatespellsystem.api.events.ItemUnBoundEvent;
 import fr.jamailun.ultimatespellsystem.UssKeys;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,33 +15,15 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Utils class, able to bind a {@link Spell} ID to an {@link ItemStack}.
  */
 public final class ItemBinderImpl implements ItemBinder {
 
-    private static final SpellCostDataType TYPE = new SpellCostDataType();
-
-    @Override
-    public void bind(@Nullable ItemStack item, @NotNull Spell spell, boolean destroy) throws ItemBindException {
-        ItemMeta meta = getMeta(item);
-        // Write
-        PersistentDataContainer nbt = meta.getPersistentDataContainer();
-        nbt.set(UssKeys.getLegacyBindKey(), PersistentDataType.STRING, spell.getName());
-        if(destroy) {
-           nbt.set(UssKeys.getLegacyBindDestroysKey(), PersistentDataType.BOOLEAN, true);
-        } else {
-            nbt.remove(UssKeys.getLegacyBindDestroysKey());
-        }
-        item.setItemMeta(meta);
-        // Propagate
-        Bukkit.getPluginManager().callEvent(new ItemBoundEvent(new LegacySpellBindData(spell, destroy), item));
-    }
+    private static final LegacySpellBindDataType TYPE_LEGACY = new LegacySpellBindDataType();
+    private static final SpellBindDataType TYPE = new SpellBindDataType();
 
     private @NotNull ItemMeta getMeta(@Nullable ItemStack item) throws ItemBindException{
         if(item == null) {
@@ -54,23 +37,36 @@ public final class ItemBinderImpl implements ItemBinder {
     }
 
     @Override
+    public void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull SpellTrigger trigger) throws ItemBindException {
+        bind(item, new SpellBindDataImpl(spell, trigger, null));
+    }
+
+    @Override
+    public void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost) throws ItemBindException {
+        bind(item, spell, trigger, cost, null);
+    }
+
+    @Override
+    public void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost, @Nullable Duration cooldown) throws ItemBindException {
+        bind(item, new SpellBindDataImpl(spell, new SpellTriggerImpl(List.of(trigger), cost), cooldown));
+    }
+
+    @Override
     public void bind(@Nullable ItemStack item, @NotNull SpellBindData data) throws ItemBindException {
-        ItemMeta meta = getMeta(item);
         // Get current list
-        SpellBindDataContainer container = meta.getPersistentDataContainer().get(UssKeys.getBindDataKey(), TYPE);
-        List<SpellBindData> itemData;
-        if(container == null) {
-            itemData = new ArrayList<>();
-        } else {
-            itemData = new ArrayList<>(container.list());
-        }
+        List<SpellBindData> previous = getBindDatas(item).orElseGet(Collections::emptyList);
+        List<SpellBindData> itemData = new ArrayList<>(previous);
 
         // Add this data
+        ItemMeta meta = getMeta(item);
         itemData.add(data);
+
+        // Remove V1
+        meta.getPersistentDataContainer().remove(UssKeys.getBindDataKeyV1());
 
         // Write to the item
         meta.getPersistentDataContainer().set(
-            UssKeys.getBindDataKey(),
+            UssKeys.getBindDataKeyV2(),
             TYPE,
             new SpellBindDataContainer(itemData)
         );
@@ -78,16 +74,6 @@ public final class ItemBinderImpl implements ItemBinder {
 
         // Propagate an event
         Bukkit.getPluginManager().callEvent(new ItemBoundEvent(data, item));
-    }
-
-    @Override
-    public void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull SpellTrigger trigger) throws ItemBindException {
-        bind(item, new SpellBindDataImpl(spell, trigger));
-    }
-
-    @Override
-    public void bind(@Nullable ItemStack item, @NotNull Spell spell, @NotNull ItemBindTrigger trigger, @NotNull SpellCost cost) throws ItemBindException {
-        bind(item, spell, new SpellTriggerImpl(List.of(trigger), cost));
     }
 
     @Override
@@ -100,7 +86,9 @@ public final class ItemBinderImpl implements ItemBinder {
         meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindKey());
         meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindDestroysKey());
         // Modern
-        meta.getPersistentDataContainer().remove(UssKeys.getBindDataKey());
+        meta.getPersistentDataContainer().remove(UssKeys.getBindDataKeyV1());
+        // Modern 2
+        meta.getPersistentDataContainer().remove(UssKeys.getBindDataKeyV2());
         item.setItemMeta(meta);
 
         // Propagate event
@@ -126,11 +114,14 @@ public final class ItemBinderImpl implements ItemBinder {
             meta.getPersistentDataContainer().remove(UssKeys.getLegacyBindDestroysKey());
         } else {
             spells.remove(data);
+            meta.getPersistentDataContainer().remove(UssKeys.getBindDataKeyV1()); // removeV1
+
             if(spells.isEmpty()) {
-                meta.getPersistentDataContainer().remove(UssKeys.getBindDataKey());
+                // If not more data, we remove the key
+                meta.getPersistentDataContainer().remove(UssKeys.getBindDataKeyV2());
             } else {
                 meta.getPersistentDataContainer().set(
-                    UssKeys.getBindDataKey(),
+                    UssKeys.getBindDataKeyV2(),
                     TYPE,
                     new SpellBindDataContainer(spells)
                 );
@@ -138,20 +129,6 @@ public final class ItemBinderImpl implements ItemBinder {
         }
         item.setItemMeta(meta);
         Bukkit.getPluginManager().callEvent(new ItemUnBoundEvent(item, List.of(data)));
-    }
-
-    @Override
-    public @NotNull Optional<String> tryFindBoundSpell(@Nullable ItemStack item) {
-        if(item == null || item.getItemMeta() == null)
-            return Optional.empty();
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer().get(UssKeys.getLegacyBindKey(), PersistentDataType.STRING));
-    }
-
-    @Override
-    public boolean hasDestroyKey(@Nullable ItemStack item) {
-        if(item == null || item.getItemMeta() == null)
-            return false;
-        return item.getItemMeta().getPersistentDataContainer().has(UssKeys.getLegacyBindDestroysKey());
     }
 
     @Override
@@ -167,12 +144,23 @@ public final class ItemBinderImpl implements ItemBinder {
             return Optional.of(List.of(new LegacySpellBindData(legacySpellId, legacyDestroyable)));
         }
 
-        // Modern
+        // V1
+        if(nbt.has(UssKeys.getLegacyBindKey(), TYPE_LEGACY)) {
+            try {
+                SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKeyV1(), TYPE_LEGACY);
+                return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());
+            } catch(Exception e) {
+                UssLogger.logError("Error on deserialize (v1): " + e.getMessage());
+                return Optional.empty();
+            }
+        }
+
+        // V2
         try {
-            SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKey(), TYPE);
+            SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKeyV2(), TYPE);
             return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());
         } catch(Exception e) {
-            UssLogger.logError("Error on deserialize: " + e.getMessage());
+            UssLogger.logError("Error on deserialize (v2): " + e.getMessage());
             return Optional.empty();
         }
     }
