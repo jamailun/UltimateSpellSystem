@@ -25,4 +25,8 @@ public interface MainConfiguration {
   boolean cancelOnStep();
   boolean cancelOnCast();
 
+  @NotNull String messageOnCooldown();
+
+  boolean addCooldownToMaterial();
+
 }

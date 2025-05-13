@@ -40,6 +40,14 @@ public abstract class BindingEvent extends Event {
     }
 
     /**
+     * Get the bind data.
+     * @return the non-null data.
+     */
+    public @NotNull SpellBindData getBindData() {
+        return data;
+    }
+
+    /**
      * Get the item about this event.
      * @return a non-null item, with an item-meta.
      */

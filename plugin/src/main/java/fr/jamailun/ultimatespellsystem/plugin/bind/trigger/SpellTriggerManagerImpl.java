@@ -26,6 +26,10 @@ public final class SpellTriggerManagerImpl implements SpellsTriggerManager {
 
   @Override
   public @NotNull ActionResult action(@NotNull Player player, @NotNull ItemBindTrigger action) {
+    int cd = player.getCooldown(player.getInventory().getItemInMainHand().getType());
+    if(cd > 0 && player.getGameMode() != GameMode.CREATIVE)
+      return ActionResult.IGNORED; // Still in cooldown :(
+
     UUID uuid = player.getUniqueId();
     if( ! sessions.containsKey(uuid) || sessions.get(uuid).isTooOldOrInvalid()) {
       ItemStack item = player.getInventory().getItemInMainHand();

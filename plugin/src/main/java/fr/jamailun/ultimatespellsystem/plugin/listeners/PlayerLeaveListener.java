@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
+import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsCooldowns;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,6 +15,7 @@ public class PlayerLeaveListener implements Listener {
     void playerLeft(@NotNull PlayerQuitEvent event) {
         SendAttributeNode.purge(event.getPlayer());
         UltimateSpellSystem.getSpellsTriggerManager().reset(event.getPlayer());
+        SpellsCooldowns.removeCaster(event.getPlayer().getUniqueId());
     }
 
 }

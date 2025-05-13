@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Version {@code 1.2} of configuration file.
@@ -22,7 +23,7 @@ import java.util.List;
 public class MainConfigurationVersion1 implements MainConfiguration {
 
   @Comment("Dont change this value manually. It does not match the plugin version.")
-  @Getter @Setter private String version = "1.2";
+  @Getter @Setter private String version = "1.3";
 
   @Comment({"","If true, 'debug' log will be printed into the console."})
   @Getter private boolean debug = false;
@@ -70,7 +71,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   }
 
   @Comment({"","Bound-spell behaviour."})
-  private BindSpellSection bindSpell = new BindSpellSection(true, true);
+  private BindSpellSection bindSpell = new BindSpellSection(
+          true,
+          true,
+          null
+  );
 
   private record BindSpellSection(
           @Comment({
@@ -82,7 +87,16 @@ public class MainConfigurationVersion1 implements MainConfiguration {
                   "If true, all bind-steps (not resulting in a cast, but valid step anyway) will cancel",
                   "their event, as defined in the previous comment."
           })
-          boolean cancelOnStep
+          boolean cancelOnStep,
+          @Comment({"Cooldown settings (only apply to bound spells)"})
+          CooldownSection cooldown
+  ) {}
+
+  private record CooldownSection(
+    @Comment({"If true, the player will have the cooldown applied to the MATERIAL (like an ender-pearl for example)."})
+    boolean onMaterial,
+    @Comment({"Message to send to a player if he tries to cast a spell in-cooldown.", "If empty, will not send anything."})
+    String tooQuickMessage
   ) {}
 
   // -- read methods
@@ -111,4 +125,27 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   public boolean cancelOnCast() {
     return bindSpell.cancelOnCast();
   }
+
+  @Override
+  public @NotNull String messageOnCooldown() {
+    return Objects.requireNonNullElse(bindSpell.cooldown().tooQuickMessage(), "");
+  }
+
+  @Override
+  public boolean addCooldownToMaterial() {
+    return bindSpell.cooldown().onMaterial();
+  }
+
+  public void checkDefaults() {
+    // cooldown ?
+    UssLogger.logDebug("bid-spell = " + bindSpell);
+    if(bindSpell.cooldown() == null) {
+      bindSpell = new BindSpellSection(
+              bindSpell.cancelOnCast(),
+              bindSpell.cancelOnStep(),
+              new CooldownSection(true, "&cToo quick! This spell is still on cooldown.")
+      );
+    }
+  }
+
 }

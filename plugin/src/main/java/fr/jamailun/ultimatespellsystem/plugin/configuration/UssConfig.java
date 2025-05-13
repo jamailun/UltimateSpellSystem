@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.2";
+    private static final String PLUGIN_CONFIG_VERSION = "1.3";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -60,6 +60,7 @@ public class UssConfig extends AbstractObservable<UssConfig> {
             try {
                 var value = store.load(file.toPath());
                 value.setVersion(PLUGIN_CONFIG_VERSION);
+                value.checkDefaults();
                 store.save(value, file.toPath());
                 UssLogger.logWarning("Configuration overwritten using config version " + PLUGIN_CONFIG_VERSION + ".");
             } catch(Exception ignored) {
@@ -74,5 +75,11 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     }
     public boolean shouldCancelCast() {
         return config.cancelOnCast();
+    }
+    public boolean cooldownOnMaterial() {
+        return config.addCooldownToMaterial();
+    }
+    public @NotNull String messageOnCooldown() {
+        return config.messageOnCooldown();
     }
 }

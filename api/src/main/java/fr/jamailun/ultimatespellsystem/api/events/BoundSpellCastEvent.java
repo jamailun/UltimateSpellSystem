@@ -62,7 +62,9 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
     /**
      * Check is the underlying interaction with the item is cancelled.
      * @return true if the interaction has been cancelled.
+     * @deprecated Not used.
      */
+    @Deprecated(since = "2.4.0")
     public boolean isInteractionCancelled() {
         return interactionCancelled;
     }
@@ -70,7 +72,9 @@ public class BoundSpellCastEvent extends BindingEvent implements Cancellable {
     /**
      * Set the cancel-state of the underlying interaction.
      * @param b the new state.
+     * @deprecated Not used.
      */
+    @Deprecated(since = "2.4.0")
     public void setInteractionCancelled(boolean b) {
         this.interactionCancelled = b;
     }

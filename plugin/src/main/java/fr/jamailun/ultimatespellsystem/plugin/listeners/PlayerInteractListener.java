@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager.ActionResult;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;

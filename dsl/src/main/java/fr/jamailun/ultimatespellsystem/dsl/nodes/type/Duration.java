@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -127,5 +128,9 @@ public record Duration(double amount, TimeUnit timeUnit) {
     @Override
     public int hashCode() {
         return Objects.hash(toSeconds());
+    }
+
+    public @NotNull java.time.Duration asJavaDuration() {
+        return java.time.Duration.of(toMs(), ChronoUnit.MILLIS);
     }
 }
