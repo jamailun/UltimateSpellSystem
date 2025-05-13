@@ -138,14 +138,14 @@ public final class ItemBinderImpl implements ItemBinder {
         PersistentDataContainer nbt = item.getItemMeta().getPersistentDataContainer();
 
         // Legacy binding
-        if(nbt.has(UssKeys.getLegacyBindKey(), PersistentDataType.STRING)) {
+        if(nbt.has(UssKeys.getLegacyBindKey())) {
             String legacySpellId = nbt.get(UssKeys.getLegacyBindKey(), PersistentDataType.STRING);
             boolean legacyDestroyable = Objects.requireNonNullElse(nbt.get(UssKeys.getLegacyBindDestroysKey(), PersistentDataType.BOOLEAN), false);
             return Optional.of(List.of(new LegacySpellBindData(legacySpellId, legacyDestroyable)));
         }
 
         // V1
-        if(nbt.has(UssKeys.getLegacyBindKey(), TYPE_LEGACY)) {
+        if(nbt.has(UssKeys.getBindDataKeyV1())) {
             try {
                 SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKeyV1(), TYPE_LEGACY);
                 return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());

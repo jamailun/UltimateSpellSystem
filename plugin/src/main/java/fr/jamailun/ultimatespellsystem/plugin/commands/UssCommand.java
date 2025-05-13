@@ -14,10 +14,10 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
-import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
+import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -43,10 +43,10 @@ public class UssCommand extends AbstractCommand {
     private final static List<String> args_0 = List.of("help", "status", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
     private final static List<String> args_0_with_id = List.of("cast", "disable"," enable", "bind");
 
-    private final static Map<String, Collection<String>> BIND_CONFIG = Map.of(
-            "cost", SpellCostFactory.instance().listIds(),
-            "trigger", Arrays.stream(ItemBindTrigger.values()).map(i -> i.name().toLowerCase()).toList(),
-            "cooldown", List.of("10s", "1m")
+    private final static Map<String, FlagEntry> BIND_CONFIG = Map.of(
+            "cost", flagEntryCost(),
+            "trigger", flagEntryTrigger(),
+            "cooldown", flagEntryCooldown()
     );
 
     @Override
@@ -174,7 +174,7 @@ public class UssCommand extends AbstractCommand {
         String id = args[1].toLowerCase();
         Spell spell = spells().getSpell(id);
         if(spell == null) {
-            return error(sender, "Unknown spell ID '" + id + "'. Do §7/"+label+" list§c to obtain the list of existing spells.");
+            return error(sender, "Unknown spell ID '" + id + "'. Do &7/"+label+" list&c to obtain the list of existing spells.");
         }
 
         // DISABLE && ENABLE
@@ -306,16 +306,9 @@ public class UssCommand extends AbstractCommand {
             }
         }
 
-        if(args.length == 3) {
-            if("bind".equalsIgnoreCase(args[0])) {
-                String arg2 = args[2].toLowerCase();
-                return UltimateSpellSystem.getSpellCostRegistry().listIds().stream().filter(s -> s.contains(arg2)).toList();
-            }
-        }
-
-        if(args.length >= 4 && "bind".equals(args[0])) {
+        if(args.length >= 3 && "bind".equals(args[0])) {
             String argN = args[args.length - 1].toLowerCase();
-            return autocompleteWithFlags(3, args, BIND_CONFIG).stream()
+            return autocompleteWithFlags(2, args, BIND_CONFIG).stream()
                     .filter(s -> s.contains(argN))
                     .toList();
         }
@@ -342,6 +335,37 @@ public class UssCommand extends AbstractCommand {
         info(sender, "/uss&e enable&b <spell_id>&r: re-enable a disabled spell.");
         info(sender, "/uss&e debug&b <spell_id>&r: get the code of a spell. Will also be printed to the console.");
         info(sender, "/uss&e evaluate&b <USS CODE>&r: evaluate an expression, with yourself as the caster.");
+    }
+
+    private static @NotNull FlagEntry flagEntryCost() {
+        return new FlagEntry(args -> {
+            if(args.isEmpty()) return Pair.of(
+                    new ArrayList<>(UltimateSpellSystem.getSpellCostRegistry().listIds()),
+                    false
+            );
+
+            SpellCostEntry<?> entry = UltimateSpellSystem.getSpellCostRegistry().get(args.getFirst());
+            if(entry == null || args.size() > entry.args().size()) return null;
+            return switch(entry.args().get(args.size() - 1)) {
+                case DOUBLE, INTEGER -> Pair.of(List.of("0", "5", "10"), false);
+                case BOOLEAN -> Pair.of(List.of("true", "false"), false);
+                default -> Pair.of(List.of(args.getLast(), "foo"), false);
+            };
+        });
+    }
+
+    private static @NotNull FlagEntry flagEntryCooldown() {
+        return new FlagEntry(args -> {
+            if(!args.isEmpty()) return null;
+            return Pair.of(List.of("1m", "5s"), false);
+        });
+    }
+
+    private static @NotNull FlagEntry flagEntryTrigger() {
+        return new FlagEntry(a -> {
+            boolean first = a.isEmpty(); // if flag is here, at least need one :)
+            return Pair.of(Arrays.stream(ItemBindTrigger.values()).map(b->b.name().toLowerCase()).toList(), !first);
+        });
     }
 
 }

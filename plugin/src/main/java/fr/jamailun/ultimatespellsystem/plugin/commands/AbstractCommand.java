@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.UssMain;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
+import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Abstract command util methods, registration, ...
@@ -77,27 +80,53 @@ public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
         return map;
     }
 
-    protected @NotNull List<String> autocompleteWithFlags(int startIndex, @NotNull String @NotNull [] args, @NotNull Map<String, Collection<String>> config) {
+    protected @NotNull List<String> autocompleteWithFlags(int startIndex, @NotNull String @NotNull [] args, @NotNull Map<String, FlagEntry> config) {
+        List<String> out = config.keySet().stream()
+                .map(s -> "-" + s)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        // Remove arg proposal if it already exists.
+        Arrays.stream(args)
+                .filter(s -> s.startsWith("-"))
+                .forEach(out::remove);
+
         // Is last one keys ?
         String last = args[args.length - 1];
         if(last.startsWith("-")) {
-            return new ArrayList<>(config.keySet());
+            return out;
         }
 
         // We want to find the last key !
-
-        List<String> out = new ArrayList<>(config.keySet());
+        List<String> metArgs = new ArrayList<String>().reversed();
         for(int i = args.length - 2; i >= startIndex; i--) {
             String current = args[i];
             // This was a key, as such we return the config values for that key
             if(current.startsWith("-")) {
-                out.addAll(config.getOrDefault(current.substring(1), Collections.emptyList()));
-                return out; // we add the proper configured elements.
+                FlagEntry entry = config.get(current.substring(1));
+                if(entry == null) return List.of(args[args.length - 1]);
+
+                Pair<List<String>, Boolean> completion = entry.produce(metArgs);
+                List<String> list = completion.first();
+                if(!completion.second())
+                    return list;
+
+                out.addAll(list);
+                return out;
             }
+            metArgs.add(current);
         }
 
         // No key ? simply return the allowed keys then.
         return out;
     }
 
+    /**
+     * Configuration for flags management
+     * @param allowedProducer args[] -> proposal
+     */
+    protected record FlagEntry(Function<List<String>, Pair<List<String>, Boolean>> allowedProducer) {
+        public Pair<List<String>,Boolean> produce(List<String> args) {
+            return Objects.requireNonNullElse(allowedProducer().apply(args), Pair.of(Collections.emptyList(), true));
+        }
+    }
 }
