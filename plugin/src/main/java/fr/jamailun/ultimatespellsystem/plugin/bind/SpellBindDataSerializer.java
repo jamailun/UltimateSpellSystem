@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.bind;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +44,12 @@ public class SpellBindDataSerializer {
         String rawString = new String(rawBytes, StandardCharsets.UTF_8);
         JSONArray array = new JSONArray(rawString);
         List<SpellBindData> list = array.toList().stream()
-                .map(JSONObject.class::cast)
+                .map(object -> switch(object) {
+                    case Map<?,?> map -> new JSONObject(map);
+                    case String str -> new JSONObject(str);
+                    case JSONObject j -> j;
+                    default -> throw new IllegalStateException("Unknown type in data. JSON = " + rawString);
+                })
                 .map(SpellBindDataSerializer::deserialize)
                 .toList();
         return new SpellBindDataContainer(list);

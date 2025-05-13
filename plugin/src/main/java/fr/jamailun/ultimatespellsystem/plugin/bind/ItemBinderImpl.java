@@ -160,7 +160,7 @@ public final class ItemBinderImpl implements ItemBinder {
             SpellBindDataContainer container = nbt.get(UssKeys.getBindDataKeyV2(), TYPE);
             return container == null || container.list().isEmpty() ? Optional.empty() : Optional.of(container.list());
         } catch(Exception e) {
-            UssLogger.logError("Error on deserialize (v2): " + e.getMessage());
+            UssLogger.logError("Error on deserialize (v2): " + e.getMessage(), e);
             return Optional.empty();
         }
     }
