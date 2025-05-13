@@ -158,6 +158,8 @@ public class UssCommand extends AbstractCommand {
                         info(sender, "- " + id + "&r :");
                         info(sender, "  - Trigger: &e" + data.getTrigger().getTriggersList());
                         info(sender, "  - Cost: &e" + data.getCost());
+                        Duration cd = data.getCooldown();
+                        info(sender, "  - Cooldown: &e" + (cd==null?"&7&oNone":cd.amount()+ " " + cd.niceUnit()));
                         if(data.isLegacy())
                             info(sender, "  - &c[Legacy]");
                     }
@@ -211,7 +213,7 @@ public class UssCommand extends AbstractCommand {
                 if(spellCostEntry == null) {
                     return error(p, "Unknown cost-type: '&4" + args[2] + "&r'.");
                 }
-                int costArgsCount = costArgs.size() - 1;
+                int costArgsCount = costArgs.size();
                 if(costArgsCount < spellCostEntry.args().size()) {
                     return error(p, "Missing arguments for the cost. Expected args type: " + spellCostEntry.args());
                 }

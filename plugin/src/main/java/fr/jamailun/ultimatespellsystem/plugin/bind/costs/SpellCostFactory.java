@@ -59,7 +59,7 @@ public final class SpellCostFactory implements SpellCostRegistry {
         if(entry == null) {
             throw new RuntimeException("No SpellCost class for class '" + id + "'.");
         }
-        return entry.deserialize(json.getJSONArray("data").toList().stream().map(String.class::cast).toList());
+        return entry.deserialize(json.getJSONArray("data").toList().stream().map(Objects::toString).toList());
     }
 
     public static @NotNull SpellCostRegistry instance() {

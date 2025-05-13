@@ -144,4 +144,11 @@ public class MultivaluedMap<K, V> {
         return output;
     }
 
+    @Override
+    public @NotNull String toString() {
+        StringJoiner sj = new StringJoiner("; ");
+        map.forEach((k,v) -> sj.add("'" + k + "'="+v));
+        return "{" + sj + "}";
+    }
+
 }
