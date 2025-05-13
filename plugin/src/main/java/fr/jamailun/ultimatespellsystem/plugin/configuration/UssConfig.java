@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.4";
+    private static final String PLUGIN_CONFIG_VERSION = "1.5";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -58,6 +58,9 @@ public class UssConfig extends AbstractObservable<UssConfig> {
 
     public long getTicksAggroSummons() {
         return config.getTickAggroSummons();
+    }
+    public int getTicksDefaultCustomEntity() {
+        return config.getTickDefaultCustomEntity();
     }
 
     public void checkVersionAndMigrate() {

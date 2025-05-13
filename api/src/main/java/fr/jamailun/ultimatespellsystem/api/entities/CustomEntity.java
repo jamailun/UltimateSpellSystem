@@ -52,7 +52,8 @@ public abstract class CustomEntity implements SpellEntity {
         this.attributes = attributes;
         this.location = attributes.getLocation().clone();
 
-        int ticksPeriod = Math.max(1, attributes.tryGetAttribute("_clock", Double.class, 5d).intValue());
+        double defaultTickRate = UltimateSpellSystem.getDefaultCustomEntityTickRate();
+        int ticksPeriod = Math.max(1, attributes.tryGetAttribute("_clock", Double.class, defaultTickRate).intValue());
         runnable = UltimateSpellSystem.getScheduler().runTaskRepeatAsync(() -> tick(ticksPeriod), 0, ticksPeriod);
     }
 

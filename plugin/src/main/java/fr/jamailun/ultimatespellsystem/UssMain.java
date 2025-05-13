@@ -116,6 +116,11 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     }
 
     @Override
+    public int getDefaultCustomEntityTickRate() {
+        return config.getTicksDefaultCustomEntity();
+    }
+
+    @Override
     public void onDisable() {
         summonsManager.purgeAll();
         animationsManager.purge();

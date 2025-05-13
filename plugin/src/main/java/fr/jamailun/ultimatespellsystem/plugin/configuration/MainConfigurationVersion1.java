@@ -21,27 +21,47 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Version {@code 1.4} of configuration file.
+ * Version {@code 1.5} of configuration file.
  */
 @Configuration
 public class MainConfigurationVersion1 implements MainConfiguration {
 
   @Comment("Dont change this value manually. It does not match the plugin version.")
-  @Getter @Setter private String version = "1.4";
+  @Getter @Setter private String version = "1.5";
 
   @Comment({"","If true, 'debug' log will be printed into the console."})
   @Getter private boolean debug = false;
 
   @Comment({"","Tick-rate management"})
-  private TickSection tick = new TickSection(new TickSection.TickAggroSection(5));
+  private TickSection tick = new TickSection(new TickSection.TickAggroSection(5), 5);
   private record TickSection(
       @Comment("Tick-rate related to aggro management")
-      TickAggroSection aggro
+      TickAggroSection aggro,
+      @Comment("Tick-rate for the default value of custom entities.")
+      int defaultCustomEntityClock
   ) {
     private record TickAggroSection(
         @Comment("Update of aggro for summons.")
         long summons
-    ) {}
+    ) {
+      boolean hasInvalid() {
+        return summons < 1;
+      }
+      TickAggroSection whereValid() {
+        return new TickAggroSection(
+                summons < 1 ? 5 : summons
+        );
+      }
+    }
+    boolean hasInvalid() {
+      return defaultCustomEntityClock < 1 || aggro() == null || aggro().hasInvalid();
+    }
+    TickSection whereValid() {
+      return new TickSection(
+        aggro() == null ? new TickAggroSection(5) : aggro().whereValid(),
+        defaultCustomEntityClock < 1 ? 5 : defaultCustomEntityClock
+      );
+    }
   }
 
   @Comment({"","Bound-spell behaviour."})
@@ -130,6 +150,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   }
 
   @Override
+  public int getTickDefaultCustomEntity() {
+    return tick.defaultCustomEntityClock();
+  }
+
+  @Override
   public boolean cancelOnStep() {
     return bindSpell.cancelOnStep();
   }
@@ -151,7 +176,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
 
   public void checkDefaults() {
     // cooldown ?
-    UssLogger.logDebug("bid-spell = " + bindSpell);
+    UssLogger.logDebug("bind-spell = " + bindSpell);
     if(bindSpell.cooldown() == null) {
       bindSpell = new BindSpellSection(
               bindSpell.cancelOnCast(),
@@ -171,6 +196,10 @@ public class MainConfigurationVersion1 implements MainConfiguration {
                       null
               )
       );
+    }
+    // tick rates
+    if(tick.hasInvalid()) {
+      tick = tick.whereValid();
     }
   }
 

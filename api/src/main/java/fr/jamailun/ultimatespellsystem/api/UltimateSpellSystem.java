@@ -127,4 +127,12 @@ public final class UltimateSpellSystem {
         return plugin.getVersion();
     }
 
+    /**
+     * Get the default value for tick-rate of custom entities.
+     * @return the configuration value.
+     */
+    public static int getDefaultCustomEntityTickRate() {
+        return plugin.getDefaultCustomEntityTickRate();
+    }
+
 }

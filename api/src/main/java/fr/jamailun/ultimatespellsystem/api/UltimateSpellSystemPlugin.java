@@ -83,4 +83,10 @@ public interface UltimateSpellSystemPlugin {
      */
     @NotNull String getVersion();
 
+    /**
+     * Get the default value for tick-rate of custom entities.
+     * @return the configuration value.
+     */
+    int getDefaultCustomEntityTickRate();
+
 }

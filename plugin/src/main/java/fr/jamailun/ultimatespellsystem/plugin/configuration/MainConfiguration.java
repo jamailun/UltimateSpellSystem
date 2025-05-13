@@ -23,6 +23,7 @@ public interface MainConfiguration {
   @Nullable Duration getDefaultCooldown();
 
   long getTickAggroSummons();
+  int getTickDefaultCustomEntity();
 
   boolean cancelOnStep();
   boolean cancelOnCast();
