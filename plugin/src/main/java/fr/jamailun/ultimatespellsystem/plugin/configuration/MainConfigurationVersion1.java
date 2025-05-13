@@ -7,56 +7,30 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostEntry;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
+import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Version {@code 1.2} of configuration file.
+ * Version {@code 1.4} of configuration file.
  */
 @Configuration
 public class MainConfigurationVersion1 implements MainConfiguration {
 
   @Comment("Dont change this value manually. It does not match the plugin version.")
-  @Getter @Setter private String version = "1.3";
+  @Getter @Setter private String version = "1.4";
 
   @Comment({"","If true, 'debug' log will be printed into the console."})
   @Getter private boolean debug = false;
-
-  @Comment({"","Default values of the bind command."})
-  private SectionDefault defaultSection = new SectionDefault(
-      List.of(ItemBindTrigger.RIGHT_CLICK),
-      new DefaultSpellCostType("none", List.of())
-  );
-  private record SectionDefault(
-      @Comment("Default trigger sequence, if not set by the admin.")
-      List<ItemBindTrigger> trigger,
-      @Comment("Default cost, if not set by the admin.")
-      DefaultSpellCostType cost
-  ) {}
-  private record DefaultSpellCostType(
-      String type,
-      List<String> args
-  ) {
-    public SpellCost deserialize() {
-      SpellCostEntry<?> entry = UltimateSpellSystem.getSpellCostRegistry().get(type);
-      if(entry == null) {
-        UssLogger.logWarning("Configuration: Unknown spell cost '" + type + "'.");
-        return new NoneSpellCost();
-      }
-      try {
-        return entry.deserialize(args);
-      } catch(Exception e) {
-        UssLogger.logWarning("Configuration: Could not deserialize spell cost '" + type + "' with args " + args + " : " + e.getMessage());
-        return new NoneSpellCost();
-      }
-    }
-  }
 
   @Comment({"","Tick-rate management"})
   private TickSection tick = new TickSection(new TickSection.TickAggroSection(5));
@@ -74,6 +48,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   private BindSpellSection bindSpell = new BindSpellSection(
           true,
           true,
+          null,
           null
   );
 
@@ -88,8 +63,12 @@ public class MainConfigurationVersion1 implements MainConfiguration {
                   "their event, as defined in the previous comment."
           })
           boolean cancelOnStep,
-          @Comment({"Cooldown settings (only apply to bound spells)"})
-          CooldownSection cooldown
+
+          @Comment({"", "Cooldown settings (only apply to bound spells)"})
+          CooldownSection cooldown,
+
+          @Comment({"", "Default values of the bind command."})
+          SectionDefault defaultValues
   ) {}
 
   private record CooldownSection(
@@ -98,17 +77,51 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     @Comment({"Message to send to a player if he tries to cast a spell in-cooldown.", "If empty, will not send anything."})
     String tooQuickMessage
   ) {}
+  private record SectionDefault(
+          @Comment("Default trigger sequence, if not set by the admin.")
+          List<ItemBindTrigger> trigger,
+          @Comment("Default cost, if not set by the admin.")
+          DefaultSpellCostType cost,
+          @Comment({
+                  "Default cooldown. Format is '<value><suffix>', or an empty/null value.",
+                  "Examples: '15s' (15 seconds), '1m' (1 minute), '500ms', '20t' (20 ticks)."
+          })
+          String cooldown
+  ) {}
+  private record DefaultSpellCostType(
+          String type,
+          List<String> args
+  ) {
+    public SpellCost deserialize() {
+      SpellCostEntry<?> entry = UltimateSpellSystem.getSpellCostRegistry().get(type);
+      if(entry == null) {
+        UssLogger.logWarning("Configuration: Unknown spell cost '" + type + "'.");
+        return new NoneSpellCost();
+      }
+      try {
+        return entry.deserialize(args);
+      } catch(Exception e) {
+        UssLogger.logWarning("Configuration: Could not deserialize spell cost '" + type + "' with args " + args + " : " + e.getMessage());
+        return new NoneSpellCost();
+      }
+    }
+  }
 
   // -- read methods
 
   @Override
   public @NotNull @UnmodifiableView List<ItemBindTrigger> getDefaultTriggerSteps() {
-    return defaultSection.trigger();
+    return bindSpell.defaultValues().trigger();
   }
 
   @Override
   public @NotNull SpellCost getDefaultSpellCost() {
-    return defaultSection.cost().deserialize();
+    return bindSpell.defaultValues().cost().deserialize();
+  }
+
+  @Override
+  public @Nullable Duration getDefaultCooldown() {
+    return DurationHelper.parse(bindSpell.defaultValues().cooldown(), null);
   }
 
   @Override
@@ -143,7 +156,20 @@ public class MainConfigurationVersion1 implements MainConfiguration {
       bindSpell = new BindSpellSection(
               bindSpell.cancelOnCast(),
               bindSpell.cancelOnStep(),
-              new CooldownSection(true, "&cToo quick! This spell is still on cooldown.")
+              new CooldownSection(true, "&cToo quick! This spell is still on cooldown."),
+              bindSpell.defaultValues()
+      );
+    }
+    if(bindSpell.defaultValues() == null) {
+      bindSpell = new BindSpellSection(
+              bindSpell.cancelOnCast(),
+              bindSpell.cancelOnStep(),
+              bindSpell.cooldown(),
+              new SectionDefault(
+                      List.of(ItemBindTrigger.RIGHT_CLICK),
+                      new DefaultSpellCostType("none", Collections.emptyList()),
+                      null
+              )
       );
     }
   }

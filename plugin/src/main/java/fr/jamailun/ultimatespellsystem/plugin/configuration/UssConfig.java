@@ -5,6 +5,7 @@ import de.exlll.configlib.YamlConfigurationStore;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.utils.observable.AbstractObservable;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -19,7 +20,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.3";
+    private static final String PLUGIN_CONFIG_VERSION = "1.4";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -28,7 +29,10 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     public UssConfig(@NotNull Plugin plugin) {
         file = new File(plugin.getDataFolder(), "config.yml");
 
-        YamlConfigurationProperties properties = YamlConfigurationProperties.newBuilder().build();
+        YamlConfigurationProperties properties = YamlConfigurationProperties.newBuilder()
+                .inputNulls(true)
+                .outputNulls(true)
+                .build();
         store = new YamlConfigurationStore<>(MainConfigurationVersion1.class, properties);
     }
 
@@ -47,6 +51,9 @@ public class UssConfig extends AbstractObservable<UssConfig> {
 
     public SpellCost getDefaultCost() {
         return config.getDefaultSpellCost();
+    }
+    public Duration getDefaultCooldown() {
+        return config.getDefaultCooldown();
     }
 
     public long getTicksAggroSummons() {

@@ -242,7 +242,7 @@ public class UssCommand extends AbstractCommand {
                 List<String> cdArgs = Objects.requireNonNull(flagsArgs.get("cooldown"));
                 cooldown = DurationHelper.parse(cdArgs.getFirst(), null);
             } else {
-                cooldown = null;
+                cooldown = config.getDefaultCooldown();
             }
 
             SpellTrigger trigger = new SpellTriggerImpl(triggerSteps, cost);

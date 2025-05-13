@@ -2,7 +2,9 @@ package fr.jamailun.ultimatespellsystem.plugin.configuration;
 
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public interface MainConfiguration {
   boolean isDebug();
 
   @NotNull @UnmodifiableView List<ItemBindTrigger> getDefaultTriggerSteps();
-
   @NotNull SpellCost getDefaultSpellCost();
+  @Nullable Duration getDefaultCooldown();
 
   long getTickAggroSummons();
 
