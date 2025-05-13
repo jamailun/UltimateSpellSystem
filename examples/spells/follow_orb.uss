@@ -1,0 +1,40 @@
+# This summon a basic wind_charge that will follow the closest player near you.
+# This provides really enjoyable PvP fights with friends :D
+# You can replace the wind_charge by an arrow, or event an Orb with particles.
+
+%duration = 6s;
+%wait_before_follow = 1s;
+%freq = 200ms;
+%speed = 1.5;
+
+# Select a target
+%target = null;
+foreach(%other : all players within 25 around %caster) {
+    if(is_valid(%other) && !are_allies(%other, %caster)) {
+        %target = %other;
+        break;
+    }
+}
+if(%target == null) {
+    send to %caster message "&cNo enemy around!";
+    stop 1;
+}
+
+send %caster message "&aTarget = &f%target";
+
+# Summon projectile
+summon wind_charge at %caster as %orb for %duration with: {{
+	projectile_damage: 5,
+	velocity: 1
+}};
+
+# Follow
+# We wait for a bit before making it follow the target. This makes the effect more interesting.
+repeat after %wait_before_follow ((%duration-%wait_before_follow)/%freq) times every %freq: {
+	if(is_valid(%target)) {
+		%pos_o = position of %orb;
+		%pos_t = (position of %target) + [[0,1.1,0]]; # Eye position,
+		set_velocity(%orb, %pos_t - %pos_o, %speed);
+	}
+}
+

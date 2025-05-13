@@ -55,7 +55,7 @@ The orb represents a virtual entity, applying effects in a certain radius. It ca
 |  `max_blocks_hit`   |                        `Number`                         | Maximum amount of blocks to hit. Any collision greater than this will destroy the orb. Negative value disable hit count. |           `-1`            ||
 |     `velocity`      |                        `Number`                         |                                      Linear velocity of the orb, in blocs/seconds.                                       |            `0`            |
 |     `direction`     |                     `Vector` *(\*)*                     |                 Direction to move to. Will be normalized to be applied to the velocity each clock tick.                  | *Direction of the caster* |
-|      `_clock`       |                        `Number`                         |         Frequency of the clock, in server-ticks (20/s). Beware, as changing this may impact server performances.         |            `5`            |
+|      `_clock`       |                        `Number`                         |         Frequency of the clock, in server-ticks (20/s). Beware, as changing this may impact server performances.         | *Check you configuration* |
 
 **Note:** The direction may also be derived from a `Location` type (*ex*: `(position of %entity) - (position of %caster)`), or a list of Number (*ex*: `[[0.5, 0, 1]]`).
 
