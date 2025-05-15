@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 public class ArrayNode extends RuntimeExpression {
 
@@ -30,5 +31,9 @@ public class ArrayNode extends RuntimeExpression {
         StringJoiner sj = new StringJoiner(", ");
         elements.forEach(e -> sj.add(elements.toString()));
         return "[["+sj+"]]";
+    }
+
+    public void foreach(@NotNull Consumer<RuntimeExpression> function) {
+        elements.forEach(function);
     }
 }

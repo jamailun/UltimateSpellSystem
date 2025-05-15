@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +15,7 @@ public class ForeachLoopNode extends RuntimeStatement {
 
     private final String varName;
     private final RuntimeExpression source;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
 
     @Override
     public void run(@NotNull SpellRuntime runtimeParent) {

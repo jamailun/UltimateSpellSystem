@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ import java.util.Objects;
  * Provider for summon-properties.
  */
 public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvider.SummonProperty> {
-    private static final SummonPropertiesProvider INSTANCE = new SummonPropertiesProvider();
+    private static final SummonPropertiesProvider INSTANCE;
 
     /**
      * Get the instance.
@@ -97,6 +98,21 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
      * Consumer interface.
      */
     public interface SummonProperty extends TriConsumer<SpellEntity, Object, Context> {}
+
+    static {
+        INSTANCE = new SummonPropertiesProvider();
+
+        // Useful tags
+        registerBlank(ATTRIBUTE_MOB_CAN_DROP);
+        registerBlank(ATTRIBUTE_MOB_CAN_AGGRO_MASTER);
+        registerBlank(ATTRIBUTE_MOB_CAN_AGGRO_SUMMONS);
+        registerBlank(ATTRIBUTE_MOB_CAN_AGGRO_ALLIES);
+        registerBlank(ATTRIBUTE_PROJECTILE_CAN_DAMAGE_ALLIES);
+        registerBlank(ATTRIBUTE_PROJECTILE_CAN_DAMAGE_CASTER);
+        registerBlank(ATTRIBUTE_MOB_CAN_DROP);
+        registerBlank(ATTRIBUTE_MOB_AGGRO_SCOPE);
+        registerBlank(ATTRIBUTE_MOB_AGGRO_RANGE);
+    }
 
     private SummonPropertiesProvider() {
         // Statistics attributes
@@ -208,6 +224,16 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
             if(entity.getEquipment() != null)
                 entity.getEquipment().setItem(slot, item);
         }, LivingEntity.class, Map.class);
+    }
+
+    /**
+     * Register a blank key as used. This allows to ignore some warnings.
+     * @param keys non-null keys to ignore.
+     */
+    public static void registerBlank(@NotNull String @NotNull... keys) {
+        Arrays.stream(keys)
+            .filter(k -> !instance().exists(k))
+            .forEach(k -> instance().register((spellEntity, o, context) -> {}, k));
     }
 
 }

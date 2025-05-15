@@ -97,6 +97,9 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         UssLogger.logInfo("Plugin loaded.");
         testForLatestVersion();
+
+        // Load spells
+        spellsManager.reloadSpells();
     }
 
     private void checkConfigurationVersion() {

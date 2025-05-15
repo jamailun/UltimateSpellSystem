@@ -48,6 +48,8 @@ public class SpellDefinition extends AbstractSpell {
         if(metadata.containsKey("name")) {
             super.name = metadata.getFirst("name").getFirst(String.class);
         }
+        // Properties warning
+        PropertiesValidator.validateSpell(name, this.steps);
     }
 
     /**

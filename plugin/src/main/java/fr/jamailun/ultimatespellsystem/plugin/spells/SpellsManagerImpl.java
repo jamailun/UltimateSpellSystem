@@ -41,10 +41,7 @@ public final class SpellsManagerImpl implements SpellsManager {
         }
         if(! (functionsFolder.exists() || functionsFolder.mkdirs())) {
             UssLogger.logError("Cannot access functions-folder " + functionsFolder + ".");
-            return;
         }
-
-        reloadSpells();
     }
 
     @Override

@@ -5,13 +5,14 @@ import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public class ForLoopNode extends RuntimeStatement {
 
     private final RuntimeExpression condition;
     private final RuntimeStatement initializer, iteration;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
 
     //TODO make the safeguard configurable !
     private final static int MAX_ITERATIONS = 4096;

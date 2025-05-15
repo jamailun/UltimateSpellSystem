@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class WhileLoopNode extends RuntimeStatement {
     private final static int MAX_ITERATIONS = 4096;
 
     private final RuntimeExpression condition;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
     private final boolean whileFirst;
 
     @Override

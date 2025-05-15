@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.entities.SummonAttributesImpl;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class SummonNode extends RuntimeStatement {
 
     private final RuntimeExpression type, source, duration;
-    private final RuntimeExpression optProperty;
+    @Getter private final RuntimeExpression optProperty;
     private final String optVariableName;
 
     @Override

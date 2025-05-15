@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -19,7 +20,7 @@ public class CallbackNode extends RuntimeStatement {
     private final String variableNameInput;
     private final CallbackAction<?,?> action;
     private final String variableNameArgument;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
 
     public CallbackNode(String variableNameInput, CallbackEvent type, String variableNameArgument, RuntimeStatement child) {
         this.variableNameInput = variableNameInput;

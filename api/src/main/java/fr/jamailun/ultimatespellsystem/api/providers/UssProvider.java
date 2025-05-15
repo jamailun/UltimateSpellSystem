@@ -87,4 +87,13 @@ public abstract class UssProvider<T> {
     public @NotNull @UnmodifiableView Collection<String> getKeys() {
         return Collections.unmodifiableCollection(data.keySet());
     }
+
+    /**
+     * Test if a property exists.
+     * @param key a nullable key to test.
+     * @return true if the {@code key} is not null, and if the key has been registered.
+     */
+    public boolean exists(@Nullable String key) {
+        return key != null && data.containsKey(prepare(key));
+    }
 }

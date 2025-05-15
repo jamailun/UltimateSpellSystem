@@ -36,6 +36,7 @@ public final class EntityAttributes {
                         Double.class
                 ), "velocity", "projectile_velocity"
         );
+        SummonPropertiesProvider.registerBlank("direction", "projectile_damage");
     }
 
 }

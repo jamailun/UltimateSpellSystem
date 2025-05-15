@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class RunLaterNode extends RuntimeStatement {
 
     private final RuntimeExpression duration;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {

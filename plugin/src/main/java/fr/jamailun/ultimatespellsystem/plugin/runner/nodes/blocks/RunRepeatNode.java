@@ -7,13 +7,14 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public class RunRepeatNode extends RuntimeStatement {
 
     private final RuntimeExpression period, optDelay;
     private final RuntimeExpression count;
-    private final RuntimeStatement child;
+    @Getter private final RuntimeStatement child;
 
     public RunRepeatNode(RuntimeExpression period, RuntimeStatement child, RuntimeExpression optDelay, RuntimeExpression count) {
         this.period = period;
