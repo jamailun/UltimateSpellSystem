@@ -1,0 +1,21 @@
+# This function finds the closest entity around another.
+# Args: {entity around, range}
+# Output : closest entity, or NULL.
+
+@function("closest")
+@param("around", "entity")
+@param("range", "number")
+@output("closest", "entity")
+
+%closest = null;
+
+%dist = %range + 1;
+foreach(%en : all entities within %range around %around) {
+    %d = distance(%en, %caster);
+    if(%d < %dist) {
+        %dist = %d;
+        %closest = %en;
+    }
+}
+
+# returns closest as defined in the @output
