@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbacks;
+import fr.jamailun.ultimatespellsystem.extension.citizens.CitizensExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.listeners.EntityMoveListener;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
@@ -66,6 +67,11 @@ public final class ExtensionLoader {
         AlliesProvider.instance().register(new VanillaTeamAllies(), "vanilla-teams");
 
         UssLogger.logInfo("Loaded extension.");
+    }
+
+    public static void loadDependencies() {
+        // Citizens
+        CitizensExtensionLoader.initialize();
     }
 
     public static void loadCallbacks(JavaPlugin plugin) {

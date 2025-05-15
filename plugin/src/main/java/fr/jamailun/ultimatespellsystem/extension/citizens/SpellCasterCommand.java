@@ -1,11 +1,9 @@
-package fr.jamailun.examples.commands;
+package fr.jamailun.ultimatespellsystem.extension.citizens;
 
-import fr.jamailun.examples.citizens.CasterTrait;
-import fr.jamailun.examples.citizens.SpellCastRule;
-import fr.jamailun.examples.utils.DurationHelper;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
+import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -22,10 +20,23 @@ public class SpellCasterCommand implements CommandExecutor, TabCompleter {
 
     private static final List<String> ARGS = List.of("help", "add", "list", "remove", "cast");
 
-    public SpellCasterCommand() {
+    private SpellCasterCommand() {
+        // Nothing here.
+    }
+
+    public static void initialize() {
+        PluginCommand pluginCommand = Objects.requireNonNull(Bukkit.getPluginCommand("spellcaster"));
+        SpellCasterCommand command = new SpellCasterCommand();
+        pluginCommand.setExecutor(command);
+        pluginCommand.setTabCompleter(command);
+    }
+
+    public static void initializeFakeCommand() {
         PluginCommand command = Objects.requireNonNull(Bukkit.getPluginCommand("spellcaster"));
-        command.setExecutor(this);
-        command.setTabCompleter(this);
+        command.setExecutor((sender,c,l,args) -> {
+            sender.sendMessage("§cCitizens plugin not initialized.");
+            return true;
+        });
     }
 
     @Override

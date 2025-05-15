@@ -1,25 +1,26 @@
-package fr.jamailun.examples.citizens;
+package fr.jamailun.ultimatespellsystem.extension.citizens;
 
-import fr.jamailun.examples.utils.DurationHelper;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
+import lombok.Getter;
 import net.citizensnpcs.api.util.DataKey;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Serializable cast rule : CD + condition.
  */
 public class SpellCastRule {
 
-    private final String spellId;
+    @Getter private final String spellId;
     private final String rawCooldown;
     private final String rawCondition;
 
@@ -35,7 +36,7 @@ public class SpellCastRule {
     }
 
     private void load() {
-        cooldown = DurationHelper.parse(rawCooldown, Duration.of(10, ChronoUnit.SECONDS));
+        cooldown = DurationHelper.parse(rawCooldown, new Duration(10, TimeUnit.SECONDS));
         // parse conditions
         if(rawCondition.isEmpty()) {
             condition = null;
@@ -69,15 +70,11 @@ public class SpellCastRule {
         if(runtime == null)
             runtime = UltimateSpellSystem.getExternalExecutor().generateRuntime(entity);
         if(now.isAfter(nextExecute) && testCondition(runtime)) {
-            nextExecute = now.plus(cooldown);
+            nextExecute = now.plus(cooldown.asJavaDuration());
             runtime = null;
             return true;
         }
         return false;
-    }
-
-    public String getSpellId() {
-        return spellId;
     }
 
     public static @NotNull SpellCastRule create(@NotNull DataKey key) {

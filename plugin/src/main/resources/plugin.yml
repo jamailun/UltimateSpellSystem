@@ -5,16 +5,25 @@ api-version: '1.21'
 author: jamailun
 prefix: USS
 description: The Ultimate Spells System runtime.
+softdepend: [Citizens]
 
 commands:
   uss:
     description: All UltimateSpellsSystem commands.
     permission: uss.admin
+  spellcaster:
+    description: Configure a Citizens NPC to cast spells.
+    permission: uss.spellcaster
 
 permissions:
   uss.*:
     default: op
     children:
       - uss.admin
+      - uss.spellcaster
   uss.admin:
+    default: op
+    children:
+      - uss.spellcaster
+  uss.spellcaster:
     default: op

@@ -45,6 +45,7 @@ public abstract class TestFramework {
             Mockito.when(server.getName()).thenReturn("test");
             Mockito.when(server.getBukkitVersion()).thenReturn("test");
             Mockito.when(server.getLogger()).thenReturn(logger);
+            Mockito.when(server.getPluginCommand(Mockito.anyString())).thenReturn(null);
 
 
             try (MockedStatic<ServerBuildInfo> sbi = Mockito.mockStatic(ServerBuildInfo.class)) {

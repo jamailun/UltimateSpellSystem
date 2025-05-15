@@ -1,4 +1,4 @@
-package fr.jamailun.examples.citizens;
+package fr.jamailun.ultimatespellsystem.extension.citizens;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;

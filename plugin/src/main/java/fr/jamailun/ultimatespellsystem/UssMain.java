@@ -91,8 +91,9 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         Bukkit.getPluginManager().registerEvents(new PlayerSwitchItemListener(), this);
         Bukkit.getPluginManager().registerEvents(new BoundSpellCastListener(config), this);
 
-        // bStat
-        new Metrics(this, 24891);
+        // Others
+        new Metrics(this, 24891); // bStats
+        ExtensionLoader.loadDependencies();
 
         UssLogger.logInfo("Plugin loaded.");
         testForLatestVersion();

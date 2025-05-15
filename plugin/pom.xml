@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ultimate-spell-system-plugin</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1-SNAPSHOT</version>
 
     <parent>
         <groupId>fr.jamailun.paper</groupId>
         <artifactId>ultimate-spell-system</artifactId>
-        <version>2.4.0</version>
+        <version>2.4.1-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -19,12 +19,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <json-org.version>20250107</json-org.version>
+        <citizens.version>2.0.35-SNAPSHOT</citizens.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>2.4.0</version>
+            <version>2.4.1-SNAPSHOT</version>
             <artifactId>ultimate-spell-system-dsl</artifactId>
             <scope>compile</scope>
         </dependency>
@@ -48,7 +49,30 @@
             <artifactId>json</artifactId>
             <version>${json-org.version}</version>
         </dependency>
+
+        <!-- Citizens -->
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizens-main</artifactId>
+            <version>${citizens.version}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <!-- Citizens -->
+        <repository>
+            <id>citizens-repo</id>
+            <url>https://maven.citizensnpcs.co/repo</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
