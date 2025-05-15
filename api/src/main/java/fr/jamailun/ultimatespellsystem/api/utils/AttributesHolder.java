@@ -61,6 +61,7 @@ public interface AttributesHolder {
      * @return a new, non-null collection of parsed elements.
      * @param <R> the produced type.
      */
+    @SuppressWarnings("RawUseOfParameterized")
     default <R> @NotNull Collection<R> parseMap(@NotNull String key, @NotNull BiFunction<Map<?,?>, String, R> builder) {
         List<R> output = new ArrayList<>();
 
@@ -75,7 +76,9 @@ public interface AttributesHolder {
         // Read multi
         String keyMulti = key + "s";
         if(hasAttribute(keyMulti)) {
-            for(Map<?,?> map : tryGetAttributes(keyMulti, Map.class)) {
+            // Idk why it doesn't work when one-lined ??
+            List<Map> maps = tryGetAttributes(keyMulti, Map.class);
+            for(Map<?,?> map : maps) {
                 R element = builder.apply(map, keyMulti);
                 if(element != null) {
                     output.add(element);
