@@ -24,6 +24,7 @@ public interface MainConfiguration {
 
   long getTickAggroSummons();
   int getTickDefaultCustomEntity();
+  int getTicksCitizensTrait();
 
   boolean cancelOnStep();
   boolean cancelOnCast();

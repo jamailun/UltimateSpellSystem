@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.6";
+    public static final String PLUGIN_CONFIG_VERSION = "1.7";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -45,6 +45,7 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     public void checkVersionAndMigrate() {
         String version = file.exists() ? YamlConfiguration.loadConfiguration(file).getString("version") : null;
         UssLogger.logInfo("Read configuration version: " + version);
+        UssLogger.logDebug("Current plugin version: " + PLUGIN_CONFIG_VERSION);
         if(PLUGIN_CONFIG_VERSION.compareTo(Objects.requireNonNullElse(version, "0")) > 0) {
             try {
                 var value = store.load(file.toPath());
@@ -73,6 +74,9 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     }
     public static long getTicksAggroSummons() {
         return CONFIG.getTickAggroSummons();
+    }
+    public static int getTicksCitizensTrait() {
+        return CONFIG.getTicksCitizensTrait();
     }
     public static int getTicksDefaultCustomEntity() {
         return CONFIG.getTickDefaultCustomEntity();

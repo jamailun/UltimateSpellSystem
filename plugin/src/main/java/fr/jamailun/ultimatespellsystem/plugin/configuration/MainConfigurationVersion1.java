@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Version {@code 1.6} of configuration file.
+ * Version {@code 1.7} of configuration file.
  */
 @Configuration
 public class MainConfigurationVersion1 implements MainConfiguration {
@@ -30,12 +30,14 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   @Getter private boolean debug = false;
 
   @Comment({"","Tick-rate management"})
-  private TickSection tick = new TickSection(new TickSection.TickAggroSection(5), 5);
+  private TickSection tick = new TickSection(new TickSection.TickAggroSection(5), 5, 20);
   private record TickSection(
       @Comment("Tick-rate related to aggro management")
       TickAggroSection aggro,
       @Comment("Tick-rate for the default value of custom entities.")
-      int defaultCustomEntityClock
+      int defaultCustomEntityClock,
+      @Comment("Tick-rate of update for spell-casters.")
+      int spellCasterTrait
   ) {
     private record TickAggroSection(
         @Comment("Update of aggro for summons.")
@@ -51,12 +53,13 @@ public class MainConfigurationVersion1 implements MainConfiguration {
       }
     }
     boolean hasInvalid() {
-      return defaultCustomEntityClock < 1 || aggro() == null || aggro().hasInvalid();
+      return defaultCustomEntityClock < 1 || spellCasterTrait < 1 || aggro() == null || aggro().hasInvalid();
     }
     TickSection whereValid() {
       return new TickSection(
         aggro() == null ? new TickAggroSection(5) : aggro().whereValid(),
-        defaultCustomEntityClock < 1 ? 5 : defaultCustomEntityClock
+              defaultCustomEntityClock < 1 ? 5 : defaultCustomEntityClock,
+              spellCasterTrait < 1 ? 20 : spellCasterTrait
       );
     }
   }
@@ -133,7 +136,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
 
   // -- version
   @Comment({"","Dont change this value manually. It does not match the plugin version."})
-  @Getter @Setter private String version = "1.6";
+  @Getter @Setter private String version = UssConfig.PLUGIN_CONFIG_VERSION;
 
   // -- read methods
 
@@ -160,6 +163,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   @Override
   public int getTickDefaultCustomEntity() {
     return tick.defaultCustomEntityClock();
+  }
+
+  @Override
+  public int getTicksCitizensTrait() {
+    return 0;
   }
 
   @Override

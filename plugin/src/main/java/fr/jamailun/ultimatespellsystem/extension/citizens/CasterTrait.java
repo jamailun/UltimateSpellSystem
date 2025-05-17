@@ -1,8 +1,10 @@
 package fr.jamailun.ultimatespellsystem.extension.citizens;
 
+import com.google.common.base.Preconditions;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
 import net.citizensnpcs.api.util.DataKey;
@@ -23,7 +25,7 @@ import java.util.UUID;
 @TraitName("uss-caster")
 public class CasterTrait extends Trait implements SpellEntity {
 
-    private static final int TICK_RATE = 15;
+    private int tickRate;
 
     // Persisted manually
     private final List<SpellCastRule> rules = new ArrayList<>();
@@ -32,6 +34,7 @@ public class CasterTrait extends Trait implements SpellEntity {
 
     public CasterTrait() {
         super("uss-caster");
+        tickRate = UssConfig.getTicksCitizensTrait();
     }
 
     public void cast(@NotNull Spell spell) {
@@ -46,10 +49,19 @@ public class CasterTrait extends Trait implements SpellEntity {
     public void run() {
         if (!npc.isSpawned()) return;
         tickCounter++;
-        if (tickCounter >= TICK_RATE) {
+        if (tickCounter >= tickRate) {
             tickCounter = 0;
             runUpdate();
         }
+    }
+
+    /**
+     * Change the tick rate. This change is transient.
+     * @param newTickRate new value of the tick-rate.
+     */
+    public void changeTickRate(int newTickRate) {
+        Preconditions.checkArgument(newTickRate > 0, "newTickRate must be > 0.");
+        this.tickRate = newTickRate;
     }
 
     private void runUpdate() {
