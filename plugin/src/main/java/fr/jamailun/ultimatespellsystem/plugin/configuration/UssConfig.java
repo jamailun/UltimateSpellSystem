@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    private static final String PLUGIN_CONFIG_VERSION = "1.5";
+    private static final String PLUGIN_CONFIG_VERSION = "1.6";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -91,5 +91,8 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     }
     public @NotNull String messageOnCooldown() {
         return config.messageOnCooldown();
+    }
+    public boolean displaySummonWarnings() {
+        return config.displaySummonWarnings();
     }
 }

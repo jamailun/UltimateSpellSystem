@@ -21,15 +21,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Version {@code 1.5} of configuration file.
+ * Version {@code 1.6} of configuration file.
  */
 @Configuration
 public class MainConfigurationVersion1 implements MainConfiguration {
 
-  @Comment("Dont change this value manually. It does not match the plugin version.")
-  @Getter @Setter private String version = "1.5";
-
-  @Comment({"","If true, 'debug' log will be printed into the console."})
+  @Comment({"If true, 'debug' log will be printed into the console."})
   @Getter private boolean debug = false;
 
   @Comment({"","Tick-rate management"})
@@ -127,6 +124,17 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     }
   }
 
+  @Comment({"", "Compiler settings"})
+  private CompilerSection compiler;
+  private record CompilerSection(
+          @Comment("If true, will display warning about unset properties in summons.")
+          boolean displayWarningSummons
+  ) {}
+
+  // -- version
+  @Comment({"","Dont change this value manually. It does not match the plugin version."})
+  @Getter @Setter private String version = "1.6";
+
   // -- read methods
 
   @Override
@@ -174,6 +182,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     return bindSpell.cooldown().onMaterial();
   }
 
+  @Override
+  public boolean displaySummonWarnings() {
+    return compiler.displayWarningSummons();
+  }
+
   public void checkDefaults() {
     // cooldown ?
     UssLogger.logDebug("bind-spell = " + bindSpell);
@@ -200,6 +213,10 @@ public class MainConfigurationVersion1 implements MainConfiguration {
     // tick rates
     if(tick.hasInvalid()) {
       tick = tick.whereValid();
+    }
+    // Compiler
+    if(compiler == null) {
+      compiler = new CompilerSection(true);
     }
   }
 

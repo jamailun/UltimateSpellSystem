@@ -72,7 +72,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         // Managers
         itemBinder = new ItemBinderImpl();
-        spellsManager = new SpellsManagerImpl(getDataFolder());
+        spellsManager = new SpellsManagerImpl(config, getDataFolder());
         summonsManager = new SummonsManagerImpl(config);
         animationsManager = new AnimationsManagerImpl();
         animationsManager.start();

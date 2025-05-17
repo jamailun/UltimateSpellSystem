@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.spells;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
+import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.spells.functions.SpellFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,13 +27,16 @@ import java.util.stream.Stream;
  */
 public final class SpellsManagerImpl implements SpellsManager {
 
+    private final UssConfig config;
+
     private final Map<String, Spell> spells = new HashMap<>();
     private final File spellsFolder;
 
     private final Map<String, SpellFunction> functions = new HashMap<>();
     private final File functionsFolder;
 
-    public SpellsManagerImpl(@NotNull File rootDirectory) {
+    public SpellsManagerImpl(@NotNull UssConfig config,  @NotNull File rootDirectory) {
+        this.config = config;
         this.spellsFolder = new File(rootDirectory, "spells");
         this.functionsFolder = new File(rootDirectory, "functions");
         if(! (spellsFolder.exists() || spellsFolder.mkdirs())) {
@@ -53,7 +57,7 @@ public final class SpellsManagerImpl implements SpellsManager {
 
         iterateDirectory(
             spellsFolder,
-            SpellDefinition::loadFile,
+            file -> SpellDefinition.loadFile(config, file),
             spell -> spells.put(spell.getName(), spell)
         );
 

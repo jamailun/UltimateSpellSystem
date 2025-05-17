@@ -32,4 +32,6 @@ public interface MainConfiguration {
 
   boolean addCooldownToMaterial();
 
+  boolean displaySummonWarnings();
+
 }

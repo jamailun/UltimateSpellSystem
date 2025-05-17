@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
 import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import org.jetbrains.annotations.NotNull;
@@ -48,8 +49,10 @@ public class SpellDefinition extends AbstractSpell {
         if(metadata.containsKey("name")) {
             super.name = metadata.getFirst("name").getFirst(String.class);
         }
-        // Properties warning
-        PropertiesValidator.validateSpell(name, this.steps);
+    }
+
+    private void checkSpellWarnings() {
+        PropertiesValidator.validateSpell(name, steps);
     }
 
     /**
@@ -57,26 +60,30 @@ public class SpellDefinition extends AbstractSpell {
      * @param file the file to load.
      * @return a new spell definition.
      */
-    public static @Nullable SpellDefinition loadFile(@NotNull File file) {
+    public static @Nullable SpellDefinition loadFile(@NotNull UssConfig config, @NotNull File file) {
         String name = file.getName()
                 .replace(" ", "-")
                 .toLowerCase()
                 .replaceFirst("[.][^.]+$", "");
         UssLogger.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
-        return loadFile(name, file);
+        return loadFile(config, name, file);
     }
 
     /**
      * Load a {@link SpellDefinition} from a file, but with a specific name.
+     * @param config configuration.
      * @param name the name to use.
      * @param file the file to load.
      * @return a new spell definition.
      */
-    public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
+    public static @Nullable SpellDefinition loadFile(@NotNull UssConfig config, @NotNull String name, @NotNull File file) {
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
             List<RuntimeStatement> steps = load(dsl);
-            return new SpellDefinition(file, name, steps);
+            SpellDefinition spell = new SpellDefinition(file, name, steps);
+            if(config.displaySummonWarnings())
+                spell.checkSpellWarnings();
+            return spell;
         } catch(Exception e) {
             UssLogger.logError("In "+file+" : " + e.getMessage());
             for(StackTraceElement se : e.getStackTrace()) {
