@@ -60,28 +60,27 @@ public class SpellDefinition extends AbstractSpell {
      * @param file the file to load.
      * @return a new spell definition.
      */
-    public static @Nullable SpellDefinition loadFile(@NotNull UssConfig config, @NotNull File file) {
+    public static @Nullable SpellDefinition loadFile(@NotNull File file) {
         String name = file.getName()
                 .replace(" ", "-")
                 .toLowerCase()
                 .replaceFirst("[.][^.]+$", "");
         UssLogger.logDebug("Extracted '"+name+"' from name '" + file.getName()+"'.");
-        return loadFile(config, name, file);
+        return loadFile(name, file);
     }
 
     /**
      * Load a {@link SpellDefinition} from a file, but with a specific name.
-     * @param config configuration.
      * @param name the name to use.
      * @param file the file to load.
      * @return a new spell definition.
      */
-    public static @Nullable SpellDefinition loadFile(@NotNull UssConfig config, @NotNull String name, @NotNull File file) {
+    public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
             List<RuntimeStatement> steps = load(dsl);
             SpellDefinition spell = new SpellDefinition(file, name, steps);
-            if(config.displaySummonWarnings())
+            if(UssConfig.displaySummonWarnings())
                 spell.checkSpellWarnings();
             return spell;
         } catch(Exception e) {

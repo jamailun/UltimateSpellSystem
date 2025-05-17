@@ -4,8 +4,6 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager.ActionResult;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
-import lombok.RequiredArgsConstructor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -25,13 +23,10 @@ import java.util.UUID;
 /**
  * Trigger actions for interactions.
  */
-@RequiredArgsConstructor
 public class PlayerInteractListener implements Listener {
 
     private final Duration spamDuration = Duration.of(100, ChronoUnit.MILLIS);
     private final Map<UUID, Instant> spamBlocker = new HashMap<>();
-
-    private final UssConfig config;
 
     @EventHandler(priority = EventPriority.HIGH)
     void onPlayerInteracts(@NotNull PlayerInteractEvent event) {
@@ -41,8 +36,8 @@ public class PlayerInteractListener implements Listener {
 
         ActionResult result = UltimateSpellSystem.getSpellsTriggerManager().action(player, convert(event.getAction()));
         boolean shouldCancel = switch (result) {
-            case SPELL_CAST -> config.shouldCancelCast();
-            case STEP_VALID -> config.shouldCancelStep();
+            case SPELL_CAST -> UssConfig.shouldCancelCast();
+            case STEP_VALID -> UssConfig.shouldCancelStep();
             case IGNORED -> false;
         };
         if(shouldCancel) {

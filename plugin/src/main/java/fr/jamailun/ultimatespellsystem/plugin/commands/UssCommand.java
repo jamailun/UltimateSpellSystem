@@ -32,12 +32,10 @@ import java.util.stream.Stream;
 public class UssCommand extends AbstractCommand {
 
     private final JavaPlugin plugin;
-    private final UssConfig config;
 
-    public UssCommand(@NotNull JavaPlugin plugin, @NotNull UssConfig config) {
+    public UssCommand(@NotNull JavaPlugin plugin) {
         super("uss");
         this.plugin = plugin;
-        this.config = config;
     }
 
     private final static List<String> args_0 = List.of("help", "status", "evaluate", "reload", "list", "cast", "disable", "enable", "bind", "unbind", "bind-check", "purge", "debug");
@@ -219,7 +217,7 @@ public class UssCommand extends AbstractCommand {
                 }
                 cost = spellCostEntry.deserialize(costArgs);
             } else {
-                cost = config.getDefaultCost();
+                cost = UssConfig.getDefaultCost();
             }
 
             // Trigger
@@ -233,7 +231,7 @@ public class UssCommand extends AbstractCommand {
                     }
                 }
             } else {
-                triggerSteps.addAll( config.getDefaultTrigger() );
+                triggerSteps.addAll( UssConfig.getDefaultTrigger() );
             }
 
             // Cooldown
@@ -242,7 +240,7 @@ public class UssCommand extends AbstractCommand {
                 List<String> cdArgs = Objects.requireNonNull(flagsArgs.get("cooldown"));
                 cooldown = DurationHelper.parse(cdArgs.getFirst(), null);
             } else {
-                cooldown = config.getDefaultCooldown();
+                cooldown = UssConfig.getDefaultCooldown();
             }
 
             SpellTrigger trigger = new SpellTriggerImpl(triggerSteps, cost);

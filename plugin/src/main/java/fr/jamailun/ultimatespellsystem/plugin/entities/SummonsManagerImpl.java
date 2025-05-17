@@ -25,7 +25,7 @@ public class SummonsManagerImpl implements SummonsManager {
 
     public SummonsManagerImpl(@NotNull UssConfig config) {
         config.registerObserver(this::refreshConfig);
-        aggroClock = new Clock(this::recomputeAggro, config.getTicksAggroSummons());
+        aggroClock = new Clock(this::recomputeAggro, UssConfig.getTicksAggroSummons());
     }
 
     private void recomputeAggro() {
@@ -78,7 +78,7 @@ public class SummonsManagerImpl implements SummonsManager {
     }
 
     public void refreshConfig(@NotNull UssConfig config) {
-        aggroClock.setFrequency(config.getTicksAggroSummons());
+        aggroClock.setFrequency(UssConfig.getTicksAggroSummons());
     }
 
     @Override

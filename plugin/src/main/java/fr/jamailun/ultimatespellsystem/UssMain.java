@@ -72,24 +72,24 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         // Managers
         itemBinder = new ItemBinderImpl();
-        spellsManager = new SpellsManagerImpl(config, getDataFolder());
+        spellsManager = new SpellsManagerImpl(getDataFolder());
         summonsManager = new SummonsManagerImpl(config);
         animationsManager = new AnimationsManagerImpl();
         animationsManager.start();
 
         // Commands
-        new UssCommand(this, config);
+        new UssCommand(this);
 
         // Listeners
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
         Bukkit.getPluginManager().registerEvents(new AttackListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(config), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerSneakListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerSwitchItemListener(), this);
-        Bukkit.getPluginManager().registerEvents(new BoundSpellCastListener(config), this);
+        Bukkit.getPluginManager().registerEvents(new BoundSpellCastListener(), this);
 
         // Others
         new Metrics(this, 24891); // bStats
@@ -109,7 +109,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public void reloadConfiguration() {
         config.reload();
-        UssLogger.setDebug(config.isDebug());
+        UssLogger.setDebug(UssConfig.isDebug());
         UssLogger.logDebug("Debug mode enabled."); // will be printed only if debug mode is enabled :)
     }
 
@@ -121,7 +121,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
     @Override
     public int getDefaultCustomEntityTickRate() {
-        return config.getTicksDefaultCustomEntity();
+        return UssConfig.getTicksDefaultCustomEntity();
     }
 
     @Override

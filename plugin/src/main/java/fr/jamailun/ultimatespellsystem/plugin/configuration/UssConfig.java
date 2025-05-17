@@ -10,6 +10,7 @@ import fr.jamailun.ultimatespellsystem.plugin.utils.observable.AbstractObservabl
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
@@ -24,7 +25,7 @@ public class UssConfig extends AbstractObservable<UssConfig> {
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
-    private MainConfiguration config;
+    private static MainConfiguration CONFIG;
 
     public UssConfig(@NotNull Plugin plugin) {
         file = new File(plugin.getDataFolder(), "config.yml");
@@ -37,30 +38,8 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     }
 
     public void reload() {
-        config = store.load(file.toPath());
+        CONFIG = store.load(file.toPath());
         callObservers(this);
-    }
-
-    public boolean isDebug() {
-        return config.isDebug();
-    }
-
-    public List<ItemBindTrigger> getDefaultTrigger() {
-        return config.getDefaultTriggerSteps();
-    }
-
-    public SpellCost getDefaultCost() {
-        return config.getDefaultSpellCost();
-    }
-    public Duration getDefaultCooldown() {
-        return config.getDefaultCooldown();
-    }
-
-    public long getTicksAggroSummons() {
-        return config.getTickAggroSummons();
-    }
-    public int getTicksDefaultCustomEntity() {
-        return config.getTickDefaultCustomEntity();
     }
 
     public void checkVersionAndMigrate() {
@@ -80,19 +59,37 @@ public class UssConfig extends AbstractObservable<UssConfig> {
         }
     }
 
-    public boolean shouldCancelStep() {
-        return config.cancelOnStep();
+    public static boolean isDebug() {
+        return CONFIG.isDebug();
     }
-    public boolean shouldCancelCast() {
-        return config.cancelOnCast();
+    public static List<ItemBindTrigger> getDefaultTrigger() {
+        return CONFIG.getDefaultTriggerSteps();
     }
-    public boolean cooldownOnMaterial() {
-        return config.addCooldownToMaterial();
+    public static @NotNull SpellCost getDefaultCost() {
+        return CONFIG.getDefaultSpellCost();
     }
-    public @NotNull String messageOnCooldown() {
-        return config.messageOnCooldown();
+    public static @Nullable Duration getDefaultCooldown() {
+        return CONFIG.getDefaultCooldown();
     }
-    public boolean displaySummonWarnings() {
-        return config.displaySummonWarnings();
+    public static long getTicksAggroSummons() {
+        return CONFIG.getTickAggroSummons();
+    }
+    public static int getTicksDefaultCustomEntity() {
+        return CONFIG.getTickDefaultCustomEntity();
+    }
+    public static boolean shouldCancelStep() {
+        return CONFIG.cancelOnStep();
+    }
+    public static boolean shouldCancelCast() {
+        return CONFIG.cancelOnCast();
+    }
+    public static boolean cooldownOnMaterial() {
+        return CONFIG.addCooldownToMaterial();
+    }
+    public static @NotNull String messageOnCooldown() {
+        return CONFIG.messageOnCooldown();
+    }
+    public static boolean displaySummonWarnings() {
+        return CONFIG.displaySummonWarnings();
     }
 }

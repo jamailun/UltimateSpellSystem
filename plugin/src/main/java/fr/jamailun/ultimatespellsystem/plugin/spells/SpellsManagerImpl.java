@@ -27,16 +27,13 @@ import java.util.stream.Stream;
  */
 public final class SpellsManagerImpl implements SpellsManager {
 
-    private final UssConfig config;
-
     private final Map<String, Spell> spells = new HashMap<>();
     private final File spellsFolder;
 
     private final Map<String, SpellFunction> functions = new HashMap<>();
     private final File functionsFolder;
 
-    public SpellsManagerImpl(@NotNull UssConfig config,  @NotNull File rootDirectory) {
-        this.config = config;
+    public SpellsManagerImpl(@NotNull File rootDirectory) {
         this.spellsFolder = new File(rootDirectory, "spells");
         this.functionsFolder = new File(rootDirectory, "functions");
         if(! (spellsFolder.exists() || spellsFolder.mkdirs())) {
@@ -57,7 +54,7 @@ public final class SpellsManagerImpl implements SpellsManager {
 
         iterateDirectory(
             spellsFolder,
-            file -> SpellDefinition.loadFile(config, file),
+            SpellDefinition::loadFile,
             spell -> spells.put(spell.getName(), spell)
         );
 
