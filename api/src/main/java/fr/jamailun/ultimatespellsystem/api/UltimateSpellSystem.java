@@ -31,6 +31,8 @@ public final class UltimateSpellSystem {
 
     /**
      * Test if the plugin loaded properly.
+     * <br/>
+     * Do only call this after checking if the plugin was present: {@code Bukkit.getPluginManager().getPlugin("UltimateSpellSystem") != null}.
      * @return true if the plugin is online and running.
      */
     public static boolean isValid() {
