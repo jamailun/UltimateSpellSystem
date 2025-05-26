@@ -57,6 +57,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new AreAlliesFunction());
         JavaFunctionProvider.instance().registerFunction(new EntityHasEffectFunction(), "entity_has_potion_effect", "has_potion_effect", "has_effect");
         JavaFunctionProvider.instance().registerFunction(new SetAggroFunction());
+        LogFunctions.register();
 
         // Others
         EntityAttributes.register();
