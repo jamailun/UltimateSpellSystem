@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
+import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +37,7 @@ public class ProjectileLandCallbacks extends CallbackProvider<ProjectileHitEvent
                 new CallbackAction<>(
                         CallbackEvent.of("hit", TokenType.TO, TypePrimitive.ENTITY),
                         ProjectileHitEvent.class,
-                        ProjectileHitEvent::getEntity
+                        e -> new BukkitSpellEntity(e.getHitEntity())
                 )
         );
     }
