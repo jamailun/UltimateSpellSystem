@@ -28,6 +28,7 @@ public final class AlliesProvider extends UssProvider<AlliesProvider.AlliesCheck
      * @return a non-null result ; {@link AlliesResult#IGNORE} by default.
      */
     public @NotNull AlliesResult testForAllies(@NotNull SpellEntity caster, @NotNull Entity target) {
+        if(caster.getUniqueId().equals(target.getUniqueId())) return AlliesResult.ALLIES;
         for(AlliesCheck check : getValues()) {
             AlliesResult result = check.test(caster, target);
             if(result != AlliesResult.IGNORE)
