@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class PlayBlockNode extends PlayNode {
 
-    public PlayBlockNode(RuntimeExpression location, RuntimeExpression properties) {
+    public PlayBlockNode(@NotNull RuntimeExpression location, @NotNull RuntimeExpression properties) {
         super(location, properties);
     }
 

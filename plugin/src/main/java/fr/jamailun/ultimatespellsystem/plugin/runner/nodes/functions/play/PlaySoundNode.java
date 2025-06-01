@@ -8,9 +8,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Play sounds in the world.
+ */
 public class PlaySoundNode extends PlayNode {
 
-    public PlaySoundNode(RuntimeExpression location, RuntimeExpression properties) {
+    public PlaySoundNode(@NotNull RuntimeExpression location, @NotNull RuntimeExpression properties) {
         super(location, properties);
     }
 

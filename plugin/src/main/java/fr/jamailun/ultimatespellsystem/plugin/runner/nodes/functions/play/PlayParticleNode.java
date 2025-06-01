@@ -8,9 +8,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Play particles in the world.
+ */
 public class PlayParticleNode extends PlayNode {
 
-    public PlayParticleNode(RuntimeExpression location, RuntimeExpression properties) {
+    public PlayParticleNode(@NotNull RuntimeExpression location, @NotNull RuntimeExpression properties) {
         super(location, properties);
     }
 

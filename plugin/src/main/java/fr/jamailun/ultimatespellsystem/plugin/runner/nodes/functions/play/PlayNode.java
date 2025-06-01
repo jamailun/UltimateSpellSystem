@@ -20,8 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public abstract class PlayNode extends RuntimeStatement {
 
-    private final RuntimeExpression location;
-    private final RuntimeExpression properties;
+    private final @NotNull RuntimeExpression location;
+    private final @NotNull RuntimeExpression properties;
 
     protected boolean isAsync() {
         return true;

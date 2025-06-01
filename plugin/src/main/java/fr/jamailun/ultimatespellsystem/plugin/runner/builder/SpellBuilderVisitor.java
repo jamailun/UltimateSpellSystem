@@ -4,10 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayBlockNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlayParticleNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.PlaySoundNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.IncrementNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
@@ -160,6 +157,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
             case BLOCK -> new PlayBlockNode(location, properties);
             case PARTICLE -> new PlayParticleNode(location, properties);
             case SOUND -> new PlaySoundNode(location, properties);
+            case ANIMATION -> new PlayAnimationNode(location, properties);
         };
         add(node);
     }

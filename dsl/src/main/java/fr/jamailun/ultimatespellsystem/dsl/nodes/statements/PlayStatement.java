@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A play statement : either BLOCK, SOUND or PARTICLE.
+ * A play statement : with a specific {@link Type}.
  */
 @Getter
 @RequiredArgsConstructor
@@ -51,12 +51,11 @@ public class PlayStatement extends StatementNode {
     private static @NotNull Type readType(@NotNull TokenStream tokens) {
         Token next = tokens.next();
         String nextValue = next.getContentString();
-        if(nextValue == null)
-            throw new SyntaxException(next, "Expected a token with a string value (STRING, IDENTIFIER)");
         return switch(nextValue.toLowerCase()) {
-            case "block" -> Type.BLOCK;
-            case "particle" -> Type.PARTICLE;
-            case "sound" -> Type.SOUND;
+            case "block", "b", "bloc" -> Type.BLOCK;
+            case "particle", "p", "part" -> Type.PARTICLE;
+            case "sound", "s" -> Type.SOUND;
+            case "animation", "a", "anim" -> Type.ANIMATION;
             default -> throw new SyntaxException(next, "Expected either 'block', 'particle' or 'sound' after a 'PLAY' statement.");
         };
     }
@@ -70,7 +69,25 @@ public class PlayStatement extends StatementNode {
      * A type of {@link PlayStatement}.
      */
     public enum Type {
-        BLOCK, PARTICLE, SOUND
+        /**
+         * An in-world block, changed for the clients.
+         */
+        BLOCK,
+
+        /**
+         * A particle-play, sent to clients.
+         */
+        PARTICLE,
+
+        /**
+         * A sound, played to nearby players.
+         */
+        SOUND,
+
+        /**
+         * Complex animation.
+         */
+        ANIMATION
     }
 
     @Override
