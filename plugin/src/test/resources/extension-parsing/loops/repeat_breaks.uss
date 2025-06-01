@@ -1,0 +1,14 @@
+%i = 0;
+repeat 2 times every 20ms: {
+    increment %i;
+    if(%i >= 0)
+        break;
+    ASSERT_NOT_CALLED("REPEAT::Break should work.");
+};
+
+repeat 2 times every 20ms: {
+    decrement %i;
+    if(%i >= 0)
+        continue;
+    ASSERT_NOT_CALLED("REPEAT::Continue should work.");
+};

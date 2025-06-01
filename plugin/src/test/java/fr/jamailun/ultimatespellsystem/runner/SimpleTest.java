@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 /**
  * Check the framework is working.
  */
-public class SimpleTest extends TestFramework {
+class SimpleTest extends TestFramework {
 
     @Test
     void test() {
