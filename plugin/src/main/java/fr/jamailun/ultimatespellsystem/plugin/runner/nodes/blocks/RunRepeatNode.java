@@ -2,12 +2,14 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import lombok.Getter;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,16 +59,35 @@ public class RunRepeatNode extends RuntimeStatement {
         int count = getCount(runtime, period);
         long delayTicks = delay == null ? 0 : delay.toTicks();
 
-        UltimateSpellSystem.getScheduler().runTaskRepeat(
+        TaskProvider provider = new TaskProvider();
+        provider.task = UltimateSpellSystem.getScheduler().runTaskRepeat(
                 new Runnable() {
                     private int count = 0;
+                    private boolean cancelled = false;
                     @Override
                     public void run() {
+                        if(cancelled) {
+                            if(provider.task != null) {
+                                provider.task.cancel();
+                            }
+                            return;
+                        }
                         runtime.variables().set(RepeatStatement.INDEX_VARIABLE, count);
                         try {
                             child.run(runtime);
                         } catch (Exception t) {
                             UssLogger.logError("Uncaught "+t.getClass().getSimpleName()+" on RunRepeatNode#run", t);
+                        }
+
+                        // Flow management
+                        FlowState flow = runtime.getFlowState();
+                        if(flow.isNotRunning()) {
+                            if(flow == FlowState.BROKEN_CONTINUE) {
+                                runtime.statementContinue();
+                            } else {
+                                cancelled = true;
+                                return;
+                            }
                         }
                         count++;
                     }
@@ -75,5 +96,12 @@ public class RunRepeatNode extends RuntimeStatement {
                 delayTicks,
                 period.toTicks()
         );
+    }
+
+    /**
+     * Internal pointer helper for inner cancellation of tasks.
+     */
+    private static class TaskProvider {
+        private BukkitRunnable task;
     }
 }
