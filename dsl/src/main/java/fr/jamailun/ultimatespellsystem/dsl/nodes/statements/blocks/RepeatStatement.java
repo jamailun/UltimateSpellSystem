@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -24,15 +25,17 @@ public class RepeatStatement extends BlockHolder {
      */
     public static final String INDEX_VARIABLE = "_repeat_index";
 
-    private final ExpressionNode delay; // optional
-    @Getter private @NotNull final ExpressionNode count;
+    private final @Nullable ExpressionNode delay; // optional
+    @Getter private @Nullable final ExpressionNode totalCount; // either 'count' or 'totalDuration'
     @Getter private @NotNull final ExpressionNode period;
+    @Getter private @Nullable final ExpressionNode totalDuration;
 
-    public RepeatStatement(StatementNode child, ExpressionNode delay, @NotNull ExpressionNode count, @NotNull ExpressionNode period) {
+    public RepeatStatement(@NotNull StatementNode child, @Nullable ExpressionNode delay, @Nullable ExpressionNode totalCount, @NotNull ExpressionNode period, @Nullable ExpressionNode totalDuration) {
         super(child);
         this.delay = delay;
-        this.count = count;
+        this.totalCount = totalCount;
         this.period = period;
+        this.totalDuration = totalDuration;
     }
 
     @Override
@@ -42,8 +45,11 @@ public class RepeatStatement extends BlockHolder {
 
         if(delay != null)
             assertExpressionType(delay, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.DURATION);
-        assertExpressionType(count, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.NUMBER);
+        if(totalCount != null)
+            assertExpressionType(totalCount, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.NUMBER);
         assertExpressionType(period, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.DURATION);
+        if(totalDuration != null)
+            assertExpressionType(totalDuration, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.DURATION);
 
         child.validateTypes(childContext.childContext());
     }
@@ -57,21 +63,40 @@ public class RepeatStatement extends BlockHolder {
      * @param tokens streams of tokens.
      * @return a new instance.
      */
-    // REPEAT [[AFTER (DURATION)]] (COUNT) TIMES EVERY (DURATION): {}
+    // REPEAT [[AFTER (DURATION)]] (COUNT) TIMES EVERY (FREQ): {}
+    // REPEAT [[AFTER (DURATION)]] EVERY (FREQ) FOR (DURATION): {}
     @PreviousIndicator(expected = {TokenType.REPEAT})
     public static RepeatStatement parseRepeat(TokenStream tokens) {
         ExpressionNode delay = null;
         if(tokens.dropOptional(TokenType.AFTER)) {
             delay = ExpressionNode.readNextExpression(tokens);
         }
-        ExpressionNode count = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.TIMES);
-        tokens.dropOrThrow(TokenType.EVERY);
-        ExpressionNode duration = ExpressionNode.readNextExpression(tokens);
+
+        ExpressionNode freq;
+        ExpressionNode count;
+        ExpressionNode duration;
+
+        // 2nd syntax : EVERY f FOR d
+        if(tokens.dropOptional(TokenType.EVERY)) {
+            freq = ExpressionNode.readNextExpression(tokens);
+            tokens.dropOrThrow(TokenType.FOR);
+            duration = ExpressionNode.readNextExpression(tokens);
+            count = null;
+        }
+        // 1st syntax : c TIMES EVERY f
+        else {
+            count = ExpressionNode.readNextExpression(tokens);
+            tokens.dropOrThrow(TokenType.TIMES);
+            tokens.dropOrThrow(TokenType.EVERY);
+            freq = ExpressionNode.readNextExpression(tokens);
+            duration = null;
+        }
+
+        // Always present: child nodes.
         tokens.dropOrThrow(TokenType.COLON);
         StatementNode child = StatementNode.parseNextStatement(tokens);
         tokens.dropOptional(TokenType.SEMI_COLON);
-        return new RepeatStatement(child, delay, count, duration);
+        return new RepeatStatement(child, delay, count, freq, duration);
     }
 
     @Override
@@ -81,6 +106,6 @@ public class RepeatStatement extends BlockHolder {
 
     @Override
     public String toString() {
-        return "RUN{"+(delay==null?"":" AFTER " + period)+" " + count + " times every " + period + "}: " + child;
+        return "RUN{"+(delay==null?"":" AFTER " + period)+" " + totalCount + " times every " + period + "}: " + child;
     }
 }

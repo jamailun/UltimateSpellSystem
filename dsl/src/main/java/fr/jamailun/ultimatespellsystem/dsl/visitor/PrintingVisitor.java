@@ -183,14 +183,22 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     @Override
     public void handleRepeatRun(@NotNull RepeatStatement statement) {
         builder.append(indent()).append("run ");
-        statement.getCount().visit(this);
-        builder.append(" times");
         statement.getDelay().ifPresent(e -> {
-            builder.append(" after");
+            builder.append("after ");
             e.visit(this);
+            builder.append(", ");
         });
-        builder.append(" every ");
-        statement.getPeriod().visit(this);
+        if(statement.getTotalCount() != null) {
+            statement.getTotalCount().visit(this);
+            builder.append(" times every ");
+            statement.getPeriod().visit(this);
+        } else {
+            assert statement.getTotalDuration() != null;
+            builder.append("every ");
+            statement.getPeriod().visit(this);
+            builder.append(" for ");
+            statement.getTotalDuration().visit(this);
+        }
         builder.append(" : ");
         statement.getChild().visit(this);
     }

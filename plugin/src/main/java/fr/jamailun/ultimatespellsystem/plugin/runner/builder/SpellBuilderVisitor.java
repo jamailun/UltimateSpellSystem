@@ -109,8 +109,9 @@ public class SpellBuilderVisitor implements StatementVisitor {
         RuntimeExpression period = convert(statement.getPeriod());
         RuntimeStatement child = convertOneStatement(statement.getChild());
         RuntimeExpression delay = convert(statement.getDelay().orElse(null));
-        RuntimeExpression count = convert(statement.getCount());
-        add(new RunRepeatNode(period, child, delay, count));
+        RuntimeExpression totalCount = convert(statement.getTotalCount());
+        RuntimeExpression totalDuration = convert(statement.getTotalDuration());
+        add(new RunRepeatNode(period, child, delay, totalCount, totalDuration));
     }
 
     @Override

@@ -1,0 +1,9 @@
+repeat after 1s every 2 seconds for 2 m: {
+    send to %caster message "boum 1.";
+}
+
+%dur = 1 minute;
+%freq = 15s;
+repeat every %freq for %dur: {
+    send %caster message "test";
+}
