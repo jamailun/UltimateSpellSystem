@@ -7,7 +7,7 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
-import fr.jamailun.ultimatespellsystem.plugin.animations.AnimationsManagerImpl;
+import fr.jamailun.ultimatespellsystem.extension.animations.AnimationsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
 import fr.jamailun.ultimatespellsystem.plugin.bind.trigger.SpellTriggerManagerImpl;

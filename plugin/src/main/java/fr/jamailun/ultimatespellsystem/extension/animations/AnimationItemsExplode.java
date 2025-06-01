@@ -1,10 +1,10 @@
-package fr.jamailun.ultimatespellsystem.plugin.animations;
+package fr.jamailun.ultimatespellsystem.extension.animations;
 
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.animations.Animation;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 public class AnimationItemsExplode extends Animation {
+
+    public static final String ID = "item-explode";
 
     @Getter private final long duration;
     private final Location location;
@@ -39,18 +41,19 @@ public class AnimationItemsExplode extends Animation {
 
     @Override
     protected void onStart() {
-        World world = location.getWorld();
-        for(int i = 0; i < count; i++) {
-            ItemStack is = new ItemStack(randomMaterial());
-            Item item = world.dropItem(location, is, it -> {
-                it.setCanMobPickup(false);
-                it.setCanPlayerPickup(false);
-                it.setWillAge(false);
-                it.setUnlimitedLifetime(true);
-            });
-            items.add(item);
-        }
-        world.playSound(location, Sound.ENTITY_ZOMBIE_DEATH, 1, .9f);
+        UltimateSpellSystem.getScheduler().run(() -> {
+            World world = location.getWorld();
+            for(int i = 0; i < count; i++) {
+                ItemStack is = new ItemStack(randomMaterial());
+                Item item = world.dropItem(location, is, it -> {
+                    it.setCanMobPickup(false);
+                    it.setCanPlayerPickup(false);
+                    it.setWillAge(false);
+                    it.setUnlimitedLifetime(true);
+                });
+                items.add(item);
+            }
+        });
     }
 
     @Override
@@ -60,7 +63,9 @@ public class AnimationItemsExplode extends Animation {
 
     @Override
     protected void onFinish() {
-        items.forEach(Entity::remove);
+        UltimateSpellSystem.getScheduler().run(() -> {
+            items.forEach(Entity::remove);
+        });
     }
 
 }

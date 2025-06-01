@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.plugin.animations;
+package fr.jamailun.ultimatespellsystem.extension.animations;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.animations.Animation;
