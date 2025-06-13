@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.allies.VanillaTeamAllies;
+import fr.jamailun.ultimatespellsystem.extension.animations.AnimationExtension;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
@@ -66,6 +67,7 @@ public final class ExtensionLoader {
         ItemProperties.register();
         EntityTypes.register();
         AlliesProvider.instance().register(new VanillaTeamAllies(), "vanilla-teams");
+        AnimationExtension.register();
 
         UssLogger.logInfo("Loaded extension.");
     }
