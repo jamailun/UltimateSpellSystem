@@ -21,3 +21,34 @@ Thus, the expected attributes can vary, depending on the chosen effect.
 - `type` : String. Bukkit Sound to use. See Spigot [Sound](https://jd.papermc.io/paper/1.12/org/bukkit/Sound.html).
 - `volume` : Number. The volume to use. _Default value is `1`._
 - `pitch` : Number. The pitch to use. _Default value is `1`._
+
+## Attributes for an `ANIMATION`
+
+- `id` : String. Identifier for the animation. Can be registered.
+- All other properties, depending on the animation. Here's a list of the bundle animations.
+
+### Animation `explode.items`
+
+Multiple items will "explode" and fall on the ground. The type of items is randomly picked in a list.
+
+- `duration`* : duration on the ground.
+- `types`* : array of string, each for a [Material](https://jd.papermc.io/paper/1.12/org/bukkit/Material.html).
+- `count` : total amount of items on the ground. Default = `5`.
+
+### Animation `particle.spiral`
+
+A vertical spiral of particles.
+
+- `duration`* : duration of the effect.
+- `particle`* : particle type to use ([ParticleType](https://jd.papermc.io/paper/1.12/org/bukkit/Particle.html)).
+- `radius` : radius of the spiral. Default = `1`.
+- `speed_y` : vertical speed, in blocks per second. Default = `1`.
+- `speed_theta` : angle-speed. Default = `72`.
+
+### Animation `particle.ccircle`
+
+Basic circle of particles.
+
+- `duration`* : duration of the effect.
+- `particle`* : particle type to use ([ParticleType](https://jd.papermc.io/paper/1.12/org/bukkit/Particle.html)).
+- `radius` : radius of the spiral. Default = `1`.
