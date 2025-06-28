@@ -39,17 +39,23 @@ public class WhileLoopNode extends RuntimeStatement {
 
     }
 
+    /**
+     * Iterate one.
+     * @param run instance.
+     * @param runtime runtime
+     * @return {@code true} if loop should stop.
+     */
     private boolean iterate(@NotNull RunInstance run, @NotNull SpellRuntime runtime) {
         run.applyIteration();
         // Flow management
         FlowState flow = runtime.getFlowState();
         if(flow.isNotRunning()) {
             if(flow == FlowState.BROKEN_CONTINUE)
-                runtime.statementContinue();
+                runtime.acceptContinue(); // reset flags
             else
-                return true;
+                return true; // stop the loop
         }
-        return false;
+        return false; // continue the loop
     }
 
     /**

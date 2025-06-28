@@ -38,9 +38,9 @@ public class ForLoopNode extends RuntimeStatement {
             FlowState flow = runtime.getFlowState();
             if(flow.isNotRunning()) {
                 if(flow == FlowState.BROKEN_CONTINUE)
-                    runtime.statementContinue();
+                    runtime.acceptContinue(); // reset and continue
                 else
-                    return;
+                    return; // quit the loop
             }
         }
     }

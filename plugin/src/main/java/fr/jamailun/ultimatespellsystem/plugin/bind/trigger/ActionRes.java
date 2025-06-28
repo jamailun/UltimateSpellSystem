@@ -5,6 +5,11 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Result of an action.
+ * @param result the result to apply.
+ * @param data optional data.
+ */
 public record ActionRes(
         @NotNull SpellsTriggerManager.ActionResult result,
         @Nullable SpellBindData data

@@ -83,8 +83,9 @@ public class RunRepeatNode extends RuntimeStatement {
                         FlowState flow = runtime.getFlowState();
                         if(flow.isNotRunning()) {
                             if(flow == FlowState.BROKEN_CONTINUE) {
-                                runtime.statementContinue();
+                                runtime.acceptContinue(); // reset and continue.
                             } else {
+                                // Cancel task on "break;"
                                 cancelled = true;
                                 return;
                             }

@@ -31,7 +31,8 @@ public class ForeachLoopNode extends RuntimeStatement {
             FlowState flow = runtime.getFlowState();
             if(flow.isNotRunning()) {
                 if(flow == FlowState.BROKEN_CONTINUE)
-                    runtime.statementContinue();
+                    runtime.acceptContinue(); // Reset flags
+                    // = continue
                 else
                     return;
             }
