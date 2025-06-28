@@ -1,3 +1,14 @@
 for(define %i = 0; %i < 5; increment %i) {
-    send to %caster message "[%i]";
+    send to %caster message "i=%i";
+}
+
+%x = 12;
+for(; %x < 5; decrement %x) {
+    send to %caster message "x=%x";
+}
+
+%z = 8;
+for(; %x > 5; ) {
+    decrement %z;
+    send to %caster message "z=%z";
 }

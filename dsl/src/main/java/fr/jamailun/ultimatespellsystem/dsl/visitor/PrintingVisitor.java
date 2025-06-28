@@ -334,10 +334,10 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     public void handleForLoop(@NotNull ForLoopStatement statement) {
         builder.append(indent())
             .append("FOR(");
-        statement.getInitialization().visit(this);
+        if(statement.getInitialization() != null) statement.getInitialization().visit(this);
         statement.getCondition().visit(this);
         builder.append(";");
-        statement.getInitialization().visit(this);
+        if(statement.getIteration() != null) statement.getIteration().visit(this);
         builder.append("):");
         statement.getChild().visit(this);
     }

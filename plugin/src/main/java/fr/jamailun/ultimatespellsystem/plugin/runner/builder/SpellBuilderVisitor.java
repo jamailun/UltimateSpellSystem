@@ -15,6 +15,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.*;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -242,6 +243,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         currentQueue.add(rs);
     }
 
+    @Contract("null -> null; !null -> !null")
     private RuntimeStatement convertOneStatement(@Nullable StatementNode dsl) {
         if(dsl == null)
             return null;

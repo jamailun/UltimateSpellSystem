@@ -12,6 +12,7 @@ import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A for loop.
@@ -20,17 +21,17 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public class ForLoopStatement extends StatementNode {
 
-    private final StatementNode initialization;
+    private final @Nullable StatementNode initialization;
     private final ExpressionNode condition;
-    private final StatementNode iteration;
+    private final @Nullable StatementNode iteration;
     private final StatementNode child;
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
         TypesContext childContext = context.childContext();
-        initialization.validateTypes(childContext);
+        if(initialization != null) initialization.validateTypes(childContext);
         assertExpressionType(condition, CollectionFilter.MONO_ELEMENT, childContext, TypePrimitive.BOOLEAN);
-        iteration.validateTypes(childContext);
+        if(iteration != null) iteration.validateTypes(childContext);
         child.validateTypes(childContext);
     }
 
@@ -48,12 +49,27 @@ public class ForLoopStatement extends StatementNode {
     public static @NotNull ForLoopStatement parseForLoop(@NotNull TokenStream tokens) {
         tokens.dropOrThrow(TokenType.BRACKET_OPEN);
 
-        StatementNode init = StatementNode.parseNextStatement(tokens);
+        // Optional init
+        StatementNode init;
+        if(tokens.peek().getType() == TokenType.SEMI_COLON) {
+            init = null;
+            tokens.drop();
+        } else {
+            init = StatementNode.parseNextStatement(tokens);
+        }
+
+        // Required condition
         ExpressionNode condition = ExpressionNode.readNextExpression(tokens);
         tokens.dropOrThrow(TokenType.SEMI_COLON);
-        StatementNode iterator = StatementNode.parseNextStatement(tokens);
 
-        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+        // Optional iteration
+        StatementNode iterator;
+        if(tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
+            iterator = null;
+        } else {
+            iterator = StatementNode.parseNextStatement(tokens);
+            tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+        }
         StatementNode child = StatementNode.parseNextStatement(tokens);
 
         return new ForLoopStatement(init, condition, iterator, child);

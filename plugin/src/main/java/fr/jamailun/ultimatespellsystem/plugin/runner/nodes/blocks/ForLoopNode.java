@@ -7,17 +7,18 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ForLoopNode extends RuntimeStatement {
 
     private final RuntimeExpression condition;
-    private final RuntimeStatement initializer, iteration;
+    private final @Nullable RuntimeStatement initializer, iteration;
     @Getter private final RuntimeStatement child;
 
     //TODO make the safeguard configurable !
     private final static int MAX_ITERATIONS = 4096;
 
-    public ForLoopNode(@NotNull RuntimeStatement initializer, @NotNull RuntimeExpression condition, @NotNull RuntimeStatement iteration, @NotNull RuntimeStatement child) {
+    public ForLoopNode(@Nullable RuntimeStatement initializer, @NotNull RuntimeExpression condition, @Nullable RuntimeStatement iteration, @NotNull RuntimeStatement child) {
         this.initializer = initializer;
         this.condition = condition;
         this.iteration = iteration;
@@ -28,7 +29,7 @@ public class ForLoopNode extends RuntimeStatement {
     public void run(@NotNull SpellRuntime runtimeParent) {
         SpellRuntime runtime = runtimeParent.makeChild();
 
-        initializer.run(runtime);
+        if(initializer != null) initializer.run(runtime);
         RunInstance run = new RunInstance(runtime);
 
         while(run.conditionValid()) {
@@ -56,7 +57,7 @@ public class ForLoopNode extends RuntimeStatement {
         void applyIteration() {
             iterationCount++;
             child.run(runtime);
-            iteration.run(runtime);
+            if(iteration != null) iteration.run(runtime);
         }
 
         boolean conditionValid() {
