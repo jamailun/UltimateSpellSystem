@@ -58,8 +58,8 @@ public class AnimationParticleSpiraling extends AnimationParticle {
                 Duration duration = Helper.as(data, Duration.class, "duration", ID);
                 double radius = Helper.asOpt(data, Number.class, "radius", ID, 1.0).doubleValue();
                 Particle particle = Helper.asEnum(data, Particle.class, "particle", ID);
-                double degPerSec = Helper.asOpt(data, Number.class, "speed.theta", ID, 72).doubleValue();
-                double heighPerSec = Helper.asOpt(data, Number.class, "speed.y", ID, 1).doubleValue();
+                double degPerSec = Helper.asOpt(data, Number.class, "speed_theta", ID, 72).doubleValue();
+                double heighPerSec = Helper.asOpt(data, Number.class, "speed_y", ID, 1).doubleValue();
                 return new AnimationParticleSpiraling(duration.toTicks(), particle, location, radius, degPerSec, heighPerSec);
             } catch (Helper.MissingProperty | Helper.BadProperty e) {
                 UssLogger.logError(e.getMessage());
