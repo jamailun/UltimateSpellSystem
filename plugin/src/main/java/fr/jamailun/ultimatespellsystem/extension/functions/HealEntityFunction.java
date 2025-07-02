@@ -36,10 +36,10 @@ public class HealEntityFunction extends AbstractFunction {
 
     @Override
     public Double compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        LivingEntity target = toLivingEntity("get_health:entity", arguments.getFirst(), runtime);
+        LivingEntity target = toLivingEntity("heal:entity", arguments.get(0), runtime);
+        double amount = toDouble("heal:amount", arguments.get(1), runtime);
         if(target == null)
             return 0d;
-        Double amount = (Double) arguments.getLast().evaluate(runtime);
         target.heal(amount);
         return target.getHealth();
     }

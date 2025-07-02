@@ -37,7 +37,7 @@ public class DistanceFunction extends AbstractFunction {
     }
 
     @Override
-    public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
+    public Double compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
         // Location source
         Location a = toLocation("distance:a", arguments.get(0), runtime);
         Location b = toLocation("distance:b", arguments.get(1), runtime);

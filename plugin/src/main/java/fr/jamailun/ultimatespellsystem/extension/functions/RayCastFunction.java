@@ -74,7 +74,7 @@ public class RayCastFunction extends AbstractFunction {
         }
 
         // Range
-        double range = runtime.safeEvaluate(arguments.get(2), Double.class);
+        double range = toDouble("raycast:range", arguments.get(2), runtime);
 
         // Raytrace
         RayTraceResult result = location.getWorld().rayTraceBlocks(location, direction, range, FluidCollisionMode.NEVER, true);

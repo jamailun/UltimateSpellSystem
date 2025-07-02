@@ -40,8 +40,8 @@ public class RandFunction extends AbstractFunction {
 
     @Override
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        double a = runtime.safeEvaluate(arguments.get(0), Double.class);
-        double b = runtime.safeEvaluate(arguments.get(1), Double.class);
+        double a = toDouble("rand:min", arguments.get(0), runtime);
+        double b = toDouble("rand:max", arguments.get(1), runtime);
         boolean inv = a > b;
         double lower = inv ? b : a;
         double upper = inv ? a : b;

@@ -36,10 +36,10 @@ public class SetFireFunction extends AbstractFunction {
 
     @Override
     public Object compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        LivingEntity entity = toLivingEntity("set_fire(entity)", arguments.getFirst(), runtime);
+        LivingEntity entity = toLivingEntity("set_fire:entity", arguments.getFirst(), runtime);
         if(entity == null) return false;
 
-        int ticks = runtime.safeEvaluate(arguments.get(1), Double.class).intValue();
+        int ticks = toInteger("set_fire:ticks", arguments.get(1), runtime);
         entity.setFireTicks(ticks);
 
         return true;

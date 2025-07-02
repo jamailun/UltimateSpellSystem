@@ -57,4 +57,23 @@ public abstract class AbstractFunction extends RunnableJavaFunction {
         };
     }
 
+    protected @NotNull Number toNumber(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
+        Object entityRaw = expression.evaluate(runtime);
+        return switch (entityRaw) {
+            case null -> 0;
+            case Number n -> n;
+            default -> throw new InvalidTypeException(context, "number", entityRaw);
+        };
+    }
+
+    protected int toInteger(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
+        Number n = toNumber(context, expression, runtime);
+        return n.intValue();
+    }
+
+    protected double toDouble(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
+        Number n = toNumber(context, expression, runtime);
+        return n.doubleValue();
+    }
+
 }

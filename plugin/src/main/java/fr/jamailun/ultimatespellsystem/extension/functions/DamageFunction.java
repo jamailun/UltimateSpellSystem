@@ -44,7 +44,7 @@ public class DamageFunction extends AbstractFunction {
         if(target == null)
             return false;
 
-        double amount = runtime.safeEvaluate(arguments.get(1), Double.class);
+        double amount = toDouble("damage:amount", arguments.get(1), runtime);
 
         // author is specified ?
         if(arguments.size() > 2) {
