@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class UssConfig extends AbstractObservable<UssConfig> {
 
-    public static final String PLUGIN_CONFIG_VERSION = "1.7";
+    public static final String PLUGIN_CONFIG_VERSION = "1.8";
 
     private final File file;
     private final YamlConfigurationStore<MainConfigurationVersion1> store;
@@ -86,6 +86,9 @@ public class UssConfig extends AbstractObservable<UssConfig> {
     }
     public static boolean shouldCancelCast() {
         return CONFIG.cancelOnCast();
+    }
+    public static boolean shouldCancelAttack() {
+        return CONFIG.cancelOnAttack();
     }
     public static boolean cooldownOnMaterial() {
         return CONFIG.addCooldownToMaterial();

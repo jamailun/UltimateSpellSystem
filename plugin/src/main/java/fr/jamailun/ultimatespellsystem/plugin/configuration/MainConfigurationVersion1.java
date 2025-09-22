@@ -68,6 +68,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   private BindSpellSection bindSpell = new BindSpellSection(
           true,
           true,
+          true,
           null,
           null
   );
@@ -83,6 +84,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
                   "their event, as defined in the previous comment."
           })
           boolean cancelOnStep,
+          @Comment({
+                  "If true, EVERY non-ignored attack step or not WILL be cancelled.",
+                  "If false, NO attack step will be cancelled."
+          })
+          boolean cancelOnAttack,
 
           @Comment({"", "Cooldown settings (only apply to bound spells)"})
           CooldownSection cooldown,
@@ -181,6 +187,11 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   }
 
   @Override
+  public boolean cancelOnAttack() {
+    return bindSpell.cancelOnAttack();
+  }
+
+  @Override
   public @NotNull String messageOnCooldown() {
     return Objects.requireNonNullElse(bindSpell.cooldown().tooQuickMessage(), "");
   }
@@ -202,6 +213,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
       bindSpell = new BindSpellSection(
               bindSpell.cancelOnCast(),
               bindSpell.cancelOnStep(),
+              bindSpell.cancelOnAttack(),
               new CooldownSection(true, "&cToo quick! This spell is still on cooldown."),
               bindSpell.defaultValues()
       );
@@ -210,6 +222,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
       bindSpell = new BindSpellSection(
               bindSpell.cancelOnCast(),
               bindSpell.cancelOnStep(),
+              bindSpell.cancelOnAttack(),
               bindSpell.cooldown(),
               new SectionDefault(
                       List.of(ItemBindTrigger.RIGHT_CLICK),

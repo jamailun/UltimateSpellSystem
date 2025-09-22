@@ -28,6 +28,7 @@ public interface MainConfiguration {
 
   boolean cancelOnStep();
   boolean cancelOnCast();
+  boolean cancelOnAttack();
 
   @NotNull String messageOnCooldown();
 
