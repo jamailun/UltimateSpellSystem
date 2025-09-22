@@ -1,10 +1,10 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,12 +33,20 @@ public final class RunSubOpe extends RuntimeBiOperator {
         }
         // Add durations
         if(left instanceof Duration ld && right instanceof Duration rd) {
-            UssLogger.logDebug("SUB durations. produced " + ld.sub(rd));
             return ld.sub(rd);
         }
         // Add Locations
-        if(left instanceof Location ll && right instanceof Location rl) {
-            return ll.clone().subtract(rl);
+        if(left instanceof Location loc) {
+            if(right instanceof Location other)
+                return loc.clone().subtract(other);
+            if(right instanceof Vector other)
+                return loc.clone().subtract(other);
+        }
+        if(left instanceof Vector vector) {
+            if(right instanceof Vector other)
+                return vector.clone().subtract(other);
+            if(right instanceof Location other)
+                return vector.clone().subtract(other.toVector());
         }
 
         throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);

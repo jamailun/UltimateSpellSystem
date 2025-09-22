@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public final class RunAddOpe extends RuntimeBiOperator {
         if(left instanceof Duration ld && right instanceof Duration rd) {
             return ld.add(rd);
         }
-        // Add Locations
+        // Add Locations adn vectors
         if(left instanceof Location ll && right instanceof Location rl) {
             return ll.clone().add(rl);
         }
@@ -54,6 +55,14 @@ public final class RunAddOpe extends RuntimeBiOperator {
             if(list.get(0) instanceof Double x && list.get(1) instanceof Double y && list.get(2) instanceof Double z) {
                 return ll.clone().add(x, y, z);
             }
+        }
+        if(left instanceof Location loc && right instanceof Vector vec) {
+            return loc.clone().add(vec);
+        } else if(right instanceof Location loc && left instanceof Vector vec) {
+            return loc.clone().add(vec);
+        }
+        if(left instanceof Vector rv && right instanceof Vector lv) {
+            return rv.subtract(lv);
         }
         // Union Properties
         if(left instanceof Map<?,?> lm && right instanceof Map<?,?> rm) {

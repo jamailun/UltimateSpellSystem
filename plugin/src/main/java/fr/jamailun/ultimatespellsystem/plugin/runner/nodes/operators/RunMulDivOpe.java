@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,12 @@ public final class RunMulDivOpe extends RuntimeBiOperator {
                 out.add(evaluate(from, right));
             }
             return out;
+        }
+        if(left instanceof Vector vec && right instanceof Number r) {
+            return isMultiplication ? vec.multiply(r.doubleValue()) : vec.multiply(1d / r.doubleValue());
+        }
+        if(left instanceof Number l && right instanceof Vector vec) {
+            return isMultiplication ? vec.multiply(l.doubleValue()) : vec.multiply(1d / l.doubleValue());
         }
         throw new UnreachableRuntimeException("Unexpected types : L="+left+", R="+right);
     }
