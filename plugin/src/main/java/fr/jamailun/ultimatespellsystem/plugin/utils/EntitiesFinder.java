@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
@@ -24,6 +25,8 @@ public final class EntitiesFinder {
             return (entityType::isOf);
         } else if(scope instanceof String s) {
             Predicate<Entity> predicate = ScopeProvider.instance().find(s);
+            if(predicate == null)
+                UssLogger.logWarning("Unknown scope: '" + scope + "'.");
             return Objects.requireNonNullElse(predicate, x -> true);
         } else {
             throw new UnreachableRuntimeException("Invalid scope type : " + scope);

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +49,7 @@ public final class Scopes {
         if(e.getScoreboardTags().contains("player")) {
             return true;
         }
-        return !e.getScoreboardTags().contains("CITIZENS_NPC");
+        return e instanceof HumanEntity && !e.getScoreboardTags().contains("CITIZENS_NPC");
     }
 
     public static void register() {
