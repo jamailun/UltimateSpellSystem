@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -102,6 +103,16 @@ public final class UltimateSpellSystem {
      */
     public static @NotNull Scheduler getScheduler() {
         return plugin.getScheduler();
+    }
+
+    /**
+     * Test if two entity are allied.
+     * @param entity first entity.
+     * @param other other entity.
+     * @return true if they should not attack.
+     */
+    public static boolean areAllies(@NotNull Entity entity, @NotNull Entity other) {
+        return plugin.areAllies(entity, other);
     }
 
 

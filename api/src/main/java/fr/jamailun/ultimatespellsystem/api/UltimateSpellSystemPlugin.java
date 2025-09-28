@@ -5,11 +5,11 @@ import fr.jamailun.ultimatespellsystem.api.bind.ItemBinder;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonsManager;
-import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellsManager;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -71,6 +71,12 @@ public interface UltimateSpellSystemPlugin {
      * @return non-null instance.
      */
     @NotNull ExternalExecutor getExternalExecutor();
+
+    /**
+     * Test if two entities are allied.
+     * @return true if they should not damage each other.
+     */
+    boolean areAllies(@NotNull Entity entity, @NotNull Entity other);
 
     /**
      * Reload the configuration.

@@ -4,6 +4,8 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystemPlugin;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostRegistry;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellsTriggerManager;
+import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
 import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
 import fr.jamailun.ultimatespellsystem.api.utils.ItemReader;
 import fr.jamailun.ultimatespellsystem.api.utils.Scheduler;
@@ -12,6 +14,7 @@ import fr.jamailun.ultimatespellsystem.plugin.bind.ItemBinderImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.SpellCostFactory;
 import fr.jamailun.ultimatespellsystem.plugin.bind.trigger.SpellTriggerManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.commands.UssCommand;
+import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import fr.jamailun.ultimatespellsystem.plugin.entities.SummonsManagerImpl;
 import fr.jamailun.ultimatespellsystem.plugin.listeners.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
@@ -26,6 +29,8 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -140,6 +145,12 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return super.onTabComplete(sender, command, alias, args);
+    }
+
+    @Override
+    public boolean areAllies(@NotNull Entity entity, @NotNull Entity other) {
+        SpellEntity asCaster = new BukkitSpellEntity(entity);
+        return AlliesProvider.instance().testForAllies(asCaster, other) == AlliesProvider.AlliesResult.ALLIES;
     }
 
     /**
