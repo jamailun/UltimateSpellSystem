@@ -36,7 +36,7 @@ if(%enemies_around > 2) {
             id: "explode.items",
             duration: 3.5s,
             count: 5,
-            types: [[ "iron_ingo", "poppy" ]]
+            types: [[ "iron_ingot", "poppy" ]]
         }};
     }
 }
@@ -58,5 +58,6 @@ Check the [wiki](https://github.com/jamailun/UltimateSpellSystem/wiki) or the [d
 
 - Create an issue on Github.
 - Ask your question on [Discord](https://discord.com/invite/MA5sxbKQuW).
+
 
 
