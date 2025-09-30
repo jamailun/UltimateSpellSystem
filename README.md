@@ -31,7 +31,7 @@ if(%enemies_around > 2) {
 
     # Triggers when it expires (after the duration)
     # This is an animation that make fake items appear for a duration.
-    callback %my_golem die: {
+    callback %my_golem expire: {
         play ANIMATION at %skeleton with: {{
             id: "explode.items",
             duration: 3.5s,
@@ -58,4 +58,5 @@ Check the [wiki](https://github.com/jamailun/UltimateSpellSystem/wiki) or the [d
 
 - Create an issue on Github.
 - Ask your question on [Discord](https://discord.com/invite/MA5sxbKQuW).
+
 
