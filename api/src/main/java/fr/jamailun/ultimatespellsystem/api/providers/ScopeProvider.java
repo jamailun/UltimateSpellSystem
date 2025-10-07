@@ -23,7 +23,7 @@ public final class ScopeProvider extends UssProvider<EntityScope> {
 
     // Load custom scopes
     static {
-        instance().register(e -> e instanceof LivingEntity, "living", "living_entity", "living_entities", "all", "any");
+        instance().register(e -> e instanceof LivingEntity, "entities", "living", "living_entity", "living_entities", "all", "any");
         instance().register(e -> e instanceof Mob || e.getScoreboardTags().contains("mob"), "mob");
         instance().register(e -> e instanceof Monster || e.getScoreboardTags().contains("monster"), "monster");
         instance().register(e -> e instanceof Animals || e.getScoreboardTags().contains("animal"), "animal");
