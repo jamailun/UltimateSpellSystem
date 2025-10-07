@@ -1,10 +1,12 @@
 package fr.jamailun.ultimatespellsystem.extension.functions;
 
+import fr.jamailun.ultimatespellsystem.api.events.EntityHealedBySpellEvent;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +42,14 @@ public class HealEntityFunction extends AbstractFunction {
         double amount = toDouble("heal:amount", arguments.get(1), runtime);
         if(target == null)
             return 0d;
-        target.heal(amount);
+
+        // Heal with an event
+        var event = new EntityHealedBySpellEvent(target, runtime.getCaster(), runtime.getSpell(), amount);
+        Bukkit.getPluginManager().callEvent(event);
+        if(!event.isCancelled()) {
+            target.heal(amount);
+        }
+
         return target.getHealth();
     }
 }
