@@ -18,9 +18,11 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -39,6 +41,7 @@ public abstract class TestFramework {
             Server server = Mockito.mock(Server.class);
             ConsoleCommandSender sender = Mockito.mock(ConsoleCommandSender.class);
             Logger logger = Mockito.mock(Logger.class);
+            PluginManager manager = Mockito.mock(PluginManager.class);
             Mockito.doNothing().when(sender).sendMessage(Mockito.anyString());
             Mockito.doNothing().when(logger).info(Mockito.anyString());
             Mockito.when(server.getConsoleSender()).thenReturn(sender);
@@ -46,7 +49,7 @@ public abstract class TestFramework {
             Mockito.when(server.getBukkitVersion()).thenReturn("test");
             Mockito.when(server.getLogger()).thenReturn(logger);
             Mockito.when(server.getPluginCommand(Mockito.anyString())).thenReturn(null);
-
+            Mockito.when(server.getPluginManager()).thenReturn(manager);
 
             try (MockedStatic<ServerBuildInfo> sbi = Mockito.mockStatic(ServerBuildInfo.class)) {
                 ServerBuildInfo info = Mockito.mock(ServerBuildInfo.class);
