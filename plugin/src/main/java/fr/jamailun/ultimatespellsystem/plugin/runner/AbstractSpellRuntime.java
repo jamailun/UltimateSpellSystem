@@ -4,6 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
+import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +19,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
 
     protected final VariablesSet variables;
     protected final ExitCode exitCode;
+    @Getter protected final Spell spell;
 
     protected boolean flagBreak = false;
     protected boolean flagContinue = false;
@@ -27,11 +29,13 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
         variables = parent.variables.inherit();
         flagContinue = parent.flagContinue;
         flagBreak = parent.flagBreak;
+        spell = parent.spell;
     }
 
-    AbstractSpellRuntime(@NotNull ExitCode exitCode) {
+    AbstractSpellRuntime(@NotNull ExitCode exitCode, @Nullable Spell spell) {
         this.exitCode = exitCode;
         variables = new VariablesSetImpl();
+        this.spell = spell;
     }
 
     @Override

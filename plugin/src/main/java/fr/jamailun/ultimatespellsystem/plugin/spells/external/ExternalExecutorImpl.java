@@ -24,12 +24,12 @@ public class ExternalExecutorImpl implements ExternalExecutor {
 
     @Override
     public @NotNull SpellRuntime generateRuntime(@NotNull SpellEntity caster) {
-        return new SpellRuntimeImpl(caster);
+        return new SpellRuntimeImpl(caster, null);
     }
 
     @Override
     public @NotNull SpellRuntime generateRuntime(@NotNull LivingEntity caster) {
-        return new SpellRuntimeImpl(caster);
+        return new SpellRuntimeImpl(caster, null);
     }
 
     @Override

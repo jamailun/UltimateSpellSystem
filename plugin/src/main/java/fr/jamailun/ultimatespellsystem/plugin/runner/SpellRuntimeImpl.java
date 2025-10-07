@@ -2,10 +2,12 @@ package fr.jamailun.ultimatespellsystem.plugin.runner;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Implementation of Spell Runtime.
@@ -15,16 +17,16 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
 
     private final SpellEntity caster;
 
-    public SpellRuntimeImpl(@NotNull LivingEntity caster) {
-        this(new BukkitSpellEntity(caster));
+    public SpellRuntimeImpl(@NotNull LivingEntity caster, @Nullable Spell spell) {
+        this(new BukkitSpellEntity(caster), spell);
     }
 
     /**
      * Create a new context.
      * @param caster the caster to declare.
      */
-    public SpellRuntimeImpl(@NotNull SpellEntity caster) {
-        super(new ExitCode());
+    public SpellRuntimeImpl(@NotNull SpellEntity caster, @Nullable Spell spell) {
+        super(new ExitCode(), spell);
         this.caster = caster;
         variables.set("caster", caster);
     }

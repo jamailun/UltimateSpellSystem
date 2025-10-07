@@ -35,7 +35,7 @@ public abstract class AbstractSpell implements Spell {
     @Override
     public final boolean castNotCancellable(@NotNull SpellEntity entity, @Nullable SpellRuntime runtime) {
         Bukkit.getServer().getPluginManager().callEvent(new EntityCastSpellEvent(entity, this, false));
-        return castSpell(entity, Objects.requireNonNullElse(runtime, new SpellRuntimeImpl(entity)));
+        return castSpell(entity, Objects.requireNonNullElse(runtime, new SpellRuntimeImpl(entity, this)));
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class AbstractSpell implements Spell {
         EntityCastSpellEvent event = new EntityCastSpellEvent(spellCaster, this, true);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled())
-            return castSpell(spellCaster, new SpellRuntimeImpl(spellCaster));
+            return castSpell(spellCaster, new SpellRuntimeImpl(spellCaster, this));
         return false;
     }
 

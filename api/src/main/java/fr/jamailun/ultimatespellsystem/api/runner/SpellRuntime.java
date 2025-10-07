@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.runner;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,12 @@ public interface SpellRuntime {
      * @return a non-null reference to the caster.
      */
     @NotNull SpellEntity getCaster();
+
+    /**
+     * Get the spell reference of the current runtime.
+     * @return a non-null spell reference. May be null when created by another plugin.
+     */
+    @Nullable Spell getSpell();
 
     /**
      * A reference to the variables set.

@@ -87,7 +87,7 @@ public abstract class TestFramework {
     }
 
     protected boolean cast(@NotNull List<RuntimeStatement> statements) {
-        SpellRuntime runtime = new SpellRuntimeImpl(caster);
+        SpellRuntime runtime = new SpellRuntimeImpl(caster, null);
 
         for(RuntimeStatement statement : statements) {
             statement.run(runtime);
