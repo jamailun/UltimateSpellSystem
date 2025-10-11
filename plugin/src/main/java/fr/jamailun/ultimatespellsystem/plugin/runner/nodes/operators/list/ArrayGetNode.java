@@ -26,4 +26,9 @@ public class ArrayGetNode extends RuntimeExpression {
 
         return list.get(index);
     }
+
+    @Override
+    public String toString() {
+        return array + "[" + index + "]";
+    }
 }

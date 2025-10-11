@@ -173,7 +173,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
 
   @Override
   public int getTicksCitizensTrait() {
-    return 0;
+    return tick.spellCasterTrait();
   }
 
   @Override
