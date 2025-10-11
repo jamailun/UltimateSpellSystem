@@ -1,5 +1,7 @@
 package fr.jamailun.ultimatespellsystem.extension.animations;
 
+import fr.jamailun.ultimatespellsystem.UssLogger;
+import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,6 +60,16 @@ final class Helper {
     return null;
   }
 
+  static @NotNull List<Material> listMaterials(Map<String, Object> data, String key, String animation) throws MissingProperty, BadProperty {
+    Object rawTypes = as(data, Object.class, key, animation);
+    List<Material> materials = Helper.listOfEnumAcceptsMono(Material.class, rawTypes);
+    if(materials == null) {
+      UssLogger.logError("Animation "+animation+": unrecognized animation '"+key+"' : " + rawTypes + " (" + rawTypes.getClass().getSimpleName() + ")");
+      throw new BadProperty(animation, key);
+    }
+    return materials;
+  }
+
   static <T extends Enum<T>> @Nullable T enumMono(Class<T> clazz, Object rawValue) {
     if(rawValue instanceof String str) {
       return Enum.valueOf(clazz, str.toUpperCase());
@@ -74,6 +86,9 @@ final class Helper {
   static class BadProperty extends Exception {
     public BadProperty(String animation, String key, Class<?> clazz, Object value) {
       super("Animation " + animation + "::" + key + "' bad property type. Expected " +  clazz.getSimpleName() + ", got " + value.getClass().getSimpleName());
+    }
+    public BadProperty(String animation, String key) {
+      super("Animation " + animation + "::" + key + "' bad property value. Cannot accept an empty list.");
     }
   }
 
