@@ -7,17 +7,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manages and run {@link Animation}.
  */
 public final class AnimationsManagerImpl implements AnimationsManager {
 
-    private final Map<Animation, Runnable> animations = new HashMap<>();
+    private final Map<Animation, Runnable> animations = new ConcurrentHashMap<>();
     private BukkitRunnable task;
 
     public void start() {
@@ -45,8 +45,8 @@ public final class AnimationsManagerImpl implements AnimationsManager {
             Animation animation = entry.getKey();
 
             if (animation.isOver()) {
-                iterator.remove();
                 entry.getValue().run();
+                iterator.remove();
                 continue;
             }
 
