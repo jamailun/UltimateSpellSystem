@@ -60,6 +60,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new SetAggroFunction());
         JavaFunctionProvider.instance().registerFunction(new GetFoodLevelFunction());
         JavaFunctionProvider.instance().registerFunction(new SetFoodLevelFunction());
+        JavaFunctionProvider.instance().registerFunction(new SolidBlockBellowFunction());
         LogFunctions.register();
 
         // Others
