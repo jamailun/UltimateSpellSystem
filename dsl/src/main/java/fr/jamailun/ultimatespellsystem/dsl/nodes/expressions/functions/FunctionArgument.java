@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,4 +10,9 @@ import org.jetbrains.annotations.NotNull;
  * @param optional if true, argument is not mandatory.
  */
 public record FunctionArgument(@NotNull FunctionType type, @NotNull String debugName, boolean optional) {
+    @Contract(pure = true)
+    @Override
+    public @NotNull String toString() {
+        return type + " " + debugName + (optional?"*":"");
+    }
 }

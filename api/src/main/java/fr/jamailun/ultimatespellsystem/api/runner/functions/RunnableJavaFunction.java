@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionA
 import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -49,4 +50,9 @@ public abstract class RunnableJavaFunction {
         return new FunctionDefinition(id, type, arguments);
     }
 
+    @Override
+    @Contract(pure = true)
+    public @NotNull String toString() {
+        return id + "(" + arguments + ")->" + type;
+    }
 }

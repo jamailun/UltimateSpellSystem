@@ -56,7 +56,7 @@ public class CasterTrait extends Trait implements SpellEntity {
     }
 
     private boolean exists() {
-        return npc.isSpawned() && npc.getEntity() != null && npc.getEntity().isValid();
+        return npc.isSpawned() && npc.getEntity() != null && npc.getEntity().isValid() && npc.getEntity().getWorld().getPlayerCount() > 0;
     }
 
     /**

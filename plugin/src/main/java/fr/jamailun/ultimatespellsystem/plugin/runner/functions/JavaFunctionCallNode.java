@@ -8,6 +8,7 @@ import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,5 +57,11 @@ public class JavaFunctionCallNode extends RuntimeExpression {
 
             default -> throw new RuntimeException("In execution of function '" + function.getDslDefinition().id() + "', return type is " + function.getDslDefinition().returnedType() + ". But got: " + value + " of type" + value.getClass());
         };
+    }
+
+    @Override
+    @Contract(pure = true)
+    public @NotNull String toString() {
+        return "CALL[" + function.getId() + "(" + arguments + ")]";
     }
 }
