@@ -48,8 +48,7 @@ public class CasterTrait extends Trait implements SpellEntity {
     @Override
     public void run() {
         if (!exists()) return;
-        tickCounter++;
-        if (tickCounter >= tickRate) {
+        if (++tickCounter >= tickRate) {
             tickCounter = 0;
             runUpdate();
         }
