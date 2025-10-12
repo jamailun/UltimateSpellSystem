@@ -13,13 +13,13 @@ import java.util.Random;
 /**
  * A simple random function.
  */
-public class RandFunction extends AbstractFunction {
+public class RandIntFunction extends AbstractFunction {
 
     private static final Random RANDOM = new Random();
 
-    public RandFunction() {
+    public RandIntFunction() {
         super(
-                "rand",
+                "rand_int",
                 // Returns a numeric value
                 TypePrimitive.NUMBER.asType(),
                 // Args :
@@ -39,12 +39,12 @@ public class RandFunction extends AbstractFunction {
     }
 
     @Override
-    public Double compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        double a = toDouble("rand:min", arguments.get(0), runtime);
-        double b = toDouble("rand:max", arguments.get(1), runtime);
+    public Integer compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
+        int a = toInteger("rand:min", arguments.get(0), runtime);
+        int b = toInteger("rand:max", arguments.get(1), runtime);
         boolean inv = a > b;
-        double lower = inv ? b : a;
-        double upper = inv ? a : b;
-        return RANDOM.nextDouble(upper - lower) + lower;
+        int lower = inv ? b : a;
+        int upper = inv ? a : b;
+        return RANDOM.nextInt(upper - lower) + lower;
     }
 }
