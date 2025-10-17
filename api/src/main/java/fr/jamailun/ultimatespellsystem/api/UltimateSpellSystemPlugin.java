@@ -73,8 +73,10 @@ public interface UltimateSpellSystemPlugin {
     @NotNull ExternalExecutor getExternalExecutor();
 
     /**
-     * Test if two entities are allied.
-     * @return true if they should not damage each other.
+     * Test if two entity are allied.
+     * @param entity first entity.
+     * @param other other entity.
+     * @return true if they should not attack.
      */
     boolean areAllies(@NotNull Entity entity, @NotNull Entity other);
 

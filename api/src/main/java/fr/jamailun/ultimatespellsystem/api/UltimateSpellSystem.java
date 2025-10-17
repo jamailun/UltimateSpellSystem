@@ -109,12 +109,11 @@ public final class UltimateSpellSystem {
      * Test if two entity are allied.
      * @param entity first entity.
      * @param other other entity.
-     * @return true if they should not attack.
+     * @return true if they should not attack each other.
      */
     public static boolean areAllies(@NotNull Entity entity, @NotNull Entity other) {
         return plugin.areAllies(entity, other);
     }
-
 
     /**
      * Get the external executor. Used to evaluate any DSL expressions.
