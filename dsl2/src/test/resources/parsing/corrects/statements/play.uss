@@ -1,0 +1,17 @@
+# Play at '%caster' location
+
+play PARTICLE at %caster with: {{
+  type: lava,
+  count: 12
+}};
+
+play "sound" at %caster with: {{
+  type: ENTITY_POLAR_BEAR_WARNING,
+  volume: 1.1,
+  pitch: 0.8
+}};
+
+play BLOCK at %caster with: {{
+  type: MAGMA_BLOCK,
+  duration: 2 seconds
+}};

@@ -1,0 +1,9 @@
+summon IRON_GOLEM at %caster as %ent for 5 minutes with: {{
+  name: "Michel"
+}};
+
+summon DOLPHIN at %caster for 3 seconds with: {{}};
+
+define %type = ZOMBIE;
+define %dur = 3 days;
+summon %type at %caster for %dur;

@@ -1,0 +1,16 @@
+# Type not set (i.e. NULL)
+%l = [[]];
+
+# Append a value to the list.
+%l :+ 1;
+%l :+ 2;
+
+# because its an expression...
+(%l :+ 12) :+ 27;
+
+# ":?" == contains
+%bool = %l :? 1;   # true
+%num = sizeof(%l); # 4
+
+# ":-" == remove (value)
+%l :- 1;

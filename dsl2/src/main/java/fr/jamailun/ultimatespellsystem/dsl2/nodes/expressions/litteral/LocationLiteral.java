@@ -1,0 +1,105 @@
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral;
+
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.PreviousIndicator;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A raw {@link org.bukkit.Location} literal.
+ */
+@Getter
+public class LocationLiteral extends ExpressionNode {
+
+    private final ExpressionNode world;
+    private final ExpressionNode vectorX;
+    private final ExpressionNode vectorY;
+    private final ExpressionNode vectorZ;
+    private final ExpressionNode yaw;
+    private final ExpressionNode pitch;
+
+    protected LocationLiteral(TokenPosition position, ExpressionNode world, ExpressionNode vectorX, ExpressionNode vectorY, ExpressionNode vectorZ, ExpressionNode yaw, ExpressionNode pitch) {
+        super(position);
+        this.world = world;
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
+        this.vectorZ = vectorZ;
+        this.yaw = yaw;
+        this.pitch = pitch;
+    }
+
+    public boolean asYawAndPitch() {
+        return yaw != null && pitch != null;
+    }
+
+    @Override
+    public @NotNull Type getExpressionType() {
+        return TypePrimitive.LOCATION.asType();
+    }
+
+    @Override
+    public void visit(@NotNull ExpressionVisitor visitor) {
+        visitor.handleLocationLiteral(this);
+    }
+
+    @Override
+    public void validateTypes(@NotNull TypesContext context) {
+        assertExpressionType(world, context, TypePrimitive.STRING);
+        assertExpressionType(vectorX, context, TypePrimitive.NUMBER);
+        assertExpressionType(vectorY, context, TypePrimitive.NUMBER);
+        assertExpressionType(vectorZ, context, TypePrimitive.NUMBER);
+
+        if(asYawAndPitch()) {
+            assertExpressionType(yaw, context, TypePrimitive.NUMBER);
+            assertExpressionType(pitch, context, TypePrimitive.NUMBER);
+        }
+    }
+
+    /**
+     * Parse a new raw location.
+     * @param tokens stream of tokens.
+     * @return a new instance.
+     */
+    @PreviousIndicator(expected = TokenType.CHAR_AT)
+    public static @NotNull LocationLiteral readNextLocation(@NotNull TokenStream tokens) {
+        TokenPosition position = tokens.position();
+        // Open
+        tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+
+        // World + vector
+        ExpressionNode world = ExpressionNode.readNextExpression(tokens);
+        tokens.dropOrThrow(TokenType.COMMA);
+        ExpressionNode x = ExpressionNode.readNextExpression(tokens);
+        tokens.dropOrThrow(TokenType.COMMA);
+        ExpressionNode y = ExpressionNode.readNextExpression(tokens);
+        tokens.dropOrThrow(TokenType.COMMA);
+        ExpressionNode z = ExpressionNode.readNextExpression(tokens);
+
+        // Optional yaw + pitch
+        ExpressionNode yaw = null;
+        ExpressionNode pitch = null;
+        if(tokens.dropOptional(TokenType.COMMA)) {
+            yaw = ExpressionNode.readNextExpression(tokens);
+        }
+        if(tokens.dropOptional(TokenType.COMMA)) {
+            pitch = ExpressionNode.readNextExpression(tokens);
+        }
+
+        // Close
+        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+
+        return new LocationLiteral(position, world, x, y, z, yaw, pitch);
+    }
+
+    @Override
+    public String toString() {
+        return "Loc{"+world+", ("+vectorX+","+vectorY+","+vectorZ+")}";
+    }
+}

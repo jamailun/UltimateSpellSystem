@@ -1,0 +1,13 @@
+repeat after 1s 5 times every 2 seconds: {
+    send to %caster message "boum 1.";
+}
+
+repeat 2 times every 5 seconds: {
+    send to %caster message "boum 2.";
+}
+
+define %count = 1 + 1;
+define %delay = 3sec;
+repeat %count times every %delay: {
+    send to %caster message "boum 3.";
+}

@@ -1,0 +1,51 @@
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators;
+
+import fr.jamailun.ultimatespellsystem.dsl2.errors.TypeException;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A NOT Operator for a boolean child-expression.
+ */
+public class NotOperator extends MonoOperator {
+
+    /**
+     * New instance.
+     * @param token token, for the position.
+     * @param expression expression to invert.
+     */
+    public NotOperator(@NotNull Token token, ExpressionNode expression) {
+        super(token.pos(), expression);
+    }
+
+    @Override
+    public @NotNull MonoOpeType getType() {
+        return MonoOpeType.NOT;
+    }
+
+    @Override
+    public void validateTypes(@NotNull Type childType) {
+        // No collection
+        if(childType.isCollection()) {
+            throw new TypeException(this, "A NEGATION cannot handle collections.");
+        }
+
+        // Only booleans
+        if(! childType.is(TypePrimitive.BOOLEAN)) {
+            throw new TypeException(this, "A NEGATION can only handle booleans.");
+        }
+    }
+
+    @Override
+    public @NotNull Type getExpressionType() {
+        return TypePrimitive.BOOLEAN.asType();
+    }
+
+    @Override
+    public String toString() {
+        return "NOT(" + child + ")";
+    }
+}

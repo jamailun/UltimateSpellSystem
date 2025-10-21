@@ -1,0 +1,6 @@
+define %around = (all PLAYER within 50 around %caster);
+
+foreach(%p : %around) {
+    send to %caster message "Found " + %p;
+}
+send to %caster message "All = %around";

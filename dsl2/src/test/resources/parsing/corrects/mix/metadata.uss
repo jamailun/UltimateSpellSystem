@@ -1,0 +1,5 @@
+@name("a nice spell")
+@color("&b")
+@param("a", int)
+
+send to %caster message "";
