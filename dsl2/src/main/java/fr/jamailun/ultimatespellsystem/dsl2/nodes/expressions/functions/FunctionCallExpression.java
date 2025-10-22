@@ -44,7 +44,7 @@ public final class FunctionCallExpression extends ExpressionNode {
 
     @Override
     public void visit(@NotNull ExpressionVisitor visitor) {
-        visitor.handleFunction(this);
+        throw new UnsupportedOperationException("plus maintenant");
     }
 
     @Override

@@ -19,10 +19,12 @@ public class CorrectParsingTests extends ParsingTest {
     void correctBasics() {
         testFolder("corrects/basics");
     }
+
     @Test
     void correctStatements() {
         testFolder("corrects/statements");
     }
+
     @Test
     void correctBlocks() {
         testFolder("corrects/blocks");

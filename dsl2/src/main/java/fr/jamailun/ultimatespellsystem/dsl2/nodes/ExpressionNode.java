@@ -136,7 +136,7 @@ public abstract class ExpressionNode extends Node {
 
             // Parenthèse ?
             // a.IDENTIFIER(...)
-            if(tokens.dropOptional(TokenType.BRACES_OPEN)) {
+            if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
                 List<ExpressionNode> arguments = parseArgumentsParameter(tokens);
                 String fctName = identifier.getContentString();
                 ExpressionNode fctCall = new FunctionCallExpression(left, fctName, arguments);
@@ -171,7 +171,7 @@ public abstract class ExpressionNode extends Node {
     public static List<ExpressionNode> parseArgumentsParameter(@NotNull TokenStream tokens) {
         List<ExpressionNode> list = new ArrayList<>();
         boolean first = true;
-        while(!tokens.dropOptional(TokenType.BRACES_CLOSE)) {
+        while(!tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
             if(first) first = false; else tokens.dropOrThrow(TokenType.COMMA, "A COMMA is required between parameters.");
             ExpressionNode expression = ExpressionNode.readNextExpression(tokens);
             list.add(expression);

@@ -40,6 +40,11 @@ public class FunctionCallExpression extends ExpressionNode {
 
   @Override
   public void visit(@NotNull ExpressionVisitor visitor) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    visitor.handleFunctionCall(this);
+  }
+
+  @Override
+  public String toString() {
+    return caller + "." + functionName + "(" + arguments + ")";
   }
 }

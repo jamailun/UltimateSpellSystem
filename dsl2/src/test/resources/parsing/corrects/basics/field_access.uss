@@ -1,1 +1,1 @@
-string str = "aaaa";
+console.log("test");

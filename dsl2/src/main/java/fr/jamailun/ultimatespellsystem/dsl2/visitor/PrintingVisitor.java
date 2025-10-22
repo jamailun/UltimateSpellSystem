@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl2.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.*;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionCallExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
@@ -339,12 +338,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleFunction(@NotNull FunctionCallExpression expression) {
-        builder.append(":")
-                .append(expression.getFunction().id())
-                .append("(");
+    public void handleFunctionCall(@NotNull FunctionCallExpression functionCall) {
+        functionCall.getCaller().visit(this);
+        builder.append(".").append(functionCall.getFunctionName()).append("(");
         boolean first = true;
-        for(ExpressionNode arg : expression.getArguments()) {
+        for(ExpressionNode arg : functionCall.getArguments()) {
             if(first) first = false; else builder.append(", ");
             arg.visit(this);
         }
