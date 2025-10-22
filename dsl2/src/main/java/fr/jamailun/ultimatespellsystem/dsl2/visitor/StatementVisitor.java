@@ -11,8 +11,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface StatementVisitor {
 
+    void handleDeclareVariable(@NotNull DeclareNewVariableStatement statement);
+    void handleAffectVariable(@NotNull AffectationStatement statement);
+    void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement);
+
     void handleReturn(@NotNull ReturnStatement statement);
-    void handleDefine(@NotNull DeclareNewVariable statement);
     void handleBlock(@NotNull BlockStatement statement);
     void handleIncrement(@NotNull IncrementStatement statement);
     void handleSimpleExpression(@NotNull SimpleExpressionStatement statement);

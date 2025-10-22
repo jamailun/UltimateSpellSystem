@@ -37,16 +37,19 @@ public abstract class StatementNode extends Node {
             // "A B =" : variable declaration
             if(tokens.dropOptional(TokenType.EQUAL)) {
                 ExpressionNode definition = ExpressionNode.readNextExpression(tokens);
-                StatementNode output = new DeclareNewVariable(first, second, definition);
+                StatementNode output = new DeclareNewVariableStatement(first, second, definition);
                 tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a SEMI COLON.");
                 return output;
             }
 
             // "A B(..." : function declaration
             if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
-                StatementNode output = FunctionDeclarationStatement.parseNextFunction(first, second, tokens);
-                tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a SEMI COLON.");
-                return output;
+                return FunctionDeclarationStatement.parseNextFunction(first, second, tokens);
+            }
+
+            if (tokens.dropOptional(TokenType.SEMI_COLON)) {
+                return new DeclareNewVariableStatement(first, second, null);
+                // le semi-colon a déjà été retiré :)
             }
 
             // Illegal ?

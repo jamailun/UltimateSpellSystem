@@ -10,19 +10,20 @@ import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Define statement will set a variable to something.
  */
 @Getter
 @RequiredArgsConstructor
-public class DeclareNewVariable extends StatementNode {
+public class DeclareNewVariableStatement extends StatementNode {
 
-    private final String varType;
-    private final String varName;
-    private final ExpressionNode expression;
+    private final @NotNull String varType;
+    private final @NotNull String varName;
+    private final @Nullable ExpressionNode expression;
 
-    public DeclareNewVariable(@NotNull Token varType, @NotNull Token varName, @NotNull ExpressionNode expression) {
+    public DeclareNewVariableStatement(@NotNull Token varType, @NotNull Token varName, @Nullable ExpressionNode expression) {
         this.varType = varType.getContentString();
         this.varName = varName.getContentString();
         this.expression = expression;
@@ -30,15 +31,16 @@ public class DeclareNewVariable extends StatementNode {
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
-        expression.validateTypes(context);
-        // Register variable
-        //TODO
-        context.registerVariable(varName, expression);
+        if(expression != null) {
+            expression.validateTypes(context);
+            //TODO
+            context.registerVariable(varName, expression);
+        }
     }
 
     @Override
     public void visit(@NotNull StatementVisitor visitor) {
-        visitor.handleDefine(this);
+        visitor.handleDeclareVariable(this);
     }
 
     @Override
@@ -59,6 +61,6 @@ public class DeclareNewVariable extends StatementNode {
         // optional ;
         tokens.dropOptional(TokenType.SEMI_COLON);
 
-        return new DeclareNewVariable(varType, varName, expression);
+        return new DeclareNewVariableStatement(varType, varName, expression);
     }
 }

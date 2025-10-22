@@ -78,7 +78,18 @@ public class StructureValidationVisitor implements StatementVisitor {
         handleSub(statement.getChild());
     }
     @Override
-    public void handleDefine(@NotNull DeclareNewVariable statement) {handleMono();}
+    public void handleDeclareVariable(@NotNull DeclareNewVariableStatement statement) {handleMono();}
+
+    @Override
+    public void handleAffectVariable(@NotNull AffectationStatement statement) {
+        handleMono();
+    }
+
+    @Override
+    public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement) {
+        //TODO ??
+    }
+
     @Override
     public void handleIncrement(@NotNull IncrementStatement statement) {handleMono();}
     @Override

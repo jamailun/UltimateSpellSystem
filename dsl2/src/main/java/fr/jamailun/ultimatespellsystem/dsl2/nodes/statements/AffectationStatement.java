@@ -28,8 +28,7 @@ public class AffectationStatement extends StatementNode {
 
     @Override
     public void visit(@NotNull StatementVisitor visitor) {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        visitor.handleAffectVariable(this);
     }
 
     @Override

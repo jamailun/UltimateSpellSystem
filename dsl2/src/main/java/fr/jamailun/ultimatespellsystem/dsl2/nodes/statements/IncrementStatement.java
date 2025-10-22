@@ -23,6 +23,7 @@ public class IncrementStatement extends StatementNode {
     private final TokenPosition tokenPosition;
     private final String varName;
     private final boolean positive;
+    private final boolean afterVar;
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
@@ -49,7 +50,7 @@ public class IncrementStatement extends StatementNode {
     public static @NotNull IncrementStatement parseIncrementOrDecrement(@NotNull TokenStream tokens, boolean increment) {
         Token var = tokens.nextOrThrow(TokenType.IDENTIFIER);
         tokens.dropOptional(TokenType.SEMI_COLON);
-        return new IncrementStatement(var.pos(), var.getContentString(), increment);
+        return new IncrementStatement(var.pos(), var.getContentString(), increment, false);
     }
 
     @Override

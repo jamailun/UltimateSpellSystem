@@ -24,14 +24,12 @@ public class FunctionDeclarationStatement extends StatementNode {
 
   @Override
   public void visit(@NotNull StatementVisitor visitor) {
-    //TODO
-    throw new UnsupportedOperationException("Not implemented yet");
+    visitor.handleFunctionDeclaration(this);
   }
 
   @Override
   public void validateTypes(@NotNull TypesContext context) {
-    //TODO
-    throw new UnsupportedOperationException("Not implemented yet");
+    //TODO !!
   }
 
   public static @NotNull FunctionDeclarationStatement parseNextFunction(@NotNull Token typeIdentifier, @NotNull Token nameIdentifier, @NotNull TokenStream tokens) {
@@ -42,8 +40,8 @@ public class FunctionDeclarationStatement extends StatementNode {
 
     List<FunctionParameter> parameters = new ArrayList<>();
     boolean first = true;
-    while(! tokens.dropOptional(TokenType.BRACES_CLOSE)) {
-      if(first) first = false; else tokens.dropOrThrow(TokenType.COMMA);
+    while(! tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
+      if(first) first = false; else tokens.dropOrThrow(TokenType.COMMA, "Arguments need to be separated by a comma.");
       // Each parameter
       Token identifierType = tokens.nextOrThrow(TokenType.IDENTIFIER);
       Token identifierName = tokens.nextOrThrow(TokenType.IDENTIFIER);
@@ -51,9 +49,9 @@ public class FunctionDeclarationStatement extends StatementNode {
     }
 
     // On ne veut pas un 'block-statement' mais nécessairement des statements
-    tokens.dropOptional(TokenType.BRACKET_OPEN);
+    tokens.dropOrThrow(TokenType.BRACES_OPEN, "A function need to have statements !");
     List<StatementNode> statements = new ArrayList<>();
-    while(! tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
+    while(! tokens.dropOptional(TokenType.BRACES_CLOSE)) {
       statements.add(StatementNode.parseNextStatement(tokens));
       tokens.dropOptional(TokenType.SEMI_COLON);
     }
@@ -62,4 +60,13 @@ public class FunctionDeclarationStatement extends StatementNode {
   }
 
   public record FunctionParameter(String type, String name) {}
+
+  @Override
+  public String toString() {
+    return "FUNCTION " + functionReturnType + " " + functionName + "(" +
+        parameters.toString() +
+        ") {" +
+        statements.toString() +
+        "}";
+  }
 }

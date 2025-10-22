@@ -110,15 +110,45 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         builder.append(indent()).append("stop");
     }
 
-
-
     @Override
-    public void handleDefine(@NotNull DeclareNewVariable statement) {
+    public void handleDeclareVariable(@NotNull DeclareNewVariableStatement statement) {
         builder.append(indent())
                 .append("define %")
-                .append(statement.getVarName())
-                .append(" = ");
+                .append(statement.getVarName());
+
+        if(statement.getExpression() != null) {
+            builder.append(" = ");
+            statement.getExpression().visit(this);
+        }
+    }
+
+    @Override
+    public void handleAffectVariable(@NotNull AffectationStatement statement) {
+        statement.getValueHolder().visit(this);
+        builder.append(" := ");
         statement.getExpression().visit(this);
+    }
+
+    @Override
+    public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement) {
+        builder.append("FUNCTION ")
+            .append(statement.getFunctionReturnType())
+            .append(" ")
+            .append(statement.getFunctionName())
+            .append("(");
+        boolean first = true;
+        for(var arg : statement.getParameters()) {
+            if(first) first = false; else builder.append(", ");
+            builder.append(arg);
+        }
+        builder.append(") {\n");
+        right();
+        for(var st : statement.getStatements()) {
+            st.visit(this);
+            eol();
+        }
+        left();
+        builder.append("}");
     }
 
 
