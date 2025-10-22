@@ -1,0 +1,6 @@
+bool a = false;
+if(a == true || false) {
+    console.log("ok");
+} else {
+    console.log("non");
+}
