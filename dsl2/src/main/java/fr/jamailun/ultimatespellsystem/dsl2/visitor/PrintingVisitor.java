@@ -113,7 +113,8 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     @Override
     public void handleDeclareVariable(@NotNull DeclareNewVariableStatement statement) {
         builder.append(indent())
-                .append("define %")
+            .append(statement.getVarType() == null ? "VAR" : statement.getVarType())
+                .append(" ")
                 .append(statement.getVarName());
 
         if(statement.getExpression() != null) {

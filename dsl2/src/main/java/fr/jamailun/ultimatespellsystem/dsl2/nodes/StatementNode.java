@@ -87,6 +87,16 @@ public abstract class StatementNode extends Node {
             // Empty statement
             case SEMI_COLON -> parseNextStatement(tokens);
 
+            case VAR -> {
+                Token varName = tokens.nextOrThrow(TokenType.IDENTIFIER, "Expect an IDENTIFIER after a VAR.");
+                ExpressionNode expression = null;
+                if(tokens.dropOptional(TokenType.EQUAL)) {
+                    expression = ExpressionNode.readNextExpression(tokens);
+                }
+                StatementNode output = new DeclareNewVariableStatement(null, varName, expression);
+                tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a semi-colon, after a variable declaration.");
+                yield output;
+            }
             case IDENTIFIER -> parseFromIdentifier(token, tokens);
 
             // Metadata
