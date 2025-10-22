@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes;
 
+import fr.jamailun.ultimatespellsystem.dsl2.errors.ParsingException;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
@@ -8,8 +9,10 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.IfElseStatem
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.WhileLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
 import org.jetbrains.annotations.NotNull;
+
 /**
  * A statement is an instruction in the code. It can use other statements, or {@link ExpressionNode expressions}.<br/>
  * Can be visited by a {@link StatementVisitor}.
@@ -17,64 +20,58 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class StatementNode extends Node {
 
-
     /**
      * Make this statement be visited.
      * @param visitor the visitor to use.
      */
     public abstract void visit(@NotNull StatementVisitor visitor);
-/*
+
     private static @NotNull StatementNode parseFromIdentifier(@NotNull Token first, @NotNull TokenStream tokens) {
         if(!tokens.hasMore())
             throw new ParsingException(tokens.position(), "Unexpected end of tokens after identifier.");
 
-        // Pas d'identifier après. Donc c'est une expression simple.
-        // Genre 'IDENTIFIER.' ou 'IDENTIFIER['
-        if(!tokens.peekIs(TokenType.IDENTIFIER, TokenType.EQUAL)) {
-            //TODO
-            ExpressionNode expressionNode = ExpressionNode.readNextExpression(tokens, true);
-            return new SimpleExpressionStatement(expressionNode);
+        // Si c'est encore un IDENTIFIER : c'est soit une déclaration de variable ou de fonction.
+        if(tokens.peekIs(TokenType.IDENTIFIER)) {
+            Token second = tokens.next(); // identifier
+
+            // "A B =" : variable declaration
+            if(tokens.dropOptional(TokenType.EQUAL)) {
+                ExpressionNode definition = ExpressionNode.readNextExpression(tokens);
+                StatementNode output = new DeclareNewVariable(first, second, definition);
+                tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a SEMI COLON.");
+                return output;
+            }
+
+            // "A B(..." : function declaration
+            if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
+                StatementNode output = FunctionDeclarationStatement.parseNextFunction(first, second, tokens);
+                tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a SEMI COLON.");
+                return output;
+            }
+
+            // Illegal ?
+            throw new SyntaxException(tokens.position(), "Unexpected token after 'IDENTIFIER IDENTIFIER' : " + tokens.peek());
         }
 
-        // Cas simple : égal
-        if(tokens.dropOptional(TokenType.EQUAL)) {
-            //FIXME ne pas passer un token mais une expression (wra sous forme de variable)
-            return AffectationStatement.parseNextDefine(first, tokens);
-        }
+        //TODO Incrment / decrement !
 
-        // "IDENTIFIER.IDENTIFIER" ... tout ça c'est le cas complexe. On estime qu'on veut une expression.
+        // On essaye de wrapper le token en expression ("a" ou "a.b().c") pour voir si on a un EQUAL ensuite.
+        ExpressionNode wrapped = ExpressionNode.parseIdentifierExpression(first, tokens);
 
-
-        Token second = tokens.next();
-        if(second.getType() != TokenType.IDENTIFIER) {
-            throw new SyntaxException(second, "Expected an identifier after '" + first.getContentString() + "'.");
-        }
-
-        // "IDENTIFIER = ..."  :: C'est une affectation
-        if(tokens.dropOptional(TokenType.EQUAL)) {
-            return AffectationStatement.parseNextDefine(first, tokens);
-        }
-
-        // "IDENTIFIER IDENTIFIER" on peut soit déclarer une variable, soit une fonction
-        Token second = tokens.next();
-        if(second.getType() != TokenType.IDENTIFIER) {
-            throw new SyntaxException(second, "Expected an identifier after '" + first.getContentString() + "'.");
-        }
-
-        // Point-virgule : variable déclarée sans valeur
-        // "TYPE IDENTIFIER ;"
+        // Point virgule ? On wrap juste tout ça.
         if(tokens.dropOptional(TokenType.SEMI_COLON)) {
-            return DeclareNewVariable.parseNextDefine(first, second, false, tokens);
-        }
-        // "TYPE IDENTIFIER = ..."
-        if(tokens.dropOptional(TokenType.EQUAL)) {
-            return DeclareNewVariable.parseNextDefine(first, second, true, tokens);
+            //TODO interdire les "faux-statements" qui n'ont aucun effet ? Ou faire ça dans AST complet.
+            return new SimpleExpressionStatement(wrapped);
         }
 
-        // Ici, on attend donc une déclaration de fonction
-        return FunctionDeclarationStatement.parseNextFunction(first, second, tokens);
+        // EQUAL ? On désigne le tout comme une affectation
+        if(tokens.dropOptional(TokenType.EQUAL)) {
+            return AffectationStatement.parseNextDefine(wrapped, tokens);
+        }
+
+        throw new SyntaxException(tokens.position(), "Unexpected token after IDENTIFIER: " + tokens.peek());
     }
-*/
+
     /**
      * Read a new statement from the tokens stream.
      * @param tokens the stream of tokens.
@@ -87,12 +84,7 @@ public abstract class StatementNode extends Node {
             // Empty statement
             case SEMI_COLON -> parseNextStatement(tokens);
 
-            case IDENTIFIER -> {
-                tokens.back();
-                ExpressionNode expression = ExpressionNode.readNextExpression(tokens);
-                // TODO convert me into affectation :)
-                yield new SimpleExpressionStatement(expression);
-            }
+            case IDENTIFIER -> parseFromIdentifier(token, tokens);
 
             // Metadata
             //TODO case CHAR_AT -> MetadataStatement.parseMetadata(tokens);

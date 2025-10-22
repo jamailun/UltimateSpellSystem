@@ -120,7 +120,7 @@ public abstract class ExpressionNode extends Node {
     }
 
 
-    private static ExpressionNode parseIdentifierExpression(Token first, TokenStream tokens) {
+    public static ExpressionNode parseIdentifierExpression(Token first, TokenStream tokens) {
         ExpressionNode left = new ReferenceExpression(first);
         return parseIdentifierExpression(left, tokens);
     }

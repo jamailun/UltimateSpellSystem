@@ -1,7 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl2;
 
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.registries.FunctionDefinitionsRegistry;
@@ -16,6 +15,10 @@ import java.util.List;
  */
 public class CorrectParsingTests extends ParsingTest {
 
+    @Test
+    void correctBasics() {
+        testFolder("corrects/basics");
+    }
     @Test
     void correctStatements() {
         testFolder("corrects/statements");

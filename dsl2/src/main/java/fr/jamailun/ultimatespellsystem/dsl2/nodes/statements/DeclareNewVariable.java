@@ -22,6 +22,12 @@ public class DeclareNewVariable extends StatementNode {
     private final String varName;
     private final ExpressionNode expression;
 
+    public DeclareNewVariable(@NotNull Token varType, @NotNull Token varName, @NotNull ExpressionNode expression) {
+        this.varType = varType.getContentString();
+        this.varName = varName.getContentString();
+        this.expression = expression;
+    }
+
     @Override
     public void validateTypes(@NotNull TypesContext context) {
         expression.validateTypes(context);

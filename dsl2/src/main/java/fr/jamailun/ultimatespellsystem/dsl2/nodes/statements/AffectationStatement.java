@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.statements;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
-import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public class AffectationStatement extends StatementNode {
 
-    private final String varName;
+    private final ExpressionNode valueHolder;
     private final ExpressionNode expression;
 
     @Override
@@ -35,7 +34,7 @@ public class AffectationStatement extends StatementNode {
 
     @Override
     public @NotNull String toString() {
-        return varName + " = " + expression;
+        return valueHolder + " = " + expression;
     }
 
     /**
@@ -43,13 +42,12 @@ public class AffectationStatement extends StatementNode {
      * @param tokens streams of tokens.
      * @return a new instance.
      */
-    public static @NotNull StatementNode parseNextDefine(@NotNull Token identifier, @NotNull TokenStream tokens) {
-        String varName = identifier.getContentString();
+    public static @NotNull StatementNode parseNextDefine(@NotNull ExpressionNode affected, @NotNull TokenStream tokens) {
         ExpressionNode expression = ExpressionNode.readNextExpression(tokens);
 
         // optional ;
         tokens.dropOptional(TokenType.SEMI_COLON);
 
-        return new AffectationStatement(varName, expression);
+        return new AffectationStatement(affected, expression);
     }
 }
