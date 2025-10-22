@@ -54,6 +54,7 @@ public enum TokenType {
     BREAK(true),
     CONTINUE(true),
     RETURN(true),
+    VAR(true),
 
     // == RAW VALUES
     NULL(true),

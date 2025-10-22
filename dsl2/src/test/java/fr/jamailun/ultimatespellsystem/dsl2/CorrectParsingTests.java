@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.dsl2;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.registries.FunctionDefinitionsRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -45,8 +44,8 @@ public class CorrectParsingTests extends ParsingTest {
                 "custom_add",
                 TypePrimitive.NUMBER.asType(),
                 List.of(
-                        new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "a", false),
-                        new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "b", false)
+//                        new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "a", false),
+//                        new FunctionArgument(FunctionType.accept(TypePrimitive.NUMBER), "b", false)
                 )
         );
         FunctionDefinitionsRegistry.register(definition);

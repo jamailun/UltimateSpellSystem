@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -145,5 +146,21 @@ public class Token {
             case VALUE_BOOLEAN -> type + "(" + contentBoolean + ")";
             default -> type.name();
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token = (Token) o;
+        return type == token.type
+            && Objects.equals(contentNumber, token.contentNumber)
+            && Objects.equals(contentString, token.contentString)
+            && contentTimeUnit == token.contentTimeUnit
+            && Objects.equals(contentBoolean, token.contentBoolean);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, contentNumber, contentString, contentTimeUnit, contentBoolean);
     }
 }
