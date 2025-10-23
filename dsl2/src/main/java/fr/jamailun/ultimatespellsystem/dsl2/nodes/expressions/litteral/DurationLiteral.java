@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A raw {@link Duration} literal.
  */
-public class DurationExpression extends LiteralExpression<Duration> {
+public class DurationLiteral extends LiteralExpression<Duration> {
 
     private final Duration duration;
 
@@ -18,7 +18,7 @@ public class DurationExpression extends LiteralExpression<Duration> {
      * New instance, from a token.
      * @param token token to use.
      */
-    public DurationExpression(@NotNull Token token) {
+    public DurationLiteral(@NotNull Token token) {
         super(token.pos());
         this.duration = new Duration(token.getContentNumber(), token.getContentTimeUnit());
     }

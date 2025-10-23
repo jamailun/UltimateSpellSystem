@@ -233,23 +233,23 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleNullLiteral(@NotNull NullExpression literal) {
+    public void handleNullLiteral(@NotNull NullLiteral literal) {
         builder.append("NULL");
     }
 
     @Override
-    public void handleBooleanLiteral(@NotNull BooleanExpression literal) {
+    public void handleBooleanLiteral(@NotNull BooleanLiteral literal) {
         builder.append(literal.getRaw());
     }
 
     @Override
-    public void handleNumberLiteral(@NotNull NumberExpression literal) {
+    public void handleNumberLiteral(@NotNull NumberLiteral literal) {
         double num = literal.getRaw();
         builder.append(formatNumber.format(num));
     }
 
     @Override
-    public void handleStringLiteral(@NotNull StringExpression literal) {
+    public void handleStringLiteral(@NotNull StringLiteral literal) {
         builder.append("\"").append(literal.getRaw()).append("\"");
     }
 
@@ -270,7 +270,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleDurationLiteral(@NotNull DurationExpression literal) {
+    public void handleDurationLiteral(@NotNull DurationLiteral literal) {
         Duration duration = literal.getRaw();
         builder.append(formatNumber.format(duration.amount()))
                 .append(" ")
@@ -309,10 +309,6 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             case LESSER -> "<";
             case AND -> "and";
             case OR -> "or";
-            case LIST_ADD -> "append";
-            case LIST_REM -> "remove";
-            case LIST_CONTAINS -> "contains";
-            case LIST_REM_INDEX -> "remove_idx";
         };
         builder.append(" ").append(ope).append(" ");
         operator.getRight().visit(this);

@@ -94,14 +94,8 @@ public abstract class BiOperator extends Operator {
         LESSER,
 
         AND,
-        OR,
+        OR
 
-        // List
-
-        LIST_ADD,
-        LIST_REM,
-        LIST_REM_INDEX,
-        LIST_CONTAINS
     }
 
 }

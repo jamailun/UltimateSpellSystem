@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators;
 
-import fr.jamailun.ultimatespellsystem.dsl2.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;

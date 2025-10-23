@@ -91,15 +91,15 @@ public abstract class ExpressionNode extends Node {
             case OPE_SUB -> {
                 TokenPosition position = tokens.position();
                 ExpressionNode nextExpression = readNextExpression(tokens);
-                yield new SubOperator(position, new NumberExpression(position, 0), nextExpression);
+                yield new SubOperator(position, new NumberLiteral(position, 0), nextExpression);
             }
 
             // Literals
-            case VALUE_NUMBER -> new NumberExpression(token);
-            case VALUE_BOOLEAN -> new BooleanExpression(token);
-            case VALUE_STRING -> new StringExpression(token);
-            case VALUE_DURATION -> new DurationExpression(token);
-            case NULL -> new NullExpression(token.pos());
+            case VALUE_NUMBER -> new NumberLiteral(token);
+            case VALUE_BOOLEAN -> new BooleanLiteral(token);
+            case VALUE_STRING -> new StringLiteral(token);
+            case VALUE_DURATION -> new DurationLiteral(token);
+            case NULL -> new NullLiteral(token.pos());
             case CHAR_AT -> LocationLiteral.readNextLocation(tokens);
 
 

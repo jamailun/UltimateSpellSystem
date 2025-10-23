@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 public interface ExpressionVisitor {
 
     // Literals
-    void handleNullLiteral(@NotNull NullExpression literal);
-    void handleBooleanLiteral(@NotNull BooleanExpression literal);
-    void handleNumberLiteral(@NotNull NumberExpression literal);
-    void handleStringLiteral(@NotNull StringExpression literal);
+    void handleNullLiteral(@NotNull NullLiteral literal);
+    void handleBooleanLiteral(@NotNull BooleanLiteral literal);
+    void handleNumberLiteral(@NotNull NumberLiteral literal);
+    void handleStringLiteral(@NotNull StringLiteral literal);
     void handleMapLiteral(@NotNull MapLiteral literal);
-    void handleDurationLiteral(@NotNull DurationExpression literal);
+    void handleDurationLiteral(@NotNull DurationLiteral literal);
     void handleLocationLiteral(@NotNull LocationLiteral literal);
 
     // Operators-ish

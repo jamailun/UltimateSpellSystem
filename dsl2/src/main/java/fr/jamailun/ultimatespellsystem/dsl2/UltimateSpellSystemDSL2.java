@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * Central access to the DSL.
  */
-public final class UltimateSpellSystemDSL {
-    private UltimateSpellSystemDSL() {}
+public final class UltimateSpellSystemDSL2 {
+    private UltimateSpellSystemDSL2() {}
 
     // Load the default metadata rules on class load.
     static {

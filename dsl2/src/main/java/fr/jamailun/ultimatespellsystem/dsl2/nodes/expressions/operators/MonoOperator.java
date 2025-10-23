@@ -16,7 +16,7 @@ import java.util.function.Function;
  * Mono-operator, on a single expression.
  */
 @Getter
-public abstract class MonoOperator extends ExpressionNode {
+public abstract class MonoOperator extends Operator {
 
     protected final ExpressionNode child;
 
@@ -50,22 +50,7 @@ public abstract class MonoOperator extends ExpressionNode {
     public abstract void validateTypes(@NotNull Type childType);
 
     public enum MonoOpeType {
-        NOT(x -> x),
-        SIN(x -> Math.sin(x.doubleValue())),
-        COS(x -> Math.cos(x.doubleValue())),
-        TAN(x -> Math.tan(x.doubleValue())),
-        SQRT(x -> Math.sqrt(x.doubleValue())),
-        ABS(x -> x instanceof Integer || x instanceof Long || x instanceof Short || x instanceof Byte ? Math.abs(x.longValue()) : Math.abs(x.doubleValue())),
-        ;
-        public final Function<Number, Number> function;
-        MonoOpeType(Function<Number, Number> function) {
-            this.function = function;
-        }
-        public static @Nullable MonoOpeType find(@NotNull String value) {
-            return Arrays.stream(values())
-                    .filter(v -> v.name().equalsIgnoreCase(value))
-                    .findAny().orElse(null);
-        }
+        NOT;
     }
 
 }

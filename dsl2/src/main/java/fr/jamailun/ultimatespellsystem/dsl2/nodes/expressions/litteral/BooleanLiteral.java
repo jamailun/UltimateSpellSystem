@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A raw boolean literal.
  */
-public class BooleanExpression extends LiteralExpression<Boolean> {
+public class BooleanLiteral extends LiteralExpression<Boolean> {
 
     private final boolean rawValue;
 
@@ -17,7 +17,7 @@ public class BooleanExpression extends LiteralExpression<Boolean> {
      * New instance, from a token.
      * @param token non-null token to use.
      */
-    public BooleanExpression(@NotNull Token token) {
+    public BooleanLiteral(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentBoolean();
     }

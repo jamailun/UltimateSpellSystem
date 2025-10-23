@@ -57,7 +57,7 @@ abstract class ParsingTest {
         System.out.println(tokens + "\n");
 
         // Parse
-        List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+        List<StatementNode> nodes = UltimateSpellSystemDSL2.parse(tokens);
 
         System.out.println(" ----------------------- ");
 

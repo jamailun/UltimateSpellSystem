@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A raw string literal.
  */
-public class StringExpression extends LiteralExpression<String> {
+public class StringLiteral extends LiteralExpression<String> {
 
     private final String rawValue;
 
@@ -17,7 +17,7 @@ public class StringExpression extends LiteralExpression<String> {
      * New raw string.
      * @param token token to use.
      */
-    public StringExpression(@NotNull Token token) {
+    public StringLiteral(@NotNull Token token) {
         super(token.pos());
         this.rawValue = token.getContentString();
     }

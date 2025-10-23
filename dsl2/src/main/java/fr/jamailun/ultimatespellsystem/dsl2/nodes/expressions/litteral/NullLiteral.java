@@ -9,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * The {@code NULL} representation.
  */
-public class NullExpression extends LiteralExpression<Void> {
+public class NullLiteral extends LiteralExpression<Void> {
 
     /**
      * New instance.
      * @param pos position of the keyword.
      */
-    public NullExpression(@NotNull TokenPosition pos) {
+    public NullLiteral(@NotNull TokenPosition pos) {
         super(pos);
     }
 
