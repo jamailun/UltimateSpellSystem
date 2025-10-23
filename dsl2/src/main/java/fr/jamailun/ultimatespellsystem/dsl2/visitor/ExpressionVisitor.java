@@ -29,7 +29,7 @@ public interface ExpressionVisitor {
     void handleFunctionCall(@NotNull FunctionCallExpression functionCall);
 
     // Specifics
-    void handleArray(@NotNull ArrayExpression expression);
+    void handleArray(@NotNull ArrayLiteral expression);
     void handleVariable(@NotNull ReferenceExpression expression);
 
 }

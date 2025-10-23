@@ -29,7 +29,7 @@ public class NullExpression extends LiteralExpression<Void> {
 
     @Override
     public String toString() {
-        return "NULL";
+        return PREFIX + "NULL" + SUFFIX;
     }
 
     @Override

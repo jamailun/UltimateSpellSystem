@@ -255,7 +255,18 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     @Override
     public void handleMapLiteral(@NotNull MapLiteral literal) {
-        //TODO
+        builder.append("{");
+        right();
+        boolean first = true;
+        for(var entry : literal.getExpressions().entrySet()) {
+            if(first) first = false; else builder.append(",");
+            builder.append("\n").append(indent()).append(entry.getKey()).append(" : ");
+            entry.getValue().visit(this);
+        }
+        left();
+        if(!literal.getExpressions().isEmpty())
+            builder.append("\n").append(indent());
+        builder.append("}");
     }
 
     @Override
@@ -350,7 +361,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleArray(@NotNull ArrayExpression expression) {
+    public void handleArray(@NotNull ArrayLiteral expression) {
         builder.append("[");
         boolean first = true;
         for(ExpressionNode child : expression.getElements()) {

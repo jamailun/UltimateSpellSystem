@@ -100,6 +100,6 @@ public class LocationLiteral extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "Loc{"+world+", ("+vectorX+","+vectorY+","+vectorZ+")}";
+        return "LOC<"+world+", ("+vectorX+","+vectorY+","+vectorZ+")>";
     }
 }

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions;
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral;
 
 import fr.jamailun.ultimatespellsystem.dsl2.errors.TypeException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Raw array value.
  */
-public class ArrayExpression extends ExpressionNode {
+public class ArrayLiteral extends ExpressionNode {
 
     @Getter
     private final List<ExpressionNode> elements;
@@ -24,7 +24,7 @@ public class ArrayExpression extends ExpressionNode {
     private Type selfType;
     private Type elementsType;
 
-    protected ArrayExpression(TokenPosition position, List<ExpressionNode> elements) {
+    protected ArrayLiteral(TokenPosition position, List<ExpressionNode> elements) {
         super(position);
         this.elements = elements;
     }
@@ -68,23 +68,19 @@ public class ArrayExpression extends ExpressionNode {
     }
 
     @PreviousIndicator(expected = TokenType.SQUARE_BRACKET_OPEN)
-    public static ArrayExpression parseRawArray(@NotNull TokenStream tokens) {
+    public static ArrayLiteral readNextArrayLiteral(@NotNull TokenStream tokens) {
         TokenPosition pos = tokens.position();
         List<ExpressionNode> nodes = new ArrayList<>();
         boolean first = true;
-        while(tokens.hasMore()) {
-            Token peek = tokens.peek();
-            if(peek.getType() == TokenType.SQUARE_BRACKET_CLOSE)
-                break;
+        while(!tokens.dropOptional(TokenType.SQUARE_BRACKET_CLOSE)) {
             if( ! first) {
-                tokens.dropOrThrow(TokenType.COMMA);
+                tokens.dropOrThrow(TokenType.COMMA, "Elements in array must be separated by a comma.");
             }
             first = false;
             ExpressionNode node = ExpressionNode.readNextExpression(tokens);
             nodes.add(node);
         }
-        tokens.dropOrThrow(TokenType.SQUARE_BRACKET_CLOSE);
-        return new ArrayExpression(pos, nodes);
+        return new ArrayLiteral(pos, nodes);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class MapLiteral extends LiteralExpression<Map<String,ExpressionNode>> {
 
     @Override
     public String toString() {
-        return "{" + expressions + "}";
+        return "MAP" + PREFIX + expressions + SUFFIX;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MapLiteral extends LiteralExpression<Map<String,ExpressionNode>> {
         TokenPosition pos = tokens.position();
         Map<String, ExpressionNode> expressions = new HashMap<>();
         while(tokens.hasMore()) {
-            if(tokens.peek().getType() == TokenType.BRACKET_CLOSE) {
+            if(tokens.dropOptional(TokenType.BRACES_CLOSE)) {
                 // EOP
                 break;
             }
@@ -82,7 +82,6 @@ public class MapLiteral extends LiteralExpression<Map<String,ExpressionNode>> {
             // build
             expressions.put(propKey, value);
         }
-        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
         return new MapLiteral(pos, expressions);
     }
 }

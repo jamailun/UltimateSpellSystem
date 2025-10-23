@@ -110,7 +110,7 @@ public abstract class ExpressionNode extends Node {
 
             // Openers: '{', '[', '('
             case BRACES_OPEN -> MapLiteral.parseMap(tokens);
-            case SQUARE_BRACKET_OPEN -> ArrayExpression.parseRawArray(tokens);
+            case SQUARE_BRACKET_OPEN -> ArrayLiteral.readNextArrayLiteral(tokens);
             case BRACKET_OPEN -> ParenthesisExpression.parseParenthesis(tokens);
 
 

@@ -21,6 +21,11 @@ public class CorrectParsingTests extends ParsingTest {
         testFolder("corrects/loops");
     }
 
+    @Test
+    void correctLiterals() {
+        testFolder("corrects/literals");
+    }
+
     // --
 
     private void testFolder(@NotNull String folder) {
