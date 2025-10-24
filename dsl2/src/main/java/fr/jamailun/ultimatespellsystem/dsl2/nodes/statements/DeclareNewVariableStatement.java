@@ -62,7 +62,7 @@ public class DeclareNewVariableStatement extends StatementNode {
             }
         }
 
-        // Register the variable
+        // 5. Register the variable
         context.registerVariable(position, varName, type);
     }
 

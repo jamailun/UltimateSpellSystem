@@ -101,6 +101,14 @@ public class TypesContext {
     }
 
     /**
+     * Register a new function to the context
+     * @param declaration the declaration to use.
+     */
+    public void registerFunction(@NotNull FunctionDeclarationStatement declaration) {
+        objectsLibrary.registerFunction(declaration);
+    }
+
+    /**
      * Create a new context. This allows sub-scopes to be independents.
      * @return a new instance of context, copying the current variables.
      */

@@ -58,7 +58,6 @@ public enum TokenType {
 
     // == RAW VALUES
     NULL(true),
-    VOID(true),
 
     // == N-CHARS OPERATORS
 

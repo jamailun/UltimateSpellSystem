@@ -16,6 +16,11 @@ public class FailuresParsingTests extends ParsingTest {
         badParsing("invalid/bad_type", TypeException.class);
     }
 
+    @Test
+    void badSyntax() {
+        badParsing("invalid/bad_syntax", SyntaxException.class);
+    }
+
     private <T extends Exception> void badParsing(@NotNull String folder, @NotNull Class<T> clazz) {
         String title = "[! EXPECTED "+clazz.getSimpleName()+"] ";
         for(File file : listTests(folder)) {

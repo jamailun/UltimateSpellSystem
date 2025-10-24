@@ -37,9 +37,13 @@ public class ObjectsLibrary {
   public void registerStatements(@NotNull SequencedCollection<StatementNode> statements) {
     for(StatementNode statement : statements) {
       if(statement instanceof FunctionDeclarationStatement fda) {
-        functions.put(fda.getFunctionName(), fda);
+        registerFunction(fda);
       }
     }
+  }
+
+  public void registerFunction(@NotNull FunctionDeclarationStatement declaration) {
+    functions.put(declaration.getFunctionName(), declaration);
   }
 
   public @Nullable FunctionDeclarationStatement getFunction(String name) {

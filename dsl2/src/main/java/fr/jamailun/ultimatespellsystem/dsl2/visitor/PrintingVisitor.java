@@ -106,7 +106,11 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
 
     @Override
     public void handleReturn(@NotNull ReturnStatement statement) {
-        builder.append(indent()).append("stop");
+        builder.append(indent()).append("return");
+        if(statement.getExitCodeNode() != null) {
+            builder.append(" ");
+            statement.getExitCodeNode().visit(this);
+        }
     }
 
     @Override

@@ -68,7 +68,7 @@ public enum TypePrimitive {
             case "number", "double", "float", "integer", "int", "short", "byte" -> NUMBER;
             case "boolean", "bool" -> BOOLEAN;
             case "duration", "time", "chrono" -> DURATION;
-            case "null" -> NULL;
+            case "null", "void" -> NULL;
             case "map", "data", "properties", "properties-set", "properties_set" -> MAP;
             default -> null;
         };

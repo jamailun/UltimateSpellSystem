@@ -45,7 +45,7 @@ public class ReturnStatement extends StatementNode {
             return new ReturnStatement(null);
         } else {
             ExpressionNode exitNode = ExpressionNode.readNextExpression(tokens);
-            tokens.dropOrThrow(TokenType.SEMI_COLON);
+            tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a semi-colon after a RETURN statement value.");
             return new ReturnStatement(exitNode);
         }
     }
