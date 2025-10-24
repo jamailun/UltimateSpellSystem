@@ -1,7 +1,10 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables;
 
 import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
+import fr.jamailun.ultimatespellsystem.dsl2.library.ObjectsLibrary;
+import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.Contract;
@@ -17,13 +20,23 @@ import java.util.Map;
 public class TypesContext {
 
     private final Map<String, VariableDefinition> vars = new HashMap<>();
+    private final ObjectsLibrary objectsLibrary;
 
     /**
-     * Create a new context, and register the {@code %caster} variable.
+     * Create a new context.<br/>
+     * The variable {@code caster} will be registered.
      */
     public TypesContext() {
-        //TODO
-//        promiseVariable("caster", TypePrimitive.ENTITY.asType());
+        this.objectsLibrary = new ObjectsLibrary(true);
+        promiseVariable("caster", Type.of("entity"));
+    }
+
+    /**
+     * Create a new context.
+     * @param objectsLibrary reference library to use.
+     */
+    private TypesContext(@NotNull ObjectsLibrary objectsLibrary) {
+        this.objectsLibrary = objectsLibrary;
     }
 
     /**
@@ -75,13 +88,25 @@ public class TypesContext {
         return vars.get(varName);
     }
 
+    public @Nullable Type findType(@NotNull String name) {
+        return objectsLibrary.getType(name);
+    }
+
+    public @Nullable FunctionDeclarationStatement findFunction(@NotNull String name) {
+        return objectsLibrary.getFunction(name);
+    }
+
+    public @Nullable StructDefinition findStruct(@NotNull String name) {
+        return objectsLibrary.getStruct(name);
+    }
+
     /**
      * Create a new context. This allows sub-scopes to be independents.
      * @return a new instance of context, copying the current variables.
      */
     @Contract(" -> new")
     public @NotNull TypesContext childContext() {
-        TypesContext child = new TypesContext();
+        TypesContext child = new TypesContext(objectsLibrary);
         child.vars.putAll(vars);
         return child;
     }

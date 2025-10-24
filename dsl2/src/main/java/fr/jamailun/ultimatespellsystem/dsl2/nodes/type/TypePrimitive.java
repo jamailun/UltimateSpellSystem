@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,8 +24,6 @@ public enum TypePrimitive {
 
     /** A temporal duration. */
     DURATION(Duration.class),
-
-    LOCATION,
 
     MAP(Map.class),
 
@@ -73,6 +72,15 @@ public enum TypePrimitive {
             case "map", "data", "properties", "properties-set", "properties_set" -> MAP;
             default -> null;
         };
+    }
+
+    public static @NotNull Map<String, Type> getTypesMap() {
+        Map<String, Type> map = new HashMap<>();
+        for (TypePrimitive primitive : TypePrimitive.values()) {
+            if(primitive.clazz != null)
+                map.put(primitive.name().toLowerCase(), primitive.asType());
+        }
+        return map;
     }
 
 }

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,6 +49,10 @@ public class Type {
         return Set.of(primitives).contains(primitive);
     }
 
+    public boolean isOneOf(@NotNull Collection<Type> types) {
+        return types.stream().anyMatch(this::equals);
+    }
+
     public boolean is(@NotNull String objectClass) {
         return this.objectClass != null && this.objectClass.equals(objectClass);
     }
@@ -83,5 +88,12 @@ public class Type {
     @Override
     public int hashCode() {
         return Objects.hash(primitive, objectClass, arrayLevel);
+    }
+
+    public static @NotNull Type of(@NotNull String name) {
+        return new Type(name, 0);
+    }
+    public static @NotNull Type of(@NotNull TypePrimitive name) {
+        return new Type(name, 0);
     }
 }

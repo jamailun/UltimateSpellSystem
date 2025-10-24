@@ -29,7 +29,11 @@ public class SubOperator extends BiOperator {
         return BiOpeType.SUB;
     }
 
-    private final static List<TypePrimitive> ALLOWED = List.of(TypePrimitive.NUMBER, TypePrimitive.DURATION, TypePrimitive.LOCATION);
+    private final static List<Type> ALLOWED = List.of(
+        Type.of(TypePrimitive.NUMBER),
+        Type.of(TypePrimitive.DURATION),
+        Type.of("location")
+    );
 
     @Override
     public void validateTypes(@NotNull Type leftType, @NotNull Type rightType, @NotNull TypesContext context) {
@@ -38,9 +42,9 @@ public class SubOperator extends BiOperator {
             throw new TypeException(this, "A NEGATION cannot handle collections.");
         }
 
-        if(!leftType.isOneOf(ALLOWED.toArray(new TypePrimitive[0])))
+        if(!leftType.isOneOf(ALLOWED))
             throw new TypeException(this, "SUB cannot handle L=" + leftType);
-        if(!rightType.isOneOf(ALLOWED.toArray(new TypePrimitive[0])))
+        if(!rightType.isOneOf(ALLOWED))
             throw new TypeException(this, "SUB cannot handle R=" + rightType);
 
         // Otherwise same type : always compatible

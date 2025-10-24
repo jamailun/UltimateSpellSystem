@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,5 +16,13 @@ public record FunctionArgument(@NotNull Type type, @NotNull String debugName, bo
     @Override
     public @NotNull String toString() {
         return type + " " + debugName + (optional?"*":"");
+    }
+
+    public static FunctionArgument of(@NotNull String type) {
+        return new FunctionArgument(Type.of(type), type, false);
+    }
+
+    public static FunctionArgument of(@NotNull TypePrimitive type) {
+        return new FunctionArgument(Type.of(type), type.name().toLowerCase(), false);
     }
 }

@@ -1,20 +1,28 @@
 package fr.jamailun.ultimatespellsystem.dsl2.ast;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class AST implements Iterable<StatementNode> {
 
-  private final List<StatementNode> statements;
+  private final List<FunctionDeclarationStatement> functionDeclarationStatements = new ArrayList<>();
+  private final List<StatementNode> statements = new ArrayList<>();
 
   /**
    * Create a copy of a statements in the AST.
    * @param statements a collection to copy.
    */
   public AST(@NotNull SequencedCollection<StatementNode> statements) {
-    this.statements = new ArrayList<>(statements);
+    for(StatementNode statement : statements) {
+      if(statement instanceof FunctionDeclarationStatement fda) {
+        functionDeclarationStatements.add(fda);
+      } else {
+        this.statements.add(statement);
+      }
+    }
   }
 
   /**

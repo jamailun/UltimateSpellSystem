@@ -21,7 +21,14 @@ public record FunctionDefinition(@NotNull String id, @NotNull Type returnedType,
         return (int) arguments.stream()
                 .filter(a -> ! a.optional())
                 .count();
+    }
 
+    public static FunctionDefinition of(
+        @NotNull String id,
+        @NotNull Type type,
+        @NotNull FunctionArgument... arguments
+    ) {
+        return new FunctionDefinition(id, type, List.of(arguments));
     }
 
 }
