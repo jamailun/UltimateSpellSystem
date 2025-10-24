@@ -5,13 +5,11 @@ import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.NotOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.SubOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
-import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
-import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
-import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,7 +65,7 @@ public abstract class ExpressionNode extends Node {
         return readNextExpression(tokens, new MathParsingQueue(false), true);
     }
 
-    private static ExpressionNode readNextExpression(TokenStream tokens, MathParsingQueue mathStack, boolean logicFirst) {
+    private static @NotNull ExpressionNode readNextExpression(TokenStream tokens, MathParsingQueue mathStack, boolean logicFirst) {
         ExpressionNode raw = readNextExpressionBuffer(tokens);
         // Check if the element is accessed !
         if(tokens.dropOptional(TokenType.SQUARE_BRACKET_OPEN)) {
@@ -102,6 +100,9 @@ public abstract class ExpressionNode extends Node {
             case NULL -> new NullLiteral(token.pos());
             case CHAR_AT -> LocationLiteral.readNextLocation(tokens);
 
+            // Increment / decrement
+            case INCREMENT -> IncrementExpression.parseIncrementOrDecrement(tokens, true);
+            case DECREMENT -> IncrementExpression.parseIncrementOrDecrement(tokens, false);
 
             // Toutes les compositions de
             // "A.B", "A.B(...)", "A[B]" et "A".
@@ -119,8 +120,14 @@ public abstract class ExpressionNode extends Node {
         };
     }
 
+    @PreviousIndicator(expected = TokenType.IDENTIFIER)
+    public static @NotNull ExpressionNode parseIdentifierExpression(@NotNull Token first, @NotNull TokenStream tokens) {
+        if(tokens.dropOptional(TokenType.INCREMENT)) {
+            return new IncrementExpression(first, true, true);
+        } else if(tokens.dropOptional(TokenType.DECREMENT)) {
+            return new IncrementExpression(first, false, true);
+        }
 
-    public static ExpressionNode parseIdentifierExpression(Token first, TokenStream tokens) {
         ExpressionNode left = new ReferenceExpression(first);
         return parseIdentifierExpression(left, tokens);
     }

@@ -1,7 +1,9 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators;
 
+import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +31,10 @@ public abstract class Operator extends ExpressionNode {
      */
     protected void assertNotMathIncompatible(@NotNull Type a) {
         //TODO FIXME !!
-        throw new UnsupportedOperationException("todo");
+        boolean canBeAdded = a.is(TypePrimitive.DURATION) || a.is(TypePrimitive.NUMBER);
+        if(!canBeAdded) {
+            throw new SyntaxException(firstTokenPosition(), "The type " + a + " cannot be added.");
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.ForLoopStatement;
@@ -169,9 +170,13 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
     }
 
     @Override
-    public void handleIncrement(@NotNull IncrementStatement statement) {
-        builder.append(statement.isPositive() ? "++" : "--")
-                .append("%").append(statement.getVarName());
+    public void handleIncrementDecrement(@NotNull IncrementExpression expression) {
+        String symbol = expression.isPositive() ? "++" : "--";
+        if(expression.isAfterVar()) {
+            builder.append(expression.getVarName()).append(symbol);
+        } else {
+            builder.append(symbol).append(expression.getVarName());
+        }
     }
 
 

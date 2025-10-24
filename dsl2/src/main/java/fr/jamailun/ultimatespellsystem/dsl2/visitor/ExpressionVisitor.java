@@ -2,8 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl2.visitor;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,6 +26,7 @@ public interface ExpressionVisitor {
     void handleArrayGet(@NotNull ArrayGetterExpression arrayGetter);
     void handleFieldGet(@NotNull FieldGetExpression fieldGetter);
     void handleFunctionCall(@NotNull FunctionCallExpression functionCall);
+    void handleIncrementDecrement(@NotNull IncrementExpression expression);
 
     // Specifics
     void handleArray(@NotNull ArrayLiteral expression);

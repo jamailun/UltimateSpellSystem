@@ -91,7 +91,5 @@ public class StructureValidationVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleIncrement(@NotNull IncrementStatement statement) {handleMono();}
-    @Override
     public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {handleMono();}
 }

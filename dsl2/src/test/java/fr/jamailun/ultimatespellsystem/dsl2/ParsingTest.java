@@ -90,8 +90,7 @@ abstract class ParsingTest {
         }
         System.out.println("\n" + WHITE_BOLD + "=====================================================" + RESET + "\n");
 
-        if(!failures.isEmpty())
-            System.exit(42);
+        Assertions.assertTrue(failures.isEmpty(), "Some tests failed.");
     }
 
 }

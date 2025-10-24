@@ -42,10 +42,6 @@ public abstract class StatementNode extends Node {
             case REPEAT -> RepeatStatement.parseRepeat(tokens);
             case CALLBACK -> CallbackStatement.parseCallback(tokens);
 
-            // Increment / decrement
-            case INCREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, true);
-            case DECREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, false);
-
             // Variable set
             case DEFINE -> DefineStatement.parseNextDefine(tokens);
             case VALUE_VARIABLE -> {

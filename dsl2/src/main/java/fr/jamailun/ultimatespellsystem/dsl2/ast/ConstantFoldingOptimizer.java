@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.ParenthesisExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.Operator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
@@ -129,11 +130,6 @@ public class ConstantFoldingOptimizer extends ASTOptimizer implements StatementV
   }
 
   // rien
-
-  @Override
-  public void handleIncrement(@NotNull IncrementStatement statement) {
-    // rien
-  }
 
   @Override
   public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement) {

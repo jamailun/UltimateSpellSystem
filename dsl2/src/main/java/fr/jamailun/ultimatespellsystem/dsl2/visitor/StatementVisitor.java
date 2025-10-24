@@ -17,7 +17,6 @@ public interface StatementVisitor {
 
     void handleReturn(@NotNull ReturnStatement statement);
     void handleBlock(@NotNull BlockStatement statement);
-    void handleIncrement(@NotNull IncrementStatement statement);
     void handleSimpleExpression(@NotNull SimpleExpressionStatement statement);
 
     void handleIf(@NotNull IfElseStatement statement);

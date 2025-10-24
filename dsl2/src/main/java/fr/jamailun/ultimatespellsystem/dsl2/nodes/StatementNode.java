@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.ForLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.IfElseStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.WhileLoopStatement;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
@@ -26,6 +27,7 @@ public abstract class StatementNode extends Node {
      */
     public abstract void visit(@NotNull StatementVisitor visitor);
 
+    @PreviousIndicator(expected = TokenType.IDENTIFIER)
     private static @NotNull StatementNode parseFromIdentifier(@NotNull Token first, @NotNull TokenStream tokens) {
         if(!tokens.hasMore())
             throw new ParsingException(tokens.position(), "Unexpected end of tokens after identifier.");
@@ -38,7 +40,7 @@ public abstract class StatementNode extends Node {
             if(tokens.dropOptional(TokenType.EQUAL)) {
                 ExpressionNode definition = ExpressionNode.readNextExpression(tokens);
                 StatementNode output = new DeclareNewVariableStatement(first, second, definition);
-                tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a SEMI COLON.");
+                tokens.dropOptional(TokenType.SEMI_COLON);
                 return output;
             }
 
@@ -55,8 +57,6 @@ public abstract class StatementNode extends Node {
             // Illegal ?
             throw new SyntaxException(tokens.position(), "Unexpected token after 'IDENTIFIER IDENTIFIER' : " + tokens.peek());
         }
-
-        //TODO Incrment / decrement !
 
         // On essaye de wrapper le token en expression ("a" ou "a.b().c") pour voir si on a un EQUAL ensuite.
         ExpressionNode wrapped = ExpressionNode.parseIdentifierExpression(first, tokens);
@@ -104,10 +104,6 @@ public abstract class StatementNode extends Node {
 
             // Blocks
             case BRACES_OPEN -> BlockStatement.parseNextBlock(tokens);
-
-            // Increment / decrement
-            case INCREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, true);
-            case DECREMENT -> IncrementStatement.parseIncrementOrDecrement(tokens, false);
 
             // Control-Flow
             case IF -> IfElseStatement.parseIfStatement(tokens);
