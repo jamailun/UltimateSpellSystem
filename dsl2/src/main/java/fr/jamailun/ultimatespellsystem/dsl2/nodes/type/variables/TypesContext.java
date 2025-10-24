@@ -70,9 +70,9 @@ public class TypesContext {
      * @param position the position of the declaration.
      * @param type the type of variable.
      */
-    public void registerVariable(@NotNull String varName, @NotNull TokenPosition position, @NotNull Type type) {
+    public void registerVariable(@NotNull TokenPosition position, @NotNull String varName, @NotNull Type type) {
         if("caster".equals(varName)) {
-            throw new SyntaxException(position, "Cannot override variable '%" + varName + "'.");
+            throw new SyntaxException(position, "Cannot override variable '" + varName + "'.");
         }
 
         vars.putIfAbsent(varName, new VariableDefinition(varName));

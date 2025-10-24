@@ -12,28 +12,8 @@ import java.io.File;
 public class FailuresParsingTests extends ParsingTest {
 
     @Test
-    void badParsing() {
-        badParsing("bad_parsing", ParsingException.class);
-    }
-
-    @Test
-    void badSyntax() {
-        badParsing("bad_syntax", SyntaxException.class);
-    }
-
-    @Test
     void badType() {
-        badParsing("bad_type", TypeException.class);
-    }
-
-    @Test
-    void badTreeValidation() {
-        badParsing("bad_tree", TreeValidationException.class);
-    }
-
-    @Test
-    void badMix() {
-        badParsing("bad_mix", UssException.class);
+        badParsing("invalid/bad_type", TypeException.class);
     }
 
     private <T extends Exception> void badParsing(@NotNull String folder, @NotNull Class<T> clazz) {

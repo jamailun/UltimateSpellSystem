@@ -61,6 +61,10 @@ public class Type {
         return arrayLevel > 0;
     }
 
+    public boolean isNull() {
+        return is(TypePrimitive.NULL);
+    }
+
     @Contract(pure = true)
     public @NotNull Type popArray() {
         return new Type(primitive, objectClass, Math.max(0, arrayLevel - 1));
@@ -95,5 +99,15 @@ public class Type {
     }
     public static @NotNull Type of(@NotNull TypePrimitive name) {
         return new Type(name, 0);
+    }
+
+    /**
+     * Get the {@link Type} of an identifier.
+     * @param name the identifier to use.
+     * @return a non-null Type, either with a primitive or not.
+     */
+    public static @NotNull Type ofAny(@NotNull String name) {
+        TypePrimitive primitive = TypePrimitive.parsePrimitive(name);
+        return primitive == null ? Type.of(name) : Type.of(primitive);
     }
 }

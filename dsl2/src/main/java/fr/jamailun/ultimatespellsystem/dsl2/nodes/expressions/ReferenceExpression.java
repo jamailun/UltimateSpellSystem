@@ -27,6 +27,11 @@ public class ReferenceExpression extends ExpressionNode {
         this.varName = token.getContentString();
     }
 
+    public void signalType(@NotNull Type type) {
+        //TODO trucs
+        runtimeType = type;
+    }
+    
     /**
      * Get the name of the variable.
      * @return a non-null string.

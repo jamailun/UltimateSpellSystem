@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl2.errors;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 
@@ -18,6 +19,9 @@ public class TypeException extends UssException {
         super(expression.firstTokenPosition(), "Expression " + expression + " has type " + expression.getExpressionType() + ", expected " + expected);
     }
 
+    public TypeException(ExpressionNode expression, Type expected) {
+        super(expression.firstTokenPosition(), "Expression " + expression + " has type " + expression.getExpressionType() + ", expected " + expected);
+    }
     /**
      * Unexpected expression type.
      * @param expression expression source of tbe exception. <b>Must have a type set.</b>
