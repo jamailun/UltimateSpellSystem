@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl2.errors;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 
+
 /**
  * Exception throw in the parsing phase.
  */

@@ -12,6 +12,11 @@ import java.io.File;
 public class CorrectParsingTests extends ParsingTest {
 
     @Test
+    void correctParsing() {
+        testFolder("corrects/parsing");
+    }
+
+    @Test
     void correctBasics() {
         testFolder("corrects/basics");
     }
@@ -29,6 +34,11 @@ public class CorrectParsingTests extends ParsingTest {
     @Test
     void correctFunctions() {
         testFolder("corrects/functions");
+    }
+
+    @Test
+    void correctArrays() {
+        testFolder("corrects/arrays");
     }
 
     // --

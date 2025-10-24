@@ -1,5 +1,7 @@
 package fr.jamailun.ultimatespellsystem.dsl2.tokenization;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Type of token.
  */
@@ -79,16 +81,8 @@ public enum TokenType {
         this.letters = letters;
     }
 
-    public Token toToken(TokenPosition position) {
+    public @NotNull Token toToken(@NotNull TokenPosition position) {
         return new Token(this, position);
-    }
-
-    public boolean isRawValue() {
-        return  this == IDENTIFIER ||
-                this == VALUE_STRING ||
-                this == VALUE_NUMBER ||
-                this == VALUE_DURATION ||
-                this == VALUE_BOOLEAN ;
     }
 
 }
