@@ -146,7 +146,8 @@ public final class Tokenizer {
 
                 if(TIME_UNITS.containsKey(word)) {
                     if(tokens.isEmpty() || last().getType() != TokenType.VALUE_NUMBER ) {
-                        throw new ParsingException(chars.pos(), "Unexpected time unit '"+word+"'.");
+                        tokens.add(Token.fromIdentifier(word, position));
+                        continue;
                     }
                     // Replace number by duration
                     double number = last().getContentNumber();

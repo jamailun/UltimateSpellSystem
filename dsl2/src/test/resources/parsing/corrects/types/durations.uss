@@ -1,0 +1,8 @@
+var a = 3 seconds;
+a = 3s;
+var b = 5minutes;
+b = 5m;
+var c = 8 milliseconds;
+c = 8 ms;
+var d = 7 hours;
+d = 7h;

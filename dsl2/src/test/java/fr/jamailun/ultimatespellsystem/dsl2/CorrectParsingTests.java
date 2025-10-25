@@ -41,6 +41,11 @@ public class CorrectParsingTests extends ParsingTest {
         testFolder("corrects/arrays");
     }
 
+    @Test
+    void correctTypes() {
+        testFolder("corrects/types");
+    }
+
     // --
 
     private void testFolder(@NotNull String folder) {

@@ -53,7 +53,6 @@ public class ArrayLiteral extends ExpressionNode {
             if(elementsType == null) {
                 elementsType = node.getExpressionType();
             } else {
-                //TODO
                 assertExpressionType(node, elementsType);
             }
         }

@@ -35,7 +35,7 @@ public class LocationLiteral extends ExpressionNode {
         this.pitch = pitch;
     }
 
-    public boolean asYawAndPitch() {
+    public boolean hasYawAndPitch() {
         return yaw != null && pitch != null;
     }
 
@@ -56,7 +56,7 @@ public class LocationLiteral extends ExpressionNode {
         assertExpressionType(vectorY, context, TypePrimitive.NUMBER);
         assertExpressionType(vectorZ, context, TypePrimitive.NUMBER);
 
-        if(asYawAndPitch()) {
+        if(hasYawAndPitch()) {
             assertExpressionType(yaw, context, TypePrimitive.NUMBER);
             assertExpressionType(pitch, context, TypePrimitive.NUMBER);
         }
@@ -75,11 +75,11 @@ public class LocationLiteral extends ExpressionNode {
 
         // World + vector
         ExpressionNode world = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.COMMA);
+        tokens.dropOrThrow(TokenType.COMMA, "A location literal needs a X coordinate after the world.");
         ExpressionNode x = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.COMMA);
+        tokens.dropOrThrow(TokenType.COMMA, "A location literal needs a Y coordinate after the world and X.");
         ExpressionNode y = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.COMMA);
+        tokens.dropOrThrow(TokenType.COMMA, "A location literal needs a Z coordinate avec world and X + Y coordinates.");
         ExpressionNode z = ExpressionNode.readNextExpression(tokens);
 
         // Optional yaw + pitch
@@ -87,13 +87,12 @@ public class LocationLiteral extends ExpressionNode {
         ExpressionNode pitch = null;
         if(tokens.dropOptional(TokenType.COMMA)) {
             yaw = ExpressionNode.readNextExpression(tokens);
-        }
-        if(tokens.dropOptional(TokenType.COMMA)) {
+            tokens.dropOrThrow(TokenType.COMMA, "In a location literal, after the yaw, a pitch value is required.");
             pitch = ExpressionNode.readNextExpression(tokens);
         }
 
         // Close
-        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+        tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "A location literal needs a ')' at the end.");
 
         return new LocationLiteral(position, world, x, y, z, yaw, pitch);
     }

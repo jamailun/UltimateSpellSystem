@@ -293,7 +293,7 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         literal.getVectorX().visit(this); builder.append(", ");
         literal.getVectorY().visit(this); builder.append(", ");
         literal.getVectorZ().visit(this);
-        if(literal.asYawAndPitch()) {
+        if(literal.hasYawAndPitch()) {
             builder.append(", ");
             literal.getYaw().visit(this);
             builder.append(", ");
