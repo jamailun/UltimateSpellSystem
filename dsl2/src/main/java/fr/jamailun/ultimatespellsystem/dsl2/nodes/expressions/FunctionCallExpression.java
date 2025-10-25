@@ -68,7 +68,7 @@ public class FunctionCallExpression extends ExpressionNode {
     else {
       FunctionDeclarationStatement declaration = context.findFunction(functionName);
       if(declaration == null) {
-        throw new SyntaxException(position, "Function '" + functionName + "' not found");
+        throw new SyntaxException(position, "Global function '" + functionName + "' not found");
       }
       function = declaration.asFunctionDefinition();
     }

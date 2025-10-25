@@ -1,0 +1,5 @@
+void foo(int a, string b) {
+    console.info("a = " + a + ", b = " + b);
+}
+
+foo(12, 4567);

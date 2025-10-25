@@ -15,7 +15,7 @@ public record CallbackEvent(@NotNull String name, @Nullable CallbackArgument arg
 
     public CallbackEvent {
         if(name.indexOf(' ') > -1) {
-            throw new RuntimeException("Invalid callback name. Cannot contain spaces.");
+            throw new IllegalArgumentException("Invalid callback name. Cannot contain spaces.");
         }
     }
 

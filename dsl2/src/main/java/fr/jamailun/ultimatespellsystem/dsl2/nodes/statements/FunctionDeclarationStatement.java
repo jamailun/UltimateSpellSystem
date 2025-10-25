@@ -45,16 +45,17 @@ public class FunctionDeclarationStatement extends StatementNode {
       throw new SyntaxException(position, "The function '" + functionName + "' has already been defined. Signature is " + existingFunction.signature());
     }
 
-    // 2. Propagate to children
+    // 2. Register function and variables !
+    context.registerFunction(this);
+    for(FunctionParameter parameter : parameters) {
+      context.registerVariable(position, parameter.name, parameter.getType());
+    }
+
+    // 3. Propagate to children
     TypesContext child = context.childContext();
     for(StatementNode statement : statements) {
       statement.validateTypes(child);
     }
-
-    //TODO Validate tree and return !
-
-    // Register function
-    context.registerFunction(this);
   }
 
   public static @NotNull FunctionDeclarationStatement parseNextFunction(@NotNull Token typeIdentifier, @NotNull Token nameIdentifier, @NotNull TokenStream tokens) {
@@ -84,7 +85,11 @@ public class FunctionDeclarationStatement extends StatementNode {
     return new FunctionDeclarationStatement(typeIdentifier.pos(), functionReturnType, functionName, parameters, statements);
   }
 
-  public record FunctionParameter(String type, String name) {}
+  public record FunctionParameter(@NotNull String type, @NotNull String name) {
+    public @NotNull Type getType() {
+      return Type.ofAny(type);
+    }
+  }
 
   @Override
   public String toString() {
@@ -109,8 +114,8 @@ public class FunctionDeclarationStatement extends StatementNode {
         getOutputType(),
         parameters.stream()
             .map(p -> new FunctionArgument(
-                Type.ofAny(p.type),
-                p.name,
+                p.getType(),
+                p.name(),
                 false
             )).toList()
     );
