@@ -40,7 +40,7 @@ public class StructDefinition {
     return fields.get(fieldName);
   }
 
-  public @NotNull FunctionDefinition getFunction(@NotNull String functionName) {
+  public @Nullable FunctionDefinition getFunction(@NotNull String functionName) {
     return functions.get(functionName);
   }
 

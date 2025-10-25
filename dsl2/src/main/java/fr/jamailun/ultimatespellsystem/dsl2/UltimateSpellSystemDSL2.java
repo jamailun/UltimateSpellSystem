@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl2;
 
+import fr.jamailun.ultimatespellsystem.dsl2.library.structs.ConsoleStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.library.structs.EntityStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.metadata.rules.DefaultMetadataRules;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
@@ -26,6 +27,7 @@ public final class UltimateSpellSystemDSL2 {
         DefaultMetadataRules.initialize();
         //
         ObjectsDefinitionRegistry.registerDefaultStruct(new EntityStruct());
+        ObjectsDefinitionRegistry.registerDefaultStruct(new ConsoleStruct());
     }
 
     /**

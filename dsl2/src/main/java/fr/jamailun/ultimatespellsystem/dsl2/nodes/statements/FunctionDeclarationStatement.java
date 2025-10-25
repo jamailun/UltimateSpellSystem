@@ -2,6 +2,9 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
@@ -28,6 +31,10 @@ public class FunctionDeclarationStatement extends StatementNode {
   @Override
   public void visit(@NotNull StatementVisitor visitor) {
     visitor.handleFunctionDeclaration(this);
+  }
+
+  public @NotNull Type getOutputType() {
+    return Type.ofAny(functionReturnType);
   }
 
   @Override
@@ -90,5 +97,22 @@ public class FunctionDeclarationStatement extends StatementNode {
 
   public @NotNull String signature() {
     return functionReturnType + " " + functionName + "(" + String.join(", ", getParameters().stream().map(Object::toString).toList()) + ")";
+  }
+
+  /**
+   * Create a function declaration instance from this function declaration.
+   * @return a new function definition.
+   */
+  public @NotNull FunctionDefinition asFunctionDefinition() {
+    return new FunctionDefinition(
+        functionName,
+        getOutputType(),
+        parameters.stream()
+            .map(p -> new FunctionArgument(
+                Type.ofAny(p.type),
+                p.name,
+                false
+            )).toList()
+    );
   }
 }

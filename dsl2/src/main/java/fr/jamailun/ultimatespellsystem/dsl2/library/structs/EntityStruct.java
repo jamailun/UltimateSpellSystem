@@ -6,8 +6,11 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.Function
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 
 public class EntityStruct extends StructDefinition {
+
+  public static final String NAME = "entity";
+
   public EntityStruct() {
-    super("entity");
+    super(NAME);
     initFields();
     initFunctions();
   }
@@ -45,6 +48,18 @@ public class EntityStruct extends StructDefinition {
         "heal",
         TypePrimitive.NULL.asType(),
         FunctionArgument.of(TypePrimitive.NUMBER)
+    ));
+
+    registerFunction(FunctionDefinition.of(
+        "send",
+        TypePrimitive.NULL.asType(),
+        FunctionArgument.of(TypePrimitive.STRING)
+    ));
+
+    registerFunction(FunctionDefinition.of(
+        "send_message",
+        TypePrimitive.NULL.asType(),
+        FunctionArgument.of(TypePrimitive.STRING)
     ));
   }
 

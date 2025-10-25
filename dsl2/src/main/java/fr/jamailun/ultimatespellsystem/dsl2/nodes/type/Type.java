@@ -65,6 +65,10 @@ public class Type {
         return is(TypePrimitive.NULL);
     }
 
+    public boolean isPrimitive() {
+        return primitive != null;
+    }
+
     @Contract(pure = true)
     public @NotNull Type popArray() {
         return new Type(primitive, objectClass, Math.max(0, arrayLevel - 1));
@@ -73,6 +77,10 @@ public class Type {
     @Contract(pure = true)
     public @NotNull Type pushArray() {
         return new Type(primitive, objectClass, arrayLevel + 1);
+    }
+
+    public @NotNull String getName() {
+        return primitive == null ? Objects.requireNonNull(objectClass) : primitive.name();
     }
 
     @Contract(pure = true)

@@ -1,6 +1,6 @@
 bool a = false;
 if(a == true || false) {
-    console.log("ok");
+    console.info("ok");
 } else {
-    console.log("non");
+    console.info("non");
 }

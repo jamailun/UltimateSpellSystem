@@ -128,6 +128,14 @@ public abstract class ExpressionNode extends Node {
             return new IncrementExpression(first, false, true);
         }
 
+        // IDENTIFIER( ?
+        if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
+            List<ExpressionNode> arguments = parseArgumentsParameter(tokens);
+            ExpressionNode expression = new FunctionCallExpression(null, first, arguments);
+            return parseIdentifierExpression(expression, tokens);
+        }
+
+
         ExpressionNode left = new ReferenceExpression(first);
         return parseIdentifierExpression(left, tokens);
     }
@@ -145,8 +153,7 @@ public abstract class ExpressionNode extends Node {
             // a.IDENTIFIER(...)
             if(tokens.dropOptional(TokenType.BRACKET_OPEN)) {
                 List<ExpressionNode> arguments = parseArgumentsParameter(tokens);
-                String fctName = identifier.getContentString();
-                ExpressionNode fctCall = new FunctionCallExpression(left, fctName, arguments);
+                ExpressionNode fctCall = new FunctionCallExpression(left, identifier, arguments);
 
                 // Après "a.b(...)" on peut avoir une suite. Donc, on refait une boucle.
                 return parseIdentifierExpression(fctCall, tokens);
@@ -175,7 +182,7 @@ public abstract class ExpressionNode extends Node {
         return left;
     }
 
-    public static List<ExpressionNode> parseArgumentsParameter(@NotNull TokenStream tokens) {
+    public static @NotNull List<ExpressionNode> parseArgumentsParameter(@NotNull TokenStream tokens) {
         List<ExpressionNode> list = new ArrayList<>();
         boolean first = true;
         while(!tokens.dropOptional(TokenType.BRACKET_CLOSE)) {

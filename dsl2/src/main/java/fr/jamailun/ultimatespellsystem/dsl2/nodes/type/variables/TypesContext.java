@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.library.ObjectsLibrary;
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.library.structs.ConsoleStruct;
+import fr.jamailun.ultimatespellsystem.dsl2.library.structs.EntityStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
@@ -28,7 +30,8 @@ public class TypesContext {
      */
     public TypesContext() {
         this.objectsLibrary = new ObjectsLibrary(true);
-        promiseVariable("caster", Type.of("entity"));
+        promiseVariable("caster", Type.of(EntityStruct.NAME));
+        promiseVariable("console", Type.of(ConsoleStruct.NAME));
     }
 
     /**
@@ -98,6 +101,14 @@ public class TypesContext {
 
     public @Nullable StructDefinition findStruct(@NotNull String name) {
         return objectsLibrary.getStruct(name);
+    }
+
+    public @Nullable StructDefinition findStruct(@NotNull Type type) {
+        if(type.isPrimitive()) {
+            //TODO specialized structs ?
+            return null;
+        }
+        return objectsLibrary.getStruct(type.getName());
     }
 
     /**

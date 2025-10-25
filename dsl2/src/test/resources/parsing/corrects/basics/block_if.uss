@@ -1,4 +1,4 @@
 bool a = false;
 if(a == true || false) {
-    console.log("ok");
+    console.info("ok");
 }

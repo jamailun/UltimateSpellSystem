@@ -1,8 +1,8 @@
 bool a = false;
 if(a) {
-    console.log("ok");
+    console.info("ok");
 } else if(!a) {
-    console.log("non");
+    console.info("non");
 } else {
-    console.log("??");
+    console.info("??");
 }
