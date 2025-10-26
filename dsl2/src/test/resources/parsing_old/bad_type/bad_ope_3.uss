@@ -1,7 +1,0 @@
-# Valid
-%a = true;
-%b = !%a;
-
-# Invalid
-%c = 14;
-%d = !%c;

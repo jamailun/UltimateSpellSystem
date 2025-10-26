@@ -3,9 +3,11 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.statements;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.CollectionFilter;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.PreviousIndicator;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
@@ -21,12 +23,19 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class ReturnStatement extends StatementNode {
 
+    private final TokenPosition pos;
     private final @Nullable ExpressionNode exitCodeNode;
 
     @Override
     public void validateTypes(@NotNull TypesContext context) {
         if(exitCodeNode != null)
-            assertExpressionType(exitCodeNode, CollectionFilter.MONO_ELEMENT, context, TypePrimitive.NUMBER);
+            exitCodeNode.validateTypes(context);
+    }
+
+    public @Nullable Type getReturnType() {
+        if(exitCodeNode != null)
+            return exitCodeNode.getExpressionType();
+        return Type.of(TypePrimitive.NULL);
     }
 
     @Override
@@ -41,12 +50,13 @@ public class ReturnStatement extends StatementNode {
      */
     @PreviousIndicator(expected = TokenType.RETURN)
     public static @NotNull ReturnStatement parseReturn(@NotNull TokenStream tokens) {
+        TokenPosition pos = tokens.previousPos();
         if(tokens.dropOptional(TokenType.SEMI_COLON)) {
-            return new ReturnStatement(null);
+            return new ReturnStatement(pos, null);
         } else {
             ExpressionNode exitNode = ExpressionNode.readNextExpression(tokens);
             tokens.dropOrThrow(TokenType.SEMI_COLON, "Expected a semi-colon after a RETURN statement value.");
-            return new ReturnStatement(exitNode);
+            return new ReturnStatement(pos, exitNode);
         }
     }
 

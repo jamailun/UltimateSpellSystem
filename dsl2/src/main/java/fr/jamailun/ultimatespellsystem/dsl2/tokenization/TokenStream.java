@@ -142,6 +142,11 @@ public class TokenStream {
         return "TokenStream{index="+index+", TOKENS = [" + sj + "] }";
     }
 
+    public @NotNull TokenPosition previousPos() {
+        Preconditions.checkState(index > 0, "Cannot fetch previous position on start.");
+        return tokens.get(index - 1).pos();
+    }
+
     /**
      * Get the current token position.
      * @return the current position.

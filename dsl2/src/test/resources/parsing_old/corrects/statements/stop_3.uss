@@ -1,3 +1,0 @@
-# Exit with code
-define %code = 90/8;
-stop %code;

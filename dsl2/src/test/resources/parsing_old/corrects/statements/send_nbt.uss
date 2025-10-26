@@ -1,1 +1,0 @@
-send %caster nbt "test" = 12 for 12s;

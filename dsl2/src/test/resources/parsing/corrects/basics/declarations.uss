@@ -1,3 +1,4 @@
 int some_method() {
     int some_var;
+    return some_var;
 }
