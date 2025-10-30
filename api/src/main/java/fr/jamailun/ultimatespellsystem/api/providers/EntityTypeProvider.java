@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.providers;
 
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
-import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
+import fr.jamailun.ultimatespellsystem.dsl2.registries.EntityTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
 /**

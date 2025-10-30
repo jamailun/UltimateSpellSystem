@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.spells;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;

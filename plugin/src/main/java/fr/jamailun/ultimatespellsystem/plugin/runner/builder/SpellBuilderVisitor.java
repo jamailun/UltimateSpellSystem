@@ -1,16 +1,16 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
-import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.IncrementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.*;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.*;

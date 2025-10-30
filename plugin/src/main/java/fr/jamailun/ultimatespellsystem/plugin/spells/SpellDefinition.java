@@ -6,10 +6,10 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellMetadata;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.PrintingVisitor;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.validators.DslValidator;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
@@ -77,7 +77,7 @@ public class SpellDefinition extends AbstractSpell {
      */
     public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
         try {
-            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
+            List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
             List<RuntimeStatement> steps = load(dsl);
             SpellDefinition spell = new SpellDefinition(file, name, steps);
             if(UssConfig.displaySummonWarnings())
@@ -101,7 +101,7 @@ public class SpellDefinition extends AbstractSpell {
         if(!file.exists())
             return "file["+file+"] doesn't exist.";
         try {
-            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
+            List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
             DslValidator.validateDsl(dsl);
             return PrintingVisitor.toString(dsl);
         } catch(Exception e) {

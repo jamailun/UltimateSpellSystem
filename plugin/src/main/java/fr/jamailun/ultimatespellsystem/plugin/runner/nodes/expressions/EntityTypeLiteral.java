@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.providers.EntityTypeProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.EntityTypeExpression;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.EntityTypeExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**

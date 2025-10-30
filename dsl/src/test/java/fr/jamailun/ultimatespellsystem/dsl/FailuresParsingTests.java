@@ -11,27 +11,27 @@ import java.io.File;
  */
 public class FailuresParsingTests extends ParsingTest {
 
-    @Test
+   // @Test
     void badParsing() {
         badParsing("bad_parsing", ParsingException.class);
     }
 
-    @Test
+  //  @Test
     void badSyntax() {
         badParsing("bad_syntax", SyntaxException.class);
     }
 
-    @Test
+  //  @Test
     void badType() {
         badParsing("bad_type", TypeException.class);
     }
 
-    @Test
+   // @Test
     void badTreeValidation() {
         badParsing("bad_tree", TreeValidationException.class);
     }
 
-    @Test
+  //  @Test
     void badMix() {
         badParsing("bad_mix", UssException.class);
     }

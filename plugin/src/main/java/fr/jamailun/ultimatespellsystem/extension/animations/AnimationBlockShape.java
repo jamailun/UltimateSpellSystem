@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.extension.animations;
 
 import fr.jamailun.ultimatespellsystem.api.animations.Animation;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.BlockHolder;
 import org.bukkit.Location;

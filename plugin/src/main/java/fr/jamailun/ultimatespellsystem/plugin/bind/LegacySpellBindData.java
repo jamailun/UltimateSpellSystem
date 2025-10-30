@@ -7,7 +7,7 @@ import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellTrigger;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.ItemAmountSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.spells.NotFoundSpell;

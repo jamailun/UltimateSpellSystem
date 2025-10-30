@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.extension.callbacks;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.CallbackAction;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
-import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.jetbrains.annotations.NotNull;

@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.extension.citizens;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -137,7 +137,7 @@ public class SpellCasterCommand implements CommandExecutor, TabCompleter {
                 else condition = concat;
                 // parse
                 try {
-                    UltimateSpellSystemDSL.parseExpression(condition);
+                    UltimateSpellSystemDSL2.parseExpression(condition);
                 } catch (Exception e) {
                     sender.sendMessage("§cInvalid USS syntax: " + e.getMessage());
                     return true;

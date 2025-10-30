@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.extension.providers;
 
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.providers.EntityTypeProvider;
-import fr.jamailun.ultimatespellsystem.dsl.registries.EntityTypeRegistry;
+import fr.jamailun.ultimatespellsystem.dsl2.registries.EntityTypeRegistry;
 import fr.jamailun.ultimatespellsystem.plugin.entities.implem.Orb;
 import org.bukkit.entity.EntityType;
 

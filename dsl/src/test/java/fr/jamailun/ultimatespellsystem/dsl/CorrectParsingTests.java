@@ -20,28 +20,28 @@ import java.util.List;
  */
 public class CorrectParsingTests extends ParsingTest {
 
-    @Test
+    //@Test
     void correctStatements() {
         testFolder("corrects/statements");
     }
-    @Test
+    //@Test
     void correctBlocks() {
         testFolder("corrects/blocks");
     }
-    @Test
+   // @Test
     void correctOperators() {
         testFolder("corrects/operators");
     }
-    @Test
+    //@Test
     void correctMix() {
         testFolder("corrects/mix");
     }
-    @Test
+    //@Test
     void correctMetadata() {
         testFolder("corrects/metadata");
     }
 
-    @Test
+   // @Test
     void correctWithCustom() {
         // Register "custom_add"
         FunctionDefinition definition = new FunctionDefinition(

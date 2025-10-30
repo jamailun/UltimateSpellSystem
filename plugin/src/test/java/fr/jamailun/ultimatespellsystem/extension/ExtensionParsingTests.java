@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
+import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.runner.framework.AssertException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;

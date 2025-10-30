@@ -1,10 +1,10 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 

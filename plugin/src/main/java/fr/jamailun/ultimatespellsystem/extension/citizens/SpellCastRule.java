@@ -4,9 +4,9 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import lombok.Getter;
 import net.citizensnpcs.api.util.DataKey;
@@ -41,7 +41,7 @@ public class SpellCastRule {
         if(rawCondition.isEmpty()) {
             condition = null;
         } else {
-            ExpressionNode expression = UltimateSpellSystemDSL.parseExpression(rawCondition);
+            ExpressionNode expression = UltimateSpellSystemDSL2.parseExpression(rawCondition);
             condition = UltimateSpellSystem.getExternalExecutor().handleImplementation(expression);
         }
     }

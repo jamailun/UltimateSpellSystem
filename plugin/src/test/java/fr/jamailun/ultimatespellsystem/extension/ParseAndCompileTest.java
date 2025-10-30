@@ -1,13 +1,13 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.CharStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Tokenizer;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
 import fr.jamailun.ultimatespellsystem.runner.framework.TestFramework;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +59,7 @@ abstract class ParseAndCompileTest extends TestFramework {
         System.out.println(tokens + "\n");
 
         // Parse
-        List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+        List<StatementNode> nodes = UltimateSpellSystemDSL2.parse(tokens);
 
         System.out.println(" ----------------------- ");
 

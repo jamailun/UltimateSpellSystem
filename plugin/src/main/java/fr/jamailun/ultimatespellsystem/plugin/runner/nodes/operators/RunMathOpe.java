@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator.MonoOpeType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator.MonoOpeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

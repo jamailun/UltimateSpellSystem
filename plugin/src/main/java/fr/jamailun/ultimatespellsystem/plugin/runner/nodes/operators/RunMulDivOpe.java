@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
