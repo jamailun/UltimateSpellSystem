@@ -35,6 +35,7 @@ public abstract class AbstractStructDefinition<S> implements StructDefinition<S>
     private final Map<String, FunctionMetadata<?>> functions = new HashMap<>();
 
     @Getter protected final String structName;
+    private fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition struct;
 
     @Override
     public <T> void registerField(@NotNull String name, @NotNull Type type, @NotNull Function<S, T> getter, @Nullable BiConsumer<S, T> setter) {
@@ -78,10 +79,21 @@ public abstract class AbstractStructDefinition<S> implements StructDefinition<S>
     }
 
     /**
+     * Compute the DSL holder for the first time.
+     * @return a non-null object.
+     */
+    protected abstract @NotNull fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition computeDsl();
+
+    /**
      * Get the DSL definition.
      * @return the DSL definition of the object.
      */
-    protected abstract @NotNull fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition dsl();
+    protected final @NotNull fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition dsl() {
+        if(struct == null) {
+            struct = computeDsl();
+        }
+        return struct;
+    }
 
     /**
      * Get a value.

@@ -17,7 +17,7 @@ public abstract class AbstractStructInstance<S> implements Struct {
      * @param definition definition definition to use.
      * @param object object to handle.
      */
-    public AbstractStructInstance(@NotNull AbstractStructDefinition<S> definition, @NotNull S object) {
+    public AbstractStructInstance(@NotNull AbstractStructDefinition<S> definition, S object) {
         this.definition = definition;
         this.object = object;
     }

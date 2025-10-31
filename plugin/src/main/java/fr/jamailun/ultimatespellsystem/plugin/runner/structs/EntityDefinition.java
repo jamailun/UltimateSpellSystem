@@ -30,8 +30,6 @@ public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
         return FLY_INSTANCE;
     }
 
-    private StructDefinition struct;
-
     /**
      * Create a new definition.
      */
@@ -87,10 +85,8 @@ public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
     }
 
     @Override
-    protected @NotNull StructDefinition dsl() {
-        if(struct == null)
-            struct = Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(TYPE_ENTITY.getName()), "Entity struct cannot be found in defaults.");
-        return struct;
+    protected @NotNull StructDefinition computeDsl() {
+        return Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(structName), "Entity struct cannot be found in defaults.");
     }
 
     private static <T> @NotNull Function<SpellEntity, T> makeBukkitGetter(@NotNull Function<LivingEntity, T> getter) {
