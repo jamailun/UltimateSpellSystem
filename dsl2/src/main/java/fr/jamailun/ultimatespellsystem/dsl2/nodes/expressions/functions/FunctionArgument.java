@@ -18,11 +18,18 @@ public record FunctionArgument(@NotNull Type type, @NotNull String debugName, bo
         return type + " " + debugName + (optional?"*":"");
     }
 
-    public static FunctionArgument of(@NotNull String type) {
-        return new FunctionArgument(Type.of(type), type, false);
+    @Contract("_ -> new")
+    public static @NotNull FunctionArgument of(@NotNull String type) {
+        return of(Type.of(type));
     }
 
-    public static FunctionArgument of(@NotNull TypePrimitive type) {
-        return new FunctionArgument(Type.of(type), type.name().toLowerCase(), false);
+    @Contract("_ -> new")
+    public static @NotNull FunctionArgument of(@NotNull TypePrimitive type) {
+        return of(Type.of(type));
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull FunctionArgument of(@NotNull Type type) {
+        return new FunctionArgument(type, type.getName(), false);
     }
 }

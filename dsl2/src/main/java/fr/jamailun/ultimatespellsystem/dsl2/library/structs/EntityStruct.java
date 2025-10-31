@@ -19,9 +19,7 @@ public class EntityStruct extends StructDefinition {
     registerField("name", TypePrimitive.STRING);
 
     registerField("location", LAZY_TYPE_LOCATION);
-    registerField("position", LAZY_TYPE_LOCATION);
     registerField("eye_location", LAZY_TYPE_LOCATION);
-    registerField("eye_position", LAZY_TYPE_LOCATION);
 
     // Location
     registerField("x", TypePrimitive.NUMBER);
@@ -33,8 +31,6 @@ public class EntityStruct extends StructDefinition {
     // Attributes
     registerField("health", TypePrimitive.NUMBER);
     registerField("max_health", TypePrimitive.NUMBER);
-    registerField("attack", TypePrimitive.NUMBER);
-    registerField("armor", TypePrimitive.NUMBER);
   }
 
   private void initFunctions() {
@@ -48,12 +44,6 @@ public class EntityStruct extends StructDefinition {
         "heal",
         TypePrimitive.NULL.asType(),
         FunctionArgument.of(TypePrimitive.NUMBER)
-    ));
-
-    registerFunction(FunctionDefinition.of(
-        "send",
-        TypePrimitive.NULL.asType(),
-        FunctionArgument.of(TypePrimitive.STRING)
     ));
 
     registerFunction(FunctionDefinition.of(

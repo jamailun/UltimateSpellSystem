@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl2.registries;
 
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.Collection;
@@ -39,6 +40,15 @@ public final class ObjectsDefinitionRegistry {
    */
   public static @NotNull @UnmodifiableView Collection<StructDefinition> getDefaultStructs() {
     return Collections.unmodifiableCollection(DEFAULT_STRUCTS.values());
+  }
+
+  /**
+   * Get a default struct.
+   * @param name the name of the struct.
+   * @return null if ot found.
+   */
+  public static @Nullable StructDefinition getDefaultStruct(@NotNull String name) {
+    return DEFAULT_STRUCTS.get(name);
   }
 
 }

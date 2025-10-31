@@ -16,4 +16,14 @@ public class UnknownFunctionException extends UssException {
     public UnknownFunctionException(@NotNull TokenPosition pos, @NotNull String functionId) {
         super(pos, "Unknown function ID: '"+functionId+"'.");
     }
+
+    /**
+     * New exception for a struct.
+     * @param pos token position.
+     * @param structName name of the structure.
+     * @param functionId ID of the unknown function.
+     */
+    public UnknownFunctionException(@NotNull TokenPosition pos, @NotNull String structName, @NotNull String functionId) {
+        super(pos, "Unknown function ID: '"+functionId+"' in struct " + structName + ".");
+    }
 }

@@ -14,7 +14,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StructDefinition {
 
-  protected static final String LAZY_TYPE_LOCATION = "location";
+  public static final String LAZY_TYPE_LOCATION = "location";
+  public static final String LAZY_TYPE_ENTITY = "entity";
 
   @Getter private final String name;
   private final Map<String, Type> fields = new HashMap<>();

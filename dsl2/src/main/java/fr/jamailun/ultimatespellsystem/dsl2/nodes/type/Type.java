@@ -80,7 +80,7 @@ public class Type {
     }
 
     public @NotNull String getName() {
-        return primitive == null ? Objects.requireNonNull(objectClass) : primitive.name();
+        return primitive == null ? Objects.requireNonNull(objectClass) : primitive.name().toLowerCase();
     }
 
     @Contract(pure = true)
