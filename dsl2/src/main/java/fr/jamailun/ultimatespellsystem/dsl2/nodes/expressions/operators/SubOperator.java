@@ -32,7 +32,7 @@ public class SubOperator extends BiOperator {
     private final static List<Type> ALLOWED = List.of(
         Type.of(TypePrimitive.NUMBER),
         Type.of(TypePrimitive.DURATION),
-        Type.of("location")
+        Type.of(TypePrimitive.LOCATION)
     );
 
     @Override

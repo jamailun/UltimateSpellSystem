@@ -39,12 +39,6 @@ public interface SpellRuntime {
     boolean isStopped();
 
     /**
-     * Stop the current execution.
-     * @param exitValue the exit value returned.
-     */
-    void stop(@Nullable Object exitValue);
-
-    /**
      * Break the flow.
      */
     void statementBreak();
@@ -102,7 +96,8 @@ public interface SpellRuntime {
      * @param value the value to wrap.
      * @return {@code null} if cannot match.
      */
-    @Nullable Struct getStructOf(String structDefinitionName, Object value);
+    @Contract("_,null->null;_,!null->!null")
+    @Nullable Struct getStructOf(@NotNull String structDefinitionName, @Nullable Object value);
 
     /**
      * Get the returned value.

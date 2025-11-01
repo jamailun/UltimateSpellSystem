@@ -3,11 +3,10 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -20,8 +19,8 @@ public class SolidBlockBellowFunction extends AbstractFunction {
                 TypePrimitive.LOCATION.asType(),
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
-                                "entity", false
+                                Type.of(TypePrimitive.LOCATION),
+                                "location", false
                         )
                 )
         );
@@ -29,14 +28,14 @@ public class SolidBlockBellowFunction extends AbstractFunction {
 
     @Override
     public Location compute(@NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
-        LivingEntity entity = toLivingEntity("block_below:entity", arguments.getFirst(), runtime);
-        if(entity == null) return null;
-        int worldMinY = entity.getWorld().getMinHeight();
-        int x = entity.getLocation().getBlockX();
-        int z = entity.getLocation().getBlockZ();
+        Location location = toLocation("block_below:entity", arguments.getFirst(), runtime);
 
-        for(int y = entity.getLocation().getBlockY(); y >= worldMinY; y--) {
-            Block block = entity.getWorld().getBlockAt(x, y, z);
+        int worldMinY = location.getWorld().getMinHeight();
+        int x = location.getBlockX();
+        int z = location.getBlockZ();
+
+        for(int y = location.getBlockY(); y >= worldMinY; y--) {
+            Block block = location.getWorld().getBlockAt(x, y, z);
             if( !block.isEmpty() && !block.isPassable()) {
                 return block.getLocation();
             }

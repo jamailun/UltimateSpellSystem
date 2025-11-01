@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.structs;
 
 import fr.jamailun.ultimatespellsystem.UssLogger;
+import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.library.structs.ConsoleStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
@@ -33,6 +34,11 @@ public class ConsoleDefinition extends AbstractStructDefinition<Void> {
         registerSend("error", UssLogger::logError);
     }
 
+    @Override
+    public @NotNull Struct instantiate(Void value) {
+        return new ConsoleInstance();
+    }
+
     private void registerSend(String name, Consumer<String> method) {
         registerNullFunc(
                 name,
@@ -43,6 +49,6 @@ public class ConsoleDefinition extends AbstractStructDefinition<Void> {
 
     @Override
     protected @NotNull StructDefinition computeDsl() {
-        return Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(structName), "Console struct cannot be found in defaults.");
+        return Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(getName()), "Console struct cannot be found in defaults.");
     }
 }

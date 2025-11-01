@@ -3,6 +3,7 @@ package fr.jamailun.ultimatespellsystem.dsl2.library.structs;
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 
 public class ConsoleStruct extends StructDefinition {
@@ -17,27 +18,27 @@ public class ConsoleStruct extends StructDefinition {
   private void initFunctions() {
     registerFunction(FunctionDefinition.of(
         "send",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
     registerFunction(FunctionDefinition.of(
         "info",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
     registerFunction(FunctionDefinition.of(
         "debug",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
     registerFunction(FunctionDefinition.of(
         "warning",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
     registerFunction(FunctionDefinition.of(
         "error",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
   }

@@ -2,9 +2,7 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.CollectionFilter;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.PreviousIndicator;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
@@ -35,7 +33,7 @@ public class ReturnStatement extends StatementNode {
     public @Nullable Type getReturnType() {
         if(exitCodeNode != null)
             return exitCodeNode.getExpressionType();
-        return Type.of(TypePrimitive.NULL);
+        return Type.NULL;
     }
 
     @Override

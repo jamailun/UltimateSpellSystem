@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.events.EntityDamagedBySpellEvent;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
@@ -26,15 +26,15 @@ public class DamageFunction extends AbstractFunction {
                 // Args : the location to strike
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.ENTITY),
                                 "target", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                Type.of(TypePrimitive.NUMBER),
                                 "amount", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.ENTITY),
                                 "author", true
                         )
                 )

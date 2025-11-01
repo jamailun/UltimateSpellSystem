@@ -71,7 +71,7 @@ public abstract class AbstractStructDefinition<S> implements StructDefinition<S>
 
     protected void registerNullFunc(@NotNull String name, @NotNull BiConsumer<S, List<?>> impl, FunctionArgument... args) {
         registerFunction(
-                FunctionDefinition.of(name, TypePrimitive.NULL.asType(), args),
+                FunctionDefinition.of(name, Type.NULL, args),
                 (s, params) -> {
                     impl.accept(s, params);
                     return null;
@@ -151,6 +151,11 @@ public abstract class AbstractStructDefinition<S> implements StructDefinition<S>
         if(func == null)
             throw new UnknownFunctionException(pos, structName, funcName);
         return func;
+    }
+
+    @Override
+    public @NotNull String getName() {
+        return structName;
     }
 
     /**

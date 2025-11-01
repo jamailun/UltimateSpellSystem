@@ -5,7 +5,6 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +24,7 @@ public class IsValidFunction extends AbstractFunction {
                 // Args : the entity tio check.
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                TypePrimitive.ENTITY.asType(),
                                 "entity", false
                         )
                 )

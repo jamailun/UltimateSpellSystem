@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -20,11 +19,11 @@ public class DirectionOfFunction extends AbstractFunction {
         super(
                 "direction_of",
                 // Returns "vector"
-                TypePrimitive.LOCATION.asType(),
+                TypePrimitive.VECTOR.asType(),
                 // Args : the entity to read direction of
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                TypePrimitive.ENTITY.asType(),
                                 "entity", false
                         )
                 )

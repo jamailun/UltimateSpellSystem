@@ -5,6 +5,8 @@ import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 /**
  * Structure instance for an object.
  */
@@ -31,5 +33,10 @@ public abstract class AbstractStructInstance<S> implements Struct {
     @Override
     public void setField(@NotNull TokenPosition pos, @NotNull String fieldName, @Nullable Object value) {
         definition.set(object, pos, fieldName, value);
+    }
+
+    @Override
+    public @Nullable Object callFunction(@NotNull TokenPosition pos, @NotNull String functionName, @NotNull List<Object> parameters) {
+        return definition.call(object, pos, functionName, parameters);;
     }
 }

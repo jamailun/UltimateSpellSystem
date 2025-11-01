@@ -24,7 +24,7 @@ public class NullLiteral extends LiteralExpression<Void> {
 
     @Override
     public @NotNull Type getExpressionType() {
-        return TypePrimitive.NULL.asType();
+        return Type.NULL;
     }
 
     @Override

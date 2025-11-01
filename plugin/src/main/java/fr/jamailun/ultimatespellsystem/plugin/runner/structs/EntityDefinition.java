@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.structs;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.api.utils.StringTransformation;
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
@@ -37,6 +38,11 @@ public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
         super("entity");
         loadFields();
         loadFunctions();
+    }
+
+    @Override
+    public @NotNull Struct instantiate(SpellEntity value) {
+        return new EntityInstance(value, this);
     }
 
     private void loadFields() {
@@ -86,7 +92,7 @@ public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
 
     @Override
     protected @NotNull StructDefinition computeDsl() {
-        return Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(structName), "Entity struct cannot be found in defaults.");
+        return Objects.requireNonNull(ObjectsDefinitionRegistry.getDefaultStruct(getName()), "Entity struct cannot be found in defaults.");
     }
 
     private static <T> @NotNull Function<SpellEntity, T> makeBukkitGetter(@NotNull Function<LivingEntity, T> getter) {

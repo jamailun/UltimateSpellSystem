@@ -50,8 +50,6 @@ public record CallbackEvent(@NotNull String name, @Nullable CallbackArgument arg
         public CallbackArgument {
             if(!keyword.letters)
                 throw new RuntimeException("Invalid keyword type. Should be a 'letters' keyword.");
-            if(type == TypePrimitive.NULL)
-                throw new RuntimeException("Invalid callback argument type. Cannot be null.");
         }
     }
 

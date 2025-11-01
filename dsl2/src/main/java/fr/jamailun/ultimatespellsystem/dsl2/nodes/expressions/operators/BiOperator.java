@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class BiOperator extends Operator {
 
-    protected Type producedType = TypePrimitive.NULL.asType();
+    protected Type producedType = Type.NULL;
 
     protected final ExpressionNode left;
     protected final ExpressionNode right;

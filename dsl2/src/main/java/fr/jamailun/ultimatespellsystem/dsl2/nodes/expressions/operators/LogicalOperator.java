@@ -44,7 +44,7 @@ public class LogicalOperator extends BiOperator {
         }
 
         // Only allow same type (but still allow NULL :) )
-        if(!(leftType.is(TypePrimitive.NULL) || rightType.is(TypePrimitive.NULL))) {
+        if(!(leftType.isNull() || rightType.isNull())) {
             if (!(leftType.equals(rightType))) {
                 throw new TypeException(firstTokenPosition(), "Logical operator " + this + " has unequal types : " + leftType + " and " + rightType + ".");
             }

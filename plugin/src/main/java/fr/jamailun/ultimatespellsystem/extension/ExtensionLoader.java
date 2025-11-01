@@ -55,14 +55,12 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new GetHealthFunction());
         JavaFunctionProvider.instance().registerFunction(new GetMaxHealthFunction());
         JavaFunctionProvider.instance().registerFunction(new HealEntityFunction(), "heal_entity");
-        JavaFunctionProvider.instance().registerFunction(new LocationToListFunction());
         JavaFunctionProvider.instance().registerFunction(new AreAlliesFunction());
         JavaFunctionProvider.instance().registerFunction(new EntityHasEffectFunction(), "entity_has_potion_effect", "has_potion_effect", "has_effect");
         JavaFunctionProvider.instance().registerFunction(new SetAggroFunction());
         JavaFunctionProvider.instance().registerFunction(new GetFoodLevelFunction());
         JavaFunctionProvider.instance().registerFunction(new SetFoodLevelFunction());
         JavaFunctionProvider.instance().registerFunction(new SolidBlockBellowFunction());
-        LogFunctions.register();
 
         // Others
         EntityAttributes.register();

@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions._old.ExpressionWrapperNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.ExpressionWrapperNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;

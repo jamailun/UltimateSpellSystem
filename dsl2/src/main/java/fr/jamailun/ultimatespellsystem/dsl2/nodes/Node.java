@@ -30,7 +30,7 @@ public abstract class Node {
      * @param otherTypes a variadic for other allowed types.
      */
     protected void assertExpressionType(@NotNull ExpressionNode expression, @NotNull CollectionFilter filter, @NotNull TypePrimitive type, TypePrimitive... otherTypes) {
-        if(expression.getExpressionType().is(TypePrimitive.NULL))
+        if(expression.getExpressionType().is(Type.NULL))
             return; // Ignore NULL type : it is accepted by everything.
 
         List<TypePrimitive> allowed = new ArrayList<>(List.of(otherTypes));
@@ -45,7 +45,7 @@ public abstract class Node {
     }
 
     protected void assertExpressionType(@NotNull ExpressionNode expression, @NotNull Type type) {
-        if(type.is(TypePrimitive.NULL))
+        if(type.isNull())
             return; // On ignore tlr type null
 
         if(!expression.getExpressionType().equals(type))

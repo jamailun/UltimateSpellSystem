@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,14 +14,8 @@ public class PrintFunction extends RunnableJavaFunction {
     public PrintFunction() {
         super(
                 "PRINT",
-                TypePrimitive.NULL.asType(),
-                List.of(
-                        new FunctionArgument(
-                                FunctionType.acceptOnlyMono(TypePrimitive.STRING),
-                                "value",
-                                true
-                        )
-                )
+                Type.NULL,
+                List.of(FunctionArgument.of(TypePrimitive.STRING))
         );
     }
 

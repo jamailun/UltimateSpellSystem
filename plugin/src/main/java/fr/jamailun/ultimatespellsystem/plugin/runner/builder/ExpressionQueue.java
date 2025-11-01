@@ -127,8 +127,6 @@ public class ExpressionQueue implements ExpressionVisitor {
         RuntimeExpression child = evaluate(operator.getChild());
         if(operator.getType() == MonoOperator.MonoOpeType.NOT) {
             add(new RunNotOpe(child));
-        } else {
-            add(new RunMathOpe(child, operator.getType()));
         }
     }
 

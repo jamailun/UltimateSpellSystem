@@ -17,6 +17,27 @@ import java.util.function.Function;
 public interface StructDefinition<S> {
 
     /**
+     * Get the struct name.
+     * @return the non-null name.
+     */
+    @NotNull String getName();
+
+    /**
+     * Get the DSL type matching the value.
+     * @return the type equivalence.
+     */
+    default @NotNull Type asType() {
+        return Type.of(getName());
+    }
+
+    /**
+     * Instantiate the value.
+     * @param value value to wrap.
+     * @return a non-null instance.
+     */
+    @NotNull Struct instantiate(S value);
+
+    /**
      * Register a new field on the struct.
      * @param name the name of the field. If not unique, an exception will be thrown.
      * @param type type of the field.

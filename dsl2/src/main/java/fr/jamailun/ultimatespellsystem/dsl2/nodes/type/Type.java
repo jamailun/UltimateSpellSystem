@@ -15,24 +15,35 @@ public class Type {
 
     private final @Nullable TypePrimitive primitive;
     private final @Nullable String objectClass;
+    private final boolean isNull;
     private final int arrayLevel;
+
+    /**
+     * The null value.
+     */
+    public static final Type NULL = new Type(null, null, 0);
 
     public Type(@NotNull TypePrimitive primitive, int arrayLevel) {
         this.primitive = primitive;
         this.objectClass = null;
         this.arrayLevel = arrayLevel;
+        this.isNull = false;
     }
 
     public Type(@NotNull String objectClass, int arrayLevel) {
         this.primitive = null;
         this.objectClass = objectClass;
         this.arrayLevel = arrayLevel;
+        this.isNull = false;
     }
 
     private Type(@Nullable TypePrimitive primitive, @Nullable String objectClass, int arrayLevel) {
         this.primitive = primitive;
         this.objectClass = objectClass;
         this.arrayLevel = arrayLevel;
+        this.isNull = (primitive == null && objectClass == null);
+        if(isNull && arrayLevel > 0)
+            throw new IllegalArgumentException("Cannot create a NULL type with an array value.");
     }
 
     /**
@@ -57,12 +68,16 @@ public class Type {
         return this.objectClass != null && this.objectClass.equals(objectClass);
     }
 
+    public boolean is(@NotNull Type type) {
+        return this.equals(type);
+    }
+
     public boolean isCollection() {
         return arrayLevel > 0;
     }
 
     public boolean isNull() {
-        return is(TypePrimitive.NULL);
+        return isNull;
     }
 
     public boolean isPrimitive() {

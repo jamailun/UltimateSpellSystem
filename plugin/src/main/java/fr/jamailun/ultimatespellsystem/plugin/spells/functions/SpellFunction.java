@@ -10,7 +10,6 @@ import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
 import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
@@ -46,7 +45,7 @@ public class SpellFunction {
                 // Definition
                 new RunnableJavaFunction(
                     name,
-                    outputVar == null ? TypePrimitive.NULL.asType() : outputVar.type(),
+                    outputVar == null ? Type.NULL : outputVar.type(),
                     args
                 ) {
                     // Execution
@@ -75,7 +74,7 @@ public class SpellFunction {
         if(outputVar != null) {
             return runtime.variables().get(outputVar.name());
         }
-        return runtime.getFinalExitCode();
+        return runtime.getReturnedValue();
     }
 
     public static @Nullable SpellFunction loadFile(@NotNull File file) {
@@ -141,7 +140,7 @@ public class SpellFunction {
                 throw new InvalidMetadata(node, "unknown @param primitive: '" + varType + "'.");
 
             list.add(new FunctionArgument(
-                    FunctionType.accept(type),
+                    Type.of(type),
                     varName,
                     false
             ));

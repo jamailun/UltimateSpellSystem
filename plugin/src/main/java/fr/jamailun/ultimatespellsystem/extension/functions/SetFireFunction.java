@@ -3,8 +3,9 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,11 +24,11 @@ public class SetFireFunction extends AbstractFunction {
                 // Args : the entity to set on fire
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.ENTITY),
                                 "entity", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                Type.of(TypePrimitive.DURATION),
                                 "ticks", false
                         )
                 )
@@ -39,8 +40,8 @@ public class SetFireFunction extends AbstractFunction {
         LivingEntity entity = toLivingEntity("set_fire:entity", arguments.getFirst(), runtime);
         if(entity == null) return false;
 
-        int ticks = toInteger("set_fire:ticks", arguments.get(1), runtime);
-        entity.setFireTicks(ticks);
+        Duration duration = toDuration("set_fire:ticks", arguments.get(1), runtime);
+        entity.setFireTicks((int) duration.toTicks());
 
         return true;
     }

@@ -1,11 +1,13 @@
 package fr.jamailun.ultimatespellsystem.dsl2.nodes.type;
 
+import org.bukkit.Location;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Enumeration of a possible types.
@@ -25,10 +27,14 @@ public enum TypePrimitive {
     /** A temporal duration. */
     DURATION(Duration.class),
 
-    MAP(Map.class),
+    ENTITY,
 
-    /** A {@code null} value. */
-    NULL;
+    LOCATION(Location.class),
+
+    VECTOR(Vector.class),
+
+    MAP(Map.class)
+    ;
 
     public final Class<?> clazz;
 
@@ -68,7 +74,6 @@ public enum TypePrimitive {
             case "number", "double", "float", "integer", "int", "short", "byte" -> NUMBER;
             case "boolean", "bool" -> BOOLEAN;
             case "duration", "time", "chrono" -> DURATION;
-            case "null", "void" -> NULL;
             case "map", "data", "properties", "properties-set", "properties_set" -> MAP;
             default -> null;
         };
@@ -81,6 +86,19 @@ public enum TypePrimitive {
                 map.put(primitive.name().toLowerCase(), primitive.asType());
         }
         return map;
+    }
+
+    public boolean canImplicitCastTo(@NotNull TypePrimitive other) {
+        if(this == other || this == STRING) return true;
+
+        return switch (other) {
+            case STRING -> true;
+            // location required ? we can always get it from the entity.
+            case LOCATION -> this == ENTITY;
+            // Vector needed ? We can still get it from the location / entity
+            case VECTOR -> this == LOCATION || this == ENTITY;
+            default -> false;
+        };
     }
 
 }

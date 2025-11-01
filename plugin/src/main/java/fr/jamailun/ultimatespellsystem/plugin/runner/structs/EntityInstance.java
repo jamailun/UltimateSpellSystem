@@ -12,8 +12,8 @@ public class EntityInstance extends AbstractStructInstance<SpellEntity> {
      * Wraps a spell-entity inside this definition.
      * @param entity the entity to use.
      */
-    public EntityInstance(@NotNull SpellEntity entity) {
-        super(EntityDefinition.get(), entity);
+    public EntityInstance(@NotNull SpellEntity entity, @NotNull EntityDefinition definition) {
+        super(definition, entity);
     }
 
 }

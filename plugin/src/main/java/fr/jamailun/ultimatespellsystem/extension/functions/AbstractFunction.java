@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import org.bukkit.Location;
@@ -74,6 +75,13 @@ public abstract class AbstractFunction extends RunnableJavaFunction {
     protected double toDouble(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
         Number n = toNumber(context, expression, runtime);
         return n.doubleValue();
+    }
+
+    protected @NotNull Duration toDuration(@NotNull String context, @NotNull RuntimeExpression expression, @NotNull SpellRuntime runtime) {
+        Object raw = expression.evaluate(runtime);
+        if(raw instanceof Duration dur)
+            return dur;
+        throw new InvalidTypeException(context, "Duration", raw);
     }
 
 }

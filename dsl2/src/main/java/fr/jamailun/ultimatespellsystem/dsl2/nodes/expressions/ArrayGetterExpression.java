@@ -38,7 +38,7 @@ public class ArrayGetterExpression extends ExpressionNode {
         // Array must be a collection
         array.validateTypes(context);
         Type typeArray = array.getExpressionType();
-        if( ! typeArray.is(TypePrimitive.NULL) && ! typeArray.isCollection()) {
+        if( ! typeArray.isNull() && ! typeArray.isCollection()) {
             throw new TypeException(this, "Cannot get the value of a non-array.");
         }
     }

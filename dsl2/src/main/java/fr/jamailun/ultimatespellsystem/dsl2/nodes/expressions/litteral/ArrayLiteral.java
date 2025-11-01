@@ -59,7 +59,7 @@ public class ArrayLiteral extends ExpressionNode {
 
         // Array is empty : type is null as array ?
         if(elementsType == null) {
-            elementsType = TypePrimitive.NULL.asType();
+            elementsType = Type.NULL;
         }
 
         // Set self type at the end

@@ -3,11 +3,12 @@ package fr.jamailun.ultimatespellsystem.dsl2.library.structs;
 import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 
 public class EntityStruct extends StructDefinition {
 
-  public static final String NAME = "entity";
+  public static final String NAME = TypePrimitive.ENTITY.name().toLowerCase();
 
   public EntityStruct() {
     super(NAME);
@@ -18,8 +19,8 @@ public class EntityStruct extends StructDefinition {
   private void initFields() {
     registerField("name", TypePrimitive.STRING);
 
-    registerField("location", LAZY_TYPE_LOCATION);
-    registerField("eye_location", LAZY_TYPE_LOCATION);
+    registerField("location", TypePrimitive.LOCATION);
+    registerField("eye_location", TypePrimitive.LOCATION);
 
     // Location
     registerField("x", TypePrimitive.NUMBER);
@@ -36,19 +37,19 @@ public class EntityStruct extends StructDefinition {
   private void initFunctions() {
     registerFunction(FunctionDefinition.of(
         "teleport",
-        TypePrimitive.NULL.asType(),
-        FunctionArgument.of(LAZY_TYPE_LOCATION)
+        Type.NULL,
+        FunctionArgument.of(TypePrimitive.LOCATION)
     ));
 
     registerFunction(FunctionDefinition.of(
         "heal",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.NUMBER)
     ));
 
     registerFunction(FunctionDefinition.of(
         "send_message",
-        TypePrimitive.NULL.asType(),
+        Type.NULL,
         FunctionArgument.of(TypePrimitive.STRING)
     ));
   }

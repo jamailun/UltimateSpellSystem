@@ -41,7 +41,7 @@ public class LocationLiteral extends ExpressionNode {
 
     @Override
     public @NotNull Type getExpressionType() {
-        return Type.of("location");
+        return Type.of(TypePrimitive.LOCATION);
     }
 
     @Override

@@ -5,7 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.AlliesProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,11 +26,11 @@ public class AreAlliesFunction extends AbstractFunction {
                 // - b : entity 2
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.ENTITY),
                                 "first-entity", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.ENTITY),
                                 "second-entity", false
                         )
                 )

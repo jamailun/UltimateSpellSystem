@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,11 +26,11 @@ public class RandFunction extends AbstractFunction {
                 // - upper bound
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                TypePrimitive.NUMBER.asType(),
                                 "lower_bound", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                TypePrimitive.NUMBER.asType(),
                                 "upper_bound", false
                         )
                 )
