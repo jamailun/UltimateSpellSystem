@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.extension.callbacks;
 
 import fr.jamailun.ultimatespellsystem.api.entities.CallbackAction;
 import fr.jamailun.ultimatespellsystem.api.events.SummonedEntityExpiredEvent;
-import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.callbacks.CallbackEvent;
 import org.bukkit.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 

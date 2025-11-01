@@ -8,7 +8,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.callbacks.CallbackEvent;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 

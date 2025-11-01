@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.dsl2.objects;
+package fr.jamailun.ultimatespellsystem.dsl2.callbacks;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;

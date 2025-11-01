@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.providers;
 
 import fr.jamailun.ultimatespellsystem.api.entities.CallbackAction;
-import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.callbacks.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.dsl2.registries.CallbackEventRegistry;
 import org.jetbrains.annotations.NotNull;
 

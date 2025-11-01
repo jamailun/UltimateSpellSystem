@@ -1,6 +1,6 @@
 package fr.jamailun.ultimatespellsystem.dsl2.registries;
 
-import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.callbacks.CallbackEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

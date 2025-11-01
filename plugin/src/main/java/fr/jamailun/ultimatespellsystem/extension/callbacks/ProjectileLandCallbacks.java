@@ -4,7 +4,7 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.entities.CallbackAction;
 import fr.jamailun.ultimatespellsystem.api.entities.SummonAttributes;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.dsl2.objects.CallbackEvent;
+import fr.jamailun.ultimatespellsystem.dsl2.callbacks.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import org.bukkit.event.EventHandler;

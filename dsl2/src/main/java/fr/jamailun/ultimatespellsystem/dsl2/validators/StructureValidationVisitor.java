@@ -55,22 +55,26 @@ public class StructureValidationVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement) {
+    public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement function) {
         // Prepare child context
         StructureValidationVisitor child = child();
         child.returnType = new TypeRef();
 
         // Apply to statements
-        statement.getStatements().forEach(n -> n.visit(child));
+        function.getStatements().forEach(n -> n.visit(child));
 
         // Check returns
-        if(!statement.getOutputType().isNull()) {
+        if(!function.getOutputType().isNull()) {
             // No return
-            if(!child.returnMet)
-                throw new TreeValidationException(statement.getPosition(), "Function " + statement.getFunctionName() + " should return " + statement.getFunctionReturnType() + ", but not all branches return a value.");
+            if (!child.returnMet)
+                throw new TreeValidationException(function.getPosition(), "Function " + function.getFunctionName() + " should return " + function.getFunctionReturnType() + ", but not all branches return a value.");
             // Different return type.
-            if(!Objects.equals(statement.getOutputType(), child.returnType.type))
-                throw new TreeValidationException(statement.getPosition(), "Function " + statement.getFunctionName() + " should return " + statement.getFunctionReturnType() + ", but returned "+child.returnType.type+" instead.");
+            if (function.getOutputType().isNull()) {
+                if(!child.returnType.type.isNull())
+                    throw new TreeValidationException(function.getPosition(), "Function " + function.getFunctionName() + " should not return anything, but returned " + child.returnType.type + " instead.");
+            } else if (!Objects.equals(function.getOutputType(), child.returnType.type)) {
+                throw new TreeValidationException(function.getPosition(), "Function " + function.getFunctionName() + " should return " + function.getFunctionReturnType() + ", but returned " + child.returnType.type + " instead.");
+            }
         }
     }
 

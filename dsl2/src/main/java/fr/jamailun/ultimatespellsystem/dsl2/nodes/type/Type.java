@@ -42,8 +42,6 @@ public class Type {
         this.objectClass = objectClass;
         this.arrayLevel = arrayLevel;
         this.isNull = (primitive == null && objectClass == null);
-        if(isNull && arrayLevel > 0)
-            throw new IllegalArgumentException("Cannot create a NULL type with an array value.");
     }
 
     /**
@@ -130,6 +128,7 @@ public class Type {
      * @return a non-null Type, either with a primitive or not.
      */
     public static @NotNull Type ofAny(@NotNull String name) {
+        if("null".equals(name) || "void".equals(name)) return NULL;
         TypePrimitive primitive = TypePrimitive.parsePrimitive(name);
         return primitive == null ? Type.of(name) : Type.of(primitive);
     }
