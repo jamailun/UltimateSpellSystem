@@ -14,7 +14,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;

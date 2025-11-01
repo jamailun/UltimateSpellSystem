@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
+package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
@@ -7,23 +7,27 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A {@code return [expr]} node.
+ */
 @RequiredArgsConstructor
-public class StopNode extends RuntimeStatement {
+public class ReturnNode extends RuntimeStatement {
 
     private final @Nullable RuntimeExpression exitCode;
 
     @Override
     public void run(@NotNull SpellRuntime runtime) {
+        Object output;
         if(exitCode == null) {
-            runtime.stop(0);
+            output = null;
         } else {
-            int code = runtime.safeEvaluate(exitCode, Double.class).intValue();
-            runtime.stop(code);
+            output = exitCode.evaluate(runtime);
         }
+        runtime.statementReturn(output);
     }
 
     @Override
-    public String toString() {
-        return "STOP("+exitCode+")";
+    public @NotNull String toString() {
+        return "RETURN" + (exitCode == null ? "" : " " + exitCode);
     }
 }

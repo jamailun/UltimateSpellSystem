@@ -6,7 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionType;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendEffectNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendEffectNode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;

@@ -26,6 +26,8 @@ public class DeclareNewVariableStatement extends StatementNode {
     private final @NotNull String varName;
     private final @Nullable ExpressionNode expression;
 
+    private Type compiledType;
+
     public DeclareNewVariableStatement(@Nullable Token varType, @NotNull Token varName, @Nullable ExpressionNode expression) {
         this.position = varName.pos();
         this.varType = varType == null ? null : varType.getContentString();
@@ -47,23 +49,22 @@ public class DeclareNewVariableStatement extends StatementNode {
         }
 
         // 3. Validate expression if possible.
-        Type type;
         if(expression != null) {
             expression.validateTypes(context);
-            type = expression.getExpressionType();
+            compiledType = expression.getExpressionType();
         } else {
-            type = Type.ofAny(varType);
+            compiledType = Type.ofAny(varType);
         }
 
         // 4. If the type is explicit, check it matches
         if(varType != null) {
-            if(!Objects.equals(Type.ofAny(varType), type)) {
-                throw new TypeException(position, "Assignment for " + varName + " expected " + varType + ". Expression is of type " + type);
+            if(!Objects.equals(Type.ofAny(varType), compiledType)) {
+                throw new TypeException(position, "Assignment for " + varName + " expected " + varType + ". Expression is of type " + compiledType);
             }
         }
 
         // 5. Register the variable
-        context.registerVariable(position, varName, type);
+        context.registerVariable(position, varName, compiledType);
     }
 
     @Override

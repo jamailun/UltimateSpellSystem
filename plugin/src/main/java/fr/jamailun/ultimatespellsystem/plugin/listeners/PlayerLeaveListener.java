@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsCooldowns;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

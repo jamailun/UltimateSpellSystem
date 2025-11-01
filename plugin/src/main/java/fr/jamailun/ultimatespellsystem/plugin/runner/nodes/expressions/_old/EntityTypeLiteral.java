@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions;
+package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions._old;
 
 import fr.jamailun.ultimatespellsystem.api.entities.UssEntityType;
 import fr.jamailun.ultimatespellsystem.api.providers.EntityTypeProvider;

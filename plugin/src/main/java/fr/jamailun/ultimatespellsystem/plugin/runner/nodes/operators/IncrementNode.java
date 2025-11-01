@@ -1,29 +1,27 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators;
 
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
+import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.UnreachableRuntimeException;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-public class IncrementNode extends RuntimeStatement {
+@RequiredArgsConstructor
+public class IncrementNode extends RuntimeExpression {
 
-    private final String varName;
+    private final @NotNull String varName;
     private final boolean increments;
-
-    public IncrementNode(@NotNull String varName, boolean increments) {
-        this.varName = varName;
-        this.increments = increments;
-    }
+    private final boolean postFix;
 
     @Override
-    public void run(@NotNull SpellRuntime runtime) {
+    public Double evaluate(@NotNull SpellRuntime runtime) {
         Object value = runtime.variables().get(varName);
-        if(value instanceof Double d) {
-            double v = d + (increments ? 1 : -1);
-            runtime.variables().set(varName, v);
-            return;
-        }
-        throw new UnreachableRuntimeException("Invalid type for variable " + varName + " : " + value);
-    }
+        if(!(value instanceof Number num))
+            throw new UnreachableRuntimeException("Invalid type for variable " + varName + " : " + value);
 
+        double input = num.doubleValue();
+        double output = input + (increments ? 1 : -1);
+        runtime.variables().set(varName, output);
+        return postFix ? input : output;
+    }
 }

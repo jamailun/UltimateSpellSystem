@@ -5,6 +5,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Entity;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JavaFunctionCallNode extends RuntimeExpression {
 
+    private final TokenPosition pos;
     private final RunnableJavaFunction function;
     private final List<RuntimeExpression> arguments;
 

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.structs;
 
+import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

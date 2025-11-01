@@ -29,6 +29,8 @@ public class FunctionCallExpression extends ExpressionNode {
   private final String functionName;
   private final List<ExpressionNode> arguments;
 
+  private @Nullable StructDefinition callerStruct;
+
   public FunctionCallExpression(@Nullable ExpressionNode caller, @NotNull Token functionName, @NotNull List<ExpressionNode> arguments) {
     super(functionName.pos());
     this.caller = caller;
@@ -55,11 +57,11 @@ public class FunctionCallExpression extends ExpressionNode {
     if(caller != null) {
       caller.validateTypes(context);
       Type callerType = caller.getExpressionType();
-      StructDefinition struct = context.findStruct(callerType);
-      if(struct == null) {
+      callerStruct = context.findStruct(callerType);
+      if(callerStruct == null) {
         throw new TypeException(position, "Unknown struct for type " + callerType);
       }
-      function = struct.getFunction(functionName);
+      function = callerStruct.getFunction(functionName);
       if(function == null) {
         throw new TypeException(position, "Cannot call function '" + functionName + "' on type " + callerType + ".");
       }

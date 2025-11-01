@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.runner;
 import fr.jamailun.ultimatespellsystem.api.utils.StringTransformation;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.RawLiteral;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.VariableNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendMessageNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendMessageNode;
 import fr.jamailun.ultimatespellsystem.runner.framework.TestFramework;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package fr.jamailun.ultimatespellsystem.plugin.runner.structs;
+package fr.jamailun.ultimatespellsystem.api.runner.structs;
 
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;

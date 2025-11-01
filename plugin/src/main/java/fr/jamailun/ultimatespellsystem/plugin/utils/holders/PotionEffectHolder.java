@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidEnumValueException;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendEffectNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendEffectNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;

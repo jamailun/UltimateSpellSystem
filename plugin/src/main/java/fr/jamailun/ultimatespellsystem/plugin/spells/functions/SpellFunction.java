@@ -56,7 +56,7 @@ public class SpellFunction {
                         SpellRuntime childRuntime = runtime.makeChild();
                         for(int i = 0; i < args.size(); i++) {
                             Object arg = arguments.get(i).evaluate(childRuntime);
-                            childRuntime.variables().set(args.get(i).debugName(), arg);
+                            childRuntime.variables().set(args.get(i).name(), arg);
                         }
                         // Execute
                         return executeSteps(childRuntime);

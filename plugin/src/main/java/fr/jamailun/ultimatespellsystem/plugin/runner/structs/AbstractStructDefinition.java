@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.structs;
 
 import com.google.common.base.Preconditions;
+import fr.jamailun.ultimatespellsystem.api.runner.structs.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UnknownFieldException;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
