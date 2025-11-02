@@ -1,3 +1,0 @@
-@param(test, int)
-
-define %foo = 3 + %test;

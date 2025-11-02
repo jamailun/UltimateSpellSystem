@@ -1,3 +1,0 @@
-send to %caster message "a";
-stop;
-send to %caster message "b";
