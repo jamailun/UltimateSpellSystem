@@ -51,7 +51,7 @@ public class BlockStatement extends StatementNode {
             }
             list.add(StatementNode.parseNextStatement(tokens));
         }
-        tokens.dropOrThrow(TokenType.BRACES_CLOSE);
+        tokens.dropOrThrow(TokenType.BRACES_CLOSE, "A '}' is required after a block statement.");
 
         return new BlockStatement(list);
     }

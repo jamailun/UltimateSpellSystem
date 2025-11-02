@@ -71,7 +71,7 @@ public class LocationLiteral extends ExpressionNode {
     public static @NotNull LocationLiteral readNextLocation(@NotNull TokenStream tokens) {
         TokenPosition position = tokens.position();
         // Open
-        tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+        tokens.dropOrThrow(TokenType.BRACKET_OPEN, "A '(' is required after a '@' to create a location.");
 
         // World + vector
         ExpressionNode world = ExpressionNode.readNextExpression(tokens);

@@ -48,18 +48,18 @@ public class WhileLoopStatement extends StatementNode {
         ExpressionNode condition = null;
 
         if(wasWhile) {
-            tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+            tokens.dropOrThrow(TokenType.BRACKET_OPEN, "A '(' is required after a WHILE keyword.");
             condition = ExpressionNode.readNextExpression(tokens);
-            tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+            tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "A ')' is required after a WHILE condition.");
         }
 
         StatementNode child = StatementNode.parseNextStatement(tokens);
 
         if( ! wasWhile) {
-            tokens.dropOrThrow(TokenType.WHILE);
-            tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+            tokens.dropOrThrow(TokenType.WHILE, "A WHILE keyword is expected after a DO statement.");
+            tokens.dropOrThrow(TokenType.BRACKET_OPEN, "A '(' is required after a DO keyword.");
             condition = ExpressionNode.readNextExpression(tokens);
-            tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+            tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "A ')' is required after a DO condition.");
             tokens.dropOptional(TokenType.SEMI_COLON);
         }
 

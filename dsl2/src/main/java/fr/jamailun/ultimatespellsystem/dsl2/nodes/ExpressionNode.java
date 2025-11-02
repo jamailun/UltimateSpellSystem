@@ -70,7 +70,7 @@ public abstract class ExpressionNode extends Node {
         // Check if the element is accessed !
         if(tokens.dropOptional(TokenType.SQUARE_BRACKET_OPEN)) {
             ExpressionNode index = readNextExpression(tokens);
-            tokens.dropOrThrow(TokenType.SQUARE_BRACKET_CLOSE);
+            tokens.dropOrThrow(TokenType.SQUARE_BRACKET_CLOSE, "A ')' is required after an expression that started with a '('.");
             raw = new ArrayGetterExpression(raw, index);
         }
 

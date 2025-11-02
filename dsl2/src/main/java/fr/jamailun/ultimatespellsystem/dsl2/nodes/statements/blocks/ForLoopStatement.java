@@ -47,7 +47,7 @@ public class ForLoopStatement extends StatementNode {
      */
     @PreviousIndicator(expected = TokenType.FOR)
     public static @NotNull ForLoopStatement parseForLoop(@NotNull TokenStream tokens) {
-        tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+        tokens.dropOrThrow(TokenType.BRACKET_OPEN, "This is not Python. A '(' is required after a FOR keyword.");
 
         // Optional init
         StatementNode init;
@@ -60,16 +60,15 @@ public class ForLoopStatement extends StatementNode {
 
         // Required condition
         ExpressionNode condition = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.SEMI_COLON);
+        tokens.dropOrThrow(TokenType.SEMI_COLON, "A semi-colo (';') is required between FOR definition statements.");
 
         // Optional iteration
         StatementNode iterator;
         if(tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
             iterator = null;
         } else {
-            System.out.println("salut salut :: " + tokens);
             iterator = StatementNode.parseNextStatement(tokens);
-            tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+            tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "Expected a ')' after the last FOR definition statements.");
         }
         StatementNode child = StatementNode.parseNextStatement(tokens);
 

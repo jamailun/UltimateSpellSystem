@@ -49,7 +49,7 @@ public class ParenthesisExpression extends ExpressionNode {
     public static ParenthesisExpression parseParenthesis(TokenStream tokens) {
         TokenPosition pos = tokens.position();
         ExpressionNode expression = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+        tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "Missing matching closing bracket.");
         return new ParenthesisExpression(pos, expression);
     }
 }

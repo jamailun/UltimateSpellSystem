@@ -54,9 +54,9 @@ public class IfElseStatement extends BlockHolder {
     @PreviousIndicator(expected = TokenType.IF)
     public static @NotNull IfElseStatement parseIfStatement(@NotNull TokenStream tokens) {
         // Condition
-        tokens.dropOrThrow(TokenType.BRACKET_OPEN);
+        tokens.dropOrThrow(TokenType.BRACKET_OPEN, "This is not Python, a '(' is required after the IF keyword.");
         ExpressionNode condition = ExpressionNode.readNextExpression(tokens);
-        tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
+        tokens.dropOrThrow(TokenType.BRACKET_CLOSE, "A ')' is expected after the IF condition.");
 
         // Content
         StatementNode child = StatementNode.parseNextStatement(tokens);
