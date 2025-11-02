@@ -13,7 +13,7 @@
     <description>Spells in Minecraft with a custom DSL.</description>
 
     <modules>
-        <module>dsl</module>
+        <!--<module>dsl</module>-->
         <module>dsl2</module>
         <module>api</module>
         <module>plugin</module>
