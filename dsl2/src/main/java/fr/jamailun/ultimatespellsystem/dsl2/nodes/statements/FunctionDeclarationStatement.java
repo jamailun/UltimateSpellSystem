@@ -13,6 +13,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenType;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -28,6 +29,14 @@ public class FunctionDeclarationStatement extends StatementNode {
   private final List<FunctionParameter> parameters;
   private final List<StatementNode> statements;
 
+  public @NotNull FunctionDefinition asDefinition() {
+    return new FunctionDefinition(
+            functionName,
+            Type.ofAny(functionReturnType),
+            parameters.stream().map(FunctionParameter::asArgument).toList()
+    );
+  }
+
   @Override
   public void visit(@NotNull StatementVisitor visitor) {
     visitor.handleFunctionDeclaration(this);
@@ -40,9 +49,9 @@ public class FunctionDeclarationStatement extends StatementNode {
   @Override
   public void validateTypes(@NotNull TypesContext context) {
     // 1. Check function does not already exist
-    var existingFunction = context.findFunction(functionName);
+    FunctionDefinition existingFunction = context.findFunction(functionName);
     if (existingFunction != null) {
-      throw new SyntaxException(position, "The function '" + functionName + "' has already been defined. Signature is " + existingFunction.signature());
+      throw new SyntaxException(position, "The function '" + functionName + "' has already been defined. Signature is " + existingFunction);
     }
 
     // 2. Register function and variables !
@@ -89,6 +98,10 @@ public class FunctionDeclarationStatement extends StatementNode {
     public @NotNull Type getType() {
       return Type.ofAny(type);
     }
+    @Contract(" -> new")
+    public @NotNull FunctionArgument asArgument() {
+      return new FunctionArgument(Type.ofAny(type), name, false);
+    }
   }
 
   @Override
@@ -98,26 +111,5 @@ public class FunctionDeclarationStatement extends StatementNode {
         ") {" +
         statements.toString() +
         "}";
-  }
-
-  public @NotNull String signature() {
-    return functionReturnType + " " + functionName + "(" + String.join(", ", getParameters().stream().map(Object::toString).toList()) + ")";
-  }
-
-  /**
-   * Create a function declaration instance from this function declaration.
-   * @return a new function definition.
-   */
-  public @NotNull FunctionDefinition asFunctionDefinition() {
-    return new FunctionDefinition(
-        functionName,
-        getOutputType(),
-        parameters.stream()
-            .map(p -> new FunctionArgument(
-                p.getType(),
-                p.name(),
-                false
-            )).toList()
-    );
   }
 }

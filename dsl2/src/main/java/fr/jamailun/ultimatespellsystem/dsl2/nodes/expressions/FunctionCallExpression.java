@@ -75,11 +75,11 @@ public class FunctionCallExpression extends ExpressionNode {
     }
     // Pas de caller : function globale
     else {
-      FunctionDeclarationStatement declaration = context.findFunction(functionName);
-      if(declaration == null) {
+      FunctionDefinition definition = context.findFunction(functionName);
+      if(definition == null) {
         throw new SyntaxException(position, "Global function '" + functionName + "' not found");
       }
-      function = declaration.asFunctionDefinition();
+      function = definition;
     }
 
     // 3. Set our type

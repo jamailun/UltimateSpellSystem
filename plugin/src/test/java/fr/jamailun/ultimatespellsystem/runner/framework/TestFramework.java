@@ -62,11 +62,10 @@ public abstract class TestFramework {
         Mockito.when(fakePlugin.getScheduler()).thenReturn(Mockito.mock(Scheduler.class));
         try {
             UltimateSpellSystem.setPlugin(fakePlugin);
-
-            JavaFunctionProvider.instance().registerFunction(new AssertTrueFunction());
-            JavaFunctionProvider.instance().registerFunction(new AssertNotCalledFunction());
-            JavaFunctionProvider.instance().registerFunction(new PrintFunction());
         } catch(IllegalStateException ignored) {}
+        JavaFunctionProvider.instance().registerFunction(new AssertTrueFunction());
+        JavaFunctionProvider.instance().registerFunction(new AssertNotCalledFunction());
+        JavaFunctionProvider.instance().registerFunction(new PrintFunction());
     }
 
     @BeforeEach

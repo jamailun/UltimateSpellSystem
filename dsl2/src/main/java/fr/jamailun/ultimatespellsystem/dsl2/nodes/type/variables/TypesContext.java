@@ -6,8 +6,10 @@ import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.library.structs.ConsoleStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.library.structs.EntityStruct;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.registries.FunctionDefinitionsRegistry;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -95,8 +97,11 @@ public class TypesContext {
         return objectsLibrary.getType(name);
     }
 
-    public @Nullable FunctionDeclarationStatement findFunction(@NotNull String name) {
-        return objectsLibrary.getFunction(name);
+    public @Nullable FunctionDefinition findFunction(@NotNull String name) {
+        FunctionDeclarationStatement local = objectsLibrary.getFunction(name);
+        if(local == null)
+            return FunctionDefinitionsRegistry.find(name);
+        return local.asDefinition();
     }
 
     public @Nullable StructDefinition findStruct(@NotNull String name) {

@@ -1,6 +1,5 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;

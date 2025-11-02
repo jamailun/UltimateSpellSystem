@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,12 +28,6 @@ public class GlobalFunctionCallNode extends RuntimeExpression {
         GlobalFunction function = runtime.functions().get(signature);
         if(function == null)
             throw new UnknownFunctionException(pos, signature.name());
-
-        // Handle params
-        List<Object> params = new ArrayList<>(parameters.size());
-        for(RuntimeExpression expression : parameters) {
-            params.add(expression.evaluate(runtime));
-        }
 
         // Call function
         return function.call(pos, parameters, runtime);
