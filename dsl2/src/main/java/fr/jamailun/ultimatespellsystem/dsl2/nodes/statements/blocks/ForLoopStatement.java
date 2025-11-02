@@ -67,6 +67,7 @@ public class ForLoopStatement extends StatementNode {
         if(tokens.dropOptional(TokenType.BRACKET_CLOSE)) {
             iterator = null;
         } else {
+            System.out.println("salut salut :: " + tokens);
             iterator = StatementNode.parseNextStatement(tokens);
             tokens.dropOrThrow(TokenType.BRACKET_CLOSE);
         }

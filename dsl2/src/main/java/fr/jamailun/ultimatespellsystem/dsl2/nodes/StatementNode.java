@@ -72,7 +72,8 @@ public abstract class StatementNode extends Node {
             return AffectationStatement.parseNextDefine(wrapped, tokens);
         }
 
-        throw new SyntaxException(tokens.position(), "Unexpected token after IDENTIFIER: " + tokens.peek());
+        // Other ?
+        return new SimpleExpressionStatement(wrapped);
     }
 
     /**
