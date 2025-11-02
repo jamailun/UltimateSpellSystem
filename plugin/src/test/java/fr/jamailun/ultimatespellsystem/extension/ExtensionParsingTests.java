@@ -2,6 +2,7 @@ package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
 import fr.jamailun.ultimatespellsystem.runner.framework.AssertException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,7 +44,8 @@ public class ExtensionParsingTests extends ParseAndCompileTest {
     private void testFolder(@NotNull String folder, boolean run) {
         for(File file : listTests(folder)) {
             try {
-                List<RuntimeStatement> statements = parseAndVerify(file);
+                SpellStructure structure = parseAndVerify(file);
+                List<RuntimeStatement> statements = structure.statements();
                 if(run)
                     cast(statements);
                 addOk();

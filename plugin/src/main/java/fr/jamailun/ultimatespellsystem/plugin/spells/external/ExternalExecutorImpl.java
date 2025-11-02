@@ -34,7 +34,7 @@ public class ExternalExecutorImpl implements ExternalExecutor {
 
     @Override
     public @NotNull @UnmodifiableView List<RuntimeStatement> handleImplementation(@NotNull List<StatementNode> dsl) {
-        return Collections.unmodifiableList(SpellDefinition.load(dsl));
+        return Collections.unmodifiableList(SpellDefinition.load(dsl).statements());
     }
 
     @Override

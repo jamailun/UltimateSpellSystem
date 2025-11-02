@@ -9,11 +9,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SpellsCooldowns {
+/**
+ * Static handler for cooldowns.
+ */
+public final class SpellsCooldowns {
     private SpellsCooldowns() {}
 
     private static final Map<UUID, Map<String, Instant>> COOLDOWNS = new ConcurrentHashMap<>(128);
 
+    /**
+     * Test if an entity can cast.
+     * @param caster UUID of the potential caster.
+     * @param spellId ID of the spell to use.
+     * @param duration cooldown duration to apply on the next cooldown.
+     * @return true if the caster can cast this specific spell at this instant.
+     */
     public static boolean canCast(@NotNull UUID caster, @NotNull String spellId, @NotNull Duration duration) {
         Map<String, Instant> data = COOLDOWNS.computeIfAbsent(caster, x -> new HashMap<>());
         Instant next = data.get(spellId);
@@ -24,6 +34,10 @@ public class SpellsCooldowns {
         return false;
     }
 
+    /**
+     * Clear the data related to one caster.
+     * @param caster UUID of the caster to clear the memory of.
+     */
     public static void removeCaster(@NotNull UUID caster) {
         COOLDOWNS.remove(caster);
     }

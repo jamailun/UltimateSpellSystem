@@ -9,6 +9,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.tokenization.CharStream;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Tokenizer;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
 import fr.jamailun.ultimatespellsystem.runner.framework.TestFramework;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +53,7 @@ abstract class ParseAndCompileTest extends TestFramework {
         failures.put(test, error);
     }
 
-    protected List<RuntimeStatement> parseAndVerify(@NotNull File file) throws UssException {
+    protected SpellStructure parseAndVerify(@NotNull File file) throws UssException {
         System.out.println("\n\n ================[ " + file.getName() + "]================\n");
         // Tokenize
         TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));

@@ -1,5 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
+import fr.jamailun.ultimatespellsystem.api.runner.functions.GlobalFunction;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.ExpressionWrapperNode;
@@ -32,18 +33,21 @@ public class SpellBuilderVisitor implements StatementVisitor {
     private final List<RuntimeStatement> statementsAccumulator = new ArrayList<>();
     private final Deque<List<RuntimeStatement>> accumulatorsStack = new ArrayDeque<>();
 
-    @Getter private final Map<String, RuntimeFunctionDeclaration> functions = new HashMap<>();
+    @Getter private final Map<String, GlobalFunction> functions = new HashMap<>();
 
     public SpellBuilderVisitor() {
         currentQueue = statementsAccumulator;
     }
 
-    public static @NotNull List<RuntimeStatement> build(@NotNull List<StatementNode> dsl) {
+    public static @NotNull SpellStructure build(@NotNull List<StatementNode> dsl) {
         SpellBuilderVisitor visitor = new SpellBuilderVisitor();
         for(StatementNode statement : dsl) {
             statement.visit(visitor);
         }
-        return visitor.statementsAccumulator;
+        return new SpellStructure(
+                visitor.statementsAccumulator,
+                visitor.functions.values()
+        );
     }
 
     @Override

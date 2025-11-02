@@ -1,10 +1,14 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
+import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.runner.functions.GlobalFunction;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionSignature;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,18 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class RuntimeFunctionDeclaration {
+public class RuntimeFunctionDeclaration implements GlobalFunction {
 
     private final @NotNull String name;
     private final @NotNull Type type;
     private final @NotNull List<FunctionDeclarationStatement.FunctionParameter> args;
     private final @NotNull List<RuntimeStatement> statements;
 
-    public @Nullable Object execute(@NotNull SpellRuntime runtimeSource, @NotNull List<Object> parameters) {
-        SpellRuntime runtime = runtimeSource.makeChild(true);
+    @Override
+    public @NotNull FunctionSignature getSignature() {
+        return new FunctionSignature(name, args.stream().map(fa -> Type.ofAny(fa.type())).toList());
+    }
 
-        // Register parameters as variables in local scope
-        for(MatchedParam param : matchParams(parameters)) {
+    @Override
+    public @Nullable Object call(@NotNull TokenPosition pos, @NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtimeParent) {
+        SpellRuntime runtime = runtimeParent.makeChild(true);
+
+        // Handle params
+        for(MatchedParam param : matchParams(runtime, arguments)) {
             runtime.variables().set(param.argName(), param.value());
         }
 
@@ -40,13 +50,16 @@ public class RuntimeFunctionDeclaration {
             }
         }
 
-        //TODO Check the output type
+        //TODO match output type?
 
         return output;
     }
 
     private record MatchedParam(@NotNull String argName, @Nullable Object value) { }
 
+    private @NotNull List<MatchedParam> matchParams(@NotNull SpellRuntime runtime, List<RuntimeExpression> args) {
+        return matchParams(args.stream().map(a -> a.evaluate(runtime)).toList());
+    }
     private @NotNull List<MatchedParam> matchParams(@NotNull List<Object> params) {
         List<MatchedParam> output = new ArrayList<>(args.size());
         for(int i = 0; i < args.size(); i++) {

@@ -12,6 +12,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellDefinition;
 import lombok.Getter;
@@ -83,7 +84,8 @@ public class SpellFunction {
 
         try {
             List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
-            List<RuntimeStatement> rawStatements = SpellDefinition.load(dsl);
+            SpellStructure structure = SpellDefinition.load(dsl);
+            List<RuntimeStatement> rawStatements = structure.statements();
 
             // Metadata are already sorted (thanks to AST validation)
             for(RuntimeStatement statement : rawStatements) {
