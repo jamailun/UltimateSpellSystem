@@ -24,13 +24,6 @@ import java.util.function.Function;
  */
 public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
 
-    private static EntityDefinition FLY_INSTANCE = null;
-    public static @NotNull EntityDefinition get() {
-        if(FLY_INSTANCE == null)
-            FLY_INSTANCE = new EntityDefinition();
-        return FLY_INSTANCE;
-    }
-
     /**
      * Create a new definition.
      */

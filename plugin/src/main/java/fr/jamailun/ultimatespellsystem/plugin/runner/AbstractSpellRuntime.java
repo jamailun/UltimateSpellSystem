@@ -3,6 +3,8 @@ package fr.jamailun.ultimatespellsystem.plugin.runner;
 import fr.jamailun.ultimatespellsystem.api.runner.*;
 import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.plugin.runner.structs.ConsoleDefinition;
+import fr.jamailun.ultimatespellsystem.plugin.runner.structs.EntityDefinition;
 import fr.jamailun.ultimatespellsystem.plugin.runner.structs.StructsLibrary;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
@@ -45,8 +47,12 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
         variables = new VariablesSetImpl();
         functions = new FunctionsSetImpl();
         this.spell = spell;
-        this.structsLibrary = new StructsLibrary();
+        structsLibrary = new StructsLibrary();
         inFunction = false;
+
+        // Register base structs
+        structsLibrary.register(new EntityDefinition());
+        structsLibrary.register(new ConsoleDefinition());
     }
 
     @Override

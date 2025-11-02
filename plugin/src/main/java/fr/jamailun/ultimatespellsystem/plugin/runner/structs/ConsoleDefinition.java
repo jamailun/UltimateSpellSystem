@@ -15,14 +15,9 @@ import java.util.function.Consumer;
 /**
  * Definition for the 'console' object.
  */
-public class ConsoleDefinition extends AbstractStructDefinition<Void> {
+public class ConsoleDefinition extends AbstractStructDefinition<Object> {
 
-    private static ConsoleDefinition FLY_INSTANCE = null;
-    public static @NotNull ConsoleDefinition get() {
-        if(FLY_INSTANCE == null)
-            FLY_INSTANCE = new ConsoleDefinition();
-        return FLY_INSTANCE;
-    }
+    static final ConsoleDefinition INSTANCE = new ConsoleDefinition();
 
     public ConsoleDefinition() {
         super(ConsoleStruct.NAME);
@@ -35,7 +30,7 @@ public class ConsoleDefinition extends AbstractStructDefinition<Void> {
     }
 
     @Override
-    public @NotNull Struct instantiate(Void value) {
+    public @NotNull Struct instantiate(Object ignored) {
         return new ConsoleInstance();
     }
 
