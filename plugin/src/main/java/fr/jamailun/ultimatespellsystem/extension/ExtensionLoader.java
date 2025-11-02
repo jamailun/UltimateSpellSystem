@@ -52,9 +52,6 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new KnockbackFunction(), "set_velocity");
         JavaFunctionProvider.instance().registerFunction(new DirectionOfFunction(), "dir_of");
         JavaFunctionProvider.instance().registerFunction(new NormalizeFunction(), "norm");
-        JavaFunctionProvider.instance().registerFunction(new GetHealthFunction());
-        JavaFunctionProvider.instance().registerFunction(new GetMaxHealthFunction());
-        JavaFunctionProvider.instance().registerFunction(new HealEntityFunction(), "heal_entity");
         JavaFunctionProvider.instance().registerFunction(new AreAlliesFunction());
         JavaFunctionProvider.instance().registerFunction(new EntityHasEffectFunction(), "entity_has_potion_effect", "has_potion_effect", "has_effect");
         JavaFunctionProvider.instance().registerFunction(new SetAggroFunction());

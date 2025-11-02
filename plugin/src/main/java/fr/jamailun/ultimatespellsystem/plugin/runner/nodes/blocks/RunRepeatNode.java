@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.RepeatStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
@@ -72,7 +71,7 @@ public class RunRepeatNode extends RuntimeStatement {
                             }
                             return;
                         }
-                        runtime.variables().set(RepeatStatement.INDEX_VARIABLE, count);
+                        runtime.variables().set("_index", count);
                         try {
                             child.run(runtime);
                         } catch (Exception t) {

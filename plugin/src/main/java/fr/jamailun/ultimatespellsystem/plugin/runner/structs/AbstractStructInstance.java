@@ -37,6 +37,6 @@ public abstract class AbstractStructInstance<S> implements Struct {
 
     @Override
     public @Nullable Object callFunction(@NotNull TokenPosition pos, @NotNull String functionName, @NotNull List<Object> parameters) {
-        return definition.call(object, pos, functionName, parameters);;
+        return definition.call(object, pos, functionName, parameters);
     }
 }

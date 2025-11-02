@@ -124,8 +124,8 @@ public class SpellDefinition extends AbstractSpell {
                 break;
         }
 
-        boolean success = runtime.getFinalExitCode() == 0;
-        UssLogger.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
+        boolean success = runtime.isReturnValueSuccess();
+        UssLogger.logDebug(prefix + "End of cast on " + caster + " with " + runtime.getReturnedValue() + ". Success = " + success);
         return success;
     }
 

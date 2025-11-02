@@ -1,9 +1,6 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
-import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
+import fr.jamailun.ultimatespellsystem.api.runner.*;
 import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.plugin.runner.structs.StructsLibrary;
@@ -23,6 +20,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     protected final Map<StructPtr, Struct> cachedStructures = new HashMap<>();
     protected final StructsLibrary structsLibrary;
     protected final VariablesSet variables;
+    protected final FunctionsSet functions;
     protected final ExitCode exitCode;
     @Getter protected final Spell spell;
 
@@ -33,6 +31,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     AbstractSpellRuntime(@NotNull AbstractSpellRuntime parent, boolean inFunction) {
         exitCode = parent.exitCode;
         variables = parent.variables.inherit();
+        functions = parent.functions.inherit();
         flagContinue = parent.flagContinue;
         flagBreak = parent.flagBreak;
         spell = parent.spell;
@@ -44,6 +43,7 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     AbstractSpellRuntime(@NotNull ExitCode exitCode, @Nullable Spell spell) {
         this.exitCode = exitCode;
         variables = new VariablesSetImpl();
+        functions = new FunctionsSetImpl();
         this.spell = spell;
         this.structsLibrary = new StructsLibrary();
         inFunction = false;
@@ -57,6 +57,11 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     @Override
     public @NotNull VariablesSet variables() {
         return variables;
+    }
+
+    @Override
+    public @NotNull FunctionsSet functions() {
+        return functions;
     }
 
     @Override
@@ -96,6 +101,16 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     @Override
     public @Nullable Object getReturnedValue() {
         return exitCode.getValue();
+    }
+
+    @Override
+    public boolean isReturnValueSuccess() {
+        return switch (getReturnedValue()) {
+            case null -> true;
+            case Number num -> num.intValue() == 0;
+            case Boolean b -> b;
+            default -> false;
+        };
     }
 
     @Override

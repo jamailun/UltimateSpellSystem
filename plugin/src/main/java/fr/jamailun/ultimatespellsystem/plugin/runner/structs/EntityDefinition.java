@@ -76,7 +76,7 @@ public class EntityDefinition extends AbstractStructDefinition<SpellEntity> {
         registerNullFunc(
                 "teleport",
                 (se,a) -> se.teleport((Location) a.getFirst()),
-                FunctionArgument.of(TYPE_LOCATION)
+                FunctionArgument.of(TypePrimitive.LOCATION)
         );
         registerNullFunc(
                 "send_message",

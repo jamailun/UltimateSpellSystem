@@ -22,7 +22,6 @@ import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -97,7 +96,7 @@ public abstract class TestFramework {
             if(runtime.isStopped())
                 break;
         }
-        return runtime.getFinalExitCode() == 0;
+        return runtime.getReturnedValue() == null;
     }
 
 }

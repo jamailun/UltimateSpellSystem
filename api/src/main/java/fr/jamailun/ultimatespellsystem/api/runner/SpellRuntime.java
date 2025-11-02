@@ -33,6 +33,12 @@ public interface SpellRuntime {
     @NotNull VariablesSet variables();
 
     /**
+     * A reference to the functions set.
+     * @return the final reference to the functions.
+     */
+    @NotNull FunctionsSet functions();
+
+    /**
      * Test if the runtime has been stopped.
      * @return true if no more statements should be executed.
      */
@@ -105,6 +111,12 @@ public interface SpellRuntime {
      * @see #isStopped()
      */
     @Nullable Object getReturnedValue();
+
+    /**
+     * Test if the returned value is considered as a success.
+     * @return true if return value is {@code null}, or {@code 0}, or {@code true}.
+     */
+    boolean isReturnValueSuccess();
 
     /**
      * Evaluate a value.

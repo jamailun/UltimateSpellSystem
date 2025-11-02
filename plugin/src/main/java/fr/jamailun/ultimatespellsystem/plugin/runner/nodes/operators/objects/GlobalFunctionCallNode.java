@@ -2,14 +2,14 @@ package fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
-import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
+import fr.jamailun.ultimatespellsystem.api.runner.functions.GlobalFunction;
+import fr.jamailun.ultimatespellsystem.dsl2.errors.UnknownFunctionException;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionSignature;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,25 +19,22 @@ import java.util.List;
 public class GlobalFunctionCallNode extends RuntimeExpression {
 
     private final TokenPosition pos;
-    private final String functionName;
+    private final FunctionSignature signature;
     private final List<RuntimeExpression> parameters;
 
     @Override
     public @Nullable Object evaluate(@NotNull SpellRuntime runtime) {
         // Find function
-
-        // Handle params
-        List<Object> params = new ArrayList<>(parameters.size());
-        for(RuntimeExpression expression : parameters) {
-            params.add(expression.evaluate(runtime));
-        }
+        GlobalFunction function = runtime.functions().get(signature);
+        if(function == null)
+            throw new UnknownFunctionException(pos, signature.name());
 
         // Call function
-        return struct.callFunction(pos, functionName, params);
+        return function.call(pos, parameters, runtime);
     }
 
     @Override
     public @NotNull String toString() {
-        return functionName + "(" + parameters + ")";
+        return signature.name() + "(" + parameters + ")";
     }
 }

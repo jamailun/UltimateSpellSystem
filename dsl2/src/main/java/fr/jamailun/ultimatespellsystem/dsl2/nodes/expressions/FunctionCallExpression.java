@@ -6,6 +6,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionSignature;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +31,9 @@ public class FunctionCallExpression extends ExpressionNode {
   private final String functionName;
   private final List<ExpressionNode> arguments;
 
+  // post build
   private @Nullable StructDefinition callerStruct;
+  private @Nullable FunctionSignature signature;
 
   public FunctionCallExpression(@Nullable ExpressionNode caller, @NotNull Token functionName, @NotNull List<ExpressionNode> arguments) {
     super(functionName.pos());
@@ -48,9 +52,12 @@ public class FunctionCallExpression extends ExpressionNode {
   @Override
   public void validateTypes(@NotNull TypesContext context) {
     // 1. Propagate to arguments
+    List<Type> paramTypes = new ArrayList<>();
     for(ExpressionNode argument : arguments) {
       argument.validateTypes(context.childContext());
+      paramTypes.add(argument.getExpressionType());
     }
+    signature = new FunctionSignature(functionName, paramTypes);
 
     // 2. If we have a caller : we check the function from the type definition.
     FunctionDefinition function;

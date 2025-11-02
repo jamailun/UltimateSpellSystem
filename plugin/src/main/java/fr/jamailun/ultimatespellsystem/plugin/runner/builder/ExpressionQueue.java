@@ -171,7 +171,7 @@ public class ExpressionQueue implements ExpressionVisitor {
             }
             // User-defined function instead
             else {
-                add(new GlobalFunctionCallNode(pos, functionName, parameters));
+                add(new GlobalFunctionCallNode(pos, functionCall.getSignature(), parameters));
             }
             return;
         }

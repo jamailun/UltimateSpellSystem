@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.runner.FunctionsSet;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.plugin.entities.BukkitSpellEntity;
@@ -35,6 +36,7 @@ public final class SpellRuntimeImpl extends AbstractSpellRuntime {
         super(new ExitCode(), spell);
         this.caster = caster;
         variables.set("caster", caster);
+        variables.set("console", new Object());
     }
 
     private SpellRuntimeImpl(@NotNull SpellRuntimeImpl parent, @NotNull SpellEntity caster, boolean inFunction) {

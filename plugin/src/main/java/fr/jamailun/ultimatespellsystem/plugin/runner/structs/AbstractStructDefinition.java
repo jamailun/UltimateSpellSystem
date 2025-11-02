@@ -29,9 +29,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractStructDefinition<S> implements StructDefinition<S> {
 
-    protected static final Type TYPE_LOCATION = Type.of(fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition.LAZY_TYPE_LOCATION);
-    protected static final Type TYPE_ENTITY = Type.of(fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition.LAZY_TYPE_ENTITY);
-
     private final Map<String, FieldMetadata<?>> fields = new HashMap<>();
     private final Map<String, FunctionMetadata<?>> functions = new HashMap<>();
 
@@ -58,7 +55,7 @@ public abstract class AbstractStructDefinition<S> implements StructDefinition<S>
     }
 
     protected void registerLocation(@NotNull String name, @NotNull Function<S, Location> getter) {
-        registerField(name, TYPE_LOCATION, getter, null);
+        registerField(name, Type.of(TypePrimitive.LOCATION), getter, null);
     }
 
     protected void registerString(@NotNull String name, @NotNull Function<S, String> getter) {
