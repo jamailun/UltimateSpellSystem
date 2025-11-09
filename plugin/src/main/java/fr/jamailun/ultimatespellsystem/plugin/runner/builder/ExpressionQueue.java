@@ -17,6 +17,10 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperat
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListAddOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListContainsOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListRemIndexOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListRemOpe;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.ArrayGetNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.GlobalFunctionCallNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.StructFieldGetNode;
@@ -119,15 +123,21 @@ public class ExpressionQueue implements ExpressionVisitor {
             case LESSER -> new RunCompOpe(left, right, false, false);
             case AND ->  new RunAndOrOpe(left, right, true);
             case OR -> new RunAndOrOpe(left, right, false);
+            case LIST_ADD -> new RunListAddOpe(left, right);
+            case LIST_REM -> new RunListRemOpe(left, right);
+            case LIST_REM_INDEX -> new RunListRemIndexOpe(left, right);
+            case LIST_CONTAINS -> new RunListContainsOpe(left, right);
         });
     }
 
     @Override
     public void handleMonoOperator(@NotNull MonoOperator operator) {
         RuntimeExpression child = evaluate(operator.getChild());
-        if(operator.getType() == MonoOperator.MonoOpeType.NOT) {
-            add(new RunNotOpe(child));
-        }
+        RuntimeMonoOperator expr = switch (operator.getType()) {
+            case NOT -> new RunNotOpe(child);
+            case SIZE_OF -> new RunSizeofOpe(child);
+        };
+        add(expr);
     }
 
     @Override
