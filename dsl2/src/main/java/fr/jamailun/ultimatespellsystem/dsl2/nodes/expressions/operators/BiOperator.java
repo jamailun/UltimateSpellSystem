@@ -3,7 +3,6 @@ package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
@@ -63,6 +62,7 @@ public abstract class BiOperator extends Operator {
                     COMP_GE, COMP_GT,
                     COMP_LE, COMP_LT,
                     OPE_AND, OPE_OR -> new LogicalOperator(operand, left, right);
+            case LIST_ADD, LIST_REM, LIST_REM_INDEX, LIST_CONTAINS -> new ListOperator(operand, left, right);
             default -> throw new SyntaxException(operand, "Unknown Bi-operator.");
         };
     }
@@ -78,14 +78,12 @@ public abstract class BiOperator extends Operator {
     public enum BiOpeType {
 
         // Math
-
         ADD,
         SUB,
         MUL,
         DIV,
 
         // Logical
-
         EQUAL,
         NOT_EQUAL,
         GREATER_OR_EQ,
@@ -94,7 +92,13 @@ public abstract class BiOperator extends Operator {
         LESSER,
 
         AND,
-        OR
+        OR,
+
+        // List
+        LIST_ADD,
+        LIST_REM,
+        LIST_REM_INDEX,
+        LIST_CONTAINS
 
     }
 

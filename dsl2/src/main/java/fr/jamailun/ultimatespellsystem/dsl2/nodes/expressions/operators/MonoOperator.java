@@ -40,7 +40,7 @@ public abstract class MonoOperator extends Operator {
     public final void validateTypes(@NotNull TypesContext context) {
         child.validateTypes(context);
 
-       validateTypes(child.getExpressionType());
+        validateTypes(child.getExpressionType());
     }
 
     /**
@@ -50,7 +50,8 @@ public abstract class MonoOperator extends Operator {
     public abstract void validateTypes(@NotNull Type childType);
 
     public enum MonoOpeType {
-        NOT;
+        NOT,
+        SIZE_OF
     }
 
 }

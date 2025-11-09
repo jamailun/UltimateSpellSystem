@@ -7,6 +7,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.SizeOfOperator;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.ForLoopStatement;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.IfElseStatement;
@@ -179,7 +180,6 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
         }
     }
 
-
     @Override
     public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {
         builder.append("{");
@@ -318,6 +318,10 @@ public class PrintingVisitor implements StatementVisitor, ExpressionVisitor {
             case LESSER -> "<";
             case AND -> "and";
             case OR -> "or";
+            case LIST_ADD -> ":+";
+            case LIST_REM -> ":-";
+            case LIST_REM_INDEX -> ":/";
+            case LIST_CONTAINS -> ":?";
         };
         builder.append(" ").append(ope).append(" ");
         operator.getRight().visit(this);

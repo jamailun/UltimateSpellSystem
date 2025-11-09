@@ -4,10 +4,7 @@ import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
 import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.NotOperator;
-import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.SubOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.*;
 import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.dsl2.tokenization.*;
 import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
@@ -100,9 +97,10 @@ public abstract class ExpressionNode extends Node {
             case NULL -> new NullLiteral(token.pos());
             case CHAR_AT -> LocationLiteral.readNextLocation(tokens);
 
-            // Increment / decrement
+            // Increment / decrement / sizeof
             case INCREMENT -> IncrementExpression.parseIncrementOrDecrement(tokens, true);
             case DECREMENT -> IncrementExpression.parseIncrementOrDecrement(tokens, false);
+            case SIZE_OF -> SizeOfOperator.parseSizeOf(tokens);
 
             // Toutes les compositions de
             // "A.B", "A.B(...)", "A[B]" et "A".
@@ -226,7 +224,7 @@ public abstract class ExpressionNode extends Node {
     private static @NotNull ExpressionNode tryConvertLogicalExpression(ExpressionNode expr, @NotNull TokenStream tokens, boolean firstLevel) {
         Token token = tokens.peek();
         return switch(token.getType()) {
-            case OPE_OR, OPE_AND  -> {
+            case OPE_OR, OPE_AND, LIST_ADD, LIST_REM, LIST_REM_INDEX  -> {
                 if(!firstLevel)
                     yield expr;
                 tokens.drop();

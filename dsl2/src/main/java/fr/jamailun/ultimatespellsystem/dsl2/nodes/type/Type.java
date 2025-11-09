@@ -132,4 +132,13 @@ public class Type {
         TypePrimitive primitive = TypePrimitive.parsePrimitive(name);
         return primitive == null ? Type.of(name) : Type.of(primitive);
     }
+
+    /**
+     * Test if a type is like this one, ignoring array level.
+     * @param other other object.
+     * @return true if types are similar.
+     */
+    public boolean isLike(@NotNull Type other) {
+        return Objects.equals(other.objectClass, objectClass) || Objects.equals(other.primitive, primitive);
+    }
 }

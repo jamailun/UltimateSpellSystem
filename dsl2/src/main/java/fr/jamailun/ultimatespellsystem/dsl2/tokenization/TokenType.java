@@ -20,6 +20,7 @@ public enum TokenType {
     OPE_NOT, // !
     INCREMENT, // ++
     DECREMENT, // --
+    SIZE_OF(true), // sizeof()
 
     // Others
     COLON, // :
@@ -44,6 +45,11 @@ public enum TokenType {
     COMP_NE, // !=
     OPE_AND, // '&&'
     OPE_OR,  // '||'
+
+    LIST_ADD, // :+
+    LIST_REM, // :-
+    LIST_REM_INDEX, // :/
+    LIST_CONTAINS, // :?
 
     // == KEYWORDS
     CHAR_AT, // @

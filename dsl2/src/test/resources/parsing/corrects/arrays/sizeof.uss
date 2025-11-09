@@ -1,0 +1,2 @@
+var truc = ["a", "b"];
+int size = size_of(truc);

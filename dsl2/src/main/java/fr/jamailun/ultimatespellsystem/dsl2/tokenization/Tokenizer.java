@@ -48,6 +48,11 @@ public final class Tokenizer {
         OPERATORS_BI.put("++", TokenType.INCREMENT);
         OPERATORS_BI.put("--", TokenType.DECREMENT);
 
+        OPERATORS_BI.put(":+", TokenType.LIST_ADD);
+        OPERATORS_BI.put(":-", TokenType.LIST_REM);
+        OPERATORS_BI.put(":/", TokenType.LIST_REM_INDEX);
+        OPERATORS_BI.put(":?", TokenType.LIST_CONTAINS);
+
         // words
         Arrays.stream(TokenType.values())
                         .filter(t -> t.letters)
