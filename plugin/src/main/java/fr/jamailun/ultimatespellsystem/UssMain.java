@@ -88,6 +88,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
         // Listeners
         Bukkit.getPluginManager().registerEvents(new AggroListener(), this);
         Bukkit.getPluginManager().registerEvents(new AttackListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ChunkListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
