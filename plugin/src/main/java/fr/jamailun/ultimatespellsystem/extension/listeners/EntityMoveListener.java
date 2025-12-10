@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Forbid movement with the proper namespacedKey.
  */
+@Deprecated
 public class EntityMoveListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

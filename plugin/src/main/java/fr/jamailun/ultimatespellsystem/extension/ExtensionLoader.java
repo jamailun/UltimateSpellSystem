@@ -13,6 +13,7 @@ import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbac
 import fr.jamailun.ultimatespellsystem.extension.citizens.CitizensExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.listeners.EntityMoveListener;
+import fr.jamailun.ultimatespellsystem.extension.listeners.ItemPickupListener;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -96,6 +97,7 @@ public final class ExtensionLoader {
 
         // Load listeners
         registerEvents(plugin, new EntityMoveListener());
+        registerEvents(plugin, new ItemPickupListener());
 
         UssLogger.logInfo("Loaded extension callbacks and listeners.");
     }
