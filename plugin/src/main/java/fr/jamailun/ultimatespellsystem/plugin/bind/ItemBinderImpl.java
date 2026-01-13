@@ -6,7 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.events.ItemBoundEvent;
 import fr.jamailun.ultimatespellsystem.api.events.ItemUnBoundEvent;
 import fr.jamailun.ultimatespellsystem.UssKeys;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

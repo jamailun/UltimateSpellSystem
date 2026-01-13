@@ -1,0 +1,4 @@
+var arr = [[1, 2, 3], [4, 5, 6]];
+var l1 = arr[1];
+int v1 = l1[0];
+int v2 = arr[0][0];

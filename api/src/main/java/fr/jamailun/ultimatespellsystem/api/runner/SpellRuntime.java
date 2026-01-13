@@ -1,6 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.runner;
 
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
+import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -32,16 +33,16 @@ public interface SpellRuntime {
     @NotNull VariablesSet variables();
 
     /**
+     * A reference to the functions set.
+     * @return the final reference to the functions.
+     */
+    @NotNull FunctionsSet functions();
+
+    /**
      * Test if the runtime has been stopped.
      * @return true if no more statements should be executed.
      */
     boolean isStopped();
-
-    /**
-     * Stop the current execution.
-     * @param exitCode the exit code to use.
-     */
-    void stop(int exitCode);
 
     /**
      * Break the flow.
@@ -59,6 +60,12 @@ public interface SpellRuntime {
     void acceptContinue();
 
     /**
+     * Handle a return statement.
+     * @param value output-ed value.
+     */
+    void statementReturn(@Nullable Object value);
+
+    /**
      * Get the state of the control flow.
      * @return a state.
      */
@@ -69,7 +76,17 @@ public interface SpellRuntime {
      * @return a new instance of a runtime, with the same context.
      */
     @Contract(" -> new")
-    @NotNull SpellRuntime makeChild();
+    default @NotNull SpellRuntime makeChild() {
+        return makeChild(false);
+    }
+
+    /**
+     * Create a child of this runtime.
+     * @param function if {@code true}, the child runtime will be a function.
+     * @return a new instance of a runtime, with the same context.
+     */
+    @Contract("_ -> new")
+    @NotNull SpellRuntime makeChild(boolean function);
 
     /**
      * Create a child instance of this runtime, but with a different caster.
@@ -80,11 +97,26 @@ public interface SpellRuntime {
     @NotNull SpellRuntime makeChildNewCaster(@NotNull SpellEntity newCaster);
 
     /**
-     * Get the final exit code.
-     * @return {@code zero} if it's a success (or not stopped). Any other value means an error occurred.
+     * Get the structure out of a value.
+     * @param structDefinitionName name of the structure of the type.
+     * @param value the value to wrap.
+     * @return {@code null} if cannot match.
+     */
+    @Contract("_,null->null;_,!null->!null")
+    @Nullable Struct getStructOf(@NotNull String structDefinitionName, @Nullable Object value);
+
+    /**
+     * Get the returned value.
+     * @return something.
      * @see #isStopped()
      */
-    int getFinalExitCode();
+    @Nullable Object getReturnedValue();
+
+    /**
+     * Test if the returned value is considered as a success.
+     * @return true if return value is {@code null}, or {@code 0}, or {@code true}.
+     */
+    boolean isReturnValueSuccess();
 
     /**
      * Evaluate a value.

@@ -1,6 +1,0 @@
-summon EntityType.PIG as %pig for 4s;
-
-run after 3900ms: {
-        send to %caster message "&e&owhoooooooosh";
-        teleport %caster to %pig;
-}

@@ -113,6 +113,17 @@ public class CasterTrait extends Trait implements SpellEntity {
     }
 
     @Override
+    public <T extends Entity> Optional<T> getEntityAs(Class<T> clazz) {
+        return getBukkitEntity().map(e -> {
+            try {
+                return clazz.cast(e);
+            } catch(Exception ex) {
+                return null;
+            }
+        });
+    }
+
+    @Override
     public @NotNull Location getLocation() {
         return getBukkitEntity().map(Entity::getLocation).orElse(getNPC().getStoredLocation());
     }

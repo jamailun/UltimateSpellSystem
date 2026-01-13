@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.extension.animations;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.animations.AnimationParticle;
 import fr.jamailun.ultimatespellsystem.api.providers.AnimationsProvider;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Particle;

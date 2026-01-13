@@ -1,26 +1,31 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
-import fr.jamailun.ultimatespellsystem.api.runner.errors.UnknownFunctionException;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.plugin.runner.functions.JavaFunctionCallNode;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
+import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.FunctionCallExpression;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.NullLiteral;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.IncrementExpression;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
+import fr.jamailun.ultimatespellsystem.plugin.runner.functions.JavaFunctionCallNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.AllEntitiesAroundExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionCallExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.PositionOfExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.compute.SizeOfExpression;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.litteral.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.BiOperator;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.operators.MonoOperator;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.ExpressionVisitor;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.*;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral.*;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.BiOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.operators.MonoOperator;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.*;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ArrayGetNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListAddRemOpe;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListContainsOpe;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.ListRemIndexOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListAddOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListContainsOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListRemIndexOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.list.RunListRemOpe;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.ArrayGetNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.GlobalFunctionCallNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.StructFieldGetNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.objects.StructFunctionCallNode;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -39,9 +44,34 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handlePropertiesSet(@NotNull PropertiesExpression expression) {
+    public void handleNullLiteral(@NotNull NullLiteral literal) {
+        add(new fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.NullLiteral());
+    }
+
+    @Override
+    public void handleBooleanLiteral(@NotNull BooleanLiteral literal) {
+        add(new RawLiteral<>(literal.getRaw()));
+    }
+
+    @Override
+    public void handleNumberLiteral(@NotNull NumberLiteral literal) {
+        add(new RawLiteral<>(literal.getRaw()));
+    }
+
+    @Override
+    public void handleStringLiteral(@NotNull StringLiteral literal) {
+        add(new RawLiteral<>(literal.getRaw()));
+    }
+
+    @Override
+    public void handleDurationLiteral(@NotNull DurationLiteral literal) {
+        add(new RawLiteral<>(literal.getRaw()));
+    }
+
+    @Override
+    public void handleMapLiteral(@NotNull MapLiteral literal) {
         Map<String, RuntimeExpression> map = new HashMap<>();
-        for(Map.Entry<String, ExpressionNode> dslEntry : expression.getExpressions().entrySet()) {
+        for(Map.Entry<String, ExpressionNode> dslEntry : literal.getExpressions().entrySet()) {
             RuntimeExpression node = evaluate(dslEntry.getValue());
             map.put(dslEntry.getKey(), node);
         }
@@ -49,42 +79,7 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleAllAround(@NotNull AllEntitiesAroundExpression expression) {
-        RuntimeExpression distance = evaluate(expression.getDistance());
-        RuntimeExpression scope = evaluate(expression.getEntityType());
-        RuntimeExpression source = evaluate(expression.getSource());
-        boolean including = expression.isIncluding();
-        add(new AllAroundNode(distance, scope, source, including));
-    }
-
-    @Override
-    public void handlePositionOf(@NotNull PositionOfExpression expression) {
-        RuntimeExpression entity = evaluate(expression.getEntity());
-        add(new PositionOfNode(entity, expression.getExpressionType().isCollection()));
-    }
-
-    @Override
-    public void handleSizeOf(@NotNull SizeOfExpression expression) {
-        RuntimeExpression child = evaluate(expression.getChild());
-        add(new SizeOfNode(child));
-    }
-
-    @Override
-    public void handleFunction(@NotNull FunctionCallExpression expression) {
-        // 1. Find the EXECUTION of the function definition
-        RunnableJavaFunction function = JavaFunctionProvider.instance().find(expression.getFunction().id());
-        if(function == null)
-            throw new UnknownFunctionException(expression.getFunction().id());
-        // 2. Map arguments
-        List<RuntimeExpression> arguments = expression.getArguments().stream()
-                .map(this::evaluate)
-                .toList();
-        // 3. Create node
-        add(new JavaFunctionCallNode(function, arguments));
-    }
-
-    @Override
-    public void handleArray(@NotNull ArrayExpression expression) {
+    public void handleArray(@NotNull ArrayLiteral expression) {
         List<RuntimeExpression> elements = expression.getElements()
                 .stream()
                 .map(this::evaluate)
@@ -93,43 +88,8 @@ public class ExpressionQueue implements ExpressionVisitor {
     }
 
     @Override
-    public void handleVariable(@NotNull VariableExpression expression) {
+    public void handleVariable(@NotNull ReferenceExpression expression) {
         add(new VariableNode(expression.getVariableName()));
-    }
-
-    @Override
-    public void handleNullLiteral(@NotNull NullExpression literal) {
-        add(new NullLiteral());
-    }
-
-    @Override
-    public void handleBooleanLiteral(@NotNull BooleanExpression literal) {
-        add(new RawLiteral<>(literal));
-    }
-
-    @Override
-    public void handleNumberLiteral(@NotNull NumberExpression literal) {
-        add(new RawLiteral<>(literal));
-    }
-
-    @Override
-    public void handleStringLiteral(@NotNull StringExpression literal) {
-        add(new RawLiteral<>(literal));
-    }
-
-    @Override
-    public void handleEntityTypeLiteral(@NotNull EntityTypeExpression literal) {
-        add(new EntityTypeLiteral(literal));
-    }
-
-    @Override
-    public void handleRuntimeLiteral(@NotNull RuntimeLiteral literal) {
-        add(new RawLiteral<>(literal));
-    }
-
-    @Override
-    public void handleDurationLiteral(@NotNull DurationExpression literal) {
-        add(new RawLiteral<>(literal));
     }
 
     @Override
@@ -139,7 +99,7 @@ public class ExpressionQueue implements ExpressionVisitor {
         RuntimeExpression y = evaluate(literal.getVectorY());
         RuntimeExpression z = evaluate(literal.getVectorZ());
         RuntimeExpression yaw = null, pitch = null;
-        if(literal.asYawAndPitch()) {
+        if(literal.hasYawAndPitch()) {
             yaw = evaluate(literal.getYaw());
             pitch = evaluate(literal.getPitch());
         }
@@ -163,21 +123,21 @@ public class ExpressionQueue implements ExpressionVisitor {
             case LESSER -> new RunCompOpe(left, right, false, false);
             case AND ->  new RunAndOrOpe(left, right, true);
             case OR -> new RunAndOrOpe(left, right, false);
-            case LIST_ADD -> new ListAddRemOpe(left, right, true);
-            case LIST_REM -> new ListAddRemOpe(left, right, false);
-            case LIST_CONTAINS -> new ListContainsOpe(left, right);
-            case LIST_REM_INDEX -> new ListRemIndexOpe(left, right);
+            case LIST_ADD -> new RunListAddOpe(left, right);
+            case LIST_REM -> new RunListRemOpe(left, right);
+            case LIST_REM_INDEX -> new RunListRemIndexOpe(left, right);
+            case LIST_CONTAINS -> new RunListContainsOpe(left, right);
         });
     }
 
     @Override
     public void handleMonoOperator(@NotNull MonoOperator operator) {
         RuntimeExpression child = evaluate(operator.getChild());
-        if(operator.getType() == MonoOperator.MonoOpeType.NOT) {
-            add(new RunNotOpe(child));
-        } else {
-            add(new RunMathOpe(child, operator.getType()));
-        }
+        RuntimeMonoOperator expr = switch (operator.getType()) {
+            case NOT -> new RunNotOpe(child);
+            case SIZE_OF -> new RunSizeofOpe(child);
+        };
+        add(expr);
     }
 
     @Override
@@ -192,11 +152,60 @@ public class ExpressionQueue implements ExpressionVisitor {
         add(new ArrayGetNode(array, index));
     }
 
+    @Override
+    public void handleFieldGet(@NotNull FieldGetExpression fieldGetter) {
+        RuntimeExpression pointer = evaluate(fieldGetter.getLeftExpression());
+        StructDefinition pointerStruct = fieldGetter.getLeftStruct();
+        String fieldName = fieldGetter.getFieldName();
+        add(new StructFieldGetNode(fieldGetter.firstTokenPosition(), pointer, pointerStruct, fieldName));
+    }
+
+    @Override
+    public void handleFunctionCall(@NotNull FunctionCallExpression functionCall) {
+        RuntimeExpression caller = evaluate(functionCall.getCaller());
+        String functionName = functionCall.getFunctionName();
+        TokenPosition pos = functionCall.getPosition();
+
+        // Map parameters
+        List<RuntimeExpression> parameters = new ArrayList<>();
+        for(ExpressionNode param : functionCall.getArguments()) {
+            parameters.add(evaluate(param));
+        }
+
+        // No caller : "global" function
+        if(caller == null) {
+            // Is it a java function ?
+            RunnableJavaFunction function = JavaFunctionProvider.instance().find(functionName);
+            if(function != null) {
+                add(new JavaFunctionCallNode(pos, function, parameters));
+            }
+            // User-defined function instead
+            else {
+                add(new GlobalFunctionCallNode(pos, functionCall.getSignature(), parameters));
+            }
+            return;
+        }
+
+        // A caller : struct-function call.
+        StructDefinition callerStruct = functionCall.getCallerStruct();
+        add(new StructFunctionCallNode(pos, caller, callerStruct, functionName, parameters));
+    }
+
+    @Override
+    public void handleIncrementDecrement(@NotNull IncrementExpression expression) {
+        String varName = expression.getVarName();
+        boolean increment = expression.isPositive();
+        boolean postFix = expression.isAfterVar();
+        add(new IncrementNode(varName, increment, postFix));
+    }
+
     private void add(RuntimeExpression expression) {
         currentExpressions.add(expression);
     }
 
+    @Contract("null -> null; !null -> new")
     private RuntimeExpression evaluate(ExpressionNode dsl) {
+        if(dsl == null) return null;
         currentExpressions = new ArrayDeque<>();
         dsl.visit(this);
         RuntimeExpression node = currentExpressions.pop();

@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.api.entities;
 
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.utils.AttributesHolder;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;

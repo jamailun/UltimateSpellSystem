@@ -4,14 +4,16 @@ import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
+import fr.jamailun.ultimatespellsystem.api.runner.functions.GlobalFunction;
 import fr.jamailun.ultimatespellsystem.api.spells.SpellMetadata;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.PrintingVisitor;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.validators.DslValidator;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.PrintingVisitor;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.validators.DslValidator;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,6 +28,7 @@ public class SpellDefinition extends AbstractSpell {
 
     private final File file;
     private final List<RuntimeStatement> steps = new ArrayList<>();
+    private final Collection<GlobalFunction> functions;
     private final MultivaluedMap<String, MetadataNode> metadata = new MultivaluedMap<>();
 
     /**
@@ -34,9 +37,10 @@ public class SpellDefinition extends AbstractSpell {
      * @param name the name of the spell.
      * @param steps the steps to run.
      */
-    public SpellDefinition(@NotNull File file, @NotNull String name, @NotNull List<RuntimeStatement> steps) {
+    public SpellDefinition(@NotNull File file, @NotNull String name, @NotNull List<RuntimeStatement> steps, @NotNull Collection<GlobalFunction> functions) {
         super(name);
         this.file = file;
+        this.functions = functions;
         // Metadata are already sorted (thanks to AST validation)
         for(RuntimeStatement statement : steps) {
             if(statement instanceof MetadataNode meta) {
@@ -77,9 +81,9 @@ public class SpellDefinition extends AbstractSpell {
      */
     public static @Nullable SpellDefinition loadFile(@NotNull String name, @NotNull File file) {
         try {
-            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
-            List<RuntimeStatement> steps = load(dsl);
-            SpellDefinition spell = new SpellDefinition(file, name, steps);
+            List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
+            SpellStructure structure = load(dsl);
+            SpellDefinition spell = new SpellDefinition(file, name, structure.statements(), structure.functions());
             if(UssConfig.displaySummonWarnings())
                 spell.checkSpellWarnings();
             return spell;
@@ -92,7 +96,7 @@ public class SpellDefinition extends AbstractSpell {
         }
     }
 
-    public static @NotNull List<RuntimeStatement> load(@NotNull List<StatementNode> dsl) {
+    public static @NotNull SpellStructure load(@NotNull List<StatementNode> dsl) {
         DslValidator.validateDsl(dsl);
         return SpellBuilderVisitor.build(dsl);
     }
@@ -101,7 +105,7 @@ public class SpellDefinition extends AbstractSpell {
         if(!file.exists())
             return "file["+file+"] doesn't exist.";
         try {
-            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
+            List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
             DslValidator.validateDsl(dsl);
             return PrintingVisitor.toString(dsl);
         } catch(Exception e) {
@@ -114,6 +118,9 @@ public class SpellDefinition extends AbstractSpell {
     protected boolean castSpell(@NotNull SpellEntity caster, @NotNull SpellRuntime runtime) {
         String prefix = "SpellRun-" + UUID.randomUUID().toString().substring(20) + " | ";
 
+        // Load functions
+        functions.forEach(runtime.functions()::register);
+
         UssLogger.logDebug(prefix + " Casted on " + caster);
 
         for(RuntimeStatement statement : steps) {
@@ -124,8 +131,8 @@ public class SpellDefinition extends AbstractSpell {
                 break;
         }
 
-        boolean success = runtime.getFinalExitCode() == 0;
-        UssLogger.logDebug(prefix + "End of cast on " + caster + " with code " + runtime.getFinalExitCode() + ". Success = " + success);
+        boolean success = runtime.isReturnValueSuccess();
+        UssLogger.logDebug(prefix + "End of cast on " + caster + " with " + runtime.getReturnedValue() + ". Success = " + success);
         return success;
     }
 

@@ -1,11 +1,13 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner;
 
-import fr.jamailun.ultimatespellsystem.api.runner.FlowState;
-import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
-import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.api.runner.VariablesSet;
+import fr.jamailun.ultimatespellsystem.api.runner.*;
+import fr.jamailun.ultimatespellsystem.api.runner.structs.Struct;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
+import fr.jamailun.ultimatespellsystem.plugin.runner.structs.ConsoleDefinition;
+import fr.jamailun.ultimatespellsystem.plugin.runner.structs.EntityDefinition;
+import fr.jamailun.ultimatespellsystem.plugin.runner.structs.StructsLibrary;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,25 +19,40 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractSpellRuntime implements SpellRuntime {
 
+    protected final Map<StructPtr, Struct> cachedStructures = new HashMap<>();
+    protected final StructsLibrary structsLibrary;
     protected final VariablesSet variables;
+    protected final FunctionsSet functions;
     protected final ExitCode exitCode;
     @Getter protected final Spell spell;
 
     protected boolean flagBreak = false;
     protected boolean flagContinue = false;
+    protected final boolean inFunction;
 
-    AbstractSpellRuntime(@NotNull AbstractSpellRuntime parent) {
+    AbstractSpellRuntime(@NotNull AbstractSpellRuntime parent, boolean inFunction) {
         exitCode = parent.exitCode;
         variables = parent.variables.inherit();
+        functions = parent.functions.inherit();
         flagContinue = parent.flagContinue;
         flagBreak = parent.flagBreak;
         spell = parent.spell;
+        cachedStructures.putAll(parent.cachedStructures);
+        this.inFunction = inFunction;
+        structsLibrary = parent.structsLibrary;
     }
 
     AbstractSpellRuntime(@NotNull ExitCode exitCode, @Nullable Spell spell) {
         this.exitCode = exitCode;
         variables = new VariablesSetImpl();
+        functions = new FunctionsSetImpl();
         this.spell = spell;
+        structsLibrary = new StructsLibrary();
+        inFunction = false;
+
+        // Register base structs
+        structsLibrary.register(new EntityDefinition());
+        structsLibrary.register(new ConsoleDefinition());
     }
 
     @Override
@@ -46,6 +63,11 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     @Override
     public @NotNull VariablesSet variables() {
         return variables;
+    }
+
+    @Override
+    public @NotNull FunctionsSet functions() {
+        return functions;
     }
 
     @Override
@@ -83,25 +105,23 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
     }
 
     @Override
-    public void stop(int exitCode) {
-        this.exitCode.set(exitCode);
+    public @Nullable Object getReturnedValue() {
+        return exitCode.getValue();
     }
 
     @Override
-    public int getFinalExitCode() {
-        return exitCode.getCode();
+    public boolean isReturnValueSuccess() {
+        return switch (getReturnedValue()) {
+            case null -> true;
+            case Number num -> num.intValue() == 0;
+            case Boolean b -> b;
+            default -> false;
+        };
     }
 
-    @Getter
-    public static class ExitCode {
-        private int code = 0;
-        private boolean set = false;
-        public void set(int value) {
-            if(!set) {
-                set = true;
-                code = value;
-            }
-        }
+    @Override
+    public void statementReturn(@Nullable Object value) {
+        exitCode.set(value);
     }
 
     @Override
@@ -131,4 +151,37 @@ public abstract class AbstractSpellRuntime implements SpellRuntime {
         return FlowState.RUNNING;
     }
 
+    @Override
+    public @Nullable Struct getStructOf(@NotNull String structName, @Nullable Object value) {
+        if(value == null) return null;
+
+        StructPtr ptr = StructPtr.of(structName, value);
+        return cachedStructures.computeIfAbsent(ptr, x ->
+                structsLibrary.instantiate(structName, value)
+        );
+    }
+
+    // ---- utils
+
+    @Getter
+    public static class ExitCode {
+        private Object value;
+        private boolean set = false;
+        public void set(Object value) {
+            if(!set) {
+                set = true;
+                this.value = value;
+            }
+        }
+    }
+
+    protected record StructPtr(
+       String structName,
+       int objHash
+    ) {
+        @Contract("_, _ -> new")
+        static @NotNull StructPtr of(String structName, Object object) {
+            return new StructPtr(structName, Objects.hashCode(object));
+        }
+    }
 }

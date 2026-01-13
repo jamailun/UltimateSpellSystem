@@ -3,10 +3,9 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendEffectNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendEffectNode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -27,15 +26,15 @@ public class EntityHasEffectFunction extends AbstractFunction {
                 // Args : entity, effect, [min level]
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.ENTITY),
+                                TypePrimitive.ENTITY.asType(),
                                 "entity", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.STRING, TypePrimitive.CUSTOM),
+                                TypePrimitive.STRING.asType(),
                                 "effect", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                TypePrimitive.NUMBER.asType(),
                                 "level", true
                         )
                 )

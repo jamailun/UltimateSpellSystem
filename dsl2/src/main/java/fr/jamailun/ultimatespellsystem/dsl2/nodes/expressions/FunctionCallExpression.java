@@ -1,0 +1,110 @@
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions;
+
+import fr.jamailun.ultimatespellsystem.dsl2.errors.SyntaxException;
+import fr.jamailun.ultimatespellsystem.dsl2.errors.TypeException;
+import fr.jamailun.ultimatespellsystem.dsl2.library.StructDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionSignature;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.FunctionDeclarationStatement;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+public class FunctionCallExpression extends ExpressionNode {
+
+  private Type runtimeType = null;
+
+  private final TokenPosition position;
+  private final @Nullable ExpressionNode caller;
+  private final String functionName;
+  private final List<ExpressionNode> arguments;
+
+  // post build
+  private @Nullable StructDefinition callerStruct;
+  private @Nullable FunctionSignature signature;
+
+  public FunctionCallExpression(@Nullable ExpressionNode caller, @NotNull Token functionName, @NotNull List<ExpressionNode> arguments) {
+    super(functionName.pos());
+    this.caller = caller;
+    this.position = functionName.pos();
+    this.functionName = functionName.getContentString();
+    this.arguments = arguments;
+  }
+
+  @Override
+  public @NotNull Type getExpressionType() {
+    assert runtimeType != null;
+    return runtimeType;
+  }
+
+  @Override
+  public void validateTypes(@NotNull TypesContext context) {
+    // 1. Propagate to arguments
+    List<Type> paramTypes = new ArrayList<>();
+    for(ExpressionNode argument : arguments) {
+      argument.validateTypes(context.childContext());
+      paramTypes.add(argument.getExpressionType());
+    }
+    signature = new FunctionSignature(functionName, paramTypes);
+
+    // 2. If we have a caller : we check the function from the type definition.
+    FunctionDefinition function;
+    if(caller != null) {
+      caller.validateTypes(context);
+      Type callerType = caller.getExpressionType();
+      callerStruct = context.findStruct(callerType);
+      if(callerStruct == null) {
+        throw new TypeException(position, "Unknown struct for type " + callerType);
+      }
+      function = callerStruct.getFunction(functionName);
+      if(function == null) {
+        throw new TypeException(position, "Cannot call function '" + functionName + "' on type " + callerType + ".");
+      }
+    }
+    // Pas de caller : function globale
+    else {
+      FunctionDefinition definition = context.findFunction(functionName);
+      if(definition == null) {
+        throw new SyntaxException(position, "Global function '" + functionName + "' not found");
+      }
+      function = definition;
+    }
+
+    // 3. Set our type
+    this.runtimeType = function.returnedType();
+
+    // 4. Check arguments list match requested types
+    if(arguments.size() != function.arguments().size()) {
+      throw new SyntaxException(position, "Function argument count mismatch. Expected " + function.arguments().size() + " but got " + arguments.size() + ".");
+    }
+    for(int i = 0; i < arguments.size(); i++) {
+      ExpressionNode arg = arguments.get(i);
+      FunctionArgument def = function.arguments().get(i);
+      if(!Objects.equals(arg.getExpressionType(), def.type())) {
+        throw new TypeException(arg.firstTokenPosition(), "Bad argument type. Function " + functionName + " expected " + def.type() + " on argument n°" + (i+1) + ", but got " + arg.getExpressionType() + ".");
+      }
+    }
+  }
+
+  @Override
+  public void visit(@NotNull ExpressionVisitor visitor) {
+    visitor.handleFunctionCall(this);
+  }
+
+  @Override
+  public String toString() {
+    return (caller == null ? "" : caller + ".") + functionName + "(" + arguments + ")";
+  }
+}

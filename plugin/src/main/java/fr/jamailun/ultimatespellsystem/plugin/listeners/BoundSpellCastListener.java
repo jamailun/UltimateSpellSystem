@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.listeners;
 
 import fr.jamailun.ultimatespellsystem.api.events.BoundSpellCastEvent;
 import fr.jamailun.ultimatespellsystem.api.utils.StringTransformation;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellsCooldowns;
 import org.bukkit.GameMode;

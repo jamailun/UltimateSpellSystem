@@ -5,8 +5,8 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.spells.ExternalExecutor;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
 import fr.jamailun.ultimatespellsystem.plugin.runner.SpellRuntimeImpl;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellDefinition;
@@ -34,7 +34,7 @@ public class ExternalExecutorImpl implements ExternalExecutor {
 
     @Override
     public @NotNull @UnmodifiableView List<RuntimeStatement> handleImplementation(@NotNull List<StatementNode> dsl) {
-        return Collections.unmodifiableList(SpellDefinition.load(dsl));
+        return Collections.unmodifiableList(SpellDefinition.load(dsl).statements());
     }
 
     @Override

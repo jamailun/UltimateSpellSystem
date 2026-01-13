@@ -8,7 +8,7 @@ import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
 import fr.jamailun.ultimatespellsystem.api.events.SummonedEntityExpiredEvent;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.*;

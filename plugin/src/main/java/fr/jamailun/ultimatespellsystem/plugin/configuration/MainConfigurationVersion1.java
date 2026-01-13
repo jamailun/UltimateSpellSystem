@@ -7,7 +7,7 @@ import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
 import fr.jamailun.ultimatespellsystem.api.bind.ItemBindTrigger;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCost;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellCostEntry;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.costs.NoneSpellCost;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import lombok.Getter;

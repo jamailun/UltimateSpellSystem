@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.bind;
 
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

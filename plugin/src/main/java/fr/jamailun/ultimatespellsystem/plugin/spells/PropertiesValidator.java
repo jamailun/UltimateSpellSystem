@@ -6,7 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.PropertiesLiteral;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SummonNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SummonNode;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

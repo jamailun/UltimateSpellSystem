@@ -1,14 +1,16 @@
 package fr.jamailun.ultimatespellsystem.extension;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.errors.UssException;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.variables.TypesContext;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.CharStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenStream;
-import fr.jamailun.ultimatespellsystem.dsl.tokenization.Tokenizer;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.errors.UssException;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables.TypesContext;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.CharStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenStream;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Tokenizer;
 import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellBuilderVisitor;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
+import fr.jamailun.ultimatespellsystem.runner.framework.AssertException;
 import fr.jamailun.ultimatespellsystem.runner.framework.TestFramework;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -22,10 +24,12 @@ import java.util.stream.Stream;
  */
 abstract class ParseAndCompileTest extends TestFramework {
 
-    protected final File PARSINGS_FILE = new File("src/test/resources/extension-parsing");
+    protected final File PARSINGS_FILE = new File("src/test/resources/spells");
+
+    protected abstract String baseDir();
 
     protected @NotNull List<File> listTests(@NotNull String subFolder) {
-        File directory = new File(PARSINGS_FILE, subFolder);
+        File directory = new File(new File(PARSINGS_FILE, baseDir()), subFolder);
         Assertions.assertTrue(directory.exists() && directory.isDirectory(), "Directory '" + subFolder + "' does not exist.");
 
         File[] children = directory.listFiles();
@@ -52,14 +56,37 @@ abstract class ParseAndCompileTest extends TestFramework {
         failures.put(test, error);
     }
 
-    protected List<RuntimeStatement> parseAndVerify(@NotNull File file) throws UssException {
+    protected void testFolder(@NotNull String folder, boolean run) {
+        for(File file : listTests(folder)) {
+            try {
+                SpellStructure structure = parseAndVerify(file);
+                List<RuntimeStatement> statements = structure.statements();
+                if(run)
+                    cast(statements);
+                addOk();
+            } catch (UssException e) {
+                e.printStackTrace();
+                addFails(file, toString(e));
+            } catch (AssertException e) {
+                System.err.println("Assertion exception ! " + e.getMessage());
+                addFails(file, toString(e));
+            } catch (Exception e) {
+                System.err.println("Unexpected error.");
+                e.printStackTrace();
+                addFails(file, toString(e));
+            }
+        }
+        printResults();
+    }
+
+    protected SpellStructure parseAndVerify(@NotNull File file) throws UssException {
         System.out.println("\n\n ================[ " + file.getName() + "]================\n");
         // Tokenize
         TokenStream tokens = Tokenizer.tokenize(CharStream.from(file));
         System.out.println(tokens + "\n");
 
         // Parse
-        List<StatementNode> nodes = UltimateSpellSystemDSL.parse(tokens);
+        List<StatementNode> nodes = UltimateSpellSystemDSL2.parse(tokens);
 
         System.out.println(" ----------------------- ");
 

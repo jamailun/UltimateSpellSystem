@@ -7,12 +7,12 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.plugin.runner.builder.SpellStructure;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
 import fr.jamailun.ultimatespellsystem.plugin.spells.SpellDefinition;
 import lombok.Getter;
@@ -46,7 +46,7 @@ public class SpellFunction {
                 // Definition
                 new RunnableJavaFunction(
                     name,
-                    outputVar == null ? TypePrimitive.NULL.asType() : outputVar.type(),
+                    outputVar == null ? Type.NULL : outputVar.type(),
                     args
                 ) {
                     // Execution
@@ -56,7 +56,7 @@ public class SpellFunction {
                         SpellRuntime childRuntime = runtime.makeChild();
                         for(int i = 0; i < args.size(); i++) {
                             Object arg = arguments.get(i).evaluate(childRuntime);
-                            childRuntime.variables().set(args.get(i).debugName(), arg);
+                            childRuntime.variables().set(args.get(i).name(), arg);
                         }
                         // Execute
                         return executeSteps(childRuntime);
@@ -75,7 +75,7 @@ public class SpellFunction {
         if(outputVar != null) {
             return runtime.variables().get(outputVar.name());
         }
-        return runtime.getFinalExitCode();
+        return runtime.getReturnedValue();
     }
 
     public static @Nullable SpellFunction loadFile(@NotNull File file) {
@@ -83,8 +83,9 @@ public class SpellFunction {
         List<RuntimeStatement> steps = new ArrayList<>();
 
         try {
-            List<StatementNode> dsl = UltimateSpellSystemDSL.parse(file);
-            List<RuntimeStatement> rawStatements = SpellDefinition.load(dsl);
+            List<StatementNode> dsl = UltimateSpellSystemDSL2.parse(file);
+            SpellStructure structure = SpellDefinition.load(dsl);
+            List<RuntimeStatement> rawStatements = structure.statements();
 
             // Metadata are already sorted (thanks to AST validation)
             for(RuntimeStatement statement : rawStatements) {
@@ -141,7 +142,7 @@ public class SpellFunction {
                 throw new InvalidMetadata(node, "unknown @param primitive: '" + varType + "'.");
 
             list.add(new FunctionArgument(
-                    FunctionType.accept(type),
+                    Type.of(type),
                     varName,
                     false
             ));

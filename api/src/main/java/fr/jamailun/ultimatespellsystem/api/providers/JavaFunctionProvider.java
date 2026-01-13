@@ -1,7 +1,7 @@
 package fr.jamailun.ultimatespellsystem.api.providers;
 
 import fr.jamailun.ultimatespellsystem.api.runner.functions.RunnableJavaFunction;
-import fr.jamailun.ultimatespellsystem.dsl.registries.FunctionDefinitionsRegistry;
+import fr.jamailun.ultimatespellsystem.dsl2.registries.FunctionDefinitionsRegistry;
 import org.jetbrains.annotations.NotNull;
 
 /**

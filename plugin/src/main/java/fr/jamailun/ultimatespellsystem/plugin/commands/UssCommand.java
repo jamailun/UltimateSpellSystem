@@ -9,12 +9,12 @@ import fr.jamailun.ultimatespellsystem.api.providers.ScopeProvider;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
 import fr.jamailun.ultimatespellsystem.api.utils.MultivaluedMap;
-import fr.jamailun.ultimatespellsystem.dsl.UltimateSpellSystemDSL;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.UltimateSpellSystemDSL2;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellBindDataImpl;
 import fr.jamailun.ultimatespellsystem.plugin.bind.SpellTriggerImpl;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.SendAttributeNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions._old.SendAttributeNode;
 import fr.jamailun.ultimatespellsystem.plugin.configuration.UssConfig;
 import fr.jamailun.ultimatespellsystem.plugin.utils.DurationHelper;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;
@@ -95,7 +95,7 @@ public class UssCommand extends AbstractCommand {
 
             // Parse
             try {
-                ExpressionNode raw = UltimateSpellSystemDSL.parseExpression(code);
+                ExpressionNode raw = UltimateSpellSystemDSL2.parseExpression(code);
                 RuntimeExpression expression = UltimateSpellSystem.getExternalExecutor().handleImplementation(raw);
                 Object out = expression.evaluate(UltimateSpellSystem.getExternalExecutor().generateRuntime(player));
 

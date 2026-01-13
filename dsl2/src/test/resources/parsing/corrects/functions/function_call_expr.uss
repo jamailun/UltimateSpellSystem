@@ -1,0 +1,6 @@
+int plus_one(int a) {
+    return a + 1;
+}
+
+int three = plus_one(plus_one(1));
+int five = plus_one(three) + 1;

@@ -2,12 +2,15 @@ package fr.jamailun.ultimatespellsystem.api.runner.functions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionDefinition;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionDefinition;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionSignature;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.TokenPosition;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,7 +18,7 @@ import java.util.List;
  * A runnable code declaration
  */
 @Getter
-public abstract class RunnableJavaFunction {
+public abstract class RunnableJavaFunction implements GlobalFunction {
 
     private final @NotNull String id;
     private final @NotNull Type type;
@@ -32,6 +35,16 @@ public abstract class RunnableJavaFunction {
         this.id = id;
         this.type = type;
         this.arguments = arguments;
+    }
+
+    @Override
+    public @NotNull FunctionSignature getSignature() {
+        return FunctionSignature.of(id, arguments);
+    }
+
+    @Override
+    public @Nullable Object call(@NotNull TokenPosition pos, @NotNull List<RuntimeExpression> arguments, @NotNull SpellRuntime runtime) {
+        return compute(arguments, runtime);
     }
 
     /**

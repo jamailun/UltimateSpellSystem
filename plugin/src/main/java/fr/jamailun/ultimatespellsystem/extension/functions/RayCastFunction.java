@@ -4,9 +4,9 @@ import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
 import fr.jamailun.ultimatespellsystem.api.runner.errors.InvalidTypeException;
 import fr.jamailun.ultimatespellsystem.api.entities.SpellEntity;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.util.RayTraceResult;
@@ -31,15 +31,15 @@ public class RayCastFunction extends AbstractFunction {
                 // - max : max travel distance
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.LOCATION, TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.LOCATION),
                                 "source", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER, TypePrimitive.NULL, TypePrimitive.LOCATION, TypePrimitive.ENTITY),
+                                Type.of(TypePrimitive.VECTOR),
                                 "direction", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                Type.of(TypePrimitive.NUMBER),
                                 "max", false
                         )
                 )

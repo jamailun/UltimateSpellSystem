@@ -2,9 +2,9 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import fr.jamailun.ultimatespellsystem.plugin.utils.TypeInterpretation;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,12 +19,12 @@ public class NormalizeFunction extends AbstractFunction {
         super(
                 "normalize",
                 // Returns nothing
-                TypePrimitive.LOCATION.asType(),
+                TypePrimitive.VECTOR.asType(),
                 // Args :
                 // location-vector to normalize
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.LOCATION),
+                                Type.of(TypePrimitive.VECTOR),
                                 "vector", false
                         )
                 )

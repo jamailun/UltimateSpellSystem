@@ -1,0 +1,46 @@
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.litteral;
+
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.tokenization.Token;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.ExpressionVisitor;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A raw {@link Duration} literal.
+ */
+public class DurationLiteral extends LiteralExpression<Duration> {
+
+    private final Duration duration;
+
+    /**
+     * New instance, from a token.
+     * @param token token to use.
+     */
+    public DurationLiteral(@NotNull Token token) {
+        super(token.pos());
+        this.duration = new Duration(token.getContentNumber(), token.getContentTimeUnit());
+    }
+
+    @Override
+    public Duration getRaw() {
+        return duration;
+    }
+
+    @Override
+    public @NotNull Type getExpressionType() {
+        return TypePrimitive.DURATION.asType();
+    }
+
+    @Override
+    public String toString() {
+        return PREFIX + duration.amount() + " " + duration.timeUnit() + SUFFIX;
+    }
+
+    @Override
+    public void visit(@NotNull ExpressionVisitor visitor) {
+        visitor.handleDurationLiteral(this);
+    }
+
+}

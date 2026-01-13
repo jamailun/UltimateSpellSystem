@@ -2,9 +2,9 @@ package fr.jamailun.ultimatespellsystem.extension.functions;
 
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.SpellRuntime;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionArgument;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.expressions.functions.FunctionType;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.TypePrimitive;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.expressions.functions.FunctionArgument;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.TypePrimitive;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,11 +27,11 @@ public class RandIntFunction extends AbstractFunction {
                 // - upper bound
                 List.of(
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                Type.of(TypePrimitive.NUMBER),
                                 "lower_bound", false
                         ),
                         new FunctionArgument(
-                                FunctionType.accept(TypePrimitive.NUMBER),
+                                Type.of(TypePrimitive.NUMBER),
                                 "upper_bound", false
                         )
                 )

@@ -1,28 +1,26 @@
 package fr.jamailun.ultimatespellsystem.plugin.runner.builder;
 
-import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.MetadataNode;
+import fr.jamailun.ultimatespellsystem.api.runner.functions.GlobalFunction;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
 import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.blocks.*;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.expressions.ExpressionWrapperNode;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.play.*;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.operators.IncrementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.ExpressionNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.StatementNode;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.*;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.statements.blocks.*;
-import fr.jamailun.ultimatespellsystem.dsl.visitor.StatementVisitor;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.ExpressionWrapperNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.ExpressionNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.StatementNode;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.*;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.statements.blocks.*;
+import fr.jamailun.ultimatespellsystem.dsl2.visitor.StatementVisitor;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeExpression;
 import fr.jamailun.ultimatespellsystem.api.runner.RuntimeStatement;
-import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.*;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.functions.RuntimeFunctionDeclaration;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.AffectVarNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.ReturnNode;
+import fr.jamailun.ultimatespellsystem.plugin.runner.nodes.statements.DeclareVarNode;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 /**
  * A visitor used to build a runtime-node tree from the DSL.
@@ -35,91 +33,60 @@ public class SpellBuilderVisitor implements StatementVisitor {
     private final List<RuntimeStatement> statementsAccumulator = new ArrayList<>();
     private final Deque<List<RuntimeStatement>> accumulatorsStack = new ArrayDeque<>();
 
+    @Getter private final Map<String, GlobalFunction> functions = new HashMap<>();
+
     public SpellBuilderVisitor() {
         currentQueue = statementsAccumulator;
     }
 
-    public static @NotNull List<RuntimeStatement> build(@NotNull List<StatementNode> dsl) {
+    public static @NotNull SpellStructure build(@NotNull List<StatementNode> dsl) {
         SpellBuilderVisitor visitor = new SpellBuilderVisitor();
         for(StatementNode statement : dsl) {
             statement.visit(visitor);
         }
-        return visitor.statementsAccumulator;
+        return new SpellStructure(
+                visitor.statementsAccumulator,
+                visitor.functions.values()
+        );
     }
 
     @Override
-    public void handleStop(@NotNull StopStatement statement) {
-        RuntimeExpression exitCode = convert(statement.getExitCodeNode());
-        add(new StopNode(exitCode));
-    }
-
-    @Override
-    public void handleSendAttribute(@NotNull SendAttributeStatement statement) {
-        RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression value = convert(statement.getNumericValue());
-        RuntimeExpression type = convert(statement.getAttributeType());
-        RuntimeExpression mode = convert(statement.getAttributeMode().orElse(null));
-        RuntimeExpression duration = convert(statement.getDuration());
-        add(new SendAttributeNode(target, value, type, mode, duration));
-    }
-
-    @Override
-    public void handleSendEffect(@NotNull SendEffectStatement statement) {
-        RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression effect = convert(statement.getEffectType());
-        RuntimeExpression power = convert(statement.getEffectPower().orElse(null));
-        RuntimeExpression duration = convert(statement.getEffectDuration());
-        add(new SendEffectNode(target, effect, duration, power));
-    }
-
-    @Override
-    public void handleSendMessage(@NotNull SendMessageStatement statement) {
-        RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression message = convert(statement.getMessage());
-        add(new SendMessageNode(target, message));
-    }
-
-    @Override
-    public void handleSendNbt(@NotNull SendNbtStatement statement) {
-        RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression name = convert(statement.getNbtName());
-        RuntimeExpression value = convert(statement.getNbtValue());
-        RuntimeExpression duration = convert(statement.getNbtDuration());
-        add(new SendNbtNode(target, name, value, duration));
-    }
-
-    @Override
-    public void handleDefine(@NotNull DefineStatement statement) {
+    public void handleDeclareVariable(@NotNull DeclareNewVariableStatement statement) {
         String varName = statement.getVarName();
+        Type type = statement.getCompiledType();
+        RuntimeExpression expression = convert(statement.getExpression());
+        add(new DeclareVarNode(varName, type, expression));
+    }
+
+    @Override
+    public void handleAffectVariable(@NotNull AffectationStatement statement) {
+        RuntimeExpression holder = convert(statement.getValueHolder());
         RuntimeExpression value = convert(statement.getExpression());
-        add(new DefineNode(varName, value, statement.getExpression().getExpressionType()));
+        add(new AffectVarNode(holder, value));
     }
 
     @Override
-    public void handleRunLater(@NotNull RunLaterStatement statement) {
-        RuntimeExpression duration = convert(statement.getDuration());
-        RuntimeStatement child = convertOneStatement(statement.getChild());
-        add(new RunLaterNode(duration, child));
+    public void handleFunctionDeclaration(@NotNull FunctionDeclarationStatement statement) {
+        // Basics
+        String funcName = statement.getFunctionName();
+        Type type = statement.getOutputType();
+
+        // Convert statements
+        pushQueue();
+        for(StatementNode child : statement.getStatements()) {
+            child.visit(this);
+        }
+        List<RuntimeStatement> statements = List.copyOf(currentQueue);
+        popQueue();
+
+        // Register function
+        functions.put(funcName, new RuntimeFunctionDeclaration(funcName, type, statement.getParameters(), statements));
     }
 
     @Override
-    public void handleRepeatRun(@NotNull RepeatStatement statement) {
-        RuntimeExpression period = convert(statement.getPeriod());
-        RuntimeStatement child = convertOneStatement(statement.getChild());
-        RuntimeExpression delay = convert(statement.getDelay().orElse(null));
-        RuntimeExpression totalCount = convert(statement.getTotalCount());
-        RuntimeExpression totalDuration = convert(statement.getTotalDuration());
-        add(new RunRepeatNode(period, child, delay, totalCount, totalDuration));
-    }
-
-    @Override
-    public void handleSummon(@NotNull SummonStatement statement) {
-        RuntimeExpression type = convert(statement.getEntityType());
-        RuntimeExpression source = convert(statement.getSource().orElse(null));
-        RuntimeExpression duration = convert(statement.getDuration());
-        RuntimeExpression properties = convert(statement.getProperties().orElse(null));
-        String varName = statement.getVarName().orElse(null);
-        add(new SummonNode(type, source, duration, properties, varName));
+    public void handleReturn(@NotNull ReturnStatement statement) {
+        RuntimeExpression exitCode = convert(statement.getExitCodeNode());
+        add(new ReturnNode(exitCode));
     }
 
     @Override
@@ -130,67 +97,15 @@ public class SpellBuilderVisitor implements StatementVisitor {
             child.visit(this);
         }
         BlockNodes block = new BlockNodes(currentQueue);
-
         popQueue();
 
         add(block);
     }
 
     @Override
-    public void handleIncrement(@NotNull IncrementStatement statement) {
-        String varName = statement.getVarName();
-        boolean increments = statement.isPositive();
-        add(new IncrementNode(varName, increments));
-    }
-
-    @Override
-    public void handleTeleport(@NotNull TeleportStatement statement) {
-        RuntimeExpression entity = convert(statement.getEntity());
-        RuntimeExpression target = convert(statement.getTarget());
-        add(new TeleportNode(entity, target));
-    }
-
-    @Override
-    public void handlePlay(@NotNull PlayStatement statement) {
-        RuntimeExpression location = convert(statement.getLocation());
-        RuntimeExpression properties = convert(statement.getProperties());
-        PlayNode node = switch (statement.getType()) {
-            case BLOCK -> new PlayBlockNode(location, properties);
-            case PARTICLE -> new PlayParticleNode(location, properties);
-            case SOUND -> new PlaySoundNode(location, properties);
-            case ANIMATION -> new PlayAnimationNode(location, properties);
-        };
-        add(node);
-    }
-
-    @Override
-    public void handleGive(@NotNull GiveStatement statement) {
-        RuntimeExpression target = convert(statement.getTarget());
-        RuntimeExpression amount = convert(statement.getOptAmount());
-        RuntimeExpression type = convert(statement.getOptType());
-        RuntimeExpression properties = convert(statement.getOptProperties());
-        add(new GiveNode(target, amount, type, properties));
-    }
-
-    @Override
-    public void handleCallback(@NotNull CallbackStatement statement) {
-        String varInput = statement.getListenVariableName();
-        CallbackEvent type = statement.getCallbackType();
-        String varArg = statement.getOutputVariable().orElse(null);
-        RuntimeStatement child = convertOneStatement(statement.getChild());
-        add(new CallbackNode(varInput, type, varArg, child));
-    }
-
-    @Override
     public void handleSimpleExpression(@NotNull SimpleExpressionStatement statement) {
         RuntimeExpression child = convert(statement.getChild());
         add(new ExpressionWrapperNode(child));
-    }
-
-    @Override
-    public void handleMetadata(@NotNull MetadataStatement statement) {
-        String name = statement.getName();
-        add(new MetadataNode(name, statement.getParams()));
     }
 
     @Override
@@ -211,15 +126,6 @@ public class SpellBuilderVisitor implements StatementVisitor {
     }
 
     @Override
-    public void handleForeachLoop(@NotNull ForeachLoopStatement statement) {
-        String varName = statement.getVariableName();
-        RuntimeExpression source = convert(statement.getSource());
-        RuntimeStatement child = convertOneStatement(statement.getChild());
-        add(new ForeachLoopNode(varName, source, child));
-
-    }
-
-    @Override
     public void handleWhileLoop(@NotNull WhileLoopStatement statement) {
         RuntimeExpression condition = convert(statement.getCondition());
         RuntimeStatement child = convertOneStatement(statement.getChild());
@@ -232,6 +138,7 @@ public class SpellBuilderVisitor implements StatementVisitor {
         add(new BreakContinueNode(statement.isContinue()));
     }
 
+    @Contract("null -> null; !null -> new")
     public RuntimeExpression convert(ExpressionNode expression) {
         if(expression == null)
             return null;

@@ -1,0 +1,58 @@
+package fr.jamailun.ultimatespellsystem.dsl2.nodes.type.variables;
+
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Type;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Definition of a variable. Internal representation.
+ */
+@RequiredArgsConstructor
+public class VariableDefinition {
+
+    private final List<VariableReference> references = new ArrayList<>();
+    private final String name;
+
+    private transient Type computedType;
+
+    /**
+     * Register a reference to this definition.
+     * @param reference non-null reference.
+     */
+    public void register(@NotNull VariableReference reference) {
+        references.add(reference);
+        computedType = null;
+    }
+
+    /**
+     * Get the representation type of this variable.
+     * @param context current context.
+     * @return a {@link Type#NULL} type if unset.
+     */
+    public @NotNull Type getType(@NotNull TypesContext context) {
+        if(computedType != null) return computedType;
+
+        // We need ot compute the type
+        for(VariableReference reference : references) {
+            Type type = reference.getType(context);
+            if(type.isNull() && !type.isCollection()) {
+                // Nothing here
+                continue;
+            }
+            if(computedType == null || computedType.isNull()) {
+                computedType = type;
+            // We CAN overload a variable that as NULL.
+            } else if(!computedType.isNull() && ! computedType.equals(type)) {
+                throw reference.exception("Cannot change type of an already defined variable (%"+name+"). Previous type: " + computedType + ", new type: " + type + ".");
+            }
+        }
+
+        // If type not set, then it's a NULL.
+        return Objects.requireNonNullElse(computedType, Type.NULL);
+    }
+
+}

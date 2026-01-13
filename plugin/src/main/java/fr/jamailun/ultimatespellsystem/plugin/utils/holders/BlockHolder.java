@@ -2,7 +2,7 @@ package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.UssLogger;
 import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import fr.jamailun.ultimatespellsystem.plugin.utils.Pair;
 import org.bukkit.Location;
 import org.bukkit.Material;

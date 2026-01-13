@@ -3,7 +3,7 @@ package fr.jamailun.ultimatespellsystem.plugin.bind;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellBindData;
 import fr.jamailun.ultimatespellsystem.api.bind.SpellTrigger;
 import fr.jamailun.ultimatespellsystem.api.spells.Spell;
-import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
+import fr.jamailun.ultimatespellsystem.dsl2.nodes.type.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

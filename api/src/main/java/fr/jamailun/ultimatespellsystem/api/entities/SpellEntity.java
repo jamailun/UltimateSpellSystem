@@ -22,6 +22,7 @@ public interface SpellEntity {
      * Get the UUID of the entity.
      * @return a non-null, unique UUID.
      */
+    @Contract(pure = true)
     @NotNull UUID getUniqueId();
 
     /**
@@ -32,9 +33,20 @@ public interface SpellEntity {
     @NotNull Optional<Entity> getBukkitEntity();
 
     /**
+     * Get the entity as a specific bukkit class.
+     * @param clazz the class to cast the bukkit entity to.
+     * @return an empty optional if the entity is not bukkit-based, or if the instance cannot be
+     * cast to the parameter.
+     * @param <T> the output requested type.
+     */
+    @Contract(pure = true)
+    <T extends Entity> Optional<T> getEntityAs(Class<T> clazz);
+
+    /**
      * Test if the current entity has a bukkit representation.
      * @return true if a call to {@link #getBukkitEntity()} returns something.
      */
+    @Contract(pure = true)
     default boolean isBukkit() {
         return getBukkitEntity().isPresent();
     }
