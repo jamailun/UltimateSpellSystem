@@ -12,7 +12,6 @@ import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallback
 import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbacks;
 import fr.jamailun.ultimatespellsystem.extension.citizens.CitizensExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
-import fr.jamailun.ultimatespellsystem.extension.listeners.EntityMoveListener;
 import fr.jamailun.ultimatespellsystem.extension.listeners.ItemPickupListener;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
 import org.bukkit.Bukkit;
@@ -63,6 +62,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new GetFoodLevelFunction());
         JavaFunctionProvider.instance().registerFunction(new SetFoodLevelFunction());
         JavaFunctionProvider.instance().registerFunction(new SolidBlockBellowFunction());
+        JavaFunctionProvider.instance().registerFunction(new AddAbsorptionFunction());
         LogFunctions.register();
 
         // Others
@@ -96,7 +96,6 @@ public final class ExtensionLoader {
         loadCallback(plugin, new SummonExpiresCallbacks());
 
         // Load listeners
-        registerEvents(plugin, new EntityMoveListener());
         registerEvents(plugin, new ItemPickupListener());
 
         UssLogger.logInfo("Loaded extension callbacks and listeners.");
