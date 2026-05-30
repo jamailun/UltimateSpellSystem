@@ -62,7 +62,7 @@ public final class SpellsManagerImpl implements SpellsManager {
     }
 
     private void reloadFunctions() {
-        UssLogger.logInfo("Reloading spells.");
+        UssLogger.logInfo("Reloading functions.");
         functions.clear();
         iterateDirectory(
                 functionsFolder,
