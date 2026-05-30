@@ -13,6 +13,7 @@ import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbac
 import fr.jamailun.ultimatespellsystem.extension.citizens.CitizensExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.listeners.ItemPickupListener;
+import fr.jamailun.ultimatespellsystem.extension.mythicMobs.MythicMobExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.providers.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -77,9 +78,9 @@ public final class ExtensionLoader {
         UssLogger.logInfo("Loaded extension.");
     }
 
-    public static void loadDependencies() {
-        // Citizens
+    public static void loadDependencies(@NotNull JavaPlugin plugin) {
         CitizensExtensionLoader.initialize();
+        MythicMobExtensionLoader.initialize(plugin);
     }
 
     public static void loadCallbacks(JavaPlugin plugin) {

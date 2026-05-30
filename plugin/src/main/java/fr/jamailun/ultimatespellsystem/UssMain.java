@@ -99,7 +99,7 @@ public final class UssMain extends JavaPlugin implements UltimateSpellSystemPlug
 
         // Others
         new Metrics(this, 24891); // bStats
-        ExtensionLoader.loadDependencies();
+        ExtensionLoader.loadDependencies(this);
 
         UssLogger.logInfo("Plugin loaded.");
         testForLatestVersion();

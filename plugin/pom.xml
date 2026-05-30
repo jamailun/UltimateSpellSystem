@@ -20,18 +20,19 @@
 
         <json-org.version>20250107</json-org.version>
         <citizens.version>2.0.35-SNAPSHOT</citizens.version>
+        <mythic-mobs.version>5.12.0</mythic-mobs.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>2.6.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <artifactId>ultimate-spell-system-dsl</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>fr.jamailun.paper</groupId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
             <artifactId>ultimate-spell-system-api</artifactId>
             <scope>compile</scope>
         </dependency>
@@ -50,6 +51,13 @@
             <version>${json-org.version}</version>
         </dependency>
 
+        <!-- Keep modern @NotNull first on classpath (Mythic-Dist bundles an older copy). -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.1.0</version>
+        </dependency>
+
         <!-- Citizens -->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
@@ -64,6 +72,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- Mythic Mobs -->
+        <dependency>
+            <groupId>io.lumine</groupId>
+            <artifactId>Mythic-Dist</artifactId>
+            <version>${mythic-mobs.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -71,6 +87,13 @@
         <repository>
             <id>citizens-repo</id>
             <url>https://maven.citizensnpcs.co/repo</url>
+        </repository>
+
+        <!-- Mythic Mobs -->
+        <repository>
+            <id>nexus</id>
+            <name>Lumine Releases</name>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
     </repositories>
 

@@ -42,7 +42,7 @@ public class ItemReaderImpl implements ItemReader {
 
   @Override
   public @NotNull ItemStack readFromMap(@NotNull Material material, int amount, @NotNull Map<String, Object> data, @NotNull SpellRuntime runtime) {
-    int damage = read(data, "damage", Integer.class, 0);
+    int damage = data.containsKey("damage") ? read(data, "damage", Integer.class, 0) : -1;
     String name = read(data, "name", String.class, null);
     List<?> lore = read(data, "lore", List.class, null);
     boolean unbreakable = read(data, "unbreakable", Boolean.class, false);
@@ -72,7 +72,8 @@ public class ItemReaderImpl implements ItemReader {
       ItemPropertiesProvider.getProperties().forEach(property -> property.apply(context, provider));
     }
     if(meta instanceof Damageable damageMeta) {
-      damageMeta.setDamage(damage);
+      if(damage >= 0)
+        damageMeta.setDamage(damage);
       damageMeta.setUnbreakable(unbreakable);
     }
 
