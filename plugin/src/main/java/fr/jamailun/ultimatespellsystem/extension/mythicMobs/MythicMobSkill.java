@@ -26,10 +26,12 @@ public class MythicMobSkill extends SkillMechanic implements INoTargetSkill {
   public MythicMobSkill(SkillExecutor manager, File file, String line, MythicLineConfig mlc) {
     super(manager, file, line, mlc);
     spellId = mlc.getString("spell", "s");
+    UssLogger.logDebug("MythicMobSkill: Loaded skill with spell id " + spellId);
   }
 
   @Override
   public SkillResult cast(SkillMetadata skillMetadata) {
+    UssLogger.logDebug("MythicMobSkill: Casting skill with spell id " + spellId);
     var spell = UltimateSpellSystem.getSpellsManager().getSpell(spellId);
     if(spell == null) {
       UssLogger.logWarning("MythicMobSkill: Spell with id " + spellId + " not found.");
@@ -48,7 +50,10 @@ public class MythicMobSkill extends SkillMechanic implements INoTargetSkill {
       return SkillResult.ERROR;
     }
 
-    spell.castNotCancellable(livingCaster);
+    UltimateSpellSystem.getScheduler().run(() -> {
+      // Run on next scheduler tick
+      spell.castNotCancellable(livingCaster);
+    });
     return SkillResult.SUCCESS;
   }
 }
