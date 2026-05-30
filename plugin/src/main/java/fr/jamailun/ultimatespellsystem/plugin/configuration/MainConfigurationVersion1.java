@@ -69,8 +69,8 @@ public class MainConfigurationVersion1 implements MainConfiguration {
           true,
           true,
           true,
-          null,
-          null
+          new CooldownSection(true, "&cToo quick! This spell is still on cooldown."),
+          new SectionDefault(List.of(ItemBindTrigger.RIGHT_CLICK), new DefaultSpellCostType("none", Collections.emptyList()), "1s")
   );
 
   private record BindSpellSection(
@@ -134,7 +134,7 @@ public class MainConfigurationVersion1 implements MainConfiguration {
   }
 
   @Comment({"", "Compiler settings"})
-  private CompilerSection compiler;
+  private CompilerSection compiler = new CompilerSection(true);
   private record CompilerSection(
           @Comment("If true, will display warning about unset properties in summons.")
           boolean displayWarningSummons
