@@ -12,26 +12,26 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Used by {@code LAND} callbacks.
+ * Used by {@code DIE} callbacks.
  */
 public class EntityDeathCallbacks extends CallbackProvider<EntityDeathEvent> {
 
-    @EventHandler
-    void onEvent(@NotNull EntityDeathEvent event) {
-        SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
-        if(summon == null) return;
-        summon.applyCallback(event);
-    }
+  @EventHandler
+  void onEvent(@NotNull EntityDeathEvent event) {
+    SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
+    if (summon != null)
+      summon.applyCallback(event);
+  }
 
-    @Override
-    public @NotNull Collection<CallbackAction<EntityDeathEvent, ?>> getCallbacks() {
-        return List.of(
-                new CallbackAction<>(
-                    CallbackEvent.of("die"),
-                    EntityDeathEvent.class,
-                    x -> null
-                )
-        );
-    }
+  @Override
+  public @NotNull Collection<CallbackAction<EntityDeathEvent, ?>> getCallbacks() {
+    return List.of(
+        new CallbackAction<>(
+            CallbackEvent.of("die"),
+            EntityDeathEvent.class,
+            x -> null
+        )
+    );
+  }
 
 }

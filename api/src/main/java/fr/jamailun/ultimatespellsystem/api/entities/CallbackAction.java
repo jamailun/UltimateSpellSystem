@@ -8,6 +8,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * An action for a callback.
@@ -20,6 +21,21 @@ public final class CallbackAction<E extends Event, A> {
     private final CallbackEvent dslDefinition;
     private final Class<E> listenedEvent;
     private final Function<E, A> argumentExtractor;
+    private final Predicate<E> conditionalPredicate;
+
+    /**
+     * Create a new callback definition.
+     * @param dslDefinition DSL definition to register.
+     * @param listenedEvent type of event to react to.
+     * @param argumentExtractor argument extractor. Must extract an argument from the event instance (matching the type).
+     * @param conditionalPredicate optional predicate to determine if the callback should be executed.
+     */
+    public CallbackAction(@NotNull CallbackEvent dslDefinition, @NotNull Class<E> listenedEvent, @NotNull Function<E, A> argumentExtractor, @NotNull Predicate<E> conditionalPredicate) {
+        this.dslDefinition = dslDefinition;
+        this.listenedEvent = listenedEvent;
+        this.argumentExtractor = argumentExtractor;
+        this.conditionalPredicate = conditionalPredicate;
+    }
 
     /**
      * Create a new callback definition.
@@ -31,6 +47,7 @@ public final class CallbackAction<E extends Event, A> {
         this.dslDefinition = dslDefinition;
         this.listenedEvent = listenedEvent;
         this.argumentExtractor = argumentExtractor;
+        this.conditionalPredicate = x -> true;
     }
 
     /**
@@ -42,11 +59,16 @@ public final class CallbackAction<E extends Event, A> {
      */
     public void registerToSummon(@NotNull SummonAttributes summon, String argVarName, @NotNull SpellRuntime runtime, @NotNull RuntimeStatement child) {
         summon.registerCallback(listenedEvent, (event) -> {
-            // 1. Register variable
+            // 1. Check predicate
+            if( ! conditionalPredicate.test(event))
+                return;
+
+            // 2. Register variable, if variable exists
             if(argVarName != null) {
                 runtime.variables().set(argVarName, argumentExtractor.apply(event));
             }
-            // 2. Execute child
+
+            // 3. Execute child
             child.run(runtime);
         });
     }

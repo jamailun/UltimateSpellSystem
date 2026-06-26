@@ -19,27 +19,31 @@ import java.util.List;
  */
 public class ProjectileLandCallbacks extends CallbackProvider<ProjectileHitEvent> {
 
-    @EventHandler
-    void onEvent(@NotNull ProjectileHitEvent event) {
-        SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
-        if(summon == null) return;
-        summon.applyCallback(event);
-    }
+  @EventHandler
+  void onEvent(@NotNull ProjectileHitEvent event) {
+    SummonAttributes summon = UltimateSpellSystem.getSummonsManager().find(event.getEntity().getUniqueId());
+    if (summon != null)
+      summon.applyCallback(event);
+  }
 
-    @Override
-    public @NotNull Collection<CallbackAction<ProjectileHitEvent, ?>> getCallbacks() {
-        return List.of(
-                new CallbackAction<>(
-                    CallbackEvent.of("landed", TokenType.AT, TypePrimitive.LOCATION),
-                    ProjectileHitEvent.class,
-                    e -> e.getEntity().getLocation()
-                ),
-                new CallbackAction<>(
-                        CallbackEvent.of("hit", TokenType.TO, TypePrimitive.ENTITY),
-                        ProjectileHitEvent.class,
-                        e -> new BukkitSpellEntity(e.getHitEntity())
-                )
-        );
-    }
+  @Override
+  public @NotNull Collection<CallbackAction<ProjectileHitEvent, ?>> getCallbacks() {
+    return List.of(
+        // Always valid.
+        new CallbackAction<>(
+            CallbackEvent.of("landed", TokenType.AT, TypePrimitive.LOCATION),
+            ProjectileHitEvent.class,
+            e -> e.getEntity().getLocation().clone()
+        ),
+
+        // Hit (requires an entity)
+        new CallbackAction<>(
+            CallbackEvent.of("hit", TokenType.TO, TypePrimitive.ENTITY),
+            ProjectileHitEvent.class,
+            e -> e.getHitEntity() == null ? null : new BukkitSpellEntity(e.getHitEntity()),
+            e -> e.getHitEntity() != null // Must have an entity to be triggered
+        )
+    );
+  }
 
 }
