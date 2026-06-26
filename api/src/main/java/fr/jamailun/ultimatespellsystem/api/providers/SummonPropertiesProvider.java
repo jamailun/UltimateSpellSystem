@@ -126,6 +126,7 @@ public class SummonPropertiesProvider extends UssProvider<SummonPropertiesProvid
         }), "health", "max_health");
         register(createAttributeSetter(Attribute.GENERIC_ATTACK_DAMAGE), "attack_damage", "attack", "damage");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR), "armor");
+        register(createAttributeSetter(Attribute.GENERIC_SCALE), "scale");
         register(createAttributeSetter(Attribute.GENERIC_ARMOR_TOUGHNESS), "toughness", "armor_toughness");
         register(createAttributeSetter(Attribute.GENERIC_MOVEMENT_SPEED), "speed", "movement_speed");
         register(createAttributeSetter(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "kbr", "knockback_resistance", "kb_resistance");
