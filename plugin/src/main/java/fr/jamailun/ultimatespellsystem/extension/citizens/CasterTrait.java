@@ -14,6 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -149,7 +150,13 @@ public class CasterTrait extends Trait implements SpellEntity {
     @Override
     public void addPotionEffect(PotionEffect effect) {
         getBukkitEntity().map(LivingEntity.class::cast)
-                .ifPresent(le -> le.addPotionEffect(effect));
+            .ifPresent(le -> le.addPotionEffect(effect));
+    }
+
+    @Override
+    public void removePotionEffect(PotionEffectType effect) {
+        getBukkitEntity().map(LivingEntity.class::cast)
+            .ifPresent(le -> le.removePotionEffect(effect));
     }
 
     @Override

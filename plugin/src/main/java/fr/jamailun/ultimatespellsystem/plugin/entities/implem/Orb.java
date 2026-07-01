@@ -11,6 +11,7 @@ import fr.jamailun.ultimatespellsystem.plugin.utils.holders.SoundHolder;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -156,6 +157,11 @@ public class Orb extends CustomEntity {
 
     @Override
     public void addPotionEffect(PotionEffect effect) {
+        // This orb cannot receive potion effect.
+    }
+
+    @Override
+    public void removePotionEffect(PotionEffectType effect) {
         // This orb cannot receive potion effect.
     }
 

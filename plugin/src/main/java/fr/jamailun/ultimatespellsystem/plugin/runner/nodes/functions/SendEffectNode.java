@@ -42,11 +42,13 @@ public class SendEffectNode extends RuntimeStatement {
         int power = 1;
         if(optPowerRef != null) {
             power = runtime.safeEvaluate(optPowerRef, Double.class).intValue();
-            if(power < 1) {
-                power = 1;
-                UssLogger.logWarning("Invalid power value to effect " + effectRaw);
-            }
         }
+        if(power <= 0) {
+            targets.forEach(e -> e.removePotionEffect(effectType));
+            return;
+        }
+
+
         PotionEffect potionEffect = new PotionEffect(effectType, durationTicks, power - 1);
 
         targets.forEach(e -> e.addPotionEffect(potionEffect));

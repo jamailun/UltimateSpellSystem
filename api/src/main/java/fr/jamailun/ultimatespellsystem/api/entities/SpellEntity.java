@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +81,12 @@ public interface SpellEntity {
      * @param effect the potion effect to add. May do nothing.
      */
     void addPotionEffect(PotionEffect effect);
+
+    /**
+     * Remove a potion effect.
+     * @param effect the potion effect to remove. May do nothing.
+     */
+    void removePotionEffect(PotionEffectType effect);
 
     /**
      * Get the NBT storage of the entity.
