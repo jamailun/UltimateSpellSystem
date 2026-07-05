@@ -43,7 +43,13 @@ public enum ItemBindTrigger {
     /**
      * Player sneaking.
      */
-    SNEAK;
+    SNEAK,
+
+    /**
+     * Bow shoot with max power.
+     */
+    BOW_SHOOT_POWER,
+    ;
 
     private final Set<ItemBindTrigger> children;
 

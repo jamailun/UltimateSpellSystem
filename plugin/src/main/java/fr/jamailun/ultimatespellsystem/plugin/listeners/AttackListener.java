@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AttackListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     void playerLeftClick(@NotNull EntityDamageByEntityEvent event) {
         if(!(event.getDamager() instanceof Player player))
             return;
@@ -25,6 +26,17 @@ public class AttackListener implements Listener {
         if(UssConfig.shouldCancelAttack() && shouldCancel) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    void playerBowShoot(@NotNull EntityShootBowEvent event) {
+        if(!(event.getEntity() instanceof Player player))
+            return;
+        if(event.getForce() < 1.0)
+            return;
+
+        // Never cancel bow
+        UltimateSpellSystem.getSpellsTriggerManager().action(player, ItemBindTrigger.BOW_SHOOT_POWER);
     }
 
 }
