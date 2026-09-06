@@ -9,6 +9,9 @@ import fr.jamailun.ultimatespellsystem.plugin.utils.holders.ParticleHolder;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.PotionEffectHolder;
 import fr.jamailun.ultimatespellsystem.plugin.utils.holders.SoundHolder;
 import org.bukkit.block.Block;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -115,6 +118,7 @@ public class Orb extends CustomEntity {
         }
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     private void applyEffects(@NotNull Collection<LivingEntity> nearby) {
         for(LivingEntity other : nearby) {
             // Ignore owner ?
@@ -130,10 +134,15 @@ public class Orb extends CustomEntity {
             if(fireTicks > 0)
                 nearby.forEach(e -> e.setFireTicks(e.getFireTicks() + fireTicks));
             if(damages > 0) {
-                getAttributes().getSummoner().getBukkitEntity().ifPresentOrElse(
-                        summoner -> nearby.forEach(e -> e.damage(damages, summoner)),
-                        () -> nearby.forEach(e -> e.damage(damages))
-                );
+                var damageBuilder = DamageSource.builder(DamageType.MAGIC);
+                Entity summoner = getAttributes().getSummoner().getBukkitEntity().orElse(null);
+                if(summoner != null) {
+                    Entity direct = getBukkitEntity().orElse(summoner);
+                    damageBuilder.withCausingEntity(summoner).withDirectEntity(direct);
+                } else {
+                  getBukkitEntity().ifPresent(direct -> damageBuilder.withCausingEntity(direct).withDirectEntity(direct));
+                }
+                nearby.forEach(e -> e.damage(damages, damageBuilder.build()));
             }
 
             // Hit effect
