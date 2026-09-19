@@ -6,10 +6,7 @@ import fr.jamailun.ultimatespellsystem.api.providers.CallbackEventProvider;
 import fr.jamailun.ultimatespellsystem.api.providers.JavaFunctionProvider;
 import fr.jamailun.ultimatespellsystem.extension.allies.VanillaTeamAllies;
 import fr.jamailun.ultimatespellsystem.extension.animations.AnimationExtension;
-import fr.jamailun.ultimatespellsystem.extension.callbacks.CallbackProvider;
-import fr.jamailun.ultimatespellsystem.extension.callbacks.EntityDeathCallbacks;
-import fr.jamailun.ultimatespellsystem.extension.callbacks.SummonExpiresCallbacks;
-import fr.jamailun.ultimatespellsystem.extension.callbacks.ProjectileLandCallbacks;
+import fr.jamailun.ultimatespellsystem.extension.callbacks.*;
 import fr.jamailun.ultimatespellsystem.extension.citizens.CitizensExtensionLoader;
 import fr.jamailun.ultimatespellsystem.extension.functions.*;
 import fr.jamailun.ultimatespellsystem.extension.listeners.ItemPickupListener;
@@ -95,6 +92,8 @@ public final class ExtensionLoader {
         loadCallback(plugin, new ProjectileLandCallbacks());
         loadCallback(plugin, new EntityDeathCallbacks());
         loadCallback(plugin, new SummonExpiresCallbacks());
+        loadCallback(plugin, new EntityAttackCallbacks());
+        loadCallback(plugin, new EntityAttackedCallbacks());
 
         // Load listeners
         registerEvents(plugin, new ItemPickupListener());
