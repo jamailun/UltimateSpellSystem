@@ -25,7 +25,9 @@ public class PropertiesValidator {
                 // Orb
                 "particle", "particles", "effect", "effects",
                 "radius", "max_collisions", "max_blocks_hit", "damages",
-                "fire", "apply_self", "sound", "hit_sound"
+                "fire", "apply_self", "sound", "hit_sound",
+                // Projectile
+                "material"
         );
     }
 

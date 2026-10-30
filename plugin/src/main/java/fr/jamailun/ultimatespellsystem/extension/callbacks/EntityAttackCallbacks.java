@@ -8,7 +8,6 @@ import fr.jamailun.ultimatespellsystem.dsl.objects.CallbackEvent;
 import fr.jamailun.ultimatespellsystem.dsl.tokenization.TokenType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.jetbrains.annotations.NotNull;
 

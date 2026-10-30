@@ -11,8 +11,10 @@ import fr.jamailun.ultimatespellsystem.api.providers.SummonPropertiesProvider;
 import fr.jamailun.ultimatespellsystem.dsl.nodes.type.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +82,18 @@ public class SummonAttributesImpl implements SummonAttributes {
                 // Set the pickup status when required.
                 if(projectile instanceof Arrow arrow) {
                     arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+                }
+                if(projectile instanceof ThrowableProjectile throwable) {
+                    // item-stack material
+                    if(hasAttribute("material")) {
+                        String material = tryGetAttribute("material", String.class);
+                        try {
+                            Material mat = Material.valueOf(material);
+                            throwable.setItem(new ItemStack(mat));
+                        } catch (IllegalArgumentException err) {
+                            UssLogger.logWarning("Summon-attributes: invalid material for projectile: " + material);
+                        }
+                    }
                 }
             }
             // Always wrap the entity.
