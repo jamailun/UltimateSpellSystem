@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +44,13 @@ public class PlayerInteractListener implements Listener {
         if(shouldCancel) {
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    void onArmorStandInteract(@NotNull PlayerArmorStandManipulateEvent event) {
+        if(UltimateSpellSystem.getSummonsManager().isASummonedEntity(event.getRightClicked().getUniqueId())) {
             event.setCancelled(true);
         }
     }
