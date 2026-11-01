@@ -62,6 +62,7 @@ public final class ExtensionLoader {
         JavaFunctionProvider.instance().registerFunction(new SolidBlockBellowFunction());
         JavaFunctionProvider.instance().registerFunction(new AddAbsorptionFunction());
         JavaFunctionProvider.instance().registerFunction(new RemoveEntityFunction(), "remove_entity");
+        JavaFunctionProvider.instance().registerFunction(new IsOnFireFunction());
         LogFunctions.register();
 
         // Others
