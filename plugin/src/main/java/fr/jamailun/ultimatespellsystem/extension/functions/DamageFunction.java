@@ -52,22 +52,28 @@ public class DamageFunction extends AbstractFunction {
         // author is specified ?
         if(arguments.size() > 2) {
             LivingEntity author = toLivingEntity("damage:author", arguments.get(2), runtime);
-            if(author != null && canDamage(target, runtime, amount, author)) {
-                target.damage(amount, author);
-                return true;
+            if(author != null) {
+                double finalDamage = computeDamage(target, runtime, amount, author);
+                if(finalDamage > 0) {
+                    target.damage(finalDamage, author);
+                    return true;
+                }
             }
         }
 
         // Damage with event
-        if(canDamage(target, runtime, amount, null)) {
-            target.damage(amount);
+        double finalDamage = computeDamage(target, runtime, amount, null);
+        if(finalDamage > 0) {
+            target.damage(finalDamage);
         }
         return true;
     }
 
-    private static boolean canDamage(LivingEntity target, @NotNull SpellRuntime runtime, double amount, @Nullable LivingEntity cause) {
+    private static double computeDamage(LivingEntity target, @NotNull SpellRuntime runtime, double amount, @Nullable LivingEntity cause) {
         var event = new EntityDamagedBySpellEvent(target, runtime.getCaster(), runtime.getSpell(), amount, cause);
         Bukkit.getPluginManager().callEvent(event);
-        return !event.isCancelled();
+        if(event.isCancelled())
+            return 0;
+        return event.getAmount();
     }
 }
