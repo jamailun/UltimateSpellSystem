@@ -47,7 +47,7 @@ public class HealEntityFunction extends AbstractFunction {
         var event = new EntityHealedBySpellEvent(target, runtime.getCaster(), runtime.getSpell(), amount);
         Bukkit.getPluginManager().callEvent(event);
         if(!event.isCancelled()) {
-            target.heal(amount);
+            target.heal(event.getAmount());
         }
 
         return target.getHealth();
