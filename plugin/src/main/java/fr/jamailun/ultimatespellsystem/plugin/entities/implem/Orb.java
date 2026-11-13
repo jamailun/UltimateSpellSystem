@@ -112,7 +112,7 @@ public class Orb extends CustomEntity {
         Collection<LivingEntity> nearby = location.getNearbyLivingEntities(radius, le -> !receivedEffects.contains(le.getUniqueId()));
         if(!nearby.isEmpty()) {
             applyEffects(nearby);
-            if(maxCollisionsEntity >= 0 && receivedEffects.size() >= maxCollisionsEntity) {
+            if(maxCollisionsEntity > 0 && receivedEffects.size() >= maxCollisionsEntity) {
                 remove();
             }
         }

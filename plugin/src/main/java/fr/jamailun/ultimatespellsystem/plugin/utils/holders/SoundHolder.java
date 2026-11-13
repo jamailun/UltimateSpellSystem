@@ -1,6 +1,8 @@
 package fr.jamailun.ultimatespellsystem.plugin.utils.holders;
 
 import fr.jamailun.ultimatespellsystem.UssLogger;
+import fr.jamailun.ultimatespellsystem.api.UltimateSpellSystem;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +90,12 @@ public class SoundHolder {
     public void apply(Location location) {
         if(type == null)
             return;
-        location.getWorld().playSound(location, type, volume, pitch);
+        if(Bukkit.getServer().isPrimaryThread()) {
+            location.getWorld().playSound(location, type, volume, pitch);
+        } else {
+            UltimateSpellSystem.getScheduler()
+                .run(() -> location.getWorld().playSound(location, type, volume, pitch));
+        }
     }
 
 }
